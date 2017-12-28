@@ -3,6 +3,8 @@ package com.ppt.wsinventory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,11 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    String mCurrentFragmentTag;
+    private GlobalVariables appContext;
+    private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,14 +30,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own hi", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own hi", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +47,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (!TextUtils.isEmpty(StateManager.getInstance().getCurrentFragmentTag())) {
+
+            mCurrentFragmentTag = StateManager.getInstance().getCurrentFragmentTag();
+        }else {
+
+            mCurrentFragmentTag = ITEMLISTFRAGMENT_TAG;
+        }
+
+        LoadItemList();
+
+
+
     }
 
     @Override
@@ -97,5 +117,34 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void removeFragment() {
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(mCurrentFragmentTag);
+
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commit();
+
+        }
+    }
+
+    private void LoadItemList() {
+
+        removeFragment();
+
+        ItemListFragment frag = new ItemListFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.MyContainer, frag ,ITEMLISTFRAGMENT_TAG)
+                .commit();
+
+        mCurrentFragmentTag = ITEMLISTFRAGMENT_TAG;
+        StateManager.getInstance().setCurrentFragmentTag(mCurrentFragmentTag);
     }
 }
