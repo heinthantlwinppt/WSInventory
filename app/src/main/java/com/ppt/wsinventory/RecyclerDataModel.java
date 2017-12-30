@@ -11,10 +11,10 @@ public class RecyclerDataModel {
     public int drawable;
     public String color;
 
-    public RecyclerDataModel(String t, int d, String c )
+    public RecyclerDataModel(String t, int d )
     {
         text=t;
         drawable=d;
-        color=c;
+
     }
 }

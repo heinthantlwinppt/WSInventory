@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -87,9 +88,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                attemptLogin();
+                attemptLogin();
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
+                ItemListFragment frag = new ItemListFragment();
+//
+//                getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .addToBackStack(null)
+//                        .add(R.id.MyContainer, frag ,ITEMLISTFRAGMENT_TAG)
+//                        .commit();
             }
         });
 

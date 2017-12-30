@@ -8,7 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.model.Item;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by User on 28/12/2017.
@@ -104,7 +109,7 @@ public class DbAccess {
 
     }
 
-    public Cursor readData(String sql) {
+    public Cursor readData(String tableName, String[] columnAll, String[] strings, Object o1, Object o, String sql) {
         return readData(sql, null);
     }
 
@@ -138,7 +143,52 @@ public class DbAccess {
 //        dbhelper.close();
     }
 
+//    public List<Item> getAllConfirmedQueue() {
+//        List<Item> queues = new ArrayList<>();
+//        Cursor cursor = readData(QueueTable.TABLE_NAME
+//                , QueueTable.COLUMN_ALL
+//                , QueueTable.COLUMN_IS_SUBMIT + " = ?"
+//                , new String[]{"1"}, null, null, null
+//        );
 
+
+    public List<Item> getAllItems() {
+        List<Item> items = new ArrayList<>();
+        Cursor cursor = readData(Item.TABLE_NAME
+                , Item.COLUMN_ALL
+                ,null,null,null,null,null
+//                , new String[]{"1"}, null, null, null
+        );
+
+        while (cursor.moveToNext()) {
+            Item item = new Item();
+            item.setItemName(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMNAME)));
+            item.setItemType(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+
+
+            items.add(item);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return items;
+
+
+    }
+
+    public Item insertItems(Item item){
+
+        ContentValues values = new ContentValues();
+        values.put(Item.COLUMN_ITEMNAME,item.getItemName());
+        values.put(Item.COLUMN_ITEMTYPE,item.getItemType());
+
+
+        long resultid = database.insert(Item.TABLE_NAME, null, values);
+        item.setId(resultid);
+
+        return item;
+    }
 
 
 }

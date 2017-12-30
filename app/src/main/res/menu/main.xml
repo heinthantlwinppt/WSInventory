@@ -6,4 +6,20 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/saveItems"
+        android:orderInCategory="101"
+        android:title="saveItem"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/search"
+        android:orderInCategory="102"
+        android:icon="@drawable/ic_action_name"
+        android:title="search here"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass = "android:support.v7.widget.SearchView" />
+
+
 </menu>

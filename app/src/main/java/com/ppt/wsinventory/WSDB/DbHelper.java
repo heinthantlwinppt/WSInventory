@@ -12,24 +12,16 @@ import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = "Truckkit-DbHelper";
-    private static final String DATABASE_NAME = "truckkit.db";
+    private static final String TAG = "SW-DbHelper";
+    private static final String DATABASE_NAME = "WS.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_ITEMS = "Items";
     private static final String TABLE_CREATE_ITEMS =
             "CREATE TABLE Items \n" +
                     "(\n" +
-                    " DocNo VARCHAR COLLATE NOCASE, \n" +
-                    " DocDate DATETIME, \n" +
-                    " UserID VARCHAR COLLATE NOCASE, \n" +
-                    " ReasonID VARCHAR COLLATE NOCASE, \n" +
-                    " Remarks VARCHAR COLLATE NOCASE, \n" +
-                    " Amount NUMERIC, \n" +
-                    " Status VARCHAR COLLATE NOCASE, \n" +
-                    " ApprovedBy VARCHAR COLLATE NOCASE, \n" +
-                    " DeviceID VARCHAR COLLATE NOCASE, \n" +
-                    " Uploaded BOOL\n" +
+                    " ItemName VARCHAR COLLATE NOCASE, \n" +
+                    " ItemType VARCHAR COLLATE NOCASE\n" +
                     ")";
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

@@ -3,18 +3,25 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="1dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
         card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="@dimen/margin10"
-        card_view:cardMaxElevation="@dimen/margin10"
-        card_view:contentPadding="@dimen/margin10">
+        card_view:cardElevation="50dp"
+        card_view:contentPadding="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="1dp">
 
 
+        <!--card_view:cardMaxElevation="@dimen/margin10"-->
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
@@ -26,18 +33,42 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:tint="@android:color/white"
+                android:tint="#29b6f6"
+                android:src="@drawable/ferrari"
                 android:padding="5dp" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:src="@drawable/information"/>
+
+            <!--android:layout_centerInParent="true"-->
 
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:textColor="@android:color/white"
-                android:layout_below="@+id/imageView" />
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/imageView"
+                android:textSize="20sp"
+                android:text="text"/>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/textView"
+                android:textSize="15sp"
+                android:text="Item"/>
+
+
+
+            <!--android:layout_centerHorizontal="true"-->
 
 
         </RelativeLayout>
