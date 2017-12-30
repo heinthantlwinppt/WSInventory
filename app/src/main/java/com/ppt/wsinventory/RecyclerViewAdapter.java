@@ -25,6 +25,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     ArrayList<RecyclerDataModel> mValues;
     ArrayList<Item> mDataSet;
     Context mContext;
+
 //    Item item;
     protected ItemListener mListener;
 

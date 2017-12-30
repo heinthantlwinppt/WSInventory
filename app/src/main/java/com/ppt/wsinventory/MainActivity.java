@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ppt.wsinventory.WSDB.DbAccess;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.websocket.WsApi;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -99,7 +100,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+            finish();
         }
     }
 
@@ -143,8 +145,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
-            exportDatabse("WS.db");
+            WsApi wsapi = new WsApi(this);
+            wsapi.TestWebSocket();
+//            exportDatabse("WS.db");
             Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
 //            return true;
         }
@@ -213,8 +216,11 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.MyContainer, frag ,ITEMLISTFRAGMENT_TAG)
                 .commit();
 
+
         mCurrentFragmentTag = ITEMLISTFRAGMENT_TAG;
         StateManager.getInstance().setCurrentFragmentTag(mCurrentFragmentTag);
+
+//        finish();
     }
 
     @Override
@@ -290,6 +296,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 
 
 }

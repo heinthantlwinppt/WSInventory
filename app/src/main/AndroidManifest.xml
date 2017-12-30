@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -40,7 +41,15 @@
         <activity
             android:name=".BackUpDatabase"
             android:label="@string/title_activity_back_up_database"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".services.ApiService"
+            android:exported="false" />
+        <service
+            android:name=".services.WsService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
