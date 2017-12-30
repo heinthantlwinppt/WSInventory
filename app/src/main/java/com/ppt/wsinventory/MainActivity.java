@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity
 //            item =  StateManager.getInstance().getItem();
 
             item = new Item();
-            item.setItemName("Sale");
-            item.setItemType("Item_1");
+            item.setItemName("Inventory");
+            item.setItemType("Item_2");
             dbAccess.insertItems(item);
         }
 
