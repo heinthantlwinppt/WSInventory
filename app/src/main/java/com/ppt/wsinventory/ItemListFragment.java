@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.ppt.wsinventory.WSDB.DbAccess;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.util.ScreenUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,27 +93,33 @@ public class ItemListFragment extends Fragment implements RecyclerViewAdapter.It
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
 
-        float density = this.getResources().getDisplayMetrics().density;
+        ScreenUtility screenutility = new ScreenUtility(getActivity());
+       float w = screenutility.getDpWidth();
+       float h = screenutility.getDpHeight();
+       float d = screenutility.getDensity();
+       w = 200;
+//       w = w/d;
+//        float density = this.getResources().getDisplayMetrics().density;
+//
+//        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//            if(outMetrics.widthPixels > 1000){
+//                dpWidth = outMetrics.widthPixels / 2;
+//            }else {
+//                dpWidth = outMetrics.widthPixels / 3;
+//            }
+//        }else
+//        {
+//            if(outMetrics.widthPixels > 1280){
+//                dpWidth = outMetrics.widthPixels / 3;
+//            }else {
+//                dpWidth = outMetrics.widthPixels / 4;
+//            }
+//
+//        }
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            if(outMetrics.widthPixels > 1000){
-                dpWidth = outMetrics.widthPixels / 2;
-            }else {
-                dpWidth = outMetrics.widthPixels / 3;
-            }
-        }else
-        {
-            if(outMetrics.widthPixels > 1280){
-                dpWidth = outMetrics.widthPixels / 3;
-            }else {
-                dpWidth = outMetrics.widthPixels / 4;
-            }
-
-        }
 
 
-
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int)dpWidth);
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int)w);
         recyclerView.setLayoutManager(layoutManager);
 
 

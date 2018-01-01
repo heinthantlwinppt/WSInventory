@@ -1,4 +1,4 @@
-package com.ppt.wsinventory.Util;
+package com.ppt.wsinventory.util;
 
 import android.text.TextUtils;
 

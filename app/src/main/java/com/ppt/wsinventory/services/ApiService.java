@@ -8,8 +8,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.ppt.wsinventory.GlobalVariables;
-import com.ppt.wsinventory.Util.HttpHelper;
-import com.ppt.wsinventory.Util.RequestPackage;
+import com.ppt.wsinventory.util.HttpHelper;
+import com.ppt.wsinventory.util.RequestPackage;
 import com.ppt.wsinventory.model.LoginToken;
 import com.ppt.wsinventory.model.QueueMessage;
 import com.ppt.wsinventory.model.QueueUserMessage;

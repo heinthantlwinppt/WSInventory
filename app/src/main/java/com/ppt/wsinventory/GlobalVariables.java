@@ -2,7 +2,7 @@ package com.ppt.wsinventory;
 
 import android.app.Application;
 
-import com.ppt.wsinventory.Util.RequestPackage;
+import com.ppt.wsinventory.util.RequestPackage;
 
 /**
  * Created by User on 28/12/2017.
