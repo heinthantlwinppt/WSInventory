@@ -1,4 +1,4 @@
-package com.ppt.wsinventory.WSDB;
+package com.ppt.wsinventory.wsdb;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

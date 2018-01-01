@@ -1,4 +1,4 @@
-package com.ppt.wsinventory.WSDB;
+package com.ppt.wsinventory.wsdb;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +13,6 @@ import com.ppt.wsinventory.model.Item;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Created by User on 28/12/2017.

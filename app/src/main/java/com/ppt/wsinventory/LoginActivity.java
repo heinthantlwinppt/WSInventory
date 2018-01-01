@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
-                ItemListFragment frag = new ItemListFragment();
+                DashboardFragment frag = new DashboardFragment();
 //
 //                getSupportFragmentManager()
 //                        .beginTransaction()

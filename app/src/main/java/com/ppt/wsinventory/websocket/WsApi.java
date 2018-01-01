@@ -9,7 +9,7 @@ import com.ppt.wsinventory.services.WsService;
  * Created by User on 30/12/2017.
  */
 
-public class WsApi implements ServerConnection.ServerListener  {
+public class WsApi  {
 
     private Context mContext;
 
@@ -34,16 +34,8 @@ public class WsApi implements ServerConnection.ServerListener  {
             intent.putExtra(WsService.SERVICE_TYPE, WsService.SERVICE_LOGIN);
             mContext.startService(intent);
     }
-
-
-
-    @Override
-    public void onNewMessage(String message) {
+    public void getActionList(){
 
     }
 
-    @Override
-    public void onStatusChange(ServerConnection.ConnectionStatus status) {
-
-    }
 }

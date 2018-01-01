@@ -12,7 +12,8 @@ public class GlobalVariables extends Application {
 
     private RequestPackage requestpackage;
     private String CurrentFragmentTag;
-
+    private String RequestMessage;
+    private String ResponseMessage;
     public RequestPackage getRequestpackage() {
         return requestpackage;
     }
@@ -27,5 +28,21 @@ public class GlobalVariables extends Application {
 
     public void setCurrentFragmentTag(String currentFragmentTag) {
         CurrentFragmentTag = currentFragmentTag;
+    }
+
+    public String getRequestMessage() {
+        return RequestMessage;
+    }
+
+    public void setRequestMessage(String requestMessage) {
+        RequestMessage = requestMessage;
+    }
+
+    public String getResponseMessage() {
+        return ResponseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        ResponseMessage = responseMessage;
     }
 }

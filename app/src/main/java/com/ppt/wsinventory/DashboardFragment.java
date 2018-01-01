@@ -2,7 +2,6 @@ package com.ppt.wsinventory;
 
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.ppt.wsinventory.WSDB.DbAccess;
+import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.util.ScreenUtility;
 
@@ -29,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ItemListFragment extends Fragment implements RecyclerViewAdapter.ItemListener {
+public class DashboardFragment extends Fragment implements RecyclerViewAdapter.ItemListener {
 
     SearchView searchView;
 
@@ -45,7 +44,7 @@ public class ItemListFragment extends Fragment implements RecyclerViewAdapter.It
     private Context mcontext;
 
 
-    public ItemListFragment() {
+    public DashboardFragment() {
         // Required empty public constructor
     }
 
@@ -56,7 +55,7 @@ public class ItemListFragment extends Fragment implements RecyclerViewAdapter.It
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_itemlist, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
