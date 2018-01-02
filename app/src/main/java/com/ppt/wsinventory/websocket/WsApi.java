@@ -35,7 +35,9 @@ public class WsApi  {
             mContext.startService(intent);
     }
     public void getActionList(){
-
+        Intent intent = new Intent(mContext, WsService.class);
+        intent.putExtra(WsService.SERVICE_TYPE, WsService.SERVICE_REQUEST);
+        mContext.startService(intent);
     }
 
 }

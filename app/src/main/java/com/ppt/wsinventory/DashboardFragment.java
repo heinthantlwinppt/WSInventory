@@ -1,11 +1,16 @@
 package com.ppt.wsinventory;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,10 +22,24 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.common.WsNewChangeDialog;
+import com.ppt.wsinventory.model.ApiModel;
+import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.services.ApiService;
+import com.ppt.wsinventory.services.WsService;
+import com.ppt.wsinventory.util.HexStringConverter;
+import com.ppt.wsinventory.util.JsonHelper;
+import com.ppt.wsinventory.websocket.WsApi;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.util.ScreenUtility;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,27 +48,29 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class DashboardFragment extends Fragment implements RecyclerViewAdapter.ItemListener {
-
     SearchView searchView;
-
-
+    private GlobalVariables appContext;
     RecyclerView recyclerView;
     List<RecyclerDataModel> arrayList;
     List<Item> ItemList = new ArrayList<>();
     private float dpWidth;
     private float dpHeight;
     RecyclerViewAdapter adapter;
-
     DbAccess dbaccess;
     private Context mcontext;
-
+    private static final String TAG = "Ws-Dashboard";
 
     public DashboardFragment() {
         // Required empty public constructor
     }
 
-
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mcontext = context;
+        appContext = (GlobalVariables) context
+                .getApplicationContext();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,29 +82,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         dbaccess.open();
         ItemList = dbaccess.getAllItems();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-//        arrayList = new ArrayList<String[]>();
-//        arrayList.add(new RecyclerDataModel("Item 1", R.drawable.battle, "#09A9FF"));
-//        arrayList.add(new RecyclerDataModel("Item 2", R.drawable.beer, "#3E51B1"));
-//        arrayList.add(new RecyclerDataModel("Item 3", R.drawable.ferrari, "#673BB7"));
-//        arrayList.add(new RecyclerDataModel("Item 4", R.drawable.jetpack_joyride, "#4BAA50"));
-//        arrayList.add(new RecyclerDataModel("Item 5", R.drawable.three_d, "#F94336"));
-//        arrayList.add(new RecyclerDataModel("Item 6", R.drawable.terraria, "#0A9B88"));
-//        arrayList.add(new RecyclerDataModel("Item 7", R.drawable.terraria, "#0A9B88"));
-//        arrayList.add(new RecyclerDataModel("Item 8", R.drawable.terraria, "#0A9B88"));
-//        arrayList.add(new RecyclerDataModel("Item 9", R.drawable.terraria, "#0A9B88"));
-
-//        arrayList.add(new RecyclerDataModel("Sale", R.drawable.battle));
-//        arrayList.add(new RecyclerDataModel("Inventory", R.drawable.terraria));
-//        arrayList.add(new RecyclerDataModel("Achieve", R.drawable.beer));
-//        arrayList.add(new RecyclerDataModel("Order", R.drawable.ferrari));
-//        arrayList.add(new RecyclerDataModel("Payment", R.drawable.jetpack_joyride));
-
-//        arrayList.add(Item.COLUMN_ALL);
-
-
-         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
+        adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);
-
 
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
@@ -93,56 +93,21 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         display.getMetrics(outMetrics);
 
         ScreenUtility screenutility = new ScreenUtility(getActivity());
-       float w = screenutility.getDpWidth();
-       float h = screenutility.getDpHeight();
-       float d = screenutility.getDensity();
-       w = 200;
-//       w = w/d;
-//        float density = this.getResources().getDisplayMetrics().density;
-//
-//        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-//            if(outMetrics.widthPixels > 1000){
-//                dpWidth = outMetrics.widthPixels / 2;
-//            }else {
-//                dpWidth = outMetrics.widthPixels / 3;
-//            }
-//        }else
-//        {
-//            if(outMetrics.widthPixels > 1280){
-//                dpWidth = outMetrics.widthPixels / 3;
-//            }else {
-//                dpWidth = outMetrics.widthPixels / 4;
-//            }
-//
-//        }
+        float w = screenutility.getDpWidth();
+        float h = screenutility.getDpHeight();
+        float d = screenutility.getDensity();
+        w = 200;
 
-
-
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int)w);
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int) w);
         recyclerView.setLayoutManager(layoutManager);
 
-
-
-      return rootView;
+        return rootView;
     }
 
     @Override
     public void onItemClick(Item item) {
-
         Toast.makeText(getContext(), item.getItemName() + " is clicked", Toast.LENGTH_SHORT).show();
-
     }
-
-//    @Override
-//    public void onItemClick(RecyclerDataModel item) {
-//
-//        Toast.makeText(getContext(), item.text + " is clicked", Toast.LENGTH_SHORT).show();
-//
-//
-//
-//       }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -150,12 +115,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         inflater.inflate(R.menu.main, menu);
         final MenuItem myActionMenuItem = menu.findItem(R.id.search);
         searchView = (SearchView) myActionMenuItem.getActionView();
-       ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(getResources().getColor((R.color.white)));
+        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(getResources().getColor((R.color.white)));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                if(!searchView.isIconfiedByDefault()) {
+                if (!searchView.isIconfiedByDefault()) {
                     searchView.setIconified(true);
                 }
                 return false;
@@ -164,44 +129,105 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             @Override
             public boolean onQueryTextChange(String newText) {
 
-
-                final List<Item> filtermodelist = filter(ItemList,newText);
+                final List<Item> filtermodelist = filter(ItemList, newText);
                 adapter.setfilter(filtermodelist);
                 return true;
             }
         });
 
     }
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(WsService.API_SERVICE_MESSAGE)) {
+                String msgtype = intent.getStringExtra(WsService.SERVICE_TYPE);
+                if (msgtype.equalsIgnoreCase(WsService.SERVICE_RESPONSE)) {
+                    String response = appContext.getResponseMessage();
+                    response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
+                    Log.i(TAG, "onReceive: zin " + response);
+                }
+
+            }
+
+        }
+    };
     @Override
     public void onPause() {
-        super.onPause();
+        LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
+                .unregisterReceiver(mBroadcastReceiver);
         dbaccess.close();
+        super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         dbaccess.open();
+        LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
+                .registerReceiver(mBroadcastReceiver,
+                        new IntentFilter(WsService.API_SERVICE_MESSAGE));
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        GlobalBus.getBus().register(this);
+    }
 
-    private List<Item> filter(List<Item> pl,String query)
-    {
+    @Override
+    public void onStop() {
+        GlobalBus.getBus().unregister(this);
+        super.onStop();
+    }
+    @Subscribe
+    public void onOpenScreen(WsEvents.EventOpenScreen e) {
+
+    }
+    @Subscribe
+    public void onInputEvent(WsEvents.EventNewChange e) {
+        if(e.getActionname() == WsNewChangeDialog.ACTION_ENTER_NEWCHANGE){
+            String req ="";
+            Gson gson = JsonHelper.getGson();
+            List<ApiParam> params = new ArrayList<>();
+            params.add(
+              new ApiParam("newuser", "True")
+            );
+            params.add(
+                    new ApiParam("solutionname", "WMS")
+            );
+            String jsonString = gson.toJson(params);
+            Log.i(TAG, "onInputEvent: " + jsonString);
+            ApiModel apimodel= new ApiModel(1,"getActionList", "get", jsonString );
+            jsonString = gson.toJson(apimodel);
+            try {
+                req =  HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
+            Log.i(TAG, "onInputEvent: " + req);
+
+//            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
+
+            appContext.setRequestMessage(req);
+            WsApi wsapi = new WsApi(appContext);
+            wsapi.getActionList();
+        }
+        Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
+    }
+
+    private List<Item> filter(List<Item> pl, String query) {
 
         query = query.toLowerCase();
         final List<Item> filterdModeList = new ArrayList<>();
 
-        for(Item model:pl)
-        {
+        for (Item model : pl) {
             final String tex = model.getItemName().toLowerCase();
-            if(tex.startsWith(query))
-            {
+            if (tex.startsWith(query)) {
                 filterdModeList.add(model);
             }
         }
         return filterdModeList;
     }
-
 
 }

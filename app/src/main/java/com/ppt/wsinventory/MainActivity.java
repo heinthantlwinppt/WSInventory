@@ -1,5 +1,6 @@
 package com.ppt.wsinventory;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.websocket.WsApi;
@@ -33,6 +35,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     SearchView searchView;
     String mCurrentFragmentTag;
@@ -54,14 +57,7 @@ public class MainActivity extends AppCompatActivity
         dbAccess = new DbAccess(this);
         dbAccess.open();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own hi", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,8 +102,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        final MenuItem myActionMenuItem = menu.findItem(R.id.search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
+//        final MenuItem myActionMenuItem = menu.findItem(R.id.search);
+//        searchView = (SearchView) myActionMenuItem.getActionView();
 //        ((EditText) searchView.findViewById(R.id.search))
 //        changeSerchViewTextColor(searchView);
 //        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text))
@@ -130,7 +126,7 @@ public class MainActivity extends AppCompatActivity
 //
 //            }
 //        });
-       return true;
+        return true;
     }
 
     @Override
@@ -172,19 +168,32 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Toast.makeText(this,"click_gallery navigation",Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, BackUpDatabase.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
+
         } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_new_change_user) {
+
+            WsNewChangeDialog wsInputDialog = new WsNewChangeDialog();
+            Bundle args = new Bundle();
+            wsInputDialog.setArguments(args);
+            args.putString(wsInputDialog.ACTION_NAME, WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
+            wsInputDialog.show(getFragmentManager(), WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
