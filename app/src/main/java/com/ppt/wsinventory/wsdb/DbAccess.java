@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.Item;
 
 import java.io.File;
@@ -188,6 +189,10 @@ public class DbAccess {
 
         return item;
     }
+
+
+//    public AdministrationSettings insertSettings(AdministrationSettings settings) {
+//        ContentValues values = new ContentValues();
 
 
 }
