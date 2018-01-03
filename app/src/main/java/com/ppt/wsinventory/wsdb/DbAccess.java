@@ -9,7 +9,10 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.ppt.wsinventory.model.AdministrationSettings;
+import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -165,7 +168,6 @@ public class DbAccess {
             item.setItemName(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMNAME)));
             item.setItemType(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
 
-
             items.add(item);
         }
 
@@ -183,7 +185,6 @@ public class DbAccess {
         values.put(Item.COLUMN_ITEMNAME,item.getItemName());
         values.put(Item.COLUMN_ITEMTYPE,item.getItemType());
 
-
         long resultid = database.insert(Item.TABLE_NAME, null, values);
         item.setId(resultid);
 
@@ -191,8 +192,73 @@ public class DbAccess {
     }
 
 
-//    public AdministrationSettings insertSettings(AdministrationSettings settings) {
-//        ContentValues values = new ContentValues();
+    public AdministrationSettings insertSettings(AdministrationSettings administrationSettings) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationSettings.COLUMN_ID,administrationSettings.getId());
+        values.put(AdministrationSettings.COLUMN_H1,administrationSettings.getH1());
+        values.put(AdministrationSettings.COLUMN_H2,administrationSettings.getH2());
+        values.put(AdministrationSettings.COLUMN_H3,administrationSettings.getH3());
+        values.put(AdministrationSettings.COLUMN_H4,administrationSettings.getH4());
+        values.put(AdministrationSettings.COLUMN_T1,administrationSettings.getT1());
+        values.put(AdministrationSettings.COLUMN_T2,administrationSettings.getT2());
+        values.put(AdministrationSettings.COLUMN_T3,administrationSettings.getT3());
+        values.put(AdministrationSettings.COLUMN_T4,administrationSettings.getT4());
+        values.put(AdministrationSettings.COLUMN_DATEFORMAT,administrationSettings.getDateformat());
+        values.put(AdministrationSettings.COLUMN_TIMEFORMAT,administrationSettings.getTimeformat());
+        values.put(AdministrationSettings.COLUMN_DATETIMEFORMAT,administrationSettings.getDatetimeformat());
+        values.put(AdministrationSettings.COLUMN_SYSTTEM_DATE,Utility.dateFormat.format(administrationSettings.getSystem_date()));
+        values.put(AdministrationSettings.COLUMN_ACTIVE,administrationSettings.getActive());
+        values.put(AdministrationSettings.COLUMN_LOCATION_ID,administrationSettings.getLocation_id());
+        values.put(AdministrationSettings.COLUMN_SOLUTION_ID,administrationSettings.getSolution_id());
+        values.put(AdministrationSettings.COLUMN_STAFF_ID,administrationSettings.getStaff_id());
+        values.put(AdministrationSettings.COLUMN_WEIGHSCALES_ID,administrationSettings.getWeighscales_id());
+        values.put(AdministrationSettings.COLUMN_DASHBOARDITEMLWITH,administrationSettings.getDashboarditemlwith());
+        values.put(AdministrationSettings.COLUMN_DASHBOARDITEMPWITH,administrationSettings.getDashboarditempwith());
+        values.put(AdministrationSettings.COLUMN_DASHBOARDICON,administrationSettings.getDashboardicon());
+        long resultid = database.insert(administrationSettings.TABLE_ADMINISTRATION_SETTINGS, null, values);
+        administrationSettings.setId(resultid);
+        return administrationSettings;
+    }
 
+    public AdministrationStaff insertSettings(AdministrationStaff administrationStaff) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationStaff.COLUMN_ID,administrationStaff.getId());
+        values.put(AdministrationStaff.COLUMN_STAFF_ID ,administrationStaff.getStaff_id());
+        values.put(AdministrationStaff.COLUMN_STAFF_NAME ,administrationStaff.getStaff_name());
+        values.put(AdministrationStaff.COLUMN_FATHER_NAME ,administrationStaff.getFather_name());
+        values.put(AdministrationStaff.COLUMN_NICK_NAME ,administrationStaff.getNick_name());
+        values.put(AdministrationStaff.COLUMN_NRC_NO ,administrationStaff.getNrc_no());
+        values.put(AdministrationStaff.COLUMN_ADDRESS ,administrationStaff.getAddress());
+        values.put(AdministrationStaff.COLUMN_PHONE_NO ,administrationStaff.getPhone_no());
+        values.put(AdministrationStaff.COLUMN_HOME_PHONE_NO ,administrationStaff.getHome_phone_no());
+        values.put(AdministrationStaff.COLUMN_STAFF_PHOTO ,administrationStaff.getStaff_photo());
+        values.put(AdministrationStaff.COLUMN_DATE_JOINED , Utility.dateFormat.format(administrationStaff.getDate_joined()));
+        values.put(AdministrationStaff.COLUMN_DATE_LEFT ,Utility.dateFormat.format(administrationStaff.getDate_left()));
+        values.put(AdministrationStaff.COLUMN_USER_ID ,administrationStaff.getUser_id());
+        values.put(AdministrationStaff.COLUMN_ACTIVE ,administrationStaff.getActive());
+        values.put(AdministrationStaff.COLUMN_ROLE_ID ,administrationStaff.getRole_id());
 
+        long resultid = database.insert(administrationStaff.TABLE_ADMINISTRATION_STAFF, null, values);
+        administrationStaff.setId(resultid);
+        return administrationStaff;
+    }
+
+    public InventoryGold insertSettings(InventoryGold inventoryGold) {
+        ContentValues values = new ContentValues();
+
+        values.put(InventoryGold.COLUMN_ID,inventoryGold.getId());
+        values.put(InventoryGold.COLUMN_NAME,inventoryGold.getName());
+        values.put(InventoryGold.COLUMN_GOLDTYPE,inventoryGold.getGoldtype());
+        values.put(InventoryGold.COLUMN_SALEPRICE,inventoryGold.getSaleprice());
+        values.put(InventoryGold.COLUMN_PURCHASEPRICE,inventoryGold.getPurchaseprice());
+        values.put(InventoryGold.COLUMN_COST,inventoryGold.getCost());
+        values.put(InventoryGold.COLUMN_TAX1,inventoryGold.getTax1());
+        values.put(InventoryGold.COLUMN_TAX2,inventoryGold.getTax2());
+        values.put(InventoryGold.COLUMN_ACTIVE,inventoryGold.getActive());
+        values.put(InventoryGold.COLUMN_CODE,inventoryGold.getCode());
+
+        long resultid = database.insert(inventoryGold.TABLE_INVENTORY_GOLD, null, values);
+        inventoryGold.setId(resultid);
+        return inventoryGold;
+    }
 }

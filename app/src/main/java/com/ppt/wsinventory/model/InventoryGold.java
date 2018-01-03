@@ -6,7 +6,7 @@ package com.ppt.wsinventory.model;
 
 public class InventoryGold {
 
-    public static final String TABLE_NAME = "inventory_gold";
+    public static final String TABLE_INVENTORY_GOLD = "inventory_gold";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_GOLDTYPE = "goldtype";
@@ -33,7 +33,7 @@ public class InventoryGold {
 
     };
 
-    private int id ;
+    private long id ;
     private String name ;
     private int goldtype ;
     private double saleprice ;
@@ -44,11 +44,11 @@ public class InventoryGold {
     private boolean active ;
     private String code ;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -108,7 +108,7 @@ public class InventoryGold {
         this.tax2 = tax2;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

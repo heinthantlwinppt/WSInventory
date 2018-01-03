@@ -88,6 +88,22 @@ public class DbHelper extends SQLiteOpenHelper {
                     " code    VARCHAR COLLATE NOCASE\n" +
                     ")";
 
+    private static final String TABLE_ADMINISTRATION_WSDASHBOARD = "administration_wsdashboard";
+    private static final String TABLE_CREATE_ADMINISTRATION_WSDASHBOARD =
+            "CREATE TABLE administration_wsdashboard \n" +
+                    "(\n" +
+                    " id VARCHAR COLLATE NOCASE, \n" +
+                    " title VARCHAR COLLATE NOCASE, \n" +
+                    " actionname  VARCHAR COLLATE NOCASE, \n" +
+                    " groupname  VARCHAR COLLATE NOCASE, \n" +
+                    " image  VARCHAR COLLATE NOCASE, \n" +
+                    " timestamp  DATETIME, \n" +
+                    " delete  BOOL, \n" +
+                    " solution_id  VARCHAR COLLATE NOCASE, \n" +
+                    " displayno  INTEGER \n" +
+                    ")";
+
+
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -111,6 +127,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_STAFF + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_GOLD);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOLD + " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_WSDASHBOARD);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSDASHBOARD + " has been created");
 
     }
 
@@ -121,6 +139,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_STAFF);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOLD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSDASHBOARD);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

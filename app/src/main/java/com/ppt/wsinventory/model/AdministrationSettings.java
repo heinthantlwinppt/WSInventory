@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class AdministrationSettings {
 
-    public static final String TABLE_NAME = "administration_settings";
+    public static final String TABLE_ADMINISTRATION_SETTINGS = "administration_settings";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_H1 = "h1";
     public static final String COLUMN_H2 = "h2";
@@ -56,7 +56,7 @@ public class AdministrationSettings {
             COLUMN_DASHBOARDICON
     };
 
-    private String id ;
+    private long id ;
     private String h1 ;
     private String h2 ;
     private String h3 ;
@@ -78,11 +78,11 @@ public class AdministrationSettings {
     private int dashboarditempwith ;
     private String dashboardicon ;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -182,7 +182,7 @@ public class AdministrationSettings {
         this.system_date = system_date;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

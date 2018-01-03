@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class AdministrationStaff {
 
-    public static final String TABLE_NAME = "administration_staff";
+    public static final String TABLE_ADMINISTRATION_STAFF = "administration_staff";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_STAFF_ID  = "staff_id";
     public static final String COLUMN_STAFF_NAME  = "staff_name";
@@ -44,7 +44,7 @@ public class AdministrationStaff {
             COLUMN_ROLE_ID
     };
 
-    private String id ;
+    private long id ;
     private String staff_id ;
     private String staff_name ;
     private String father_name ;
@@ -60,11 +60,11 @@ public class AdministrationStaff {
     private boolean active ;
     private String role_id ;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -164,7 +164,7 @@ public class AdministrationStaff {
         this.user_id = user_id;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
