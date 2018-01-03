@@ -194,7 +194,10 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
               new ApiParam("newuser", "True")
             );
             params.add(
-                    new ApiParam("solutionname", "WMS")
+                    new ApiParam("solutionname", e.getSolution_name())
+            );
+            params.add(
+                    new ApiParam("deviceid", e.getValue())
             );
             String jsonString = gson.toJson(params);
             Log.i(TAG, "onInputEvent: " + jsonString);

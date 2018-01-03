@@ -10,6 +10,8 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:text="New Change User"
+        android:textColor="#000"
+        android:layout_marginLeft="5dp"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -35,7 +37,7 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:text="Enter Device ID"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -51,7 +53,7 @@
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:text="Enter Solution Name "
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText

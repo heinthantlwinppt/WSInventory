@@ -146,14 +146,16 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id == R.id.saveItems) {
 
-            dbAccess = new DbAccess(getApplicationContext());
-            dbAccess.open();
-//            item =  StateManager.getInstance().getItem();
+            exportDatabse("WS.db");
 
-            item = new Item();
-            item.setItemName("Inventory");
-            item.setItemType("Item_2");
-            dbAccess.insertItems(item);
+//            dbAccess = new DbAccess(getApplicationContext());
+//            dbAccess.open();
+////            item =  StateManager.getInstance().getItem();
+//
+//            item = new Item();
+//            item.setItemName("Inventory");
+//            item.setItemType("Item_2");
+//            dbAccess.insertItems(item);
         }
 
         return super.onOptionsItemSelected(items);
