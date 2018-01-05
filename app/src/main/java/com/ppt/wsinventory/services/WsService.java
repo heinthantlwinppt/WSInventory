@@ -33,6 +33,7 @@ public class WsService extends IntentService {
     public static final String SERVICE_LOGIN = "login";
     public static final String SERVICE_REQUEST = "service_request";
     public static final String SERVICE_RESPONSE = "service_response";
+    public static final String SERVICE_ERROR = "service_error";
     private static final String TAG = "WS-WsService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     private ServerConnection mServerConnection;
@@ -105,7 +106,7 @@ public class WsService extends IntentService {
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
                 manager.sendBroadcast(messageIntent);
-                webSocket.close(200, "Ok");
+                webSocket.close(1000,"OK");
             }
 
             @Override
@@ -127,6 +128,14 @@ public class WsService extends IntentService {
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 webSocket.cancel();
+                String responsemessage = text;
+                GlobalVariables appContext = (GlobalVariables) getApplicationContext();
+                appContext.setResponseMessage("Cannot connect to server.");
+                Intent messageIntent = new Intent(API_SERVICE_MESSAGE);
+                messageIntent.putExtra(SERVICE_TYPE, SERVICE_ERROR);
+                LocalBroadcastManager manager =
+                        LocalBroadcastManager.getInstance(getApplicationContext());
+                manager.sendBroadcast(messageIntent);
             }
         });
 

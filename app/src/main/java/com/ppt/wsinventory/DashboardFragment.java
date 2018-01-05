@@ -23,9 +23,12 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
+import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.services.ApiService;
@@ -40,6 +43,7 @@ import com.ppt.wsinventory.util.ScreenUtility;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +149,17 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                 if (msgtype.equalsIgnoreCase(WsService.SERVICE_RESPONSE)) {
                     String response = appContext.getResponseMessage();
                     response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
+                    Log.i(TAG, "onReceive: " + response);
+                    Gson gson = JsonHelper.getGson();
+                    BusinessLogic businessLogic = new BusinessLogic(getContext());
+                    ApiModel apiModel = gson.fromJson(response,ApiModel.class);
+                    List<ActionList> actionLists = new ArrayList<>();
+                    Type listType = new TypeToken<ArrayList<ActionList>>(){}.getType();
+                    actionLists = gson.fromJson(apiModel.getMessage(), listType);
+                    businessLogic.doNewChangeUser(actionLists);
                     Log.i(TAG, "onReceive: zin " + response);
+                }else if (msgtype.equalsIgnoreCase(WsService.SERVICE_ERROR)) {
+                    Toast.makeText(mcontext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

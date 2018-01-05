@@ -14,8 +14,8 @@ public class AdministrationWsdashboard {
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_DELETE = "delete";
-    public static final String COLUMN_SOLUTION_ID = "solution_id";
     public static final String COLUMN_DISPLAYNO = "displayno";
+    public static final String COLUMN_SCREEN_ID = "screen_id";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_ID ,
@@ -25,8 +25,8 @@ public class AdministrationWsdashboard {
             COLUMN_IMAGE ,
             COLUMN_TIMESTAMP ,
             COLUMN_DELETE ,
-            COLUMN_SOLUTION_ID ,
             COLUMN_DISPLAYNO ,
+            COLUMN_SCREEN_ID
     };
 
 

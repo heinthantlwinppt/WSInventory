@@ -4,27 +4,29 @@ package com.ppt.wsinventory.model;
  * Created by arkar on 2/1/2018.
  */
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ApiModel {
-    int id;
-    String name;
-    String type;
-    String message;
 
-    public ApiModel() {
-    }
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("message")
+    @Expose
+    private String message;
 
-    public ApiModel(int id, String name, String type, String message) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.message = message;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,13 +54,10 @@ public class ApiModel {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "ApiModel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", message='" + message + '\'' +
-                '}';
+    public ApiModel(Integer id, String name, String type, String message) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.message = message;
     }
 }

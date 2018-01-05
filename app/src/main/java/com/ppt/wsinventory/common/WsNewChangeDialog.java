@@ -48,7 +48,7 @@ public class WsNewChangeDialog extends DialogFragment {
         txtSolution = (EditText) rootView.findViewById(R.id.solution_name);
         btnOK = (Button) rootView.findViewById(R.id.btnOk);
         btnCancel = (Button) rootView.findViewById(R.id.btnCancel);
-
+        txtSolution.setText(BusinessLogic.SOLUTION_NAME);
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

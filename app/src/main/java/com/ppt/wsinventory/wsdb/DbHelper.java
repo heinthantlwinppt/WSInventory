@@ -99,8 +99,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     " image  VARCHAR COLLATE NOCASE, \n" +
                     " timestamp  DATETIME, \n" +
                     " delete  BOOL, \n" +
-                    " solution_id  VARCHAR COLLATE NOCASE, \n" +
-                    " displayno  INTEGER \n" +
+                    " displayno  INTEGER, \n" +
+                    " screen_id  INTEGER \n" +
                     ")";
 
 
