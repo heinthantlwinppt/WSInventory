@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.websocket.ServerConnection;
+import com.ppt.wsinventory.websocket.WsApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,21 +20,22 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
 
-
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  * <p>
- * TODO: Customize class - update intent actions and extra parameters.
+ * TODO: Customize class - update intent actions, extra parameters and static
+ * helper methods.
  */
-public class WsService extends IntentService {
-   public static final String API_SERVICE_MESSAGE = "api_service_message";
+public class WsSyncService extends IntentService {
+    public static final String API_SERVICE_SYNC = "api_service_sync";
+    public static final String API_SERVICE_MESSAGE = "api_service_message";
     public static final String SERVICE_TYPE = "service_type";
     public static final String SERVICE_LOGIN = "login";
     public static final String SERVICE_REQUEST = "service_request";
     public static final String SERVICE_RESPONSE = "service_response";
     public static final String SERVICE_ERROR = "service_error";
-    private static final String TAG = "WS-WsService";
+    private static final String TAG = "WS-WsSyncService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
@@ -44,7 +46,7 @@ public class WsService extends IntentService {
 //    private Handler mMessageHandler;
 //    private Handler mStatusHandler;
 
-    public WsService() {
+    public WsSyncService() {
         super("WsService");
 
 
@@ -100,7 +102,7 @@ public class WsService extends IntentService {
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 String responsemessage = text;
                 appContext.setResponseMessage(responsemessage);
-                Intent messageIntent = new Intent(API_SERVICE_MESSAGE);
+                Intent messageIntent = new Intent(API_SERVICE_SYNC);
                 messageIntent.putExtra(SERVICE_TYPE, SERVICE_RESPONSE);
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
@@ -130,7 +132,7 @@ public class WsService extends IntentService {
                 String responsemessage = text;
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 appContext.setResponseMessage("Cannot connect to server.");
-                Intent messageIntent = new Intent(API_SERVICE_MESSAGE);
+                Intent messageIntent = new Intent(API_SERVICE_SYNC);
                 messageIntent.putExtra(SERVICE_TYPE, SERVICE_ERROR);
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());

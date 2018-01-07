@@ -24,15 +24,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
-import com.ppt.wsinventory.services.ApiService;
-import com.ppt.wsinventory.services.WsService;
+import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.websocket.WsApi;
@@ -45,6 +43,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -144,21 +145,29 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase(WsService.API_SERVICE_MESSAGE)) {
-                String msgtype = intent.getStringExtra(WsService.SERVICE_TYPE);
-                if (msgtype.equalsIgnoreCase(WsService.SERVICE_RESPONSE)) {
+            if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_SYNC)) {
+                String msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
+                WsApi wsApi = new WsApi(context);
+                if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_RESPONSE)) {
                     String response = appContext.getResponseMessage();
                     response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
                     Log.i(TAG, "onReceive: " + response);
                     Gson gson = JsonHelper.getGson();
-                    BusinessLogic businessLogic = new BusinessLogic(getContext());
                     ApiModel apiModel = gson.fromJson(response,ApiModel.class);
-                    List<ActionList> actionLists = new ArrayList<>();
-                    Type listType = new TypeToken<ArrayList<ActionList>>(){}.getType();
-                    actionLists = gson.fromJson(apiModel.getMessage(), listType);
-                    businessLogic.doNewChangeUser(actionLists);
-                    Log.i(TAG, "onReceive: zin " + response);
-                }else if (msgtype.equalsIgnoreCase(WsService.SERVICE_ERROR)) {
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)){
+                        appContext.setActionLists(null);
+                        List<ActionList> actionLists = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<ActionList>>(){}.getType();
+                        actionLists = gson.fromJson(apiModel.getMessage(), listType);
+                        appContext.setActionLists(actionLists);
+                        if (appContext.getActionLists().size() > 0)
+                            wsApi.doSync();
+                    }else{
+                        //TODO Implement Delete the tables records
+                        wsApi.doSync();
+                    }
+
+                }else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
                     Toast.makeText(mcontext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -166,6 +175,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         }
     };
+
     @Override
     public void onPause() {
         LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
@@ -180,7 +190,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         dbaccess.open();
         LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
                 .registerReceiver(mBroadcastReceiver,
-                        new IntentFilter(WsService.API_SERVICE_MESSAGE));
+                        new IntentFilter(WsSyncService.API_SERVICE_SYNC));
     }
 
     @Override
@@ -200,22 +210,26 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
     @Subscribe
     public void onInputEvent(WsEvents.EventNewChange e) {
-        if(e.getActionname() == WsNewChangeDialog.ACTION_ENTER_NEWCHANGE){
+        if(e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)){
             String req ="";
             Gson gson = JsonHelper.getGson();
             List<ApiParam> params = new ArrayList<>();
+            appContext.setSolutionname(e.getSolution_name());
             params.add(
               new ApiParam("newuser", "True")
             );
             params.add(
-                    new ApiParam("solutionname", e.getSolution_name())
+                    new ApiParam("solutionname", appContext.getSolutionname())
             );
             params.add(
                     new ApiParam("deviceid", e.getValue())
             );
+//            Date toDate = new Date(System.currentTimeMillis());
+            Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();
+            appContext.setTs(ts);
             String jsonString = gson.toJson(params);
             Log.i(TAG, "onInputEvent: " + jsonString);
-            ApiModel apimodel= new ApiModel(1,"getActionList", "get", jsonString );
+            ApiModel apimodel= new ApiModel(1,ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString );
             jsonString = gson.toJson(apimodel);
             try {
                 req =  HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);

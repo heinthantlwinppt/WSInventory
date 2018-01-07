@@ -2,7 +2,11 @@ package com.ppt.wsinventory;
 
 import android.app.Application;
 
+import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.util.RequestPackage;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by User on 28/12/2017.
@@ -14,6 +18,26 @@ public class GlobalVariables extends Application {
     private String CurrentFragmentTag;
     private String RequestMessage;
     private String ResponseMessage;
+    private List<ActionList> actionLists;
+    private Date ts;
+    private String solutionname = "SALES-HH";
+
+    public String getSolutionname() {
+        return solutionname;
+    }
+
+    public void setSolutionname(String solutionname) {
+        this.solutionname = solutionname;
+    }
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
+
     public RequestPackage getRequestpackage() {
         return requestpackage;
     }
@@ -44,5 +68,13 @@ public class GlobalVariables extends Application {
 
     public void setResponseMessage(String responseMessage) {
         ResponseMessage = responseMessage;
+    }
+
+    public List<ActionList> getActionLists() {
+        return actionLists;
+    }
+
+    public void setActionLists(List<ActionList> actionLists) {
+        this.actionLists = actionLists;
     }
 }

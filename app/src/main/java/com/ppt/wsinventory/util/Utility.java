@@ -18,6 +18,7 @@ public class Utility {
 
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
     public static final SimpleDateFormat dateFormatDoc = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.US);
+    public static final SimpleDateFormat dateFormatddMMyyyy = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 //    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static boolean isOnline(final Context context) {

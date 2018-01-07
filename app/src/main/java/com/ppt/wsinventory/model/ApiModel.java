@@ -8,6 +8,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiModel {
+    public static String GETACTIONLIST = "getActionList";
+    public static String DOSYNC = "dosync";
+    public static String SENDNEWACTION = "sendnewaction";
+    public static String GETTABLESTODELETE = "getTablesToDelete";
+    public static String GETSOLUTIONS = "getSolutions";
+    public static String TYPE_GET = "get";
+
 
     @SerializedName("id")
     @Expose
