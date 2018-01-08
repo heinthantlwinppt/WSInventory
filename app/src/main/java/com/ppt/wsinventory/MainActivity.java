@@ -300,6 +300,7 @@ public class MainActivity extends AppCompatActivity
                 for(int i= 0; i<viewGroup.getChildCount(); i++) {
 
                     changeSerchViewTextColor(viewGroup.getChildAt(i));
+
                 }
             }
         }
