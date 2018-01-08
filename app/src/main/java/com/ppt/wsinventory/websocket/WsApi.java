@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
@@ -16,6 +18,7 @@ import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.util.Utility;
+import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -32,6 +35,7 @@ public class WsApi  {
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     private static final String TAG = "Ws-WsApi";
     private Context mContext;
+    DbAccess dbaccess;
     private GlobalVariables appContext;
     public WsApi(Context mContext) {
         this.mContext = mContext;
@@ -76,6 +80,9 @@ public class WsApi  {
             Type listType = new TypeToken<ArrayList<TableToDelete>>(){}.getType();
             List<TableToDelete> tableToDeletes = gson.fromJson(jsonString, listType);
             for (TableToDelete toDelete: tableToDeletes){
+
+//                dbaccess.deleteData(toDelete.getTablename());
+                importTableToDelete(toDelete);
                 Log.i(TAG, "Delete Table: " + toDelete.getTablename());
             }
             RemoveActionList(apiModel.getName());
@@ -132,5 +139,13 @@ public class WsApi  {
             }
         }
     }
+
+    private void importTableToDelete(TableToDelete tableList) {
+
+        dbaccess = DbAccess.getInstance();
+        dbaccess.deleteData(tableList.getTablename());
+        }
+
+
 
 }

@@ -98,9 +98,17 @@ public class DbHelper extends SQLiteOpenHelper {
                     " groupname  VARCHAR COLLATE NOCASE, \n" +
                     " image  VARCHAR COLLATE NOCASE, \n" +
                     " timestamp  DATETIME, \n" +
-                    " delete  BOOL, \n" +
+                    " is_delete  BOOL, \n" +
                     " displayno  INTEGER, \n" +
                     " screen_id  INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_ADMINISTRATION_SOLUTIONS = "administration_solutions";
+    private static final String TABLE_CREATE_ADMINISTRATION_SOLUTIONS=
+            "CREATE TABLE administration_solutions \n" +
+                    "(\n" +
+                    " solution_name  VARCHAR COLLATE NOCASE, \n" +
+                    " active   BOOL\n" +
                     ")";
 
 
@@ -129,6 +137,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOLD + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_WSDASHBOARD);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSDASHBOARD + " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_SOLUTIONS);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_SOLUTIONS + " has been created");
 
     }
 
@@ -140,6 +150,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_STAFF);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOLD);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSDASHBOARD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SOLUTIONS);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
