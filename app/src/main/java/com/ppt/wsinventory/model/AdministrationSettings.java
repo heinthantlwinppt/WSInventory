@@ -30,6 +30,8 @@ public class AdministrationSettings {
     public static final String COLUMN_DASHBOARDITEMLWITH = "dashboarditemlwith";
     public static final String COLUMN_DASHBOARDITEMPWITH = "dashboarditempwith";
     public static final String COLUMN_DASHBOARDICON = "dashboardicon";
+    public static final String COLUMN_DEVICE_ID = "device_id";
+    public static final String COLUMN_DEVICETYPE_ID = "devicetype_id";
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -53,10 +55,12 @@ public class AdministrationSettings {
             COLUMN_WEIGHSCALES_ID ,
             COLUMN_DASHBOARDITEMLWITH ,
             COLUMN_DASHBOARDITEMPWITH ,
-            COLUMN_DASHBOARDICON
+            COLUMN_DASHBOARDICON,
+            COLUMN_DEVICE_ID,
+            COLUMN_DEVICETYPE_ID
     };
 
-    private long id ;
+    private String id ;
     private String h1 ;
     private String h2 ;
     private String h3 ;
@@ -77,12 +81,14 @@ public class AdministrationSettings {
     private int dashboarditemlwith ;
     private int dashboarditempwith ;
     private String dashboardicon ;
+    private String devicetype_id ;
+    private String device_id ;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -246,11 +252,26 @@ public class AdministrationSettings {
         this.dashboardicon = dashboardicon;
     }
 
+    public String getDevicetype_id() {
+        return devicetype_id;
+    }
+
+    public void setDevicetype_id(String devicetype_id) {
+        this.devicetype_id = devicetype_id;
+    }
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
     @Override
     public String toString() {
         return "AdministrationSettings{" +
-                "id='" + id + '\'' +
-                ", h1='" + h1 + '\'' +
+                "h1='" + h1 + '\'' +
                 ", h2='" + h2 + '\'' +
                 ", h3='" + h3 + '\'' +
                 ", h4='" + h4 + '\'' +
@@ -261,12 +282,13 @@ public class AdministrationSettings {
                 ", dateformat='" + dateformat + '\'' +
                 ", timeformat='" + timeformat + '\'' +
                 ", datetimeformat='" + datetimeformat + '\'' +
-                ", system_date=" + system_date +
                 ", location_id='" + location_id + '\'' +
                 ", solution_id='" + solution_id + '\'' +
                 ", staff_id='" + staff_id + '\'' +
                 ", weighscales_id='" + weighscales_id + '\'' +
                 ", dashboardicon='" + dashboardicon + '\'' +
+                ", devicetype_id='" + devicetype_id + '\'' +
+                ", device_id='" + device_id + '\'' +
                 '}';
     }
 }

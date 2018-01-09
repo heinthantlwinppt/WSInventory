@@ -13,6 +13,8 @@ public class ApiModel {
     public static String SENDNEWACTION = "sendnewaction";
     public static String GETTABLESTODELETE = "getTablesToDelete";
     public static String GETSOLUTIONS = "getSolutions";
+    public static String GETSETTINGS = "getSettings";
+    public static String GETWSDASHBOARD = "getWsDashboard";
     public static String TYPE_GET = "get";
 
 

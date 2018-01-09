@@ -215,6 +215,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             Gson gson = JsonHelper.getGson();
             List<ApiParam> params = new ArrayList<>();
             appContext.setSolutionname(e.getSolution_name());
+            appContext.setDeviceid(e.getValue());
             params.add(
               new ApiParam("newuser", "True")
             );
@@ -222,7 +223,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     new ApiParam("solutionname", appContext.getSolutionname())
             );
             params.add(
-                    new ApiParam("deviceid", e.getValue())
+                    new ApiParam("deviceid", appContext.getDeviceid())
             );
 //            Date toDate = new Date(System.currentTimeMillis());
             Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();

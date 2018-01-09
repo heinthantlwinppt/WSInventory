@@ -41,14 +41,16 @@ public class DbHelper extends SQLiteOpenHelper {
                     "timeformat VARCHAR COLLATE NOCASE, \n" +
                     "datetimeformat VARCHAR COLLATE NOCASE, \n" +
                     "system_date DATETIME, \n" +
+                    "dashboarditemlwith INTEGER, \n" +
+                    "dashboarditempwith INTEGER, \n" +
+                    "dashboardicon VARCHAR COLLATE NOCASE, \n" +
                     "active BOOL, \n" +
                     "location_id VARCHAR COLLATE NOCASE, \n" +
                     "solution_id VARCHAR COLLATE NOCASE, \n" +
                     "staff_id VARCHAR COLLATE NOCASE, \n" +
                     "weighscales_id VARCHAR COLLATE NOCASE, \n" +
-                    "dashboarditemlwith INTEGER, \n" +
-                    "dashboarditempwith INTEGER, \n" +
-                    "dashboardicon VARCHAR COLLATE NOCASE \n" +
+                    "device_id VARCHAR COLLATE NOCASE, \n" +
+                    "devicetype_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
     private static final String TABLE_ADMINISTRATION_STAFF = "administration_staff";

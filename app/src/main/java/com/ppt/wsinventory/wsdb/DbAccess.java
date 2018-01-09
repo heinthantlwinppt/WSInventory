@@ -9,9 +9,12 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.ppt.wsinventory.model.AdministrationSettings;
+import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -215,12 +218,14 @@ public class DbAccess {
         values.put(AdministrationSettings.COLUMN_DASHBOARDITEMLWITH,administrationSettings.getDashboarditemlwith());
         values.put(AdministrationSettings.COLUMN_DASHBOARDITEMPWITH,administrationSettings.getDashboarditempwith());
         values.put(AdministrationSettings.COLUMN_DASHBOARDICON,administrationSettings.getDashboardicon());
+        values.put(AdministrationSettings.COLUMN_DEVICE_ID,administrationSettings.getDevice_id());
+        values.put(AdministrationSettings.COLUMN_DEVICETYPE_ID,administrationSettings.getDevicetype_id());
         long resultid = database.insert(administrationSettings.TABLE_ADMINISTRATION_SETTINGS, null, values);
-        administrationSettings.setId(resultid);
+//        administrationSettings.setId(resultid);
         return administrationSettings;
     }
 
-    public AdministrationStaff insertSettings(AdministrationStaff administrationStaff) {
+    public AdministrationStaff insertAdministrationStaff(AdministrationStaff administrationStaff) {
         ContentValues values = new ContentValues();
         values.put(AdministrationStaff.COLUMN_ID,administrationStaff.getId());
         values.put(AdministrationStaff.COLUMN_STAFF_ID ,administrationStaff.getStaff_id());
@@ -243,7 +248,7 @@ public class DbAccess {
         return administrationStaff;
     }
 
-    public InventoryGold insertSettings(InventoryGold inventoryGold) {
+    public InventoryGold insertInventoryGold(InventoryGold inventoryGold) {
         ContentValues values = new ContentValues();
 
         values.put(InventoryGold.COLUMN_ID,inventoryGold.getId());
@@ -260,5 +265,32 @@ public class DbAccess {
         long resultid = database.insert(inventoryGold.TABLE_INVENTORY_GOLD, null, values);
         inventoryGold.setId(resultid);
         return inventoryGold;
+    }
+
+    public AdministrationSolutions insertAdministrationSolutions(AdministrationSolutions administrationSolutions) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationSolutions.COLUMN_SOLUTION_NAME, administrationSolutions.getSolution_name());
+        values.put(AdministrationSolutions.COLUMN_active, administrationSolutions.getActive());
+
+        long resultid = database.insert(administrationSolutions.TABLE_ADMINISTRATION_SOLUTIONS, null, values);
+        administrationSolutions.setId(resultid);
+        return administrationSolutions;
+    }
+
+    public AdministrationWsdashboard insertAdministrationWsdashboard(AdministrationWsdashboard administrationWsdashboard) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationWsdashboard.COLUMN_ID, administrationWsdashboard.getId());
+        values.put(AdministrationWsdashboard.COLUMN_TITLE, administrationWsdashboard.getTitle());
+        values.put(AdministrationWsdashboard.COLUMN_ACTIONNAME, administrationWsdashboard.getActionname());
+        values.put(AdministrationWsdashboard.COLUMN_GROUPNAME, administrationWsdashboard.getGroupname());
+        values.put(AdministrationWsdashboard.COLUMN_IMAGE, administrationWsdashboard.getImage());
+        values.put(AdministrationWsdashboard.COLUMN_TIMESTAMP, administrationWsdashboard.getTimestamp());
+        values.put(AdministrationWsdashboard.COLUMN_DELETE, administrationWsdashboard.getIs_delete());
+        values.put(AdministrationWsdashboard.COLUMN_DISPLAYNO, administrationWsdashboard.getDisplayno());
+        values.put(AdministrationWsdashboard.COLUMN_SCREEN_ID, administrationWsdashboard.getScreen_id());
+
+        long resultid = database.insert(administrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD, null, values);
+//        administrationSolutions.setId(resultid);
+        return administrationWsdashboard;
     }
 }

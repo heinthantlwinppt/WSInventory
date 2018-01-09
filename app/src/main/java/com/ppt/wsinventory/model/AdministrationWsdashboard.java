@@ -13,7 +13,7 @@ public class AdministrationWsdashboard {
     public static final String COLUMN_GROUPNAME = "groupname";
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_TIMESTAMP = "timestamp";
-    public static final String COLUMN_DELETE = "delete";
+    public static final String COLUMN_DELETE = "is_delete";
     public static final String COLUMN_DISPLAYNO = "displayno";
     public static final String COLUMN_SCREEN_ID = "screen_id";
 
@@ -29,6 +29,98 @@ public class AdministrationWsdashboard {
             COLUMN_SCREEN_ID
     };
 
+    private String id;
+    private String title;
+    private String actionname;
+    private String groupname;
+    private String image;
+    private String timestamp;
+    private boolean is_delete;
+    private int displayno;
+    private int screen_id;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getActionname() {
+        return actionname;
+    }
+
+    public void setActionname(String actionname) {
+        this.actionname = actionname;
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public boolean getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(boolean is_delete) {
+        this.is_delete = is_delete;
+    }
+
+    public int getDisplayno() {
+        return displayno;
+    }
+
+    public void setDisplayno(int displayno) {
+        this.displayno = displayno;
+    }
+
+    public int getScreen_id() {
+        return screen_id;
+    }
+
+    public void setScreen_id(int screen_id) {
+        this.screen_id = screen_id;
+    }
+
+    @Override
+    public String toString() {
+        return "AdministrationWsdashboard{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", actionname='" + actionname + '\'' +
+                ", groupname='" + groupname + '\'' +
+                ", image='" + image + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", screen_id='" + screen_id + '\'' +
+                '}';
+    }
 }

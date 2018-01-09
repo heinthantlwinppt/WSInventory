@@ -10,10 +10,15 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationSettings;
+import com.ppt.wsinventory.model.AdministrationSolutions;
+import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.TableToDelete;
+import com.ppt.wsinventory.model.WsDashboard;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
@@ -92,8 +97,27 @@ public class WsApi  {
             Type listType = new TypeToken<ArrayList<Solution>>(){}.getType();
             List<Solution> solutionList = gson.fromJson(jsonString, listType);
             for (Solution solution: solutionList){
+                importSolutions(solution);
                 Log.i(TAG, "Solution Name : " + solution.getSolutionName());
             }
+            RemoveActionList(apiModel.getName());
+        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETSETTINGS)){
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Settings>>(){}.getType();
+            List<Settings> settingsList = gson.fromJson(jsonString, listType);
+            for (Settings settings: settingsList){
+                importSettings(settings);
+                Log.i(TAG, "Solution Name : " + settings.getDeviceId());
+            }
+            RemoveActionList(apiModel.getName());
+        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSDASHBOARD)){
+            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<Solution>>(){}.getType();
+//            List<Solution> solutionList = gson.fromJson(jsonString, listType);
+//            for (Solution solution: solutionList){
+//                importSolutions(solution);
+//                Log.i(TAG, "Solution Name : " + solution.getSolutionName());
+//            }
             RemoveActionList(apiModel.getName());
         }
         if(appContext.getActionLists().size() > 0) {
@@ -109,6 +133,9 @@ public class WsApi  {
             );
             params.add(
                     new ApiParam("ts", Utility.dateFormat.format(ts))
+            );
+            params.add(
+                    new ApiParam("deviceid",appContext.getDeviceid())
             );
 
             jsonString = gson.toJson(params);
@@ -145,6 +172,59 @@ public class WsApi  {
         dbaccess = DbAccess.getInstance();
         dbaccess.deleteData(tableList.getTablename());
         }
+
+    private void importSolutions(Solution solution) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationSolutions administrationSolutions= new AdministrationSolutions();
+        administrationSolutions.setSolution_name(solution.getSolutionName());
+        administrationSolutions.setActive(solution.getActive());
+        dbaccess.insertAdministrationSolutions(administrationSolutions);
+
+    }
+
+    private void importSettings(Settings settings) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationSettings administrationSettings= new AdministrationSettings();
+        administrationSettings.setId(settings.getId());
+        administrationSettings.setDevice_id(settings.getDeviceId());
+        administrationSettings.setH1(String.valueOf(settings.getH1()));
+        administrationSettings.setH2(String.valueOf(settings.getH2()));
+        administrationSettings.setH3(String.valueOf(settings.getH3()));
+        administrationSettings.setH4(String.valueOf(settings.getH4()));
+        administrationSettings.setT1(String.valueOf(settings.getT1()));
+        administrationSettings.setT2(String.valueOf(settings.getT2()));
+        administrationSettings.setT3(String.valueOf(settings.getT3()));
+        administrationSettings.setT4(String.valueOf(settings.getT4()));
+        administrationSettings.setDateformat(String.valueOf(settings.getDateformat()));
+        administrationSettings.setTimeformat(String.valueOf(settings.getTimeformat()));
+        administrationSettings.setDatetimeformat(String.valueOf(settings.getDatetimeformat()));
+        administrationSettings.setSystem_date(settings.getSystemDate());
+        administrationSettings.setDashboarditempwith((Integer) settings.getDashboarditempwith());
+        administrationSettings.setDashboarditemlwith((Integer) settings.getDashboarditemlwith());
+        administrationSettings.setDashboardicon(String.valueOf(settings.getDashboardicon()));
+        administrationSettings.setActive(settings.getActive());
+        administrationSettings.setSolution_id(settings.getSolution());
+        administrationSettings.setLocation_id(settings.getLocation());
+        administrationSettings.setDevicetype_id(settings.getDevicetype());
+        dbaccess.insertSettings(administrationSettings);
+
+    }
+
+    private void importWsDashboard(WsDashboard wsDashboard) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationWsdashboard administrationWsdashboard= new AdministrationWsdashboard();
+        administrationWsdashboard.setId(wsDashboard.getId());
+        administrationWsdashboard.setTitle(wsDashboard.getTitle());
+        administrationWsdashboard.setActionname(wsDashboard.getActionname());
+        administrationWsdashboard.setGroupname(wsDashboard.getGroupname());
+        administrationWsdashboard.setImage(wsDashboard.getImage());
+        administrationWsdashboard.setTimestamp(wsDashboard.getTimestamp());
+        administrationWsdashboard.setDisplayno(wsDashboard.getDisplayno());
+        administrationWsdashboard.setIs_delete(wsDashboard.getIsDelete());
+        administrationWsdashboard.setScreen_id(wsDashboard.getScreen());
+        dbaccess.insertAdministrationWsdashboard(administrationWsdashboard);
+
+    }
 
 
 

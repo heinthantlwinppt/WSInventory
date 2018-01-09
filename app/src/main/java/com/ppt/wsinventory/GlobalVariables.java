@@ -21,6 +21,7 @@ public class GlobalVariables extends Application {
     private List<ActionList> actionLists;
     private Date ts;
     private String solutionname = "SALES-HH";
+    private String deviceid ;
 
     public String getSolutionname() {
         return solutionname;
@@ -28,6 +29,14 @@ public class GlobalVariables extends Application {
 
     public void setSolutionname(String solutionname) {
         this.solutionname = solutionname;
+    }
+
+    public String getDeviceid() {
+        return deviceid;
+    }
+
+    public void setDeviceid(String deviceid) {
+        this.deviceid = deviceid;
     }
 
     public Date getTs() {
