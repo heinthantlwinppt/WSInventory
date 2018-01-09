@@ -29,6 +29,7 @@ import com.ppt.wsinventory.websocket.WsApi;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -246,28 +247,48 @@ public class MainActivity extends AppCompatActivity
     public void exportDatabse(String databaseName) {
         try {
             File sd = Environment.getExternalStorageDirectory();
-//            File folder = new File(sd.getAbsolutePath()+"SWFolder");
-//            folder.mkdir();
+//            File sd = new File("/mnt/sdcard/WSFolder/");
+            File folder = new File(sd.getAbsolutePath() + "/WSFolder");
+            folder.mkdir();
             File data = Environment.getDataDirectory();
 
             if (sd.canWrite()) {
                 String currentDBPath = "//data//" + getPackageName() + "//databases//" + databaseName + "";
                 String backupDBPath = "WS.db";
                 File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
+                File backupDB = new File(folder, backupDBPath);
+
+//                if (currentDB.exists()) {
+//                    FileChannel src = new FileInputStream(currentDB).getChannel();
+//                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+//                    dst.transferFrom(src, 0, src.size());
+//                    src.close();
+//                    dst.close();
+//                    Toast.makeText(this, "Database is exported", Toast.LENGTH_SHORT).show();
+//                }
 
                 if (currentDB.exists()) {
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
-                    Toast.makeText(this, "Database is exported", Toast.LENGTH_SHORT).show();
+                    int byteread;
+                    int bytesum;
+                    InputStream inStream = new FileInputStream(currentDB);
+                    String file = Environment.getExternalStorageDirectory().getPath()
+                            + "/" + "WS.db";
+//                    Log.d("file name checking in  dbFilecondition", file);
+                    FileOutputStream fs = new FileOutputStream(backupDB);
+                    byte[] buffer = new byte[1444];
+                    while ((byteread = inStream.read(buffer)) != -1) {
+                        bytesum = byteread;
+                        fs.write(buffer, 0, byteread);
+                    }
+                    inStream.close();
+                    fs.close();
+
                 }
             }
         } catch (Exception e) {
 
         }
+
     }
 
     private List<Item> filter(List<Item> pl, String query)
