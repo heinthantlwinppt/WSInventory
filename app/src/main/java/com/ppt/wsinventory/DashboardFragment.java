@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -28,6 +29,8 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationSettings;
+import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.services.WsSyncService;
@@ -35,7 +38,6 @@ import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.websocket.WsApi;
 import com.ppt.wsinventory.wsdb.DbAccess;
-import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.util.ScreenUtility;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -43,7 +45,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -57,10 +58,11 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     private GlobalVariables appContext;
     RecyclerView recyclerView;
     List<RecyclerDataModel> arrayList;
-    List<Item> ItemList = new ArrayList<>();
+    List<AdministrationWsdashboard> ItemList = new ArrayList<>();
     private float dpWidth;
     private float dpHeight;
     RecyclerViewAdapter adapter;
+    AdministrationSettings administrationSettings;
     DbAccess dbaccess;
     private Context mcontext;
     private static final String TAG = "Ws-Dashboard";
@@ -85,7 +87,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
-        ItemList = dbaccess.getAllItems();
+        ItemList = dbaccess.getAllDashboardItems();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);
@@ -101,7 +103,16 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         float w = screenutility.getDpWidth();
         float h = screenutility.getDpHeight();
         float d = screenutility.getDensity();
+
+//        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//
+//            w = administrationSettings.getDashboarditempwith();
+//        }else
+//        {
+//            w = administrationSettings.getDashboarditemlwith();
+//        }
         w = 200;
+
 
         AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int) w);
         recyclerView.setLayoutManager(layoutManager);
@@ -110,8 +121,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
 
     @Override
-    public void onItemClick(Item item) {
-        Toast.makeText(getContext(), item.getItemName() + " is clicked", Toast.LENGTH_SHORT).show();
+    public void onItemClick(AdministrationWsdashboard item) {
+        Toast.makeText(getContext(), item.getTitle() + " is clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -134,7 +145,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                final List<Item> filtermodelist = filter(ItemList, newText);
+                final List<AdministrationWsdashboard> filtermodelist = filter(ItemList, newText);
                 adapter.setfilter(filtermodelist);
                 return true;
             }
@@ -248,13 +259,13 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
     }
 
-    private List<Item> filter(List<Item> pl, String query) {
+    private List<AdministrationWsdashboard> filter(List<AdministrationWsdashboard> pl, String query) {
 
         query = query.toLowerCase();
-        final List<Item> filterdModeList = new ArrayList<>();
+        final List<AdministrationWsdashboard> filterdModeList = new ArrayList<>();
 
-        for (Item model : pl) {
-            final String tex = model.getItemName().toLowerCase();
+        for (AdministrationWsdashboard model : pl) {
+            final String tex = model.getTitle().toLowerCase();
             if (tex.startsWith(query)) {
                 filterdModeList.add(model);
             }

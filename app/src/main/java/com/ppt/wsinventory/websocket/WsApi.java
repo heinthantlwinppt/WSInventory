@@ -235,7 +235,12 @@ public class WsApi  {
         administrationWsdashboard.setDisplayno(wsDashboard.getDisplayno());
         administrationWsdashboard.setIs_delete(wsDashboard.getIsDelete());
         administrationWsdashboard.setScreen_id(wsDashboard.getScreen());
-        dbaccess.insertAdministrationWsdashboard(administrationWsdashboard);
+
+        if(wsDashboard.getIsDelete() == true){
+            dbaccess.deleteAdministrationWsdashboard(AdministrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD,wsDashboard.getId());
+        }else {
+            dbaccess.insertAdministrationWsdashboard(administrationWsdashboard);
+        }
 
     }
 

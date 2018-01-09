@@ -1,17 +1,15 @@
 package com.ppt.wsinventory;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.model.AdministrationWsdashboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +21,15 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     ArrayList<RecyclerDataModel> mValues;
-    ArrayList<Item> mDataSet;
+    ArrayList<AdministrationWsdashboard> mDataSet;
     Context mContext;
 
 //    Item item;
     protected ItemListener mListener;
 
-    public RecyclerViewAdapter(Context context, List<Item> mValure, ItemListener itemListener) {
+    public RecyclerViewAdapter(Context context, List<AdministrationWsdashboard> mValure, ItemListener itemListener) {
 
-        mDataSet= (ArrayList<Item>) mValure;
+        mDataSet= (ArrayList<AdministrationWsdashboard>) mValure;
         mContext = context;
         mListener=itemListener;
     }
@@ -41,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView textView,textView1;
         public ImageView imageView,imageView1;
 //        public RelativeLayout relativeLayout;
-        Item item;
+        AdministrationWsdashboard dashboarditem;
 
         public ViewHolder(View v) {
 
@@ -56,11 +54,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         }
 
-        public void setData(Item item) {
-            this.item = item;
+        public void setData(AdministrationWsdashboard dashboarditem) {
+            this.dashboarditem = dashboarditem;
 
-            textView.setText(item.getItemName());
-            textView1.setText(item.getItemType());
+            textView.setText(dashboarditem.getTitle());
+            textView1.setText(dashboarditem.getGroupname());
 //            relativeLayout.setBackgroundColor(Color.parseColor(item.color));
 
         }
@@ -72,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (mListener != null) {
 
-                mListener.onItemClick(item);
+                mListener.onItemClick(dashboarditem);
 //                switch (view.getId()) {
 //                    case R.id.imageView1:
 //                        Toast.makeText(view.getContext(), "infromation is clicked", Toast.LENGTH_SHORT).show();
@@ -102,14 +100,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(),mDataSet.get(position).getItemType()+"infromation is clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(),mDataSet.get(position).getId()+"infromation is clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
 
     }
 
-    public void setfilter(List<Item> itemList)
+    public void setfilter(List<AdministrationWsdashboard> itemList)
     {
         mDataSet = new ArrayList<>();
         mDataSet.addAll(itemList);
@@ -123,6 +121,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public interface ItemListener {
-        void onItemClick(Item item);
+        void onItemClick(AdministrationWsdashboard item);
     }
 }

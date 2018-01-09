@@ -182,6 +182,35 @@ public class DbAccess {
 
     }
 
+    public List<AdministrationWsdashboard> getAllDashboardItems() {
+        List<AdministrationWsdashboard> dashboarditems = new ArrayList<>();
+        Cursor cursor = readData(AdministrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD
+                , AdministrationWsdashboard.COLUMN_ALL
+                ,null,null,null,null,null
+//                , new String[]{"1"}, null, null, null
+        );
+
+        while (cursor.moveToNext()) {
+            AdministrationWsdashboard item = new AdministrationWsdashboard();
+            item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+
+            dashboarditems.add(item);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return dashboarditems;
+
+
+    }
+
     public Item insertItems(Item item){
 
         ContentValues values = new ContentValues();
@@ -240,8 +269,7 @@ public class DbAccess {
         values.put(AdministrationStaff.COLUMN_DATE_JOINED , Utility.dateFormat.format(administrationStaff.getDate_joined()));
         values.put(AdministrationStaff.COLUMN_DATE_LEFT ,Utility.dateFormat.format(administrationStaff.getDate_left()));
         values.put(AdministrationStaff.COLUMN_USER_ID ,administrationStaff.getUser_id());
-        values.put(AdministrationStaff.COLUMN_PASSWORD ,administrationStaff.getPassword());
-        values.put(AdministrationStaff.COLUMN_ACTIVE ,administrationStaff.isActive());
+        values.put(AdministrationStaff.COLUMN_ACTIVE ,administrationStaff.getActive());
         values.put(AdministrationStaff.COLUMN_ROLE ,administrationStaff.getRole());
 
         long resultid = database.insert(administrationStaff.TABLE_ADMINISTRATION_STAFF, null, values);
@@ -293,5 +321,14 @@ public class DbAccess {
         long resultid = database.insert(administrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD, null, values);
 //        administrationSolutions.setId(resultid);
         return administrationWsdashboard;
+    }
+
+    public boolean deleteAdministrationWsdashboard(String table, String whereArgs){
+
+
+        database.delete(table,"id = ?",new String[] { whereArgs });
+        return true;
+
+
     }
 }
