@@ -107,17 +107,17 @@ public class WsApi  {
             List<Settings> settingsList = gson.fromJson(jsonString, listType);
             for (Settings settings: settingsList){
                 importSettings(settings);
-                Log.i(TAG, "Solution Name : " + settings.getDeviceId());
+                Log.i(TAG, "setting id : " + settings.getDeviceId());
             }
             RemoveActionList(apiModel.getName());
         }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSDASHBOARD)){
             jsonString = apiModel.getMessage();
-//            Type listType = new TypeToken<ArrayList<Solution>>(){}.getType();
-//            List<Solution> solutionList = gson.fromJson(jsonString, listType);
-//            for (Solution solution: solutionList){
-//                importSolutions(solution);
-//                Log.i(TAG, "Solution Name : " + solution.getSolutionName());
-//            }
+            Type listType = new TypeToken<ArrayList<WsDashboard>>(){}.getType();
+            List<WsDashboard> dashboardsList = gson.fromJson(jsonString, listType);
+            for (WsDashboard dashboard: dashboardsList){
+                importWsDashboard(dashboard);
+                Log.i(TAG, "dashboard Name : " + dashboard.getActionname());
+            }
             RemoveActionList(apiModel.getName());
         }
         if(appContext.getActionLists().size() > 0) {
