@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
@@ -247,6 +248,17 @@ public class DbAccess {
         long resultid = database.insert(administrationStaff.TABLE_ADMINISTRATION_STAFF, null, values);
 //        administrationStaff.setId(resultid);
         return administrationStaff;
+    }
+
+    public AdministrationRole insertAdministrationRole(AdministrationRole administrationRole) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationRole.COLUMN_ID,administrationRole.getId());
+        values.put(AdministrationRole.COLUMN_ROLE_NAME ,administrationRole.getRole_name());
+        values.put(AdministrationRole.COLUMN_ACTIVE ,administrationRole.isActive());
+
+        long resultid = database.insert(administrationRole.TABLE_ADMINISTRATION_ROLE, null, values);
+//        administrationStaff.setId(resultid);
+        return administrationRole;
     }
 
     public InventoryGold insertInventoryGold(InventoryGold inventoryGold) {

@@ -114,6 +114,15 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active   BOOL\n" +
                     ")";
 
+    private static final String TABLE_ADMINISTRATION_ROLE = "administration_role";
+    private static final String TABLE_CREATE_ADMINISTRATION_ROLE =
+            "CREATE TABLE administration_role \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " role_name  VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL \n " +
+                    ")";
+
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -142,6 +151,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSDASHBOARD + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_SOLUTIONS);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_SOLUTIONS + " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_ROLE);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_ROLE + " has been created");
 
     }
 
@@ -154,11 +165,11 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOLD);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSDASHBOARD);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SOLUTIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_ROLE);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
 
     }
-
 
 }
