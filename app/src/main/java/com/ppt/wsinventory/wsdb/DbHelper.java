@@ -70,8 +70,9 @@ public class DbHelper extends SQLiteOpenHelper {
                     " date_joined   DATETIME, \n" +
                     " date_left   DATETIME, \n" +
                     " user_id    INTEGER, \n" +
-                    " active    BOOL\n, " +
-                    " role_id    VARCHAR COLLATE NOCASE \n" +
+                    " password   VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL, \n " +
+                    " role    VARCHAR COLLATE NOCASE \n" +
                     ")";
 
     private static final String TABLE_INVENTORY_GOLD= "inventory_gold";

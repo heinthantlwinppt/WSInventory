@@ -12,11 +12,13 @@ import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
+import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
+import com.ppt.wsinventory.model.Staff;
 import com.ppt.wsinventory.model.TableToDelete;
 import com.ppt.wsinventory.model.WsDashboard;
 import com.ppt.wsinventory.services.WsSyncService;
@@ -120,6 +122,17 @@ public class WsApi  {
             }
             RemoveActionList(apiModel.getName());
         }
+        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSTAFF)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Staff>>() {}.getType();
+            List<Staff> staffsList = gson.fromJson(jsonString, listType);
+            for (Staff staff : staffsList) {
+                importStaff(staff);
+                Log.i(TAG, "Staff Name : " + staff.getStaffName());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+
         if(appContext.getActionLists().size() > 0) {
             ActionList actionList = appContext.getActionLists().get(0);
             List<ApiParam> params = new ArrayList<>();
@@ -223,6 +236,28 @@ public class WsApi  {
         administrationWsdashboard.setIs_delete(wsDashboard.getIsDelete());
         administrationWsdashboard.setScreen_id(wsDashboard.getScreen());
         dbaccess.insertAdministrationWsdashboard(administrationWsdashboard);
+
+    }
+
+    private void importStaff(Staff wsStaff) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationStaff administrationStaff= new AdministrationStaff();
+        administrationStaff.setId(wsStaff.getId());
+        administrationStaff.setStaff_name(wsStaff.getStaffName());
+        administrationStaff.setFather_name(wsStaff.getFatherName());
+        administrationStaff.setNick_name(wsStaff.getNickName());
+        administrationStaff.setNrc_no(wsStaff.getNrcNo());
+        administrationStaff.setAddress(wsStaff.getAddress());
+        administrationStaff.setPhone_no(wsStaff.getPhoneNo());
+        administrationStaff.setHome_phone_no(wsStaff.getHomePhoneNo());
+        administrationStaff.setStaff_photo(wsStaff.getStaffPhoto());
+        administrationStaff.setDate_joined(wsStaff.getDateJoined());
+        administrationStaff.setDate_left(wsStaff.getDateLeft());
+        administrationStaff.setUser_id(wsStaff.getUserId());
+        administrationStaff.setPassword(wsStaff.getPassword());
+        administrationStaff.setActive(wsStaff.getActive());
+        administrationStaff.setRole(wsStaff.getRole());
+        dbaccess.insertAdministrationStaff(administrationStaff);
 
     }
 

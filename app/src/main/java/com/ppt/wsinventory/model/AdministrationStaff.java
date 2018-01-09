@@ -22,8 +22,9 @@ public class AdministrationStaff {
     public static final String COLUMN_DATE_JOINED  = "date_joined";
     public static final String COLUMN_DATE_LEFT  = "date_left";
     public static final String COLUMN_USER_ID  = "user_id";
+    public static final String COLUMN_PASSWORD  = "password";
     public static final String COLUMN_ACTIVE  = "active";
-    public static final String COLUMN_ROLE_ID  = "role_id";
+    public static final String COLUMN_ROLE  = "role";
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -40,11 +41,12 @@ public class AdministrationStaff {
             COLUMN_DATE_JOINED ,
             COLUMN_DATE_LEFT ,
             COLUMN_USER_ID ,
+            COLUMN_PASSWORD ,
             COLUMN_ACTIVE ,
-            COLUMN_ROLE_ID
+            COLUMN_ROLE
     };
 
-    private long id ;
+    private String id ;
     private String staff_id ;
     private String staff_name ;
     private String father_name ;
@@ -57,14 +59,15 @@ public class AdministrationStaff {
     private Date date_joined ;
     private Date date_left ;
     private int user_id ;
+    private String password ;
     private boolean active ;
-    private String role_id ;
+    private String role ;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -164,7 +167,15 @@ public class AdministrationStaff {
         this.user_id = user_id;
     }
 
-    public boolean getActive() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActive() {
         return active;
     }
 
@@ -172,19 +183,18 @@ public class AdministrationStaff {
         this.active = active;
     }
 
-    public String getRole_id() {
-        return role_id;
+    public String getRole() {
+        return role;
     }
 
-    public void setRole_id(String role_id) {
-        this.role_id = role_id;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
         return "AdministrationStaff{" +
-                "id='" + id + '\'' +
-                ", staff_id='" + staff_id + '\'' +
+                "staff_id='" + staff_id + '\'' +
                 ", staff_name='" + staff_name + '\'' +
                 ", father_name='" + father_name + '\'' +
                 ", nick_name='" + nick_name + '\'' +
@@ -193,7 +203,8 @@ public class AdministrationStaff {
                 ", phone_no='" + phone_no + '\'' +
                 ", home_phone_no='" + home_phone_no + '\'' +
                 ", staff_photo='" + staff_photo + '\'' +
-                ", role_id='" + role_id + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

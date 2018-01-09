@@ -240,11 +240,12 @@ public class DbAccess {
         values.put(AdministrationStaff.COLUMN_DATE_JOINED , Utility.dateFormat.format(administrationStaff.getDate_joined()));
         values.put(AdministrationStaff.COLUMN_DATE_LEFT ,Utility.dateFormat.format(administrationStaff.getDate_left()));
         values.put(AdministrationStaff.COLUMN_USER_ID ,administrationStaff.getUser_id());
-        values.put(AdministrationStaff.COLUMN_ACTIVE ,administrationStaff.getActive());
-        values.put(AdministrationStaff.COLUMN_ROLE_ID ,administrationStaff.getRole_id());
+        values.put(AdministrationStaff.COLUMN_PASSWORD ,administrationStaff.getPassword());
+        values.put(AdministrationStaff.COLUMN_ACTIVE ,administrationStaff.isActive());
+        values.put(AdministrationStaff.COLUMN_ROLE ,administrationStaff.getRole());
 
         long resultid = database.insert(administrationStaff.TABLE_ADMINISTRATION_STAFF, null, values);
-        administrationStaff.setId(resultid);
+//        administrationStaff.setId(resultid);
         return administrationStaff;
     }
 
