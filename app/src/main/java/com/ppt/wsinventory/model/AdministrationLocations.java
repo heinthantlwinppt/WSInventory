@@ -28,8 +28,8 @@ public class AdministrationLocations {
     private String id ;
     private String loc_name ;
     private String loc_addr ;
-    private int longitude ;
-    private int latitude ;
+    private Double longitude ;
+    private Double latitude ;
     private String receiving_bin ;
     private boolean active ;
 
@@ -57,19 +57,19 @@ public class AdministrationLocations {
         this.loc_addr = loc_addr;
     }
 
-    public int getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public int getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 

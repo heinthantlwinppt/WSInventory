@@ -132,7 +132,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " longitude   NUMERIC, \n" +
                     " latitude   NUMERIC, \n" +
                     " receiving_bin   VARCHAR COLLATE NOCASE, \n" +
-                    " active    BOOL, \n" +
+                    " active    BOOL \n" +
                     ")";
 
 
