@@ -1,6 +1,7 @@
 package com.ppt.wsinventory.common;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,11 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ppt.wsinventory.MainActivity;
 import com.ppt.wsinventory.R;
-
 /**
  * Created by User on 02/01/2018.
  */
+
 
 public class WsNewChangeDialog extends DialogFragment {
 
@@ -28,6 +30,8 @@ public class WsNewChangeDialog extends DialogFragment {
     EditText txtValue,txtSolution;
     Button btnOK;
     Button btnCancel;
+
+
 
     @Nullable
     @Override
@@ -68,6 +72,7 @@ public class WsNewChangeDialog extends DialogFragment {
                                 mAction)
                 );
                 dismiss();
+
             }
         });
 
@@ -75,4 +80,6 @@ public class WsNewChangeDialog extends DialogFragment {
 
 //        return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+
 }

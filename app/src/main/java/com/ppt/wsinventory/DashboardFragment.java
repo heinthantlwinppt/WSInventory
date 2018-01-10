@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
@@ -49,6 +50,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static android.text.TextUtils.isEmpty;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +69,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     DbAccess dbaccess;
     private Context mcontext;
     private static final String TAG = "Ws-Dashboard";
+    BusinessLogic b1;
+
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -91,6 +96,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);
+        administrationSettings =dbaccess.getAdministrationSettings();
 
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
@@ -104,14 +110,19 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         float h = screenutility.getDpHeight();
         float d = screenutility.getDensity();
 
-//        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-//
-//            w = administrationSettings.getDashboarditempwith();
-//        }else
-//        {
-//            w = administrationSettings.getDashboarditemlwith();
-//        }
-        w = 200;
+        if(!isEmpty(administrationSettings.getId())) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+                w = administrationSettings.getDashboarditempwith();
+            } else {
+                w = administrationSettings.getDashboarditemlwith();
+            }
+        }else{
+
+            w =200;
+        }
+
+//        w = administrationSettings.getDashboarditemlwith();
 
 
         AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int) w);

@@ -25,7 +25,6 @@ import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.websocket.WsApi;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -194,10 +193,12 @@ public class MainActivity extends AppCompatActivity
             args.putString(wsInputDialog.ACTION_NAME, WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
             wsInputDialog.show(getFragmentManager(), WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
 
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        LoadItemList();
 
         return true;
     }
@@ -235,15 +236,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        dbAccess.open();
+        LoadItemList();
+
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         dbAccess.close();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         dbAccess.open();
+        LoadItemList();
     }
 
     public void exportDatabse(String databaseName) {
@@ -329,6 +340,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        LoadItemList();
+    }
 }
