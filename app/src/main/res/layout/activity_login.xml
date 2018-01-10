@@ -44,23 +44,50 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:singleLine="true" />
 
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="50dp" >
+                <CheckBox
+                    android:id="@+id/show_hide_password"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/show_pwd"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="@string/forgot"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp" />
+                </LinearLayout>
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -70,7 +97,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
+                android:background="@color/blue_dark"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/createAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:text="@string/newUser"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
         </LinearLayout>
     </ScrollView>
