@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     SearchView searchView;
     String mCurrentFragmentTag;
     DbAccess dbAccess;
-    Item item;
+//    Item item;
     List<Item> ItemList = new ArrayList<>();
     RecyclerViewAdapter adapter;
     private GlobalVariables appContext;

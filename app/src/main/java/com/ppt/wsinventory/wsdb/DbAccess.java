@@ -30,6 +30,7 @@ public class DbAccess {
     SQLiteOpenHelper dbhelper;
     SQLiteDatabase database;
     private File dbpath;
+    String dashboard;
 
     public File getDbFile() {
         return dbpath;

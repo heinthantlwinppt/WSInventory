@@ -20,7 +20,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    ArrayList<RecyclerDataModel> mValues;
+//    ArrayList<RecyclerDataModel> mValues;
     ArrayList<AdministrationWsdashboard> mDataSet;
     Context mContext;
 

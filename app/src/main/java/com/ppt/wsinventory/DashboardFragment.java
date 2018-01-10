@@ -59,7 +59,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     RecyclerView recyclerView;
     List<RecyclerDataModel> arrayList;
     List<AdministrationWsdashboard> ItemList = new ArrayList<>();
-    private float dpWidth;
+//    private float dpWidth;
     private float dpHeight;
     RecyclerViewAdapter adapter;
     AdministrationSettings administrationSettings;
