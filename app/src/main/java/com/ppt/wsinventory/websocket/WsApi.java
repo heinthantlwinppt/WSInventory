@@ -143,6 +143,8 @@ public class WsApi  {
                 Log.i(TAG, "Role Name : " + role.getRoleName());
             }
             RemoveActionList(apiModel.getName());
+        }else{
+            RemoveActionList(apiModel.getName());
         }
 
         if(appContext.getActionLists().size() > 0) {
