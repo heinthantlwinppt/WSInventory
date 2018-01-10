@@ -122,6 +122,18 @@ public class DbHelper extends SQLiteOpenHelper {
                     " role_name  VARCHAR COLLATE NOCASE, \n" +
                     " active    BOOL \n " +
                     ")";
+    private static final String TABLE_ADMINISTRATION_LOCATIONS= "administration_locations";
+    private static final String TABLE_CREATE_ADMINISTRATION_LOCATIONS =
+            "CREATE TABLE administration_locations \n" +
+                    "(\n" +
+                    " id  INTERGER, \n" +
+                    " loc_name   VARCHAR COLLATE NOCASE, \n" +
+                    " loc_addr   VARCHAR COLLATE NOCASE, \n" +
+                    " longitude   NUMERIC, \n" +
+                    " latitude   NUMERIC, \n" +
+                    " receiving_bin   VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL, \n" +
+                    ")";
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -153,6 +165,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_SOLUTIONS + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_ROLE);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_ROLE + " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_LOCATIONS);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_LOCATIONS + " has been created");
 
     }
 
@@ -166,6 +180,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSDASHBOARD);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SOLUTIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_ROLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_LOCATIONS);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
