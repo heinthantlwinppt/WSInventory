@@ -10,12 +10,14 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.Staff;
@@ -129,6 +131,16 @@ public class WsApi  {
             for (Staff staff : staffsList) {
                 importStaff(staff);
                 Log.i(TAG, "Staff Name : " + staff.getStaffName());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSROLE)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Role>>() {}.getType();
+            List<Role> roleList = gson.fromJson(jsonString, listType);
+            for (Role role : roleList) {
+                importRole(role);
+                Log.i(TAG, "Role Name : " + role.getRoleName());
             }
             RemoveActionList(apiModel.getName());
         }
@@ -263,6 +275,16 @@ public class WsApi  {
         administrationStaff.setActive(wsStaff.getActive());
         administrationStaff.setRole(wsStaff.getRole());
         dbaccess.insertAdministrationStaff(administrationStaff);
+
+    }
+
+    private void importRole(Role wsRole) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationRole administrationRole= new AdministrationRole();
+        administrationRole.setId(wsRole.getId());
+        administrationRole.setRole_name(wsRole.getRoleName());
+        administrationRole.setActive(wsRole.getActive());
+        dbaccess.insertAdministrationRole(administrationRole);
 
     }
 

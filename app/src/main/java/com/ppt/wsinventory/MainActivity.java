@@ -143,11 +143,13 @@ public class MainActivity extends AppCompatActivity
             wsapi.TestWebSocket();
 //            exportDatabse("WS.db");
             Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
+
 //            return true;
         }
         else if(id == R.id.saveItems) {
 
             exportDatabse("WS.db");
+            Toast.makeText(this, " database is exported", Toast.LENGTH_SHORT).show();
 
 //            dbAccess = new DbAccess(getApplicationContext());
 //            dbAccess.open();
@@ -246,8 +248,8 @@ public class MainActivity extends AppCompatActivity
 
     public void exportDatabse(String databaseName) {
         try {
-            File sd = Environment.getExternalStorageDirectory();
-//            File sd = new File("/mnt/sdcard/WSFolder/");
+//            File sd = Environment.getExternalStorageDirectory();
+            File sd = new File("/mnt/sdcard");
             File folder = new File(sd.getAbsolutePath() + "/WSFolder");
             folder.mkdir();
             File data = Environment.getDataDirectory();

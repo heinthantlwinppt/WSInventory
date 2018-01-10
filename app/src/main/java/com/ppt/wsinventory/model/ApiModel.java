@@ -16,6 +16,7 @@ public class ApiModel {
     public static String GETSETTINGS = "getSettings";
     public static String GETWSDASHBOARD = "getWsDashboard";
     public static String GETWSSTAFF = "getStaffList";
+    public static String GETWSROLE = "getRoleList";
     public static String TYPE_GET = "get";
 
 
