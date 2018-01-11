@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -30,6 +32,7 @@ public class Utility {
             return false;
         }
     }
+    public static Date getDateBegin(){return new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();}
     public static  boolean isNumeric(String value){
         return  value.matches("\\d+(?:\\.\\d+)?");
     }

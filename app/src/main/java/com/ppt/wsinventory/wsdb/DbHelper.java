@@ -145,19 +145,20 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active    BOOL \n" +
                     ")";
 
-//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
-//    private static final String TABLE_CREATE_INVENTROY_BIN =
-//            "CREATE TABLE inventory_bin \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
-//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
-//                    " tag   VARCHAR COLLATE NOCASE, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL \n" +
-//                    ")";
+    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+    private static final String TABLE_CREATE_INVENTROY_BIN =
+            "CREATE TABLE inventory_bin \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
+                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
+                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
+                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+                    " tag   VARCHAR COLLATE NOCASE, \n" +
+                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL, \n" +
+                    " ts DATETIME \n" +
+                    ")";
 //    private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
 //    private static final String TABLE_CREATE_INVENTROY_PALLET =
 //            "CREATE TABLE inventory_pallet \n" +
@@ -272,8 +273,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_LOCATIONS + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_UOM);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_UOM + " has been created");
-//        db.execSQL(TABLE_CREATE_INVENTROY_BIN);
-//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_BIN);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
 //        db.execSQL(TABLE_CREATE_INVENTROY_GOLDUOM);
 //        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM + " has been created");
 //        db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
@@ -294,6 +295,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SOLUTIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_ROLE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_LOCATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_BIN);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);

@@ -16,6 +16,7 @@ public class InventoryBIN {
     public static final String COLUMN_TAG  = "tag";
     public static final String COLUMN_LOCATION_ID  = "location_id";
     public static final String COLUMN_ACTIVE  = "active";
+    public static final String COLUMN_TS  = "ts";
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -27,6 +28,7 @@ public class InventoryBIN {
             COLUMN_TAG ,
             COLUMN_LOCATION_ID ,
             COLUMN_ACTIVE ,
+            COLUMN_TS
     };
 
     private String id ;
@@ -38,6 +40,7 @@ public class InventoryBIN {
     private String address ;
     private String location_id ;
     private boolean active ;
+    private Date ts ;
 
     public String getId() {
         return id;
@@ -111,16 +114,27 @@ public class InventoryBIN {
         this.active = active;
     }
 
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
+
     @Override
     public String toString() {
         return "InventoryBIN{" +
-                "bin_name='" + bin_name + '\'' +
+                "id='" + id + '\'' +
+                ", bin_name='" + bin_name + '\'' +
                 ", bin_description='" + bin_description + '\'' +
                 ", bin_type='" + bin_type + '\'' +
                 ", barcode='" + barcode + '\'' +
                 ", tag='" + tag + '\'' +
                 ", address='" + address + '\'' +
                 ", location_id='" + location_id + '\'' +
+                ", active=" + active +
+                ", ts=" + ts +
                 '}';
     }
 }

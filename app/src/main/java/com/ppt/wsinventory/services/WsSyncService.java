@@ -48,20 +48,15 @@ public class WsSyncService extends IntentService {
 
     public WsSyncService() {
         super("WsService");
-
-
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
     }
 
@@ -75,7 +70,8 @@ public class WsSyncService extends IntentService {
         SendMessage(requestmessage);
         appContext.setRequestMessage("");
     }
-    private  void SendMessage(String text){
+
+    private void SendMessage(String text) {
         OkHttpClient mClient;
         String mServerUrl;
         Handler mMessageHandler;
@@ -107,7 +103,7 @@ public class WsSyncService extends IntentService {
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
                 manager.sendBroadcast(messageIntent);
-                webSocket.close(1000,"OK");
+                webSocket.close(1000, "OK");
             }
 
             @Override

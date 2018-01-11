@@ -2,11 +2,10 @@ package com.ppt.wsinventory.websocket;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
@@ -19,7 +18,6 @@ import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.BIN;
-import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Location;
@@ -40,19 +38,19 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
  * Created by User on 30/12/2017.
  */
 
-public class WsApi  {
+public class WsApi {
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     private static final String TAG = "Ws-WsApi";
     private Context mContext;
     DbAccess dbaccess;
     private GlobalVariables appContext;
+
     public WsApi(Context mContext) {
         this.mContext = mContext;
         appContext = (GlobalVariables) mContext.getApplicationContext();
@@ -73,29 +71,32 @@ public class WsApi  {
         this.mContext = mContext;
     }
 
-    public void TestWebSocket(){
+    public void TestWebSocket() {
 
-            Intent intent = new Intent(mContext, WsSyncService.class);
-            intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_LOGIN);
-            mContext.startService(intent);
+        Intent intent = new Intent(mContext, WsSyncService.class);
+        intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_LOGIN);
+        mContext.startService(intent);
     }
-    public void getActionList(){
+
+    public void getActionList() {
         Intent intent = new Intent(mContext, WsSyncService.class);
         intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
         mContext.startService(intent);
     }
-    public void doSync(){
+
+    public void doSync() {
         Gson gson = JsonHelper.getGson();
         String jsonString = "";
         String response = appContext.getResponseMessage();
         response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
-        ApiModel apiModel = gson.fromJson(response,ApiModel.class);
+        ApiModel apiModel = gson.fromJson(response, ApiModel.class);
         boolean hasmore = false;
-        if(apiModel.getName().equalsIgnoreCase(ApiModel.GETTABLESTODELETE)){
+        if (apiModel.getName().equalsIgnoreCase(ApiModel.GETTABLESTODELETE)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<TableToDelete>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<TableToDelete>>() {
+            }.getType();
             List<TableToDelete> tableToDeletes = gson.fromJson(jsonString, listType);
-            for (TableToDelete toDelete: tableToDeletes){
+            for (TableToDelete toDelete : tableToDeletes) {
 
 //                dbaccess.deleteData(toDelete.getTablename());
                 importTableToDelete(toDelete);
@@ -103,83 +104,96 @@ public class WsApi  {
             }
             RemoveActionList(apiModel.getName());
 
-        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETSOLUTIONS)){
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSOLUTIONS)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Solution>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Solution>>() {
+            }.getType();
             List<Solution> solutionList = gson.fromJson(jsonString, listType);
-            for (Solution solution: solutionList){
+            for (Solution solution : solutionList) {
                 importSolutions(solution);
                 Log.i(TAG, "Solution Name : " + solution.getSolutionName());
             }
             RemoveActionList(apiModel.getName());
-        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETSETTINGS)){
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSETTINGS)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Settings>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Settings>>() {
+            }.getType();
             List<Settings> settingsList = gson.fromJson(jsonString, listType);
-            for (Settings settings: settingsList){
+            for (Settings settings : settingsList) {
                 importSettings(settings);
                 Log.i(TAG, "setting id : " + settings.getDeviceId());
             }
             RemoveActionList(apiModel.getName());
-        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSDASHBOARD)){
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSDASHBOARD)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<WsDashboard>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<WsDashboard>>() {
+            }.getType();
             List<WsDashboard> dashboardsList = gson.fromJson(jsonString, listType);
-            for (WsDashboard dashboard: dashboardsList){
+            for (WsDashboard dashboard : dashboardsList) {
                 importWsDashboard(dashboard);
                 Log.i(TAG, "dashboard Name : " + dashboard.getActionname());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSTAFF)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSTAFFLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Staff>>() {}.getType();
+            Type listType = new TypeToken<ArrayList<Staff>>() {
+            }.getType();
             List<Staff> staffsList = gson.fromJson(jsonString, listType);
             for (Staff staff : staffsList) {
                 importStaff(staff);
                 Log.i(TAG, "Staff Name : " + staff.getStaffName());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSROLE)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETROLELIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Role>>() {}.getType();
+            Type listType = new TypeToken<ArrayList<Role>>() {
+            }.getType();
             List<Role> roleList = gson.fromJson(jsonString, listType);
             for (Role role : roleList) {
                 importRole(role);
                 Log.i(TAG, "Role Name : " + role.getRoleName());
             }
             RemoveActionList(apiModel.getName());
-        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSLOCATION)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETLOCATIONSLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Location>>() {}.getType();
+            Type listType = new TypeToken<ArrayList<Location>>() {
+            }.getType();
             List<Location> roleList = gson.fromJson(jsonString, listType);
             for (Location location : roleList) {
                 importLocations(location);
                 Log.i(TAG, "Location Name : " + location.getLocName());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSUOM)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETUOMLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<UOM>>() {}.getType();
+            Type listType = new TypeToken<ArrayList<UOM>>() {
+            }.getType();
             List<UOM> uomList = gson.fromJson(jsonString, listType);
             for (UOM uom : uomList) {
                 importUOM(uom);
                 Log.i(TAG, "UOM ID : " + uom.getUom());
             }
             RemoveActionList(apiModel.getName());
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<BIN>>() {
+                }.getType();
+                List<BIN> binList = gson.fromJson(jsonString, listType);
+                for (BIN bin : binList) {
+                    if (importBIN(bin)) {
+                        appContext.setTs(bin.getTs());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+
         }
-//        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSBIN)) {
-//            jsonString = apiModel.getMessage();
-//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
-//            List<BIN> binList = gson.fromJson(jsonString, listType);
-//            for (BIN bin : binList) {
-//                importBIN(bin);
-////                Log.i(TAG, "BIN Name : " + bin.get());
-//            }
-//            RemoveActionList(apiModel.getName());
-//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
+//        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
 //            jsonString = apiModel.getMessage();
 //            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
 //            List<BIN> binList = gson.fromJson(jsonString, listType);
@@ -225,11 +239,11 @@ public class WsApi  {
 //            }
 //            RemoveActionList(apiModel.getName());
 //        }
-        else{
+        else {
             RemoveActionList(apiModel.getName());
         }
 
-        if(appContext.getActionLists().size() > 0) {
+        if (appContext.getActionLists().size() > 0) {
             ActionList actionList = appContext.getActionLists().get(0);
             List<ApiParam> params = new ArrayList<>();
             params.add(
@@ -244,16 +258,16 @@ public class WsApi  {
                     new ApiParam("ts", Utility.dateFormat.format(ts))
             );
             params.add(
-                    new ApiParam("deviceid",appContext.getDeviceid())
+                    new ApiParam("deviceid", appContext.getDeviceid())
             );
 
             jsonString = gson.toJson(params);
             Log.i(TAG, "dosync: " + jsonString);
-            ApiModel apimodel= new ApiModel(1,actionList.getActionname(), ApiModel.TYPE_GET, jsonString );
+            ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
             jsonString = gson.toJson(apimodel);
             String req = "";
             try {
-                req =  HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
             } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
             }
@@ -267,9 +281,10 @@ public class WsApi  {
             mContext.startService(intent);
         }
     }
-    public void RemoveActionList(String actionname){
-        for(ActionList actionList: appContext.getActionLists()){
-            if(actionList.getActionname().equalsIgnoreCase(actionname)){
+
+    public void RemoveActionList(String actionname) {
+        for (ActionList actionList : appContext.getActionLists()) {
+            if (actionList.getActionname().equalsIgnoreCase(actionname)) {
                 appContext.getActionLists().remove(actionList);
                 break;
             }
@@ -280,11 +295,11 @@ public class WsApi  {
 
         dbaccess = DbAccess.getInstance();
         dbaccess.deleteData(tableList.getTablename());
-        }
+    }
 
     private void importSolutions(Solution solution) {
         dbaccess = DbAccess.getInstance();
-        AdministrationSolutions administrationSolutions= new AdministrationSolutions();
+        AdministrationSolutions administrationSolutions = new AdministrationSolutions();
         administrationSolutions.setSolution_name(solution.getSolutionName());
         administrationSolutions.setActive(solution.getActive());
         dbaccess.insertAdministrationSolutions(administrationSolutions);
@@ -293,7 +308,7 @@ public class WsApi  {
 
     private void importSettings(Settings settings) {
         dbaccess = DbAccess.getInstance();
-        AdministrationSettings administrationSettings= new AdministrationSettings();
+        AdministrationSettings administrationSettings = new AdministrationSettings();
         administrationSettings.setId(settings.getId());
         administrationSettings.setDevice_id(settings.getDeviceId());
         administrationSettings.setH1(String.valueOf(settings.getH1()));
@@ -321,7 +336,7 @@ public class WsApi  {
 
     private void importWsDashboard(WsDashboard wsDashboard) {
         dbaccess = DbAccess.getInstance();
-        AdministrationWsdashboard administrationWsdashboard= new AdministrationWsdashboard();
+        AdministrationWsdashboard administrationWsdashboard = new AdministrationWsdashboard();
         administrationWsdashboard.setId(wsDashboard.getId());
         administrationWsdashboard.setTitle(wsDashboard.getTitle());
         administrationWsdashboard.setActionname(wsDashboard.getActionname());
@@ -332,9 +347,9 @@ public class WsApi  {
         administrationWsdashboard.setIs_delete(wsDashboard.getIsDelete());
         administrationWsdashboard.setScreen_id(wsDashboard.getScreen());
 
-        if(wsDashboard.getIsDelete() == true){
-            dbaccess.deleteAdministrationWsdashboard(AdministrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD,wsDashboard.getId());
-        }else {
+        if (wsDashboard.getIsDelete() == true) {
+            dbaccess.deleteAdministrationWsdashboard(AdministrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD, wsDashboard.getId());
+        } else {
             dbaccess.insertAdministrationWsdashboard(administrationWsdashboard);
         }
 
@@ -342,7 +357,7 @@ public class WsApi  {
 
     private void importStaff(Staff wsStaff) {
         dbaccess = DbAccess.getInstance();
-        AdministrationStaff administrationStaff= new AdministrationStaff();
+        AdministrationStaff administrationStaff = new AdministrationStaff();
         administrationStaff.setId(wsStaff.getId());
         administrationStaff.setStaff_name(wsStaff.getStaffName());
         administrationStaff.setFather_name(wsStaff.getFatherName());
@@ -364,7 +379,7 @@ public class WsApi  {
 
     private void importLocations(Location wsLocation) {
         dbaccess = DbAccess.getInstance();
-        AdministrationLocations administrationLocations= new AdministrationLocations();
+        AdministrationLocations administrationLocations = new AdministrationLocations();
         administrationLocations.setId(wsLocation.getId());
         administrationLocations.setLoc_name(wsLocation.getLocName());
         administrationLocations.setLoc_addr(wsLocation.getLocAddr());
@@ -378,7 +393,7 @@ public class WsApi  {
 
     private void importRole(Role wsRole) {
         dbaccess = DbAccess.getInstance();
-        AdministrationRole administrationRole= new AdministrationRole();
+        AdministrationRole administrationRole = new AdministrationRole();
         administrationRole.setId(wsRole.getId());
         administrationRole.setRole_name(wsRole.getRoleName());
         administrationRole.setActive(wsRole.getActive());
@@ -388,7 +403,7 @@ public class WsApi  {
 
     private void importUOM(UOM wsUOM) {
         dbaccess = DbAccess.getInstance();
-        InventoryUOM inventoryUOM= new InventoryUOM();
+        InventoryUOM inventoryUOM = new InventoryUOM();
         inventoryUOM.setUom(wsUOM.getUom());
         inventoryUOM.setBaseqty(Double.parseDouble(wsUOM.getBaseqty()));
         inventoryUOM.setProduct_id(wsUOM.getProduct());
@@ -397,19 +412,22 @@ public class WsApi  {
 
     }
 
-//    private void importBIN(BIN wsBIN) {
-////        dbaccess = DbAccess.getInstance();
-////        InventoryBIN inventoryBIN= new InventoryBIN();
-////        inventoryBIN.setId(wsBIN.getUom());
-////        inventoryBIN.setBin_name(Double.parseDouble(wsBIN.getBaseqty()));
-////        inventoryBIN.setBin_description(wsBIN.getProduct());
-////        inventoryBIN.setBin_type(wsBIN.getProduct());
-////        inventoryBIN.setBarcode(wsBIN.getProduct());
-////        inventoryBIN.setTag(wsBIN.getProduct());
-////        inventoryBIN.setActive(wsBIN.getActive());
-////        dbaccess.insertInventoryBIN(inventoryBIN);
-////
-//    }
+    private boolean importBIN(BIN wsBIN) {
+        dbaccess = DbAccess.getInstance();
+        InventoryBIN inventoryBIN = new InventoryBIN();
+        inventoryBIN.setId(wsBIN.getId());
+        inventoryBIN.setBin_name(wsBIN.getBinName());
+        inventoryBIN.setBin_description(wsBIN.getBinDescription());
+        inventoryBIN.setBin_type(wsBIN.getBinType());
+        inventoryBIN.setBarcode(wsBIN.getBarcode());
+        inventoryBIN.setTag(wsBIN.getTag());
+        inventoryBIN.setActive(wsBIN.getActive());
+        inventoryBIN.setTs(wsBIN.getTs());
+
+        long l = dbaccess.insertInventoryBIN(inventoryBIN);
+        return (l > 0);
+
+    }
 //    private void importGoodsInventory(GoodsInventory goodsInventory) {
 ////        dbaccess = DbAccess.getInstance();
 ////        InventoryBIN inventoryBIN= new InventoryBIN();
@@ -422,7 +440,6 @@ public class WsApi  {
 ////        inventoryBIN.setActive(wsBIN.getActive());
 ////        dbaccess.insertInventoryBIN(inventoryBIN);
 //    }
-
 
 
 }
