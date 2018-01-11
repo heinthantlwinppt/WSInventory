@@ -18,6 +18,13 @@ public class ApiModel {
     public static String GETWSSTAFF = "getStaffList";
     public static String GETWSROLE = "getRoleList";
     public static String GETWSLOCATION = "getLocationsList";
+    public static String GETWSUOM = "getUOMList";
+//    public static String GETWSBIN = "getBinList";
+//    public static String GETWSPALLET = "getPalletList";
+//    public static String GETWSGOLD = "getGoldList";
+//    public static String GETWSGOLDUOM = "getGoldUOMList";
+//    public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
+//    public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
     public static String TYPE_GET = "get";
 
 

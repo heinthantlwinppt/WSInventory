@@ -18,12 +18,17 @@ import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.BIN;
+import com.ppt.wsinventory.model.GoodsInventory;
+import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Location;
 import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.Staff;
 import com.ppt.wsinventory.model.TableToDelete;
+import com.ppt.wsinventory.model.UOM;
 import com.ppt.wsinventory.model.WsDashboard;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -155,6 +160,71 @@ public class WsApi  {
             }
             RemoveActionList(apiModel.getName());
         }
+        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSUOM)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<UOM>>() {}.getType();
+            List<UOM> uomList = gson.fromJson(jsonString, listType);
+            for (UOM uom : uomList) {
+                importUOM(uom);
+                Log.i(TAG, "UOM ID : " + uom.getUom());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+//        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSBIN)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
+//            List<BIN> binList = gson.fromJson(jsonString, listType);
+//            for (BIN bin : binList) {
+//                importBIN(bin);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
+//            List<BIN> binList = gson.fromJson(jsonString, listType);
+//            for (BIN bin : binList) {
+//                importBIN(bin);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
+//            List<BIN> binList = gson.fromJson(jsonString, listType);
+//            for (BIN bin : binList) {
+//                importBIN(bin);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLDUOM)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
+//            List<BIN> binList = gson.fromJson(jsonString, listType);
+//            for (BIN bin : binList) {
+//                importBIN(bin);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOODSINVENTORYLIST)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<GoodsInventory>>() {}.getType();
+//            List<GoodsInventory> goodsInventoryList = gson.fromJson(jsonString, listType);
+//            for (GoodsInventory goodsInventory : goodsInventoryList) {
+//                importGoodsInventory(goodsInventory);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTGROUPLIST)) {
+//            jsonString = apiModel.getMessage();
+//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
+//            List<BIN> binList = gson.fromJson(jsonString, listType);
+//            for (BIN bin : binList) {
+//                importBIN(bin);
+////                Log.i(TAG, "BIN Name : " + bin.get());
+//            }
+//            RemoveActionList(apiModel.getName());
+//        }
         else{
             RemoveActionList(apiModel.getName());
         }
@@ -315,6 +385,43 @@ public class WsApi  {
         dbaccess.insertAdministrationRole(administrationRole);
 
     }
+
+    private void importUOM(UOM wsUOM) {
+        dbaccess = DbAccess.getInstance();
+        InventoryUOM inventoryUOM= new InventoryUOM();
+        inventoryUOM.setUom(wsUOM.getUom());
+        inventoryUOM.setBaseqty(Double.parseDouble(wsUOM.getBaseqty()));
+        inventoryUOM.setProduct_id(wsUOM.getProduct());
+        inventoryUOM.setActive(wsUOM.getActive());
+        dbaccess.insertInventoryUOM(inventoryUOM);
+
+    }
+
+//    private void importBIN(BIN wsBIN) {
+////        dbaccess = DbAccess.getInstance();
+////        InventoryBIN inventoryBIN= new InventoryBIN();
+////        inventoryBIN.setId(wsBIN.getUom());
+////        inventoryBIN.setBin_name(Double.parseDouble(wsBIN.getBaseqty()));
+////        inventoryBIN.setBin_description(wsBIN.getProduct());
+////        inventoryBIN.setBin_type(wsBIN.getProduct());
+////        inventoryBIN.setBarcode(wsBIN.getProduct());
+////        inventoryBIN.setTag(wsBIN.getProduct());
+////        inventoryBIN.setActive(wsBIN.getActive());
+////        dbaccess.insertInventoryBIN(inventoryBIN);
+////
+//    }
+//    private void importGoodsInventory(GoodsInventory goodsInventory) {
+////        dbaccess = DbAccess.getInstance();
+////        InventoryBIN inventoryBIN= new InventoryBIN();
+////        inventoryBIN.setId(wsBIN.getUom());
+////        inventoryBIN.setBin_name(Double.parseDouble(wsBIN.getBaseqty()));
+////        inventoryBIN.setBin_description(wsBIN.getProduct());
+////        inventoryBIN.setBin_type(wsBIN.getProduct());
+////        inventoryBIN.setBarcode(wsBIN.getProduct());
+////        inventoryBIN.setTag(wsBIN.getProduct());
+////        inventoryBIN.setActive(wsBIN.getActive());
+////        dbaccess.insertInventoryBIN(inventoryBIN);
+//    }
 
 
 

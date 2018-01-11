@@ -14,7 +14,9 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
+import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.util.Utility;
@@ -400,6 +402,34 @@ public class DbAccess {
         long resultid = database.insert(administrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD, null, values);
 //        administrationSolutions.setId(resultid);
         return administrationWsdashboard;
+    }
+
+    public InventoryUOM insertInventoryUOM(InventoryUOM inventoryUOM) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryUOM.COLUMN_UOM,inventoryUOM.getUom());
+        values.put(InventoryUOM.COLUMN_BASEQUANLITY ,inventoryUOM.getBaseqty());
+        values.put(InventoryUOM.COLUMN_PRODUCT_ID,inventoryUOM.getProduct_id());
+        values.put(InventoryUOM.COLUMN_ACTIVE ,inventoryUOM.isActive());
+
+        long resultid = database.insert(inventoryUOM.TABLE_INVENTROY_UOM, null, values);
+//        administrationStaff.setId(resultid);
+        return inventoryUOM;
+    }
+
+    public InventoryBIN insertInventoryBIN(InventoryBIN inventoryBIN) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryBIN.COLUMN_ID,inventoryBIN.getId());
+        values.put(InventoryBIN.COLUMN_BIN_NAME ,inventoryBIN.getBin_name());
+        values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION,inventoryBIN.getBin_description());
+        values.put(InventoryBIN.COLUMN_BIN_TYPE,inventoryBIN.getBin_type());
+        values.put(InventoryBIN.COLUMN_BARCODE,inventoryBIN.getBarcode());
+        values.put(InventoryBIN.COLUMN_TAG,inventoryBIN.getTag());
+        values.put(InventoryBIN.COLUMN_LOCATION_ID,inventoryBIN.getLocation_id());
+        values.put(InventoryBIN.COLUMN_ACTIVE ,inventoryBIN.isActive());
+
+        long resultid = database.insert(inventoryBIN.TABLE_INVENTORY_BIN, null, values);
+//        administrationStaff.setId(resultid);
+        return inventoryBIN;
     }
 
     public boolean deleteAdministrationWsdashboard(String table, String whereArgs){
