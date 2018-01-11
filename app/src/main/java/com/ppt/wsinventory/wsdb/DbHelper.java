@@ -135,6 +135,110 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active    BOOL \n" +
                     ")";
 
+    private static final String TABLE_INVENTROY_UOM= "inventory_uom";
+    private static final String TABLE_CREATE_INVENTROY_UOM =
+            "CREATE TABLE inventory_uom \n" +
+                    "(\n" +
+                    " uom  VARCHAR COLLATE NOCASE, \n" +
+                    " baseqty   NUMERIC, \n" +
+                    " product_id   VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL \n" +
+                    ")";
+
+    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+    private static final String TABLE_CREATE_INVENTROY_BIN =
+            "CREATE TABLE inventory_bin \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
+                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
+                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
+                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+                    " tag   VARCHAR COLLATE NOCASE, \n" +
+                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL, \n" +
+                    " ts DATETIME \n" +
+                    ")";
+//    private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
+//    private static final String TABLE_CREATE_INVENTROY_PALLET =
+//            "CREATE TABLE inventory_pallet \n" +
+//                    "(\n" +
+//                    " id  VARCHAR COLLATE NOCASE, \n" +
+//                    " pallet_name  VARCHAR COLLATE NOCASE, \n" +
+//                    " pallet_description   VARCHAR COLLATE NOCASE, \n" +
+//                    " pallet_type   VARCHAR COLLATE NOCASE, \n" +
+//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+//                    " tag   VARCHAR COLLATE NOCASE, \n" +
+//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " weight   VARCHAR COLLATE NOCASE, \n" +
+//                    " active    BOOL, \n" +
+//                    " is_used    BOOL \n" +
+//                    ")";
+//    private static final String TABLE_INVENTROY_GOLDUOM= "inventory_golduom";
+//    private static final String TABLE_CREATE_INVENTROY_GOLDUOM =
+//            "CREATE TABLE inventory_golduom \n" +
+//                    "(\n" +
+//                    " uom  VARCHAR COLLATE NOCASE, \n" +
+//                    " baseqty   NUMERIC, \n" +
+//                    " gold_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " active    BOOL \n" +
+//                    ")";
+//    private static final String TABLE_INVENTORY_GOODSINVENTORY = "inventory_goodsinventory";
+//    private static final String TABLE_CREATE_INVENTORY_GOODSINVENTORY =
+//            "CREATE TABLE inventory_goodsinventory \n" +
+//                    "(\n" +
+//                    " id  VARCHAR COLLATE NOCASE, \n" +
+//                    " qty  NUMERIC, \n" +
+//                    " weight   NUMERIC, \n" +
+//                    " k   INTEGER, \n" +
+//                    " p  INTEGER, \n" +
+//                    " y   INTEGER, \n" +
+//                    " ts   DATETIME, \n" +
+//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " product_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " uom_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " is_delete    BOOL \n" +
+//                    ")";
+//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+//    private static final String TABLE_CREATE_INVENTROY_BIN =
+//            "CREATE TABLE inventory_bin \n" +
+//                    "(\n" +
+//                    " id  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
+//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+//                    " tag   VARCHAR COLLATE NOCASE, \n" +
+//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " active    BOOL \n" +
+//                    ")";
+//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+//    private static final String TABLE_CREATE_INVENTROY_BIN =
+//            "CREATE TABLE inventory_bin \n" +
+//                    "(\n" +
+//                    " id  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
+//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+//                    " tag   VARCHAR COLLATE NOCASE, \n" +
+//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " active    BOOL \n" +
+//                    ")";
+//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+//    private static final String TABLE_CREATE_INVENTROY_BIN =
+//            "CREATE TABLE inventory_bin \n" +
+//                    "(\n" +
+//                    " id  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
+//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
+//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+//                    " tag   VARCHAR COLLATE NOCASE, \n" +
+//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+//                    " active    BOOL \n" +
+//                    ")";
+
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -167,6 +271,16 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_ROLE + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_LOCATIONS);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_LOCATIONS + " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_UOM);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_UOM + " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_BIN);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
+//        db.execSQL(TABLE_CREATE_INVENTROY_GOLDUOM);
+//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM + " has been created");
+//        db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
+//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
+//        db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
+//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET+ " has been created");
 
     }
 
@@ -181,6 +295,10 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SOLUTIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_ROLE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_LOCATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_BIN);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
