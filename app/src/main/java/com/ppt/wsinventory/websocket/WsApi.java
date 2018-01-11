@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
@@ -17,6 +18,7 @@ import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.Location;
 import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
@@ -143,7 +145,17 @@ public class WsApi  {
                 Log.i(TAG, "Role Name : " + role.getRoleName());
             }
             RemoveActionList(apiModel.getName());
-        }else{
+        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSLOCATION)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Location>>() {}.getType();
+            List<Location> roleList = gson.fromJson(jsonString, listType);
+            for (Location location : roleList) {
+                importLocations(location);
+                Log.i(TAG, "Location Name : " + location.getLocName());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+        else{
             RemoveActionList(apiModel.getName());
         }
 
@@ -277,6 +289,20 @@ public class WsApi  {
         administrationStaff.setActive(wsStaff.getActive());
         administrationStaff.setRole(wsStaff.getRole());
         dbaccess.insertAdministrationStaff(administrationStaff);
+
+    }
+
+    private void importLocations(Location wsLocation) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationLocations administrationLocations= new AdministrationLocations();
+        administrationLocations.setId(wsLocation.getId());
+        administrationLocations.setLoc_name(wsLocation.getLocName());
+        administrationLocations.setLoc_addr(wsLocation.getLocAddr());
+        administrationLocations.setLatitude(wsLocation.getLatitude());
+        administrationLocations.setLongitude(wsLocation.getLongitude());
+        administrationLocations.setReceiving_bin(wsLocation.getReceivingBin());
+        administrationLocations.setActive(wsLocation.getActive());
+        dbaccess.insertAdministrationLocation(administrationLocations);
 
     }
 

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
@@ -329,6 +330,20 @@ public class DbAccess {
         long resultid = database.insert(administrationStaff.TABLE_ADMINISTRATION_STAFF, null, values);
 //        administrationStaff.setId(resultid);
         return administrationStaff;
+    }
+
+    public AdministrationLocations insertAdministrationLocation(AdministrationLocations administrationLocations) {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationLocations.COLUMN_ID,administrationLocations.getId());
+        values.put(AdministrationLocations.COLUMN_LOC_NAME ,administrationLocations.getLoc_name());
+        values.put(AdministrationLocations.COLUMN_LOC_ADDR ,administrationLocations.getLoc_addr());
+        values.put(AdministrationLocations.COLUMN_LATITUDE ,administrationLocations.getLatitude());
+        values.put(AdministrationLocations.COLUMN_LONGITUDE ,administrationLocations.getLongitude());
+        values.put(AdministrationLocations.COLUMN_RECEIVING_BIN ,administrationLocations.getReceiving_bin());
+        values.put(AdministrationLocations.COLUMN_ACTIVE ,administrationLocations.isActive());
+        long resultid = database.insert(administrationLocations.TABLE_ADMINISTRATION_LOCATIONS, null, values);
+//        administrationStaff.setId(resultid);
+        return administrationLocations;
     }
 
     public AdministrationRole insertAdministrationRole(AdministrationRole administrationRole) {
