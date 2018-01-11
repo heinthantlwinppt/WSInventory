@@ -5,10 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
+import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 
 import java.util.ArrayList;
@@ -22,7 +29,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 //    ArrayList<RecyclerDataModel> mValues;
     ArrayList<AdministrationWsdashboard> mDataSet;
+    private Unbinder unbinder;
     Context mContext;
+    @BindView(R.id.textView)
+    TextView textView;
+    @BindView(R.id.textView1)
+    TextView textView1;
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.imageView1)
+    ImageView imageView1;
+
 
 //    Item item;
     protected ItemListener mListener;
@@ -36,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView textView,textView1;
+       public TextView textView,textView1;
         public ImageView imageView,imageView1;
 //        public RelativeLayout relativeLayout;
         AdministrationWsdashboard dashboarditem;
@@ -46,6 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(v);
 
             v.setOnClickListener(this);
+//            unbinder = ButterKnife.bind(this, v);
             textView = (TextView) v.findViewById(R.id.textView);
             textView1 = (TextView)v.findViewById(R.id.textView1);
             imageView = (ImageView) v.findViewById(R.id.imageView);
@@ -70,16 +88,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (mListener != null) {
 
-                mListener.onItemClick(dashboarditem);
-//                switch (view.getId()) {
-//                    case R.id.imageView1:
-//                        Toast.makeText(view.getContext(), "infromation is clicked", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.imageView:
-//                        // Your Code
-//                        Toast.makeText(view.getContext(), "icon is clicked", Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
+//                mListener.onItemClick(dashboarditem);
+                GlobalBus.getBus().post(
+                        new WsEvents.EventOpenScreen(dashboarditem.getActionname())
+                );
+
             }
         }
     }
@@ -100,7 +113,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(),mDataSet.get(position).getId()+"infromation is clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(),mDataSet.get(position).getTitle()+"infromation is clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
