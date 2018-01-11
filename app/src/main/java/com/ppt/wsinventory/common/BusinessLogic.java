@@ -2,6 +2,7 @@ package com.ppt.wsinventory.common;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
@@ -33,6 +34,16 @@ public class BusinessLogic {
     public void doNewChangeUser(List<ActionList> actionLists) {
         dbaccess = DbAccess.getInstance();
 
+    }
+    public void openScreen(WsEvents.EventOpenScreen e) {
+        if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_RECEIVING_INVENTORY)){
+
+            Toast.makeText(mContext, "Show Receiving Detail", Toast.LENGTH_SHORT).show();
+        }
+        else if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_TAGGING_INVENTORY)){
+
+            Toast.makeText(mContext, "Show Tagging Detail", Toast.LENGTH_SHORT).show();
+        }
     }
 
 //    public AdministrationSettings getAdministrationSettings() {

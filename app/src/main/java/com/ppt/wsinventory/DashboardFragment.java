@@ -67,9 +67,10 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     RecyclerViewAdapter adapter;
     AdministrationSettings administrationSettings;
     DbAccess dbaccess;
-    private Context mcontext;
+    private Context mContext;
     private static final String TAG = "Ws-Dashboard";
     BusinessLogic b1;
+    float w;
 
 
     public DashboardFragment() {
@@ -79,7 +80,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mcontext = context;
+        mContext = context;
         appContext = (GlobalVariables) context
                 .getApplicationContext();
     }
@@ -92,11 +93,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
-        ItemList = dbaccess.getAllDashboardItems();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
-        recyclerView.setAdapter(adapter);
-        administrationSettings =dbaccess.getAdministrationSettings();
+        loadRecyclerView();
+
 
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
@@ -110,30 +109,24 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         float h = screenutility.getDpHeight();
         float d = screenutility.getDensity();
 
-        if(!isEmpty(administrationSettings.getId())) {
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-                w = administrationSettings.getDashboarditempwith();
-            } else {
-                w = administrationSettings.getDashboarditemlwith();
-            }
-        }else{
-
-            w =200;
-        }
-
-//        w = administrationSettings.getDashboarditemlwith();
-
-
-        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int) w);
-        recyclerView.setLayoutManager(layoutManager);
 
         return rootView;
     }
 
+    //onItemClick
     @Override
     public void onItemClick(AdministrationWsdashboard item) {
-        Toast.makeText(getContext(), item.getTitle() + " is clicked", Toast.LENGTH_SHORT).show();
+//        if(item.getActionname().equalsIgnoreCase(WsEvents.OPEN_RECEIVING_INVENTORY)){
+//
+//            Toast.makeText(mContext, "Show Receiving Detail", Toast.LENGTH_SHORT).show();
+//        }
+//        else if(item.getActionname().equalsIgnoreCase(WsEvents.OPEN_TAGGING_INVENTORY)){
+//
+//            Toast.makeText(mContext, "Show Tagging Detail", Toast.LENGTH_SHORT).show();
+//
+//        }
+//        Toast.makeText(getContext(), item.getTitle() + " is clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -190,7 +183,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     }
 
                 }else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
-                    Toast.makeText(mcontext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -200,8 +193,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     @Override
     public void onPause() {
-        LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .unregisterReceiver(mBroadcastReceiver);
+        loadRecyclerView();
         dbaccess.close();
         super.onPause();
     }
@@ -210,7 +204,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onResume() {
         super.onResume();
         dbaccess.open();
-        LocalBroadcastManager.getInstance(mcontext.getApplicationContext())
+        loadRecyclerView();
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .registerReceiver(mBroadcastReceiver,
                         new IntentFilter(WsSyncService.API_SERVICE_SYNC));
     }
@@ -218,6 +213,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     @Override
     public void onStart() {
         super.onStart();
+        dbaccess.open();
+        loadRecyclerView();
         GlobalBus.getBus().register(this);
     }
 
@@ -228,8 +225,13 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
     @Subscribe
     public void onOpenScreen(WsEvents.EventOpenScreen e) {
+        BusinessLogic businessLogic = new BusinessLogic(mContext);
+        businessLogic.openScreen(e);
 
     }
+
+
+
     @Subscribe
     public void onInputEvent(WsEvents.EventNewChange e) {
         if(e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)){
@@ -283,5 +285,37 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         }
         return filterdModeList;
     }
+
+    private void loadRecyclerView (){
+
+        ItemList = dbaccess.getAllDashboardItems();
+
+        adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
+        recyclerView.setAdapter(adapter);
+        administrationSettings =dbaccess.getAdministrationSettings();
+
+        if(!isEmpty(administrationSettings.getId())) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+                w = administrationSettings.getDashboarditempwith();
+            } else {
+                w = administrationSettings.getDashboarditemlwith();
+            }
+        }else{
+
+            w =200;
+        }
+
+//        w = administrationSettings.getDashboarditemlwith();
+
+
+        AutoFitGridLayoutManager layoutManager = new AutoFitGridLayoutManager(getContext(), (int) w);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+    }
+
+
+
 
 }

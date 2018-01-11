@@ -197,12 +197,13 @@ public class DbAccess {
         while (cursor.moveToNext()) {
             AdministrationWsdashboard item = new AdministrationWsdashboard();
             item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
+            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTIONNAME)));
             item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
+            item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
+            item.setTimestamp(cursor.getString(cursor.getColumnIndex(item.COLUMN_TIMESTAMP)));
+            item.setIs_delete(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_DELETE))));
+            item.setDisplayno(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DISPLAYNO))));
+            item.setScreen_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SCREEN_ID))));
 
             dashboarditems.add(item);
         }
