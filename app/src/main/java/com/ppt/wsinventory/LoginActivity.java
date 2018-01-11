@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    public static final String MY_GLOBAL_PREFS = "my_global_prefs";
     private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
 
     /**
@@ -70,15 +72,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Context mContext;
     private GlobalVariables appContext;
+    private DbAccess dbaccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        dbaccess = new DbAccess(this);
+        dbaccess.open();
+        appContext = (GlobalVariables) getApplicationContext();
+        appContext.setmStaff(null);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        SharedPreferences preferences =
+                getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE);
+        String username = preferences.getString(AdministrationStaff.COLUMN_NICK_NAME, "");
+        if (!TextUtils.isEmpty(username)) {
+            mEmailView.setText(username);
+        }
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -93,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 attemptLogin();
@@ -211,7 +225,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
 //        return email.contains("@");
-        return  true;
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -320,7 +334,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        private final Context context;
 
         UserLoginTask(String mUserId, String password) {
-           this.mUserId = mUserId;
+            this.mUserId = mUserId;
             mPassword = password;
 //            this.context = context;
         }
@@ -337,29 +351,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             BusinessLogic businessLogic = new BusinessLogic();
-            AdministrationStaff staff = businessLogic.checkLoginUser(mUserId,mPassword);
+            AdministrationStaff staff = businessLogic.checkLoginUser(mUserId, mPassword);
 
-            if(mUserId.equals("admin") && mPassword.equals("admin$$12345$$")){
+            if (mUserId.equals("admin") && mPassword.equals("admin$$12345$$")) {
                 staff = new AdministrationStaff();
                 staff.setNick_name("admin");
                 staff.setPassword("admin$$12345$$");
 
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
             }
 
-            if(staff != null){
-//                appContext.setUser(user);
-//                SharedPreferences.Editor editor =
-//                        getSharedPreferences(TRUCKKIT_PREFS,MODE_PRIVATE).edit();
-//                editor.putString(Users.COLUMN_USERID,user.getUserID());
-//                editor.apply();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            if (staff != null) {
+                appContext.setmStaff(staff);
+                SharedPreferences.Editor editor =
+                        getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
+                editor.putString(staff.COLUMN_NICK_NAME, staff.getNick_name());
+                editor.apply();
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                return  true;
-            }
-            else{
-                return  false;
+                return true;
+            } else {
+                return false;
             }
 
 //            for (String credential : DUMMY_CREDENTIALS) {

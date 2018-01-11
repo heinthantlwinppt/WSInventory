@@ -110,7 +110,7 @@ public class BusinessLogic {
         if (dbaccess != null) {
             Cursor cursor = dbaccess.readData(AdministrationStaff.TABLE_ADMINISTRATION_STAFF
                     , AdministrationStaff.COLUMN_ALL
-                    , AdministrationStaff.COLUMN_NICK_NAME + " = ? and " + AdministrationStaff.COLUMN_PASSWORD + " = ?"
+                    , AdministrationStaff.COLUMN_NICK_NAME + " = ? and " + AdministrationStaff.COLUMN_NICK_NAME + " = ?"
                     , new String[]{staffid, password}, null, null, null
             );
             while (cursor.moveToNext()) {

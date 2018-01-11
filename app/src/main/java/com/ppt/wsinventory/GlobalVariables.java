@@ -23,6 +23,7 @@ public class GlobalVariables extends Application {
     private Date ts;
     private String solutionname = "SALES-HH";
     private String deviceid ;
+    private AdministrationStaff mStaff;
 
     public String getSolutionname() {
         return solutionname;
@@ -88,12 +89,11 @@ public class GlobalVariables extends Application {
         this.actionLists = actionLists;
     }
 
-//    public AdministrationStaff getUser() {
-//        return mUser;
-//    }
-//
-//    public void setUser(Users user) {
-//        this.mUser = user;
-//    }
+    public AdministrationStaff getmStaff() {
+        return mStaff;
+    }
 
+    public void setmStaff(AdministrationStaff mStaff) {
+        this.mStaff = mStaff;
+    }
 }
