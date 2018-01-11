@@ -3,6 +3,7 @@ package com.ppt.wsinventory;
 import android.app.Application;
 
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.util.RequestPackage;
 
 import java.util.Date;
@@ -86,4 +87,13 @@ public class GlobalVariables extends Application {
     public void setActionLists(List<ActionList> actionLists) {
         this.actionLists = actionLists;
     }
+
+//    public AdministrationStaff getUser() {
+//        return mUser;
+//    }
+//
+//    public void setUser(Users user) {
+//        this.mUser = user;
+//    }
+
 }
