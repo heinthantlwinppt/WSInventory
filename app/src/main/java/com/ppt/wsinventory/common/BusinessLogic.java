@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
+import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
@@ -29,6 +30,8 @@ public class BusinessLogic {
     public BusinessLogic(Context context) {
         this.appContext = (GlobalVariables) context.getApplicationContext();
         mContext = context;
+    }
+    public BusinessLogic() {
     }
 
     public void doNewChangeUser(List<ActionList> actionLists) {
@@ -98,4 +101,49 @@ public class BusinessLogic {
 //        }
 //        return administrationSetting;
 //    }
+
+
+    public AdministrationStaff checkLoginUser( String staffid, String password) {
+        AdministrationStaff staff = null;
+//        appContext = (GlobalVariables) context.getApplicationContext();
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            Cursor cursor = dbaccess.readData(AdministrationStaff.TABLE_ADMINISTRATION_STAFF
+                    , AdministrationStaff.COLUMN_ALL
+                    , AdministrationStaff.COLUMN_NICK_NAME + " = ? and " + AdministrationStaff.COLUMN_NICK_NAME + " = ?"
+                    , new String[]{staffid, password}, null, null, null
+            );
+            while (cursor.moveToNext()) {
+                staff = new AdministrationStaff();
+                staff.setId(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_ID)));
+                staff.setStaff_name(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_STAFF_NAME)));
+                staff.setFather_name(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_FATHER_NAME)));
+                staff.setNick_name(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_NICK_NAME)));
+                staff.setNrc_no(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_NRC_NO)));
+                staff.setAddress(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_ADDRESS)));
+                staff.setPhone_no(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_PHONE_NO)));
+                staff.setHome_phone_no(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_HOME_PHONE_NO)));
+                staff.setStaff_photo(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_STAFF_PHOTO)));
+                try {
+                    staff.setDate_joined(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_DATE_JOINED))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    staff.setDate_left(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_DATE_LEFT))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                staff.setUser_id(cursor.getInt(cursor.getColumnIndex(AdministrationStaff.COLUMN_USER_ID)));
+                staff.setPassword(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_PASSWORD)));
+                staff.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_ACTIVE))));
+                staff.setRole(cursor.getString(cursor.getColumnIndex(AdministrationStaff.COLUMN_ROLE)));
+            }
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+
+        }
+        return staff;
+    }
 }

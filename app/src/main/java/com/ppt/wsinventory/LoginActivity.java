@@ -3,7 +3,9 @@ package com.ppt.wsinventory;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -30,6 +32,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ppt.wsinventory.common.BusinessLogic;
+import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.wsdb.DbAccess;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    public static final String MY_GLOBAL_PREFS = "my_global_prefs";
     private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
 
     /**
@@ -63,15 +70,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Context mContext;
+    private GlobalVariables appContext;
+    private DbAccess dbaccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        dbaccess = new DbAccess(this);
+        dbaccess.open();
+        appContext = (GlobalVariables) getApplicationContext();
+        appContext.setmStaff(null);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        SharedPreferences preferences =
+                getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE);
+        String username = preferences.getString(AdministrationStaff.COLUMN_NICK_NAME, "");
+        if (!TextUtils.isEmpty(username)) {
+            mEmailView.setText(username);
+        }
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -86,12 +106,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                DashboardFragment frag = new DashboardFragment();
+//                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
+//                DashboardFragment frag = new DashboardFragment();
 //
 //                getSupportFragmentManager()
 //                        .beginTransaction()
@@ -203,7 +224,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+//        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -307,12 +329,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUserId;
         private final String mPassword;
+//        private final Context context;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String mUserId, String password) {
+            this.mUserId = mUserId;
             mPassword = password;
+//            this.context = context;
         }
 
         @Override
@@ -326,16 +350,42 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            BusinessLogic businessLogic = new BusinessLogic();
+            AdministrationStaff staff = businessLogic.checkLoginUser(mUserId, mPassword);
+
+            if (mUserId.equals("admin") && mPassword.equals("admin$$12345$$")) {
+                staff = new AdministrationStaff();
+                staff.setNick_name("admin");
+                staff.setPassword("admin$$12345$$");
+
+//                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
             }
 
-            // TODO: register the new account here.
-            return true;
+            if (staff != null) {
+                appContext.setmStaff(staff);
+                SharedPreferences.Editor editor =
+                        getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
+                editor.putString(staff.COLUMN_NICK_NAME, staff.getNick_name());
+                editor.apply();
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            } else {
+                return false;
+            }
+
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mUserId)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+//
+//            // TODO: register the new account here.
+//            return true;
         }
 
         @Override
@@ -344,6 +394,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK, returnIntent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

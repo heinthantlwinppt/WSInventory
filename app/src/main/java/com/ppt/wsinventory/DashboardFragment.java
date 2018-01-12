@@ -195,7 +195,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onPause() {
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .unregisterReceiver(mBroadcastReceiver);
-        loadRecyclerView();
         dbaccess.close();
         super.onPause();
     }
@@ -204,7 +203,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onResume() {
         super.onResume();
         dbaccess.open();
-        loadRecyclerView();
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .registerReceiver(mBroadcastReceiver,
                         new IntentFilter(WsSyncService.API_SERVICE_SYNC));
@@ -214,7 +212,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onStart() {
         super.onStart();
         dbaccess.open();
-        loadRecyclerView();
         GlobalBus.getBus().register(this);
     }
 
