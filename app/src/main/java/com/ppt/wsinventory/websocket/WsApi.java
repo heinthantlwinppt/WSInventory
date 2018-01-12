@@ -91,6 +91,8 @@ public class WsApi {
         response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
         ApiModel apiModel = gson.fromJson(response, ApiModel.class);
         boolean hasmore = false;
+        if(apiModel.getMessage().equalsIgnoreCase("[]"))
+            apiModel.setMessage("");
         if (apiModel.getName().equalsIgnoreCase(ApiModel.GETTABLESTODELETE)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<TableToDelete>>() {
@@ -294,7 +296,11 @@ public class WsApi {
     private void importTableToDelete(TableToDelete tableList) {
 
         dbaccess = DbAccess.getInstance();
-        dbaccess.deleteData(tableList.getTablename());
+        try {
+            dbaccess.deleteData(tableList.getTablename());
+        } catch (Exception e) {
+            Log.i(TAG, "importTableToDelete: " + tableList.getTablename());
+        }
     }
 
     private void importSolutions(Solution solution) {
