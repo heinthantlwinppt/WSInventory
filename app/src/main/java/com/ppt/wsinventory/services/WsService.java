@@ -34,7 +34,7 @@ public class WsService extends IntentService {
     public static final String SERVICE_RESPONSE = "service_response";
     public static final String SERVICE_ERROR = "service_error";
     private static final String TAG = "WS-WsService";
-    public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+    public final String WEBSOCKET_URL = "ws://192.168.1.8:8000/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
 
