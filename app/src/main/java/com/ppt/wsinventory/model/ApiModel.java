@@ -24,12 +24,12 @@ public class ApiModel {
     public static String GETWSGOLD = "getGoldList";
     public static String GETWSPRODUCT = "getProductsList";
     public static String GETWSGOLDUOM = "getGoldUOMList";
-//    public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
+    public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
     public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
     public static String GETWSPRODUCTSERIALLIST = "getProductSerialList";
+    public static String GETWSSMITHLIST = "getManufacturingSmithList";
     public static String TYPE_GET = "get";
-
-
+    public static String aa;
     @SerializedName("id")
     @Expose
     private Integer id;
