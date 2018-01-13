@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-//    ArrayList<RecyclerDataModel> mValues;
+    //    ArrayList<RecyclerDataModel> mValues;
     ArrayList<AdministrationWsdashboard> mDataSet;
     private Unbinder unbinder;
     Context mContext;
@@ -41,21 +42,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     ImageView imageView1;
 
 
-//    Item item;
+    //    Item item;
     protected ItemListener mListener;
 
     public RecyclerViewAdapter(Context context, List<AdministrationWsdashboard> mValure, ItemListener itemListener) {
 
-        mDataSet= (ArrayList<AdministrationWsdashboard>) mValure;
+        mDataSet = (ArrayList<AdministrationWsdashboard>) mValure;
         mContext = context;
-        mListener=itemListener;
+        mListener = itemListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-       public TextView textView,textView1;
-        public ImageView imageView,imageView1;
-//        public RelativeLayout relativeLayout;
+        public TextView textView, textView1;
+        public ImageView imageView, imageView1;
+        //        public RelativeLayout relativeLayout;
         AdministrationWsdashboard dashboarditem;
 
         public ViewHolder(View v) {
@@ -63,9 +64,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(v);
 
             v.setOnClickListener(this);
-//            unbinder = ButterKnife.bind(this, v);
+            ButterKnife.bind(this, v);
             textView = (TextView) v.findViewById(R.id.textView);
-            textView1 = (TextView)v.findViewById(R.id.textView1);
+            textView1 = (TextView) v.findViewById(R.id.textView1);
             imageView = (ImageView) v.findViewById(R.id.imageView);
             imageView1 = (ImageView) v.findViewById(R.id.imageView1);
 //            relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayout);
@@ -113,15 +114,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(v.getContext(),mDataSet.get(position).getTitle()+"infromation is clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), mDataSet.get(position).getTitle() + "infromation is clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
 
+//        imageView1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(v.getContext(), mDataSet.get(position).getTitle() + "infromation is clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
     }
 
-    public void setfilter(List<AdministrationWsdashboard> itemList)
-    {
+    public void setfilter(List<AdministrationWsdashboard> itemList) {
         mDataSet = new ArrayList<>();
         mDataSet.addAll(itemList);
         notifyDataSetChanged();

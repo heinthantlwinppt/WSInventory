@@ -12,12 +12,11 @@ public class WsEvents {
     public static class EventNewChange {
         private String mvalue;
         private String msolution_name;
+        private String mactionname;
 
         public String getActionname() {
             return mactionname;
         }
-
-        private String mactionname;
 
         public String getSolution_name() {
             return msolution_name;
@@ -36,6 +35,35 @@ public class WsEvents {
         }
 
     }
+
+    public static class EventInputChange {
+        private String mvalue;
+        private String msolution_name;
+        private String mactionname;
+
+        public String getActionname() {
+            return mactionname;
+        }
+
+        public String getSolution_name() {
+            return msolution_name;
+        }
+
+        public EventInputChange(String goodsid, String solution_name, String actionname) {
+            this.mvalue = goodsid;
+            this.msolution_name = solution_name;
+
+            this.mactionname = actionname;
+
+        }
+
+        public String getGoodsid() {
+            return mvalue;
+        }
+
+    }
+
+
 
     public static class EventOpenScreen {
         private String actionname;

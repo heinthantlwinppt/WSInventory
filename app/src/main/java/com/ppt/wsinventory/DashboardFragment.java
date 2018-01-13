@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -62,7 +64,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     RecyclerView recyclerView;
     List<RecyclerDataModel> arrayList;
     List<AdministrationWsdashboard> ItemList = new ArrayList<>();
-//    private float dpWidth;
+    //    private float dpWidth;
     private float dpHeight;
     RecyclerViewAdapter adapter;
     AdministrationSettings administrationSettings;
@@ -110,7 +112,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         float d = screenutility.getDensity();
 
 
-
         return rootView;
     }
 
@@ -156,6 +157,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         });
 
     }
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
@@ -168,21 +170,42 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
                     Log.i(TAG, "onReceive: " + response);
                     Gson gson = JsonHelper.getGson();
-                    ApiModel apiModel = gson.fromJson(response,ApiModel.class);
-                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)){
+                    ApiModel apiModel = gson.fromJson(response, ApiModel.class);
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)) {
                         appContext.setActionLists(null);
                         List<ActionList> actionLists = new ArrayList<>();
-                        Type listType = new TypeToken<ArrayList<ActionList>>(){}.getType();
+                        Type listType = new TypeToken<ArrayList<ActionList>>() {
+                        }.getType();
                         actionLists = gson.fromJson(apiModel.getMessage(), listType);
                         appContext.setActionLists(actionLists);
                         if (appContext.getActionLists().size() > 0)
                             wsApi.doSync();
-                    }else{
+                    } else {
                         //TODO Implement Delete the tables records
                         wsApi.doSync();
                     }
 
-                }else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
+                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
+                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            } else if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_MESSAGE)) {
+                String msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
+//                WsApi wsApi = new WsApi(context);
+                if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_RESPONSE)) {
+                    String response = appContext.getResponseMessage();
+                    response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
+                    Log.i(TAG, "onReceive: " + response);
+                    Gson gson = JsonHelper.getGson();
+                    ApiModel apiModel = gson.fromJson(response, ApiModel.class);
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETGOODSLIST)) {
+//                        ArrayList<String> goodsitem = new ArrayList<String>();
+//                        Type listType = new TypeToken<ArrayList>() {
+//                        }.getType();
+//                        goodsitem = gson.fromJson(apiModel.getMessage(), listType);
+//                        Log.i(TAG, "goodsitems " + goodsitem);
+                    }
+                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
                     Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -220,6 +243,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         GlobalBus.getBus().unregister(this);
         super.onStop();
     }
+
     @Subscribe
     public void onOpenScreen(WsEvents.EventOpenScreen e) {
         BusinessLogic businessLogic = new BusinessLogic(mContext);
@@ -227,18 +251,48 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     }
 
+    @Subscribe
+    public void onInputEvent(WsEvents.EventInputChange e) {
+        if (e.getActionname().equalsIgnoreCase(WsInputDialog.ACTION_ENTER_GOODSID)) {
+            String req = "";
+            Gson gson = JsonHelper.getGson();
+            List<ApiParam> params = new ArrayList<>();
 
+//            appContext.setDeviceid(e.getValue());
+            params.add(
+                    new ApiParam("goodsid", e.getGoodsid())
+            );
+            String jsonString = gson.toJson(params);
+            Log.i(TAG, "onInputEvent: " + jsonString);
+            ApiModel apimodel = new ApiModel(1, ApiModel.GETGOODSLIST, ApiModel.TYPE_GET, jsonString);
+            jsonString = gson.toJson(apimodel);
+            try {
+                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
+            Log.i(TAG, "onInputEvent: " + req);
+
+//            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
+
+            appContext.setRequestMessage(req);
+            WsApi wsapi = new WsApi(appContext);
+            wsapi.getGoodsID();
+        }
+        Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
+
+    }
 
     @Subscribe
-    public void onInputEvent(WsEvents.EventNewChange e) {
-        if(e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)){
-            String req ="";
+    public void onNewChangeEvent(WsEvents.EventNewChange e) {
+        if (e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)) {
+            String req = "";
             Gson gson = JsonHelper.getGson();
             List<ApiParam> params = new ArrayList<>();
             appContext.setSolutionname(e.getSolution_name());
             appContext.setDeviceid(e.getValue());
             params.add(
-              new ApiParam("newuser", "True")
+                    new ApiParam("newuser", "True")
             );
             params.add(
                     new ApiParam("solutionname", appContext.getSolutionname())
@@ -251,10 +305,10 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             appContext.setTs(ts);
             String jsonString = gson.toJson(params);
             Log.i(TAG, "onInputEvent: " + jsonString);
-            ApiModel apimodel= new ApiModel(1,ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString );
+            ApiModel apimodel = new ApiModel(1, ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString);
             jsonString = gson.toJson(apimodel);
             try {
-                req =  HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
             } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
             }
@@ -283,24 +337,24 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         return filterdModeList;
     }
 
-    private void loadRecyclerView (){
+    private void loadRecyclerView() {
 
         ItemList = dbaccess.getAllDashboardItems();
 
         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);
-        administrationSettings =dbaccess.getAdministrationSettings();
+        administrationSettings = dbaccess.getAdministrationSettings();
 
-        if(!isEmpty(administrationSettings.getId())) {
+        if (!isEmpty(administrationSettings.getId())) {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
                 w = administrationSettings.getDashboarditempwith();
             } else {
                 w = administrationSettings.getDashboarditemlwith();
             }
-        }else{
+        } else {
 
-            w =200;
+            w = 200;
         }
 
 //        w = administrationSettings.getDashboarditemlwith();
@@ -311,8 +365,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
 
     }
-
-
 
 
 }

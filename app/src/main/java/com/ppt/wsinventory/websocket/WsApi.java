@@ -43,6 +43,7 @@ import com.ppt.wsinventory.model.Staff;
 import com.ppt.wsinventory.model.TableToDelete;
 import com.ppt.wsinventory.model.UOM;
 import com.ppt.wsinventory.model.WsDashboard;
+import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
@@ -93,6 +94,14 @@ public class WsApi {
         intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_LOGIN);
         mContext.startService(intent);
     }
+
+    public void getGoodsID() {
+
+        Intent intent = new Intent(mContext, WsService.class);
+        intent.putExtra(WsService.SERVICE_TYPE, WsSyncService.SERVICE_GOODSID);
+        mContext.startService(intent);
+    }
+
 
     public void getActionList() {
         Intent intent = new Intent(mContext, WsSyncService.class);
