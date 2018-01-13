@@ -20,6 +20,7 @@ import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.BIN;
 import com.ppt.wsinventory.model.Gold;
 import com.ppt.wsinventory.model.GoldUOM;
+import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
@@ -29,12 +30,14 @@ import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Location;
+import com.ppt.wsinventory.model.ManufacturingSmith;
 import com.ppt.wsinventory.model.Pallet;
 import com.ppt.wsinventory.model.Product;
 import com.ppt.wsinventory.model.ProductGroup;
 import com.ppt.wsinventory.model.ProductSerial;
 import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Settings;
+import com.ppt.wsinventory.model.Smith;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.Staff;
 import com.ppt.wsinventory.model.TableToDelete;
@@ -631,6 +634,37 @@ public class WsApi {
 
     }
 
+    private boolean importSmith(Smith wsSmith) {
+        dbaccess = DbAccess.getInstance();
+        ManufacturingSmith manufacturingsmith = new ManufacturingSmith();
+        manufacturingsmith.setId(wsSmith.getId());
+        manufacturingsmith.setName(wsSmith.getName());
+        manufacturingsmith.setNickname(wsSmith.getNickname());
+        manufacturingsmith.setNrc(wsSmith.getNrc());
+        manufacturingsmith.setAddress(wsSmith.getAddress());
+        manufacturingsmith.setPhone(wsSmith.getPhone());
+        manufacturingsmith.setRefname(wsSmith.getRefname());
+        manufacturingsmith.setMixjob(wsSmith.getMixjob());
+        manufacturingsmith.setK(wsSmith.getK());
+        manufacturingsmith.setP(wsSmith.getP());
+        manufacturingsmith.setY(Double.parseDouble(wsSmith.getY()));
+        manufacturingsmith.setG(Double.parseDouble(wsSmith.getG()));
+        manufacturingsmith.setCost(Double.parseDouble(wsSmith.getCost()));
+        manufacturingsmith.setDate_joined(wsSmith.getDateJoined());
+        manufacturingsmith.setDate_end(wsSmith.getDateEnd());
+        manufacturingsmith.setIs_smith2(wsSmith.getIsSmith2());
+        manufacturingsmith.setInhandjob(wsSmith.getInhandjob());
+        manufacturingsmith.setActive(wsSmith.getActive());
+        manufacturingsmith.setGoldsaving(Double.parseDouble(wsSmith.getGoldsaving()));
+        manufacturingsmith.setInhandjob(wsSmith.getInhandjob());
+        manufacturingsmith.setPhoto(wsSmith.getPhoto());
+
+        long l = dbaccess.insertManufacturingSmith(manufacturingsmith);
+        return (l > 0);
+
+    }
+
+
     private boolean importPallet(Pallet wsPallet) {
         dbaccess = DbAccess.getInstance();
         InventoryPallet inventoryPallet = new InventoryPallet();
@@ -652,18 +686,22 @@ public class WsApi {
     }
 
 
-//    private void importGoodsInventory(GoodsInventory goodsInventory) {
-////        dbaccess = DbAccess.getInstance();
-////        InventoryBIN inventoryBIN= new InventoryBIN();
-////        inventoryBIN.setId(wsBIN.getUom());
-////        inventoryBIN.setBin_name(Double.parseDouble(wsBIN.getBaseqty()));
-////        inventoryBIN.setBin_description(wsBIN.getProduct());
-////        inventoryBIN.setBin_type(wsBIN.getProduct());
-////        inventoryBIN.setBarcode(wsBIN.getProduct());
-////        inventoryBIN.setTag(wsBIN.getProduct());
-////        inventoryBIN.setActive(wsBIN.getActive());
-////        dbaccess.insertInventoryBIN(inventoryBIN);
-//    }
+    private void importGoodsInventory(GoodsInventory goodsInventory) {
+//        dbaccess = DbAccess.getInstance();
+//        GoodsInventory goodsinventory= new GoodsInventory();
+//        goodsinventory.setId(goodsInventory.getId());
+//        goodsinventory.setQty(goodsInventory.getQty());
+//        goodsinventory.setWeight(goodsInventory.getWeight());
+//        goodsinventory.setK(goodsInventory.getK());
+//        goodsinventory.setP(goodsInventory.getP());
+//        goodsinventory.setY(goodsInventory.getY());
+//        goodsinventory.setIsDelete(goodsInventory.getIsDelete());
+//        goodsinventory.setTs(goodsInventory.getTs());
+//        goodsinventory.setLocation(goodsInventory.getLocation());
+//        goodsinventory.setProduct(goodsInventory.getProduct());
+//        goodsinventory.setUom(goodsInventory.getUom());
+//        dbaccess.insertGoodsInventory(goodsInventory);
+    }
 
 
 }
