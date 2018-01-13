@@ -20,12 +20,13 @@ public class ApiModel {
     public static String GETLOCATIONSLIST = "getLocationsList";
     public static String GETUOMLIST = "getUOMList";
     public static String GETBINLIST = "getBinList";
-    public static String GETGOODSLIST = "getGoodsList";
-//    public static String GETWSPALLET = "getPalletList";
-//    public static String GETWSGOLD = "getGoldList";
-//    public static String GETWSGOLDUOM = "getGoldUOMList";
+    public static String GETWSPALLET = "getPalletList";
+    public static String GETWSGOLD = "getGoldList";
+    public static String GETWSPRODUCT = "getProductsList";
+    public static String GETWSGOLDUOM = "getGoldUOMList";
 //    public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
-//    public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
+    public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
+    public static String GETWSPRODUCTSERIALLIST = "getProductSerialList";
     public static String TYPE_GET = "get";
 
 

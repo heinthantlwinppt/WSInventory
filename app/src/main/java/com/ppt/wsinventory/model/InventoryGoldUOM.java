@@ -5,41 +5,64 @@ package com.ppt.wsinventory.model;
  */
 
 public class InventoryGoldUOM {
-    public static final String TABLE_INVENTORY_GOLD = "inventory_gold";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_GOLDTYPE = "goldtype";
-    public static final String COLUMN_SALEPRICE = "saleprice";
-    public static final String COLUMN_PURCHASEPRICE = "purchaseprice";
-    public static final String COLUMN_COST = "cost";
-    public static final String COLUMN_TAX1 = "tax1";
-    public static final String COLUMN_TAX2 = "tax2";
-    public static final String COLUMN_ACTIVE = "active";
-    public static final String COLUMN_CODE = "code";
+    public static final String TABLE_INVENTROY_GOLDUOM = "inventory_golduom";
+    public static final String COLUMN_UOM = "uom";
+    public static final String COLUMN_BASEQUANLITY  = "baseqty";
+    public static final String COLUMN_GOLD_ID = "gold_id";
+    public static final String COLUMN_ACTIVE  = "active";
 
     public static final String[] COLUMN_ALL = new String[]{
 
-            COLUMN_ID ,
-            COLUMN_NAME ,
-            COLUMN_GOLDTYPE ,
-            COLUMN_SALEPRICE ,
-            COLUMN_PURCHASEPRICE ,
-            COLUMN_COST ,
-            COLUMN_TAX1 ,
-            COLUMN_TAX2 ,
+            COLUMN_UOM ,
+            COLUMN_BASEQUANLITY ,
+            COLUMN_GOLD_ID ,
             COLUMN_ACTIVE ,
-            COLUMN_CODE
-
     };
 
-    private long id ;
-    private String name ;
-    private int goldtype ;
-    private double saleprice ;
-    private double purchaseprice ;
-    private double cost ;
-    private double tax1 ;
-    private double tax2 ;
+    private String uom ;
+    private double baseqty ;
+    private int gold_id ;
     private boolean active ;
-    private String code ;
+
+    public String getUom() {
+        return uom;
+    }
+
+    public void setUom(String uom) {
+        this.uom = uom;
+    }
+
+    public double getBaseqty() {
+        return baseqty;
+    }
+
+    public void setBaseqty(double baseqty) {
+        this.baseqty = baseqty;
+    }
+
+    public int getGold_id() {
+        return gold_id;
+    }
+
+    public void setGold_id(int gold_id) {
+        this.gold_id = gold_id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return "InventoryGoldUOM{" +
+                "uom='" + uom + '\'' +
+                ", baseqty=" + baseqty +
+                ", gold_id=" + gold_id +
+                ", active=" + active +
+                '}';
+    }
 }

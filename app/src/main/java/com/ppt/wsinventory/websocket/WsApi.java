@@ -18,9 +18,21 @@ import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.BIN;
+import com.ppt.wsinventory.model.Gold;
+import com.ppt.wsinventory.model.GoldUOM;
 import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.model.InventoryGold;
+import com.ppt.wsinventory.model.InventoryGoldUOM;
+import com.ppt.wsinventory.model.InventoryPallet;
+import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
+import com.ppt.wsinventory.model.Inventory_products;
+import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Location;
+import com.ppt.wsinventory.model.Pallet;
+import com.ppt.wsinventory.model.Product;
+import com.ppt.wsinventory.model.ProductGroup;
+import com.ppt.wsinventory.model.ProductSerial;
 import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Solution;
@@ -46,7 +58,8 @@ import java.util.List;
  */
 
 public class WsApi {
-    public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+//    public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+    public final String WEBSOCKET_URL = "ws://192.168.1.8:8000/wsmessage";
     private static final String TAG = "Ws-WsApi";
     private Context mContext;
     DbAccess dbaccess;
@@ -185,7 +198,51 @@ public class WsApi {
                 Log.i(TAG, "UOM ID : " + uom.getUom());
             }
             RemoveActionList(apiModel.getName());
-        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
+        }
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLDUOM)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<GoldUOM>>() {
+            }.getType();
+            List<GoldUOM> golduomList = gson.fromJson(jsonString, listType);
+            for (GoldUOM golduom : golduomList) {
+                importGoldUOM(golduom);
+                Log.i(TAG, "UOM ID : " + golduom.getUom());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Gold>>() {
+            }.getType();
+            List<Gold> goldList = gson.fromJson(jsonString, listType);
+            for (Gold gold : goldList) {
+                importGold(gold);
+                Log.i(TAG, "Gold Name : " + gold.getName());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCT)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Product>>() {
+            }.getType();
+            List<Product> productList = gson.fromJson(jsonString, listType);
+            for (Product product : productList) {
+                importProduct(product);
+                Log.i(TAG, "Product Name : " + product.getName());
+            }
+            RemoveActionList(apiModel.getName());
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTGROUPLIST)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<ProductGroup>>() {
+            }.getType();
+            List<ProductGroup> productGroupList = gson.fromJson(jsonString, listType);
+            for (ProductGroup productGroup : productGroupList) {
+                importProductGroup(productGroup);
+                Log.i(TAG, "Product Name : " + productGroup.getName());
+            }
+            RemoveActionList(apiModel.getName());
+        }
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<BIN>>() {
@@ -204,16 +261,46 @@ public class WsApi {
             }
 
         }
-//        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
-//            jsonString = apiModel.getMessage();
-//            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
-//            List<BIN> binList = gson.fromJson(jsonString, listType);
-//            for (BIN bin : binList) {
-//                importBIN(bin);
-////                Log.i(TAG, "BIN Name : " + bin.get());
-//            }
-//            RemoveActionList(apiModel.getName());
-//        }else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTSERIALLIST)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<ProductSerial>>() {
+                }.getType();
+                List<ProductSerial> productserialList = gson.fromJson(jsonString, listType);
+                for (ProductSerial productserial : productserialList) {
+                    if (importProductSerial(productserial)) {
+                        appContext.setTs(productserial.getTs());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+
+        }
+        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Pallet>>() {
+                }.getType();
+                List<Pallet> palletList = gson.fromJson(jsonString, listType);
+                for (Pallet pallet : palletList) {
+                    if (importPallet(pallet)) {
+                        appContext.setTs(pallet.getTs());
+                    } else {
+                        break;
+                    }
+                }
+            }
+            else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+
+        }
+//        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
 //            jsonString = apiModel.getMessage();
 //            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
 //            List<BIN> binList = gson.fromJson(jsonString, listType);
@@ -427,6 +514,62 @@ public class WsApi {
 
     }
 
+    private void importGoldUOM(GoldUOM wsGoldUOM) {
+        dbaccess = DbAccess.getInstance();
+        InventoryGoldUOM inventoryGoldUOM = new InventoryGoldUOM();
+        inventoryGoldUOM.setUom(wsGoldUOM.getUom());
+        inventoryGoldUOM.setBaseqty(Double.parseDouble(wsGoldUOM.getBaseqty()));
+        inventoryGoldUOM.setGold_id(wsGoldUOM.getGold());
+        inventoryGoldUOM.setActive(wsGoldUOM.getActive());
+        dbaccess.insertInventoryGoldUOM(inventoryGoldUOM);
+
+    }
+
+    private void importGold(Gold wsGold) {
+        dbaccess = DbAccess.getInstance();
+        InventoryGold inventoryGold = new InventoryGold();
+        inventoryGold.setId(wsGold.getId());
+        inventoryGold.setCode(wsGold.getCode());
+        inventoryGold.setName(wsGold.getName());
+        inventoryGold.setGoldtype(wsGold.getGoldtype());
+        inventoryGold.setSaleprice(Double.parseDouble(wsGold.getSaleprice()));
+        inventoryGold.setPurchaseprice(Double.parseDouble(wsGold.getPurchaseprice()));
+        inventoryGold.setCost(Double.parseDouble(wsGold.getCost()));
+        inventoryGold.setTax1(Double.parseDouble(wsGold.getTax1()));
+        inventoryGold.setTax2(Double.parseDouble(wsGold.getTax2()));
+        inventoryGold.setActive(wsGold.getActive());
+        dbaccess.insertInventoryGold(inventoryGold);
+
+    }
+
+    private void importProduct(Product wsProduct) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_products inventory_products = new Inventory_products();
+        inventory_products.setId(wsProduct.getId());
+        inventory_products.setName(wsProduct.getName());
+        inventory_products.setDesignname(wsProduct.getDesignname());
+        inventory_products.setPhoto(wsProduct.getPhoto());
+        inventory_products.setBarcode(wsProduct.getBarcode());
+        inventory_products.setBaseuom(wsProduct.getBaseuom());
+        inventory_products.setMinqty(wsProduct.getMinqty());
+        inventory_products.setMaxqty(wsProduct.getMaxqty());
+        inventory_products.setTag(wsProduct.getTag());
+        inventory_products.setIs_delete(wsProduct.getIsDelete());
+        inventory_products.setActive(wsProduct.getActive());
+        dbaccess.insertInventory_products(inventory_products);
+
+    }
+
+    private void importProductGroup(ProductGroup wsProductGroup) {
+        dbaccess = DbAccess.getInstance();
+        InventoryProductGroup inventoryProductGroup = new InventoryProductGroup();
+        inventoryProductGroup.setId(Long.parseLong(wsProductGroup.getId()));
+        inventoryProductGroup.setName(wsProductGroup.getName());
+        inventoryProductGroup.setActive(wsProductGroup.getActive());
+        dbaccess.insertInventoryProductGroup(inventoryProductGroup);
+
+    }
+
     private boolean importBIN(BIN wsBIN) {
         dbaccess = DbAccess.getInstance();
         InventoryBIN inventoryBIN = new InventoryBIN();
@@ -443,6 +586,81 @@ public class WsApi {
         return (l > 0);
 
     }
+
+    private boolean importProductSerial(ProductSerial wsProductSerial) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_productserial inventory_productserial = new Inventory_productserial();
+        inventory_productserial.setSerial_no(wsProductSerial.getSerialNo());
+        inventory_productserial.setName(wsProductSerial.getName());
+        inventory_productserial.setSerial_date(wsProductSerial.getSerialDate());
+        inventory_productserial.setPlength(wsProductSerial.getPlength());
+        inventory_productserial.setPhoto(wsProductSerial.getPhoto());
+        inventory_productserial.setBarcode(wsProductSerial.getBarcode());
+        inventory_productserial.setTag(wsProductSerial.getTag());
+        inventory_productserial.setWeight(Double.parseDouble(wsProductSerial.getWeight()));
+        inventory_productserial.setK(wsProductSerial.getK());
+        inventory_productserial.setP(wsProductSerial.getP());
+        inventory_productserial.setY(Double.parseDouble(wsProductSerial.getY()));
+        inventory_productserial.setReduce_weight(Double.parseDouble(wsProductSerial.getReduceWeight()));
+        inventory_productserial.setReduce_k(wsProductSerial.getReduceK());
+        inventory_productserial.setReduce_p(wsProductSerial.getReduceP());
+        inventory_productserial.setReduce_y(Double.parseDouble(wsProductSerial.getReduceY()));
+        inventory_productserial.setJewel_weight(Double.parseDouble(wsProductSerial.getJewelWeight()));
+        inventory_productserial.setJewel_k(wsProductSerial.getJewelK());
+        inventory_productserial.setJewel_p(wsProductSerial.getJewelP());
+        inventory_productserial.setJewel_y(Double.parseDouble(wsProductSerial.getJewelY()));
+        inventory_productserial.setJewel_fee(Double.parseDouble(wsProductSerial.getJewelFee()));
+        inventory_productserial.setProduction_fee(Double.parseDouble(wsProductSerial.getProductionFee()));
+        inventory_productserial.setJewel_name1(wsProductSerial.getJewelName1());
+        inventory_productserial.setJewel_name2(wsProductSerial.getJewelName2());
+        inventory_productserial.setJewel_name3(wsProductSerial.getJewelName3());
+        inventory_productserial.setJewel_name4(wsProductSerial.getJewelName4());
+        inventory_productserial.setJewel_name5(wsProductSerial.getJewelName5());
+        inventory_productserial.setJewel_weight1(Double.parseDouble(wsProductSerial.getJewelWeight1()));
+        inventory_productserial.setJewel_weight2(Double.parseDouble(wsProductSerial.getJewelWeight2()));
+        inventory_productserial.setJewel_weight3(Double.parseDouble(wsProductSerial.getJewelWeight3()));
+        inventory_productserial.setJewel_weight4(Double.parseDouble(wsProductSerial.getJewelWeight4()));
+        inventory_productserial.setJewel_weight5(Double.parseDouble(wsProductSerial.getJewelWeight5()));
+        inventory_productserial.setRemarks(wsProductSerial.getRemarks());
+        inventory_productserial.setIs_delete(Boolean.parseBoolean(wsProductSerial.getIsDelete()));
+        inventory_productserial.setTs(wsProductSerial.getTs());
+        inventory_productserial.setBin_id(wsProductSerial.getBin());
+        inventory_productserial.setGold_id(wsProductSerial.getGold());
+        inventory_productserial.setLocation_id(wsProductSerial.getLocation());
+        inventory_productserial.setPallet_id(wsProductSerial.getPallet());
+        inventory_productserial.setProduct_id(wsProductSerial.getProduct());
+        inventory_productserial.setSmith_id(wsProductSerial.getSmith());
+        inventory_productserial.setStaff_id(wsProductSerial.getStaff());
+        inventory_productserial.setUom_id(wsProductSerial.getUom());
+        inventory_productserial.setDelivered(wsProductSerial.getDelivered());
+        inventory_productserial.setGoodsid(wsProductSerial.getGoodsid());
+
+        long l = dbaccess.insertInventory_productserial(inventory_productserial);
+        return (l > 0);
+
+    }
+
+    private boolean importPallet(Pallet wsPallet) {
+        dbaccess = DbAccess.getInstance();
+        InventoryPallet inventoryPallet = new InventoryPallet();
+        inventoryPallet.setId(wsPallet.getId());
+        inventoryPallet.setPallet_name(wsPallet.getPalletName());
+        inventoryPallet.setPallet_description(wsPallet.getPalletDescription());
+        inventoryPallet.setPallet_type(wsPallet.getPalletType());
+        inventoryPallet.setBarcode(wsPallet.getBarcode());
+        inventoryPallet.setTag(wsPallet.getTag());
+        inventoryPallet.setLocation_id(wsPallet.getTag());
+        inventoryPallet.setWeight(Double.parseDouble(wsPallet.getWeight()));
+        inventoryPallet.setIs_used(wsPallet.getActive());
+        inventoryPallet.setActive(wsPallet.getActive());
+        inventoryPallet.setTs(wsPallet.getTs());
+
+        long l = dbaccess.insertInventoryPallet(inventoryPallet);
+        return (l > 0);
+
+    }
+
+
 //    private void importGoodsInventory(GoodsInventory goodsInventory) {
 ////        dbaccess = DbAccess.getInstance();
 ////        InventoryBIN inventoryBIN= new InventoryBIN();

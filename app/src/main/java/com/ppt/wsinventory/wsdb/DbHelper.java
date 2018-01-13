@@ -159,21 +159,108 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active    BOOL, \n" +
                     " ts DATETIME \n" +
                     ")";
-//    private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
-//    private static final String TABLE_CREATE_INVENTROY_PALLET =
-//            "CREATE TABLE inventory_pallet \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " pallet_name  VARCHAR COLLATE NOCASE, \n" +
-//                    " pallet_description   VARCHAR COLLATE NOCASE, \n" +
-//                    " pallet_type   VARCHAR COLLATE NOCASE, \n" +
-//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
-//                    " tag   VARCHAR COLLATE NOCASE, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " weight   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL, \n" +
-//                    " is_used    BOOL \n" +
-//                    ")";
+    private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
+    private static final String TABLE_CREATE_INVENTROY_PALLET =
+            "CREATE TABLE inventory_pallet \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " pallet_name  VARCHAR COLLATE NOCASE, \n" +
+                    " pallet_description   VARCHAR COLLATE NOCASE, \n" +
+                    " pallet_type   VARCHAR COLLATE NOCASE, \n" +
+                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+                    " tag   VARCHAR COLLATE NOCASE, \n" +
+                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+                    " weight   NUMERIC, \n" +
+                    " ts   DATETIME, \n" +
+                    " active    BOOL, \n" +
+                    " is_used    BOOL \n" +
+                    ")";
+
+    private static final String TABLE_INVENTROY_PRODUCTS= "inventory_products";
+    private static final String TABLE_CREATE_INVENTROY_PRODUCTS =
+            "CREATE TABLE inventory_products \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " name  VARCHAR COLLATE NOCASE, \n" +
+                    " designname   VARCHAR COLLATE NOCASE, \n" +
+                    " photo   VARCHAR COLLATE NOCASE, \n" +
+                    " barcode   VARCHAR COLLATE NOCASE, \n" +
+                    " tag   VARCHAR COLLATE NOCASE, \n" +
+                    " baseuom   VARCHAR COLLATE NOCASE, \n" +
+                    " minqty   INTEGER, \n" +
+                    " maxqty   INTEGER, \n" +
+                    " active    BOOL, \n" +
+                    " is_delete    BOOL \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_PRODUCTGROUPS= "inventory_productgroups";
+    private static final String TABLE_CREATE_INVENTORY_PRODUCTGROUPS =
+            "CREATE TABLE inventory_productgroups \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " name  VARCHAR COLLATE NOCASE, \n" +
+                    " active    BOOL \n" +
+                    ")";
+
+    private static final String TABLE_INVENTROY_GOLDUOM = "inventory_golduom";
+    private static final String TABLE_CREATE_INVENTROY_GOLDUOM =
+            "CREATE TABLE inventory_golduom \n" +
+                    "(\n" +
+                    " uom  VARCHAR COLLATE NOCASE, \n" +
+                    " baseqty  NUMERIC, \n" +
+                    " gold_id  INTEGER, \n" +
+                    " active    BOOL \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_PRODUCTSERIAL = "inventory_productserial";
+    private static final String TABLE_CREATE_INVENTORY_PRODUCTSERIAL =
+            "CREATE TABLE inventory_productserial \n" +
+                    "(\n" +
+                    "serial_no VARCHAR COLLATE NOCASE, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "serial_date DATETIME, \n" +
+                    "plength VARCHAR COLLATE NOCASE, \n" +
+                    "photo VARCHAR COLLATE NOCASE, \n" +
+                    "barcode VARCHAR COLLATE NOCASE, \n" +
+                    "tag VARCHAR COLLATE NOCASE, \n" +
+                    "weight NUMERIC, \n" +
+                    "k INTEGER, \n" +
+                    "p INTEGER, \n" +
+                    "y NUMERIC, \n" +
+                    "reduce_weight NUMERIC, \n" +
+                    "reduce_k INTEGER, \n" +
+                    "reduce_p INTEGER, \n" +
+                    "reduce_y NUMERIC, \n" +
+                    "jewel_weight NUMERIC, \n" +
+                    "jewel_k INTEGER, \n" +
+                    "jewel_p INTEGER, \n" +
+                    "jewel_y NUMERIC, \n" +
+                    "jewel_fee NUMERIC, \n" +
+                    "production_fee NUMERIC, \n" +
+                    "jewel_name1 VARCHAR COLLATE NOCASE, \n" +
+                    "jewel_name2 VARCHAR COLLATE NOCASE, \n" +
+                    "jewel_name3 VARCHAR COLLATE NOCASE, \n" +
+                    "jewel_name4 VARCHAR COLLATE NOCASE, \n" +
+                    "jewel_name5 VARCHAR COLLATE NOCASE, \n" +
+                    "jewel_weight1 NUMERIC, \n" +
+                    "jewel_weight2 NUMERIC, \n" +
+                    "jewel_weight3 NUMERIC, \n" +
+                    "jewel_weight4 NUMERIC, \n" +
+                    "jewel_weight5 NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "ts DATETIME, \n" +
+                    "delivered BOOL, \n" +
+                    "goodsid VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "bin_id VARCHAR COLLATE NOCASE, \n" +
+                    "gold_id INTEGER, \n" +
+                    "location_id VARCHAR COLLATE NOCASE, \n" +
+                    "pallet_id VARCHAR COLLATE NOCASE, \n" +
+                    "product_id VARCHAR COLLATE NOCASE, \n" +
+                    "staff_id VARCHAR COLLATE NOCASE, \n" +
+                    "smith_id INTEGER, \n" +
+                    "uom_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
 //    private static final String TABLE_INVENTROY_GOLDUOM= "inventory_golduom";
 //    private static final String TABLE_CREATE_INVENTROY_GOLDUOM =
 //            "CREATE TABLE inventory_golduom \n" +
@@ -275,12 +362,18 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_UOM + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_BIN);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
-//        db.execSQL(TABLE_CREATE_INVENTROY_GOLDUOM);
-//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM + " has been created");
 //        db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
 //        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
-//        db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
-//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_PRODUCTS);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PRODUCTS+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTGROUPS);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTGROUPS+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTROY_GOLDUOM);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSERIAL);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL+ " has been created");
 
     }
 
@@ -296,8 +389,11 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_ROLE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_LOCATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_BIN);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTGROUPS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSERIAL);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +

@@ -16,9 +16,13 @@ import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
+import com.ppt.wsinventory.model.InventoryGoldUOM;
+import com.ppt.wsinventory.model.InventoryPallet;
+import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
+import com.ppt.wsinventory.model.Inventory_products;
+import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Item;
-import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -378,6 +382,38 @@ public class DbAccess {
         return inventoryGold;
     }
 
+    public InventoryProductGroup insertInventoryProductGroup(InventoryProductGroup inventoryProductGroup) {
+        ContentValues values = new ContentValues();
+
+        values.put(InventoryProductGroup.COLUMN_ID, inventoryProductGroup.getId());
+        values.put(InventoryProductGroup.COLUMN_NAME, inventoryProductGroup.getName());
+        values.put(InventoryProductGroup.COLUMN_ACTIVE, inventoryProductGroup.isActive());
+
+        long resultid = database.insert(inventoryProductGroup.TABLE_PRODUCTGROUP, null, values);
+        inventoryProductGroup.setId(resultid);
+        return inventoryProductGroup;
+    }
+
+    public Inventory_products insertInventory_products(Inventory_products inventory_products) {
+        ContentValues values = new ContentValues();
+
+        values.put(Inventory_products.COLUMN_ID, inventory_products.getId());
+        values.put(Inventory_products.COLUMN_NAME, inventory_products.getName());
+        values.put(Inventory_products.COLUMN_DESIGNNAME, inventory_products.getDesignname());
+        values.put(Inventory_products.COLUMN_PHOTO, inventory_products.getPhoto());
+        values.put(Inventory_products.COLUMN_BARCODE, inventory_products.getBarcode());
+        values.put(Inventory_products.COLUMN_TAG, inventory_products.getTag());
+        values.put(Inventory_products.COLUMN_BASEUOM, inventory_products.getBaseuom());
+        values.put(Inventory_products.COLUMN_MINQTY, inventory_products.getMinqty());
+        values.put(Inventory_products.COLUMN_MAXQTY, inventory_products.getMaxqty());
+        values.put(Inventory_products.COLUMN_ACTIVE, inventory_products.isActive());
+        values.put(Inventory_products.COLUMN_IS_DELETE, inventory_products.isIs_delete());
+
+        long resultid = database.insert(inventory_products.TABLE_INVENTORY_PRODUCTS, null, values);
+//        inventory_products.setId(resultid);
+        return inventory_products;
+    }
+
     public AdministrationSolutions insertAdministrationSolutions(AdministrationSolutions administrationSolutions) {
         ContentValues values = new ContentValues();
         values.put(AdministrationSolutions.COLUMN_SOLUTION_NAME, administrationSolutions.getSolution_name());
@@ -417,6 +453,18 @@ public class DbAccess {
         return inventoryUOM;
     }
 
+    public InventoryGoldUOM insertInventoryGoldUOM(InventoryGoldUOM inventoryGoldUOM) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryGoldUOM.COLUMN_UOM, inventoryGoldUOM.getUom());
+        values.put(InventoryGoldUOM.COLUMN_BASEQUANLITY, inventoryGoldUOM.getBaseqty());
+        values.put(InventoryGoldUOM.COLUMN_GOLD_ID, inventoryGoldUOM.getGold_id());
+        values.put(InventoryGoldUOM.COLUMN_ACTIVE, inventoryGoldUOM.isActive());
+
+        long resultid = database.insert(inventoryGoldUOM.TABLE_INVENTROY_GOLDUOM, null, values);
+//        administrationStaff.setId(resultid);
+        return inventoryGoldUOM;
+    }
+
     public long insertInventoryBIN(InventoryBIN inventoryBIN) {
         ContentValues values = new ContentValues();
         values.put(InventoryBIN.COLUMN_ID, inventoryBIN.getId());
@@ -432,6 +480,75 @@ public class DbAccess {
         long resultid = database.insert(inventoryBIN.TABLE_INVENTORY_BIN, null, values);
 //        administrationStaff.setId(resultid);
         return  resultid;
+    }
+
+    public long insertInventoryPallet(InventoryPallet inventoryPallet) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryPallet.COLUMN_ID, inventoryPallet.getId());
+        values.put(InventoryPallet.COLUMN_PALLET_NAME, inventoryPallet.getPallet_name());
+        values.put(InventoryPallet.COLUMN_PALLET_DESCRIPTION, inventoryPallet.getPallet_description());
+        values.put(InventoryPallet.COLUMN_PALLET_TYPE, inventoryPallet.getPallet_type());
+        values.put(InventoryPallet.COLUMN_BARCODE, inventoryPallet.getBarcode());
+        values.put(InventoryPallet.COLUMN_TAG, inventoryPallet.getTag());
+        values.put(InventoryPallet.COLUMN_LOCATION_ID, inventoryPallet.getLocation_id());
+        values.put(InventoryPallet.COLUMN_WEIGHT, inventoryPallet.getWeight());
+        values.put(InventoryPallet.COLUMN_IS_USED, inventoryPallet.isIs_used());
+        values.put(InventoryPallet.COLUMN_ACTIVE, inventoryPallet.isActive());
+        values.put(InventoryPallet.COLUMN_TS, Utility.dateFormat.format(inventoryPallet.getTs()));
+
+        long resultid = database.insert(inventoryPallet.TABLE_INVENTORY_PALLET, null, values);
+//        administrationStaff.setId(resultid);
+        return  resultid;
+    }
+
+    public long insertInventory_productserial(Inventory_productserial inventory_productserial) {
+        ContentValues values = new ContentValues();
+        values.put(Inventory_productserial.COLUMN_SERIAL_NO, inventory_productserial.getSerial_no());
+        values.put(Inventory_productserial.COLUMN_NAME, inventory_productserial.getName());
+        values.put(Inventory_productserial.COLUMN_PLENGTH, inventory_productserial.getPlength());
+        values.put(Inventory_productserial.COLUMN_PHOTO, inventory_productserial.getPhoto());
+        values.put(Inventory_productserial.COLUMN_BARCODE, inventory_productserial.getBarcode());
+        values.put(Inventory_productserial.COLUMN_TAG, inventory_productserial.getTag());
+        values.put(Inventory_productserial.COLUMN_WEIGHT, inventory_productserial.getWeight());
+        values.put(Inventory_productserial.COLUMN_K, inventory_productserial.getK());
+        values.put(Inventory_productserial.COLUMN_P, inventory_productserial.getP());
+        values.put(Inventory_productserial.COLUMN_Y, inventory_productserial.getY());
+        values.put(Inventory_productserial.COLUMN_REDUCE_WEIGHT, inventory_productserial.getReduce_weight());
+        values.put(Inventory_productserial.COLUMN_REDUCE_K, inventory_productserial.getReduce_k());
+        values.put(Inventory_productserial.COLUMN_REDUCE_P, inventory_productserial.getReduce_p());
+        values.put(Inventory_productserial.COLUMN_REDUCE_Y, inventory_productserial.getReduce_y());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT, inventory_productserial.getJewel_weight());
+        values.put(Inventory_productserial.COLUMN_JEWEL_K, inventory_productserial.getJewel_k());
+        values.put(Inventory_productserial.COLUMN_JEWEL_P, inventory_productserial.getJewel_p());
+        values.put(Inventory_productserial.COLUMN_JEWEL_Y, inventory_productserial.getJewel_y());
+        values.put(Inventory_productserial.COLUMN_JEWEL_FEE, inventory_productserial.getJewel_fee());
+        values.put(Inventory_productserial.COLUMN_PRODUCTION_FEE, inventory_productserial.getProduction_fee());
+        values.put(Inventory_productserial.COLUMN_JEWEL_NAME1, inventory_productserial.getJewel_name1());
+        values.put(Inventory_productserial.COLUMN_JEWEL_NAME2, inventory_productserial.getJewel_name2());
+        values.put(Inventory_productserial.COLUMN_JEWEL_NAME3, inventory_productserial.getJewel_name3());
+        values.put(Inventory_productserial.COLUMN_JEWEL_NAME4, inventory_productserial.getJewel_name4());
+        values.put(Inventory_productserial.COLUMN_JEWEL_NAME5, inventory_productserial.getJewel_name5());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT1, inventory_productserial.getJewel_weight1());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT2, inventory_productserial.getJewel_weight2());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT3, inventory_productserial.getJewel_weight3());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT4, inventory_productserial.getJewel_weight4());
+        values.put(Inventory_productserial.COLUMN_JEWEL_WEIGHT5, inventory_productserial.getJewel_weight5());
+        values.put(Inventory_productserial.COLUMN_REMARKS, inventory_productserial.getRemarks());
+        values.put(Inventory_productserial.COLUMN_IS_DELETE, inventory_productserial.isIs_delete());
+        values.put(Inventory_productserial.COLUMN_TS, Utility.dateFormat.format(inventory_productserial.getTs()));
+        values.put(Inventory_productserial.COLUMN_BIN_ID, inventory_productserial.getBin_id());
+        values.put(Inventory_productserial.COLUMN_GOLD_ID, inventory_productserial.getGold_id());
+        values.put(Inventory_productserial.COLUMN_LOCATION_ID, inventory_productserial.getLocation_id());
+        values.put(Inventory_productserial.COLUMN_PALLET_ID, inventory_productserial.getPallet_id());
+        values.put(Inventory_productserial.COLUMN_PRODUCT_ID, inventory_productserial.getProduct_id());
+        values.put(Inventory_productserial.COLUMN_SMITH_ID, inventory_productserial.getSmith_id());
+        values.put(Inventory_productserial.COLUMN_STAFF_ID, inventory_productserial.getStaff_id());
+        values.put(Inventory_productserial.COLUMN_UOM_ID, inventory_productserial.getUom_id());
+        values.put(Inventory_productserial.COLUMN_DELIVERED, inventory_productserial.isDelivered());
+        values.put(Inventory_productserial.COLUMN_GOODSID, inventory_productserial.getGoodsid());
+        long resultid = database.insert(inventory_productserial.TABLE_INVENTORY_PRODUCTSERIAL, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
     }
 
     public boolean deleteAdministrationWsdashboard(String table, String whereArgs) {
