@@ -26,6 +26,7 @@ public class BusinessLogic {
     private GlobalVariables appContext;
     private Context mContext;
     public static String SOLUTION_NAME = "WMS-HH";
+    public static String GOODS_ID = "A1113080028";
 
     public BusinessLogic(Context context) {
         this.appContext = (GlobalVariables) context.getApplicationContext();

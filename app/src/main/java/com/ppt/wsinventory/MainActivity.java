@@ -21,6 +21,7 @@ import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
@@ -138,12 +139,17 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            WsApi wsapi = new WsApi(this);
-            wsapi.TestWebSocket();
+//            WsApi wsapi = new WsApi(this);
+//            wsapi.TestWebSocket();
 //            exportDatabse("WS.db");
-            Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
-
+//            Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
 //            return true;
+            WsInputDialog wsInputDialog = new WsInputDialog();
+            Bundle args = new Bundle();
+            wsInputDialog.setArguments(args);
+            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
+            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
+
         }
         else if(id == R.id.saveItems) {
 
@@ -185,13 +191,19 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_new_change_user) {
-
-            WsNewChangeDialog wsInputDialog = new WsNewChangeDialog();
+            WsInputDialog wsInputDialog = new WsInputDialog();
             Bundle args = new Bundle();
             wsInputDialog.setArguments(args);
-            args.putString(wsInputDialog.ACTION_NAME, WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
-            wsInputDialog.show(getFragmentManager(), WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
+            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
+            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
+
+        } else if (id == R.id.nav_new_change_user) {
+
+            WsNewChangeDialog wsNewChangeDialog = new WsNewChangeDialog();
+            Bundle args = new Bundle();
+            wsNewChangeDialog.setArguments(args);
+            args.putString(wsNewChangeDialog.ACTION_NAME, WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
+            wsNewChangeDialog.show(getFragmentManager(), WsNewChangeDialog.ACTION_ENTER_NEWCHANGE);
 
 
         }

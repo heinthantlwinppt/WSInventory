@@ -49,11 +49,12 @@
             android:name=".services.ApiService"
             android:exported="false" />
         <service
-            android:name=".services.WsSyncService"
-            android:exported="false" />
-        <service
             android:name=".services.WsService"
             android:exported="false"></service>
+        <service
+            android:name=".services.WsSyncService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

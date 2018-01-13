@@ -32,13 +32,16 @@ public class WsSyncService extends IntentService {
     public static final String API_SERVICE_MESSAGE = "api_service_message";
     public static final String SERVICE_TYPE = "service_type";
     public static final String SERVICE_LOGIN = "login";
+    public static final String SERVICE_GOODSID = "goodsid";
     public static final String SERVICE_REQUEST = "service_request";
     public static final String SERVICE_RESPONSE = "service_response";
     public static final String SERVICE_ERROR = "service_error";
     private static final String TAG = "WS-WsSyncService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+    public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.6:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
+    String msgtype;
 
 //    private WebSocket mWebSocket;
 //    private OkHttpClient mClient;
@@ -64,7 +67,7 @@ public class WsSyncService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        String msgtype = intent.getStringExtra(SERVICE_TYPE);
+        msgtype = intent.getStringExtra(SERVICE_TYPE);
         GlobalVariables appContext = (GlobalVariables) getApplicationContext();
         String requestmessage = appContext.getRequestMessage();
         SendMessage(requestmessage);
@@ -81,7 +84,12 @@ public class WsSyncService extends IntentService {
                 .readTimeout(180, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
+        if(msgtype.equalsIgnoreCase(SERVICE_GOODSID)){
+            mServerUrl = WEBSOCKET_SHOP_URL;
+
+        }else {
         mServerUrl = WEBSOCKET_URL;
+        }
         Request request = new Request.Builder()
                 .url(mServerUrl)
                 .build();

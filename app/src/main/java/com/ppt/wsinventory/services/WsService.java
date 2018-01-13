@@ -35,6 +35,7 @@ public class WsService extends IntentService {
     public static final String SERVICE_ERROR = "service_error";
     private static final String TAG = "WS-WsService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+    public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.6:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
 
@@ -83,7 +84,7 @@ public class WsService extends IntentService {
                 .readTimeout(180, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
-        mServerUrl = WEBSOCKET_URL;
+        mServerUrl = WEBSOCKET_SHOP_URL;
         Request request = new Request.Builder()
                 .url(mServerUrl)
                 .build();
@@ -105,7 +106,7 @@ public class WsService extends IntentService {
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
                 manager.sendBroadcast(messageIntent);
-                webSocket.close(1000,"OK");
+                webSocket.close(1000, "OK");
             }
 
             @Override
