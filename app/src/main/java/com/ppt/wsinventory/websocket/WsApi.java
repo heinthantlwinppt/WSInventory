@@ -24,6 +24,7 @@ import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
+import com.ppt.wsinventory.model.InventoryGoodInventory;
 import com.ppt.wsinventory.model.InventoryPallet;
 import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
@@ -61,7 +62,7 @@ import java.util.List;
  */
 
 public class WsApi {
-//    public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
+    //    public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     public final String WEBSOCKET_URL = "ws://192.168.1.8:8000/wsmessage";
     private static final String TAG = "Ws-WsApi";
     private Context mContext;
@@ -116,7 +117,7 @@ public class WsApi {
         response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
         ApiModel apiModel = gson.fromJson(response, ApiModel.class);
         boolean hasmore = false;
-        if(apiModel.getMessage().equalsIgnoreCase("[]"))
+        if (apiModel.getMessage().equalsIgnoreCase("[]"))
             apiModel.setMessage("");
         if (apiModel.getName().equalsIgnoreCase(ApiModel.GETTABLESTODELETE)) {
             jsonString = apiModel.getMessage();
@@ -201,8 +202,7 @@ public class WsApi {
                 Log.i(TAG, "UOM ID : " + uom.getUom());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLDUOM)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLDUOM)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<GoldUOM>>() {
             }.getType();
@@ -212,8 +212,7 @@ public class WsApi {
                 Log.i(TAG, "UOM ID : " + golduom.getUom());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<Gold>>() {
             }.getType();
@@ -223,8 +222,7 @@ public class WsApi {
                 Log.i(TAG, "Gold Name : " + gold.getName());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCT)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCT)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<Product>>() {
             }.getType();
@@ -234,7 +232,18 @@ public class WsApi {
                 Log.i(TAG, "Product Name : " + product.getName());
             }
             RemoveActionList(apiModel.getName());
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTGROUPLIST)) {
+        }
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHLIST)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Smith>>() {
+            }.getType();
+            List<Smith> smithList = gson.fromJson(jsonString, listType);
+            for (Smith smith : smithList) {
+                importSmith(smith);
+                Log.i(TAG, "Smith Name : " + smith.getName());
+            }
+            RemoveActionList(apiModel.getName());
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTGROUPLIST)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<ProductGroup>>() {
             }.getType();
@@ -244,8 +253,7 @@ public class WsApi {
                 Log.i(TAG, "Product Name : " + productGroup.getName());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<BIN>>() {
@@ -258,51 +266,61 @@ public class WsApi {
                         break;
                     }
                 }
-            } else {
-                appContext.setTs(Utility.getDateBegin());
-                RemoveActionList(apiModel.getName());
-            }
-
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTSERIALLIST)) {
-            jsonString = apiModel.getMessage();
-            if (!TextUtils.isEmpty(jsonString)) {
-                Type listType = new TypeToken<ArrayList<ProductSerial>>() {
-                }.getType();
-                List<ProductSerial> productserialList = gson.fromJson(jsonString, listType);
-                for (ProductSerial productserial : productserialList) {
-                    if (importProductSerial(productserial)) {
-                        appContext.setTs(productserial.getTs());
-                    } else {
-                        break;
+            } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOODSINVENTORYLIST)) {
+                jsonString = apiModel.getMessage();
+                if (!TextUtils.isEmpty(jsonString)) {
+                    Type listType = new TypeToken<ArrayList<GoodsInventory>>() {
+                    }.getType();
+                    List<GoodsInventory>goodsinventoryList = gson.fromJson(jsonString, listType);
+                    for (GoodsInventory goodsinventory : goodsinventoryList) {
+                        if (importGoodsInventory(goodsinventory)) {
+                            appContext.setTs(goodsinventory.getTs());
+                        } else {
+                            break;
+                        }
                     }
+                } else {
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
                 }
-            } else {
-                appContext.setTs(Utility.getDateBegin());
-                RemoveActionList(apiModel.getName());
-            }
 
-        }
-        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
-            jsonString = apiModel.getMessage();
-            if (!TextUtils.isEmpty(jsonString)) {
-                Type listType = new TypeToken<ArrayList<Pallet>>() {
-                }.getType();
-                List<Pallet> palletList = gson.fromJson(jsonString, listType);
-                for (Pallet pallet : palletList) {
-                    if (importPallet(pallet)) {
-                        appContext.setTs(pallet.getTs());
-                    } else {
-                        break;
+            } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTSERIALLIST)) {
+                jsonString = apiModel.getMessage();
+                if (!TextUtils.isEmpty(jsonString)) {
+                    Type listType = new TypeToken<ArrayList<ProductSerial>>() {
+                    }.getType();
+                    List<ProductSerial> productserialList = gson.fromJson(jsonString, listType);
+                    for (ProductSerial productserial : productserialList) {
+                        if (importProductSerial(productserial)) {
+                            appContext.setTs(productserial.getTs());
+                        } else {
+                            break;
+                        }
                     }
+                } else {
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
                 }
-            }
-            else {
-                appContext.setTs(Utility.getDateBegin());
-                RemoveActionList(apiModel.getName());
-            }
 
-        }
+            } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
+                jsonString = apiModel.getMessage();
+                if (!TextUtils.isEmpty(jsonString)) {
+                    Type listType = new TypeToken<ArrayList<Pallet>>() {
+                    }.getType();
+                    List<Pallet> palletList = gson.fromJson(jsonString, listType);
+                    for (Pallet pallet : palletList) {
+                        if (importPallet(pallet)) {
+                            appContext.setTs(pallet.getTs());
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
+                }
+
+            }
 //        else if(apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
 //            jsonString = apiModel.getMessage();
 //            Type listType = new TypeToken<ArrayList<BIN>>() {}.getType();
@@ -340,46 +358,47 @@ public class WsApi {
 //            }
 //            RemoveActionList(apiModel.getName());
 //        }
-        else {
-            RemoveActionList(apiModel.getName());
-        }
-
-        if (appContext.getActionLists().size() > 0) {
-            ActionList actionList = appContext.getActionLists().get(0);
-            List<ApiParam> params = new ArrayList<>();
-            params.add(
-                    new ApiParam("actionname", actionList.getActionname())
-            );
-            Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
-            appContext.setTs(ts);
-            params.add(
-                    new ApiParam("solutionname", appContext.getSolutionname())
-            );
-            params.add(
-                    new ApiParam("ts", Utility.dateFormat.format(ts))
-            );
-            params.add(
-                    new ApiParam("deviceid", appContext.getDeviceid())
-            );
-
-            jsonString = gson.toJson(params);
-            Log.i(TAG, "dosync: " + jsonString);
-            ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
-            jsonString = gson.toJson(apimodel);
-            String req = "";
-            try {
-                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
+            else {
+                RemoveActionList(apiModel.getName());
             }
-            Log.i(TAG, "dosync: " + req);
+
+            if (appContext.getActionLists().size() > 0) {
+                ActionList actionList = appContext.getActionLists().get(0);
+                List<ApiParam> params = new ArrayList<>();
+                params.add(
+                        new ApiParam("actionname", actionList.getActionname())
+                );
+                Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
+                appContext.setTs(ts);
+                params.add(
+                        new ApiParam("solutionname", appContext.getSolutionname())
+                );
+                params.add(
+                        new ApiParam("ts", Utility.dateFormat.format(ts))
+                );
+                params.add(
+                        new ApiParam("deviceid", appContext.getDeviceid())
+                );
+
+                jsonString = gson.toJson(params);
+                Log.i(TAG, "dosync: " + jsonString);
+                ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
+                jsonString = gson.toJson(apimodel);
+                String req = "";
+                try {
+                    req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                }
+                Log.i(TAG, "dosync: " + req);
 
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
-            appContext.setRequestMessage(req);
-            Intent intent = new Intent(mContext, WsSyncService.class);
-            intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
-            mContext.startService(intent);
+                appContext.setRequestMessage(req);
+                Intent intent = new Intent(mContext, WsSyncService.class);
+                intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
+                mContext.startService(intent);
+            }
         }
     }
 
@@ -695,21 +714,22 @@ public class WsApi {
     }
 
 
-    private void importGoodsInventory(GoodsInventory goodsInventory) {
-//        dbaccess = DbAccess.getInstance();
-//        GoodsInventory goodsinventory= new GoodsInventory();
-//        goodsinventory.setId(goodsInventory.getId());
-//        goodsinventory.setQty(goodsInventory.getQty());
-//        goodsinventory.setWeight(goodsInventory.getWeight());
-//        goodsinventory.setK(goodsInventory.getK());
-//        goodsinventory.setP(goodsInventory.getP());
-//        goodsinventory.setY(goodsInventory.getY());
-//        goodsinventory.setIsDelete(goodsInventory.getIsDelete());
-//        goodsinventory.setTs(goodsInventory.getTs());
-//        goodsinventory.setLocation(goodsInventory.getLocation());
-//        goodsinventory.setProduct(goodsInventory.getProduct());
-//        goodsinventory.setUom(goodsInventory.getUom());
-//        dbaccess.insertGoodsInventory(goodsInventory);
+    private boolean importGoodsInventory(GoodsInventory wsgoodsInventory) {
+        dbaccess = DbAccess.getInstance();
+        InventoryGoodInventory goodsinventory = new InventoryGoodInventory();
+        goodsinventory.setId(wsgoodsInventory.getId());
+        goodsinventory.setQty(Double.parseDouble(wsgoodsInventory.getQty()));
+        goodsinventory.setWeight(Double.parseDouble(wsgoodsInventory.getWeight()));
+        goodsinventory.setK(wsgoodsInventory.getK());
+        goodsinventory.setP(wsgoodsInventory.getP());
+        goodsinventory.setY(Double.parseDouble(wsgoodsInventory.getY()));
+        goodsinventory.setIs_delete(wsgoodsInventory.getIsDelete());
+        goodsinventory.setTs(wsgoodsInventory.getTs());
+        goodsinventory.setLocation_id(wsgoodsInventory.getLocation());
+        goodsinventory.setProduct_id(wsgoodsInventory.getProduct());
+        goodsinventory.setUom_id(wsgoodsInventory.getUom());
+        long l = dbaccess.insertGoodsInventory(goodsinventory);
+        return (l > 0);
     }
 
 

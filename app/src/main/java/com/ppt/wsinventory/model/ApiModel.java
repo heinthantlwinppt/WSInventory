@@ -22,6 +22,7 @@ public class ApiModel {
     public static String GETBINLIST = "getBinList";
     public static String GETWSPALLET = "getPalletList";
     public static String GETWSGOLD = "getGoldList";
+    public static String GETGOODSLIST = "getGoldList";
     public static String GETWSPRODUCT = "getProductsList";
     public static String GETWSGOLDUOM = "getGoldUOMList";
     public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
@@ -29,7 +30,6 @@ public class ApiModel {
     public static String GETWSPRODUCTSERIALLIST = "getProductSerialList";
     public static String GETWSSMITHLIST = "getManufacturingSmithList";
     public static String TYPE_GET = "get";
-    public static String aa;
     @SerializedName("id")
     @Expose
     private Integer id;

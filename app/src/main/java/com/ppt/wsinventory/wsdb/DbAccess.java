@@ -14,15 +14,18 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
+import com.ppt.wsinventory.model.InventoryGoodInventory;
 import com.ppt.wsinventory.model.InventoryPallet;
 import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.model.ManufacturingSmith;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -479,7 +482,26 @@ public class DbAccess {
 
         long resultid = database.insert(inventoryBIN.TABLE_INVENTORY_BIN, null, values);
 //        administrationStaff.setId(resultid);
-        return  resultid;
+        return resultid;
+    }
+
+    public long insertGoodsInventory(InventoryGoodInventory goodsinventory) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryGoodInventory.COLUMN_ID, goodsinventory.getId());
+        values.put(InventoryGoodInventory.COLUMN_QTY, goodsinventory.getQty());
+        values.put(InventoryGoodInventory.COLUMN_WEIGHT, goodsinventory.getWeight());
+        values.put(InventoryGoodInventory.COLUMN_K, goodsinventory.getK());
+        values.put(InventoryGoodInventory.COLUMN_P, goodsinventory.getP());
+        values.put(InventoryGoodInventory.COLUMN_Y, goodsinventory.getY());
+        values.put(InventoryGoodInventory.COLUMN_IS_DELETE, goodsinventory.isIs_delete());
+        values.put(InventoryGoodInventory.COLUMN_TS, Utility.dateFormat.format(goodsinventory.getTs()));
+        values.put(InventoryGoodInventory.COLUMN_LOCATION_ID, goodsinventory.getLocation_id());
+        values.put(InventoryGoodInventory.COLUMN_PRODUCT_ID,goodsinventory.getProduct_id());
+        values.put(InventoryGoodInventory.COLUMN_UOM_ID,goodsinventory.getUom_id());
+
+        long resultid = database.insert(goodsinventory.TABLE_INVENTORY_GOODSINVENTORY, null, values);
+//        goodsinventory.setId(resultid);
+        return resultid;
     }
 
     public long insertInventoryPallet(InventoryPallet inventoryPallet) {
@@ -498,7 +520,7 @@ public class DbAccess {
 
         long resultid = database.insert(inventoryPallet.TABLE_INVENTORY_PALLET, null, values);
 //        administrationStaff.setId(resultid);
-        return  resultid;
+        return resultid;
     }
 
     public long insertInventory_productserial(Inventory_productserial inventory_productserial) {
@@ -547,6 +569,33 @@ public class DbAccess {
         values.put(Inventory_productserial.COLUMN_DELIVERED, inventory_productserial.isDelivered());
         values.put(Inventory_productserial.COLUMN_GOODSID, inventory_productserial.getGoodsid());
         long resultid = database.insert(inventory_productserial.TABLE_INVENTORY_PRODUCTSERIAL, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturingSmith(ManufacturingSmith manufacturingsmith) {
+        ContentValues values = new ContentValues();
+        values.put(ManufacturingSmith.COLUMN_ID, manufacturingsmith.getId());
+        values.put(ManufacturingSmith.COLUMN_NAME, manufacturingsmith.getName());
+        values.put(ManufacturingSmith.COLUMN_NICKNAME, manufacturingsmith.getNickname());
+        values.put(ManufacturingSmith.COLUMN_NRC, manufacturingsmith.getNrc());
+        values.put(ManufacturingSmith.COLUMN_ADDRESS, manufacturingsmith.getAddress());
+        values.put(ManufacturingSmith.COLUMN_PHONE, manufacturingsmith.getPhone());
+        values.put(ManufacturingSmith.COLUMN_REFNAME, manufacturingsmith.getRefname());
+        values.put(ManufacturingSmith.COLUMN_MIXJOB, manufacturingsmith.getMixjob());
+        values.put(ManufacturingSmith.COLUMN_K, manufacturingsmith.getK());
+        values.put(ManufacturingSmith.COLUMN_P, manufacturingsmith.getP());
+        values.put(ManufacturingSmith.COLUMN_Y, manufacturingsmith.getY());
+        values.put(ManufacturingSmith.COLUMN_G, manufacturingsmith.getG());
+        values.put(ManufacturingSmith.COLUMN_COST, manufacturingsmith.getCost());
+        values.put(ManufacturingSmith.COLUMN_DATE_JOINED, Utility.dateFormat.format(manufacturingsmith.getDate_joined()));
+        values.put(ManufacturingSmith.COLUMN_DATE_END, Utility.dateFormat.format(manufacturingsmith.getDate_end()));
+        values.put(ManufacturingSmith.COLUMN_IS_SMITH2, manufacturingsmith.isIs_smith2());
+        values.put(ManufacturingSmith.COLUMN_ACTIVE, manufacturingsmith.isActive());
+        values.put(ManufacturingSmith.COLUMN_GOLDSAVING, manufacturingsmith.getGoldsaving());
+        values.put(ManufacturingSmith.COLUMN_INHANDJOB, manufacturingsmith.getInhandjob());
+        values.put(ManufacturingSmith.COLUMN_PHOTO, manufacturingsmith.getPhoto());
+        long resultid = database.insert(manufacturingsmith.TABLE_MANUFACTURING_SMITH, null, values);
 //        Inventory_productserial.set(resultid);
         return resultid;
     }

@@ -261,6 +261,32 @@ public class DbHelper extends SQLiteOpenHelper {
                     "smith_id INTEGER, \n" +
                     "uom_id VARCHAR COLLATE NOCASE \n" +
                     ")";
+
+    private static final String TABLE_MANUFACTURING_SMITH = "manufacturing_smith";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITH =
+            "CREATE TABLE manufacturing_smith \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "nickname VARCHAR COLLATE NOCASE, \n" +
+                    "nrc VARCHAR COLLATE NOCASE, \n" +
+                    "address VARCHAR COLLATE NOCASE, \n" +
+                    "phone VARCHAR COLLATE NOCASE, \n" +
+                    "refname VARCHAR COLLATE NOCASE, \n" +
+                    "mixjob VARCHAR COLLATE NOCASE, \n" +
+                    "k INTEGER, \n" +
+                    "p INTEGER, \n" +
+                    "y NUMERIC, \n" +
+                    "g NUMERIC, \n" +
+                    "cost NUMERIC, \n" +
+                    "date_joined DATETIME, \n" +
+                    "date_end DATETIME, \n" +
+                    "is_smith2 BOOL, \n" +
+                    "active BOOL, \n" +
+                    "goldsaving NUMERIC, \n" +
+                    "inhandjob INTEGER, \n" +
+                    "photo VARCHAR COLLATE NOCASE \n" +
+                    ")";
 //    private static final String TABLE_INVENTROY_GOLDUOM= "inventory_golduom";
 //    private static final String TABLE_CREATE_INVENTROY_GOLDUOM =
 //            "CREATE TABLE inventory_golduom \n" +
@@ -270,22 +296,22 @@ public class DbHelper extends SQLiteOpenHelper {
 //                    " gold_id   VARCHAR COLLATE NOCASE, \n" +
 //                    " active    BOOL \n" +
 //                    ")";
-//    private static final String TABLE_INVENTORY_GOODSINVENTORY = "inventory_goodsinventory";
-//    private static final String TABLE_CREATE_INVENTORY_GOODSINVENTORY =
-//            "CREATE TABLE inventory_goodsinventory \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " qty  NUMERIC, \n" +
-//                    " weight   NUMERIC, \n" +
-//                    " k   INTEGER, \n" +
-//                    " p  INTEGER, \n" +
-//                    " y   INTEGER, \n" +
-//                    " ts   DATETIME, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " product_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " uom_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " is_delete    BOOL \n" +
-//                    ")";
+    private static final String TABLE_INVENTORY_GOODSINVENTORY = "inventory_goodsinventory";
+    private static final String TABLE_CREATE_INVENTORY_GOODSINVENTORY =
+            "CREATE TABLE inventory_goodsinventory \n" +
+                    "(\n" +
+                    " id  VARCHAR COLLATE NOCASE, \n" +
+                    " qty  NUMERIC, \n" +
+                    " weight   NUMERIC, \n" +
+                    " k   INTEGER, \n" +
+                    " p  INTEGER, \n" +
+                    " y   INTEGER, \n" +
+                    " ts   DATETIME, \n" +
+                    " location_id   VARCHAR COLLATE NOCASE, \n" +
+                    " product_id   VARCHAR COLLATE NOCASE, \n" +
+                    " uom_id   VARCHAR COLLATE NOCASE, \n" +
+                    " is_delete    BOOL \n" +
+                    ")";
 //    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
 //    private static final String TABLE_CREATE_INVENTROY_BIN =
 //            "CREATE TABLE inventory_bin \n" +
@@ -374,6 +400,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSERIAL);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH+ " has been created");
 
     }
 
@@ -394,6 +422,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSERIAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH);
 //        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
