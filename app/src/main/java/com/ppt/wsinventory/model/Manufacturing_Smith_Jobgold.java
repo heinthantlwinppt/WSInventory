@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class Manufacturing_Smith_Jobgold {
-    public static final String TABLE_MANUFACTURING_SMITH_JOBGOLD = "manufacturing_smith";
+    public static final String TABLE_MANUFACTURING_SMITH_JOBGOLD = "manufacturing_smith_jobgold";
     public static final String COLUMN_SMITH_JOBORDER_ID = "smith_joborder_id";
     public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_QTY = "qty";

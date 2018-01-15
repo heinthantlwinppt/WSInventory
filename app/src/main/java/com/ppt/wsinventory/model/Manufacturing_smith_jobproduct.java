@@ -7,7 +7,7 @@ import java.util.Date;
  */
 
 public class Manufacturing_smith_jobproduct {
-    public static final String TABLE_MANUFACTURING_SMITH_JOBPRODUCT = "manufacturing_smith_joborder";
+    public static final String TABLE_MANUFACTURING_SMITH_JOBPRODUCT = "manufacturing_smith_jobproduct";
     public static final String COLUMN_PLENGTH = "plength";
     public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_K = "k";
@@ -59,7 +59,7 @@ public class Manufacturing_smith_jobproduct {
     private double weight;
     private int k;
     private int p;
-    private int y;
+    private double y;
     private double qty;
     private double reduce_weight;
     private int reduce_k;
@@ -109,11 +109,11 @@ public class Manufacturing_smith_jobproduct {
         this.p = p;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
