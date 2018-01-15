@@ -9,7 +9,7 @@ public class GoodsInventory {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String id;
     @SerializedName("qty")
     @Expose
     private String qty;
@@ -41,11 +41,11 @@ public class GoodsInventory {
     @Expose
     private String uom;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

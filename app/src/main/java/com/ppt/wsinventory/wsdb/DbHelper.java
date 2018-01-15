@@ -287,15 +287,107 @@ public class DbHelper extends SQLiteOpenHelper {
                     "inhandjob INTEGER, \n" +
                     "photo VARCHAR COLLATE NOCASE \n" +
                     ")";
-//    private static final String TABLE_INVENTROY_GOLDUOM= "inventory_golduom";
-//    private static final String TABLE_CREATE_INVENTROY_GOLDUOM =
-//            "CREATE TABLE inventory_golduom \n" +
-//                    "(\n" +
-//                    " uom  VARCHAR COLLATE NOCASE, \n" +
-//                    " baseqty   NUMERIC, \n" +
-//                    " gold_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL \n" +
-//                    ")";
+    private static final String TABLE_MANUFACTURING_SMITH_JOBGOLD = "manufacturing_smith_jobgold";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITH_JOBGOLD =
+            "CREATE TABLE manufacturing_smith_jobgold \n" +
+                    "(\n" +
+                    "smith_joborder_id VARCHAR COLLATE NOCASE, \n" +
+                    "weight NUMERIC, \n" +
+                    "qty NUMERIC, \n" +
+                    "goldsaving NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "row_no VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "mixjob VARCHAR COLLATE NOCASE, \n" +
+                    "gold_id INTEGER, \n" +
+                    "uom_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+    private static final String TABLE_MANUFACTURING_SMITH_JOBORDER = "manufacturing_smith_joborder";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITH_JOBORDER =
+            "CREATE TABLE manufacturing_smith_joborder \n" +
+                    "(\n" +
+                    "id VARCHAR COLLATE NOCASE, \n" +
+                    "joborder_no VARCHAR COLLATE NOCASE, \n" +
+                    "joborder_date DATETIME, \n" +
+                    "prejewelout BOOL, \n" +
+                    "prejewelout_date DATETIME, \n" +
+                    "date_start DATETIME, \n" +
+                    "date_end DATETIME, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "date_joined DATETIME, \n" +
+                    "date_end DATETIME, \n" +
+                    "active BOOL, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "joborder_type_id INTEGER, \n" +
+                    "jobstatus_id INTEGER, \n" +
+                    "smith_id INTEGER, \n" +
+                    "density NUMERIC, \n" +
+                    "diff_k INTEGER, \n" +
+                    "diff_p INTEGER, \n" +
+                    "diff_weight NUMERIC, \n" +
+                    "diff_y VARCHAR COLLATE NOCASE, \n" +
+                    "print_count INTEGER, \n" +
+                    "product_weight VARCHAR COLLATE NOCASE, \n" +
+                    "remain_gold NUMERIC, \n" +
+                    "remain_jewel NUMERIC, \n" +
+                    "save_count INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_MANUFACTURING_SMITH_JOBPRODUCT = "manufacturing_smith_jobproduct";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITH_JOBPRODUCT =
+            "CREATE TABLE manufacturing_smith_jobproduct \n" +
+                    "(\n" +
+                    "plength VARCHAR COLLATE NOCASE, \n" +
+                    "weight NUMERIC, \n" +
+                    "k VARCHAR COLLATE NOCASE, \n" +
+                    "p INTEGER, \n" +
+                    "y INTEGER, \n" +
+                    "qty NUMERIC, \n" +
+                    "reduce_weight NUMERIC, \n" +
+                    "reduce_k INTEGER, \n" +
+                    "reduce_p INTEGER, \n" +
+                    "reduce_y NUMERIC, \n" +
+                    "target_date DATETIME, \n" +
+                    "start_date DATETIME, \n" +
+                    "end_date DATETIME, \n" +
+                    "wages NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "products_id VARCHAR COLLATE NOCASE, \n" +
+                    "smith_joborder_id VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "row_no INTEGER, \n" +
+                    "to_location_id VARCHAR COLLATE NOCASE, \n" +
+                    "uom_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+    private static final String TABLE_MANUFACTURING_SMITH_JOBTYPE = "manufacturing_smith_jobtype";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITH_JOBTYPE =
+            "CREATE TABLE manufacturing_smith_jobtype \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "description VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "jobtype_group VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+    private static final String TABLE_MANUFACTURING_SMITHMEMBERS = "manufacturing_smithmembers";
+    private static final String TABLE_CREATE_MANUFACTURING_SMITHMEMBERS =
+            "CREATE TABLE manufacturing_smithmembers \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "nickname VARCHAR COLLATE NOCASE, \n" +
+                    "nrc VARCHAR COLLATE NOCASE, \n" +
+                    "address VARCHAR COLLATE NOCASE, \n" +
+                    "phone VARCHAR COLLATE NOCASE, \n" +
+                    "photo VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "smith_id INTEGER \n" +
+                    ")";
+
     private static final String TABLE_INVENTORY_GOODSINVENTORY = "inventory_goodsinventory";
     private static final String TABLE_CREATE_INVENTORY_GOODSINVENTORY =
             "CREATE TABLE inventory_goodsinventory \n" +
@@ -312,45 +404,6 @@ public class DbHelper extends SQLiteOpenHelper {
                     " uom_id   VARCHAR COLLATE NOCASE, \n" +
                     " is_delete    BOOL \n" +
                     ")";
-//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
-//    private static final String TABLE_CREATE_INVENTROY_BIN =
-//            "CREATE TABLE inventory_bin \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
-//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
-//                    " tag   VARCHAR COLLATE NOCASE, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL \n" +
-//                    ")";
-//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
-//    private static final String TABLE_CREATE_INVENTROY_BIN =
-//            "CREATE TABLE inventory_bin \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
-//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
-//                    " tag   VARCHAR COLLATE NOCASE, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL \n" +
-//                    ")";
-//    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
-//    private static final String TABLE_CREATE_INVENTROY_BIN =
-//            "CREATE TABLE inventory_bin \n" +
-//                    "(\n" +
-//                    " id  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_name  VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_description   VARCHAR COLLATE NOCASE, \n" +
-//                    " bin_type   VARCHAR COLLATE NOCASE, \n" +
-//                    " barcode   VARCHAR COLLATE NOCASE, \n" +
-//                    " tag   VARCHAR COLLATE NOCASE, \n" +
-//                    " location_id   VARCHAR COLLATE NOCASE, \n" +
-//                    " active    BOOL \n" +
-//                    ")";
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -388,8 +441,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_UOM + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_BIN);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
-//        db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
-//        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_PRODUCTS);
@@ -402,6 +455,16 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL+ " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH);
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBGOLD);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBGOLD+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBORDER);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBORDER+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBPRODUCT);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBPRODUCT+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBTYPE);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBTYPE+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_SMITHMEMBERS);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITHMEMBERS+ " has been created");
 
     }
 
@@ -423,7 +486,12 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSERIAL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBGOLD);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBORDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBPRODUCT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBTYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITHMEMBERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

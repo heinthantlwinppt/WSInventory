@@ -367,6 +367,10 @@ public class WsApi {
         if (appContext.getActionLists().size() > 0) {
             ActionList actionList = appContext.getActionLists().get(0);
             List<ApiParam> params = new ArrayList<>();
+            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList"))
+            {
+                String test = actionList.getActionname();
+            }
             params.add(
                     new ApiParam("actionname", actionList.getActionname())
             );
