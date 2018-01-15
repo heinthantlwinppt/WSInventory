@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.websocket.ServerConnection;
+import com.ppt.wsinventory.websocket.WsApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,25 +20,28 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
 
-
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  * <p>
- * TODO: Customize class - update intent actions and extra parameters.
+ * TODO: Customize class - update intent actions, extra parameters and static
+ * helper methods.
  */
 public class WsService extends IntentService {
-   public static final String API_SERVICE_MESSAGE = "api_service_message";
+    public static final String API_SERVICE_SYNC = "api_service_sync";
+    public static final String API_SERVICE_MESSAGE = "api_service_message";
     public static final String SERVICE_TYPE = "service_type";
     public static final String SERVICE_LOGIN = "login";
+    public static final String SERVICE_GOODSID = "goodsid";
     public static final String SERVICE_REQUEST = "service_request";
     public static final String SERVICE_RESPONSE = "service_response";
     public static final String SERVICE_ERROR = "service_error";
-    private static final String TAG = "WS-WsService";
+    private static final String TAG = "WS-WsSyncService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
     public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.6:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
+    String msgtype;
 
 //    private WebSocket mWebSocket;
 //    private OkHttpClient mClient;
@@ -47,20 +51,15 @@ public class WsService extends IntentService {
 
     public WsService() {
         super("WsService");
-
-
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
     }
 
@@ -68,13 +67,14 @@ public class WsService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        String msgtype = intent.getStringExtra(SERVICE_TYPE);
+        msgtype = intent.getStringExtra(SERVICE_TYPE);
         GlobalVariables appContext = (GlobalVariables) getApplicationContext();
         String requestmessage = appContext.getRequestMessage();
         SendMessage(requestmessage);
         appContext.setRequestMessage("");
     }
-    private  void SendMessage(String text){
+
+    private void SendMessage(String text) {
         OkHttpClient mClient;
         String mServerUrl;
         Handler mMessageHandler;
@@ -84,7 +84,12 @@ public class WsService extends IntentService {
                 .readTimeout(180, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
-        mServerUrl = WEBSOCKET_SHOP_URL;
+        if(msgtype.equalsIgnoreCase(SERVICE_GOODSID)){
+            mServerUrl = WEBSOCKET_SHOP_URL;
+
+        }else {
+            mServerUrl = WEBSOCKET_URL;
+        }
         Request request = new Request.Builder()
                 .url(mServerUrl)
                 .build();
@@ -131,7 +136,7 @@ public class WsService extends IntentService {
                 String responsemessage = text;
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 appContext.setResponseMessage("Cannot connect to server.");
-                Intent messageIntent = new Intent(API_SERVICE_MESSAGE);
+                Intent messageIntent = new Intent(API_SERVICE_SYNC);
                 messageIntent.putExtra(SERVICE_TYPE, SERVICE_ERROR);
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());

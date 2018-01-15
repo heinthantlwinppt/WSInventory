@@ -353,7 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             BusinessLogic businessLogic = new BusinessLogic();
             AdministrationStaff staff = businessLogic.checkLoginUser(mUserId, mPassword);
 
-            if (mUserId.equals("admin") && mPassword.equals("admin$$12345$$")) {
+            if (mUserId.equals("admin") && mPassword.equals("123456")) {
                 staff = new AdministrationStaff();
                 staff.setNick_name("admin");
                 staff.setPassword("admin$$12345$$");

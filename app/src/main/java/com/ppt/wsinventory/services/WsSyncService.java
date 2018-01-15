@@ -50,7 +50,7 @@ public class WsSyncService extends IntentService {
 //    private Handler mStatusHandler;
 
     public WsSyncService() {
-        super("WsService");
+        super("WsSyncService");
     }
 
     @Override
