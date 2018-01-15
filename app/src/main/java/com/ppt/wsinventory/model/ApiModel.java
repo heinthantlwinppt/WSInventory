@@ -29,6 +29,12 @@ public class ApiModel {
     public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
     public static String GETWSPRODUCTSERIALLIST = "getProductSerialList";
     public static String GETWSSMITHLIST = "getManufacturingSmithList";
+    public static String GETWSSMITHJOBGOLDLIST = "getManufacturingSmithJobGold";
+    public static String GETWSSMITHJOBORDERLIST = "getManufacturingSmithJobOrder";
+    public static String GETWSSMITHJOBPRODUCTLIST = "getManufacturingSmithJobProduct";
+    public static String GETWSSMITHJOBTYPELIST = "getManufacturingSmithJobType";
+    public static String GETWSSMITHJOBSTATUSLIST = "getManufacturingJobStatus";
+    public static String GETWSSMITHMEMBERSLIST = "getManufacturingSmithmembersList";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose

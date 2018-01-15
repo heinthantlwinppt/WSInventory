@@ -26,6 +26,12 @@ import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.model.ManufacturingSmith;
+import com.ppt.wsinventory.model.Manufacturing_Smith_Jobgold;
+import com.ppt.wsinventory.model.Manufacturing_jobstatus;
+import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
+import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
+import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
+import com.ppt.wsinventory.model.Manufacturing_smithmembers;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -596,6 +602,122 @@ public class DbAccess {
         values.put(ManufacturingSmith.COLUMN_INHANDJOB, manufacturingsmith.getInhandjob());
         values.put(ManufacturingSmith.COLUMN_PHOTO, manufacturingsmith.getPhoto());
         long resultid = database.insert(manufacturingsmith.TABLE_MANUFACTURING_SMITH, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_smithmembers(Manufacturing_smithmembers manufacturing_smithmembers) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_smithmembers.COLUMN_ID, manufacturing_smithmembers.getId());
+        values.put(Manufacturing_smithmembers.COLUMN_NAME, manufacturing_smithmembers.getName());
+        values.put(Manufacturing_smithmembers.COLUMN_NICKNAME, manufacturing_smithmembers.getNickname());
+        values.put(Manufacturing_smithmembers.COLUMN_NRC, manufacturing_smithmembers.getNrc());
+        values.put(Manufacturing_smithmembers.COLUMN_ADDRESS, manufacturing_smithmembers.getAddress());
+        values.put(Manufacturing_smithmembers.COLUMN_PHONE, manufacturing_smithmembers.getPhone());
+        values.put(Manufacturing_smithmembers.COLUMN_ACTIVE, manufacturing_smithmembers.isActive());
+        values.put(Manufacturing_smithmembers.COLUMN_SMITH_ID, manufacturing_smithmembers.getSmith_id());
+        values.put(Manufacturing_smithmembers.COLUMN_PHOTO, manufacturing_smithmembers.getPhoto());
+        long resultid = database.insert(manufacturing_smithmembers.TABLE_MANUFACTURING_SMITHMEMBERS, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_jobstatus(Manufacturing_jobstatus manufacturing_jobstatus) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_jobstatus.COLUMN_ID, manufacturing_jobstatus.getId());
+        values.put(Manufacturing_jobstatus.COLUMN_NAME, manufacturing_jobstatus.getName());
+        values.put(Manufacturing_jobstatus.COLUMN_DESCRIPTION, manufacturing_jobstatus.getDescription());
+        values.put(Manufacturing_jobstatus.COLUMN_STATUS_TYPE, manufacturing_jobstatus.getStatus_type());
+        values.put(Manufacturing_jobstatus.COLUMN_ACTIVE, manufacturing_jobstatus.isActive());
+        long resultid = database.insert(manufacturing_jobstatus.TABLE_MANUFACTURING_JOBSTATUS, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_Smith_Jobgold(Manufacturing_Smith_Jobgold manufacturing_smith_jobgold) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_SMITH_JOBORDER_ID, manufacturing_smith_jobgold.getSmith_joborder_id());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_WEIGHT, manufacturing_smith_jobgold.getWeight());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_QTY, manufacturing_smith_jobgold.getQty());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_GOLDSAVING, manufacturing_smith_jobgold.getGoldsaving());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_REMARKS, manufacturing_smith_jobgold.getRemarks());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_ROW_NO, manufacturing_smith_jobgold.getRow_no());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_IS_DELETE, manufacturing_smith_jobgold.getIs_delete());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_GOLD_ID, manufacturing_smith_jobgold.getGold_id());
+        values.put(Manufacturing_Smith_Jobgold.COLUMN_UOM_ID, manufacturing_smith_jobgold.getUom_id());
+        long resultid = database.insert(manufacturing_smith_jobgold.TABLE_MANUFACTURING_SMITH_JOBGOLD, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_smith_joborder(Manufacturing_smith_joborder manufacturing_smith_joborder) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_smith_joborder.COLUMN_ID, manufacturing_smith_joborder.getId());
+        values.put(Manufacturing_smith_joborder.COLUMN_JOBORDER_NO, manufacturing_smith_joborder.getJoborder_no());
+        values.put(Manufacturing_smith_joborder.COLUMN_JOBORDER_DATE, Utility.dateFormat.format(manufacturing_smith_joborder.getJoborder_date()));
+        values.put(Manufacturing_smith_joborder.COLUMN_PREJEWELOUT, manufacturing_smith_joborder.isPrejewelout());
+        values.put(Manufacturing_smith_joborder.COLUMN_PREJEWELOUT_DATE, Utility.dateFormat.format(manufacturing_smith_joborder.getPrejewelout_date()));
+        values.put(Manufacturing_smith_joborder.COLUMN_DATE_TARGET, Utility.dateFormat.format(manufacturing_smith_joborder.getDate_target()));
+        values.put(Manufacturing_smith_joborder.COLUMN_DATE_START, Utility.dateFormat.format(manufacturing_smith_joborder.getDate_start()));
+        values.put(Manufacturing_smith_joborder.COLUMN_DATE_END, Utility.dateFormat.format(manufacturing_smith_joborder.getDate_end()));
+        values.put(Manufacturing_smith_joborder.COLUMN_REMARKS, manufacturing_smith_joborder.getRemarks());
+        values.put(Manufacturing_smith_joborder.COLUMN_ACTIVE, manufacturing_smith_joborder.isActive());
+        values.put(Manufacturing_smith_joborder.COLUMN_IS_DELETE, manufacturing_smith_joborder.isIs_delete());
+        values.put(Manufacturing_smith_joborder.COLUMN_TS, Utility.dateFormat.format(manufacturing_smith_joborder.getTs()));
+        values.put(Manufacturing_smith_joborder.COLUMN_JOBORDER_TYPE_ID, manufacturing_smith_joborder.getJoborder_type_id());
+        values.put(Manufacturing_smith_joborder.COLUMN_JOBSTATUS_ID, manufacturing_smith_joborder.getJobstatus_id());
+        values.put(Manufacturing_smith_joborder.COLUMN_SMITH_ID, manufacturing_smith_joborder.getSmith_id());
+        values.put(Manufacturing_smith_joborder.COLUMN_DENSITY, manufacturing_smith_joborder.getDensity());
+        values.put(Manufacturing_smith_joborder.COLUMN_DIFF_K, manufacturing_smith_joborder.getDiff_k());
+        values.put(Manufacturing_smith_joborder.COLUMN_DIFF_P, manufacturing_smith_joborder.getDiff_p());
+        values.put(Manufacturing_smith_joborder.COLUMN_PRODUCT_WEIGHT, manufacturing_smith_joborder.getDiff_weight());
+        values.put(Manufacturing_smith_joborder.COLUMN_DIFF_Y, manufacturing_smith_joborder.getDiff_y());
+        values.put(Manufacturing_smith_joborder.COLUMN_PRINT_COUNT, manufacturing_smith_joborder.getPrint_count());
+        values.put(Manufacturing_smith_joborder.COLUMN_PRODUCT_WEIGHT, manufacturing_smith_joborder.getProduct_weight());
+        values.put(Manufacturing_smith_joborder.COLUMN_REMAIN_GOLD, manufacturing_smith_joborder.getRemain_gold());
+        values.put(Manufacturing_smith_joborder.COLUMN_REMAIN_JEWEL, manufacturing_smith_joborder.getRemain_jewel());
+        values.put(Manufacturing_smith_joborder.COLUMN_SAVE_COUNT, manufacturing_smith_joborder.getSave_count());
+        long resultid = database.insert(manufacturing_smith_joborder.TABLE_MANUFACTURING_SMITH_JOBORDER, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_smith_jobproduct(Manufacturing_smith_jobproduct manufacturing_smith_jobproduct) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_smith_jobproduct.COLUMN_PLENGTH, manufacturing_smith_jobproduct.getPlength());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_WEIGHT, manufacturing_smith_jobproduct.getWeight());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_K, manufacturing_smith_jobproduct.getK());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_P, manufacturing_smith_jobproduct.getP());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_Y, manufacturing_smith_jobproduct.getY());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_QTY, manufacturing_smith_jobproduct.getQty());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_REDUCE_WEIGHT, manufacturing_smith_jobproduct.getReduce_weight());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_REDUCE_K, manufacturing_smith_jobproduct.getReduce_k());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_REDUCE_P, manufacturing_smith_jobproduct.getReduce_p());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_REDUCE_Y, manufacturing_smith_jobproduct.getReduce_y());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_TARGET_DATE, Utility.dateFormat.format(manufacturing_smith_jobproduct.getTarget_date()));
+        values.put(Manufacturing_smith_jobproduct.COLUMN_START_DATE, Utility.dateFormat.format(manufacturing_smith_jobproduct.getStart_date()));
+        values.put(Manufacturing_smith_jobproduct.COLUMN_END_DATE, Utility.dateFormat.format(manufacturing_smith_jobproduct.getEnd_date()));
+        values.put(Manufacturing_smith_jobproduct.COLUMN_WAGES, manufacturing_smith_jobproduct.getWages());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_REMARKS, manufacturing_smith_jobproduct.getRemarks());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_PRODUCTS_ID, manufacturing_smith_jobproduct.getProducts_id());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_SMITH_JOBORDER_ID, manufacturing_smith_jobproduct.getSmith_joborder_id());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_IS_DELETE, manufacturing_smith_jobproduct.isIs_delete());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_ROW_NO, manufacturing_smith_jobproduct.getRow_no());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_TO_LOCATION_ID, manufacturing_smith_jobproduct.getTo_location_id());
+        values.put(Manufacturing_smith_jobproduct.COLUMN_UOM_ID, manufacturing_smith_jobproduct.getUom_id());
+        long resultid = database.insert(manufacturing_smith_jobproduct.TABLE_MANUFACTURING_SMITH_JOBPRODUCT, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertManufacturing_smith_jobtype(Manufacturing_smith_jobtype manufacturing_smith_jobtype) {
+        ContentValues values = new ContentValues();
+        values.put(Manufacturing_smith_jobtype.COLUMN_ID, manufacturing_smith_jobtype.getId());
+        values.put(Manufacturing_smith_jobtype.COLUMN_NAME, manufacturing_smith_jobtype.getName());
+        values.put(Manufacturing_smith_jobtype.COLUMN_DESCRIPTION, manufacturing_smith_jobtype.getDescription());
+        values.put(Manufacturing_smith_jobtype.COLUMN_JOBTYPE_GROUP, manufacturing_smith_jobtype.getJobtype_group());
+        values.put(Manufacturing_smith_jobtype.COLUMN_ACTIVE, manufacturing_smith_jobtype.isActive());
+        long resultid = database.insert(manufacturing_smith_jobtype.TABLE_MANUFACTURING_SMITH_JOBTYPE, null, values);
 //        Inventory_productserial.set(resultid);
         return resultid;
     }

@@ -3,7 +3,7 @@ package com.ppt.wsinventory.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Smith_jobtype {
+public class JobStatus {
 
     @SerializedName("id")
     @Expose
@@ -14,9 +14,9 @@ public class Smith_jobtype {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("jobtype_group")
+    @SerializedName("status_type")
     @Expose
-    private String jobtypeGroup;
+    private Integer statusType;
     @SerializedName("active")
     @Expose
     private Boolean active;
@@ -45,12 +45,12 @@ public class Smith_jobtype {
         this.description = description;
     }
 
-    public String getJobtypeGroup() {
-        return jobtypeGroup;
+    public Integer getStatusType() {
+        return statusType;
     }
 
-    public void setJobtypeGroup(String jobtypeGroup) {
-        this.jobtypeGroup = jobtypeGroup;
+    public void setStatusType(Integer statusType) {
+        this.statusType = statusType;
     }
 
     public Boolean getActive() {

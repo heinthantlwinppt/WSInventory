@@ -1,32 +1,31 @@
 package com.ppt.wsinventory.model;
 
-import java.util.Date;
-
 /**
  * Created by ThinkCentre on 1/15/2018.
  */
 
-public class Manufacturing_smith_jobtype {
-    public static final String TABLE_MANUFACTURING_SMITH_JOBTYPE = "manufacturing_smith_jobtype";
+public class Manufacturing_jobstatus {
+    public static final String TABLE_MANUFACTURING_JOBSTATUS = "manufacturing_jobstatus";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_STATUS_TYPE = "status_type";
     public static final String COLUMN_ACTIVE = "active";
-    public static final String COLUMN_JOBTYPE_GROUP = "jobtype_group";
     public static final String[] COLUMN_ALL = new String[]{
 
             COLUMN_ID,
             COLUMN_NAME,
             COLUMN_DESCRIPTION,
+            COLUMN_STATUS_TYPE,
             COLUMN_ACTIVE,
-            COLUMN_JOBTYPE_GROUP
+
     };
 
     private int id;
     private String name;
     private String description;
+    private int status_type;
     private boolean active;
-    private String jobtype_group;
 
     public int getId() {
         return id;
@@ -52,6 +51,14 @@ public class Manufacturing_smith_jobtype {
         this.description = description;
     }
 
+    public int getStatus_type() {
+        return status_type;
+    }
+
+    public void setStatus_type(Integer status_type) {
+        this.status_type = status_type;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -60,22 +67,14 @@ public class Manufacturing_smith_jobtype {
         this.active = active;
     }
 
-    public String getJobtype_group() {
-        return jobtype_group;
-    }
-
-    public void setJobtype_group(String jobtype_group) {
-        this.jobtype_group = jobtype_group;
-    }
-
     @Override
     public String toString() {
-        return "Manufacturing_smith_jobtype{" +
+        return "Manufacturing_jobstatus{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", status_type='" + status_type + '\'' +
                 ", active=" + active +
-                ", jobtype_group='" + jobtype_group + '\'' +
                 '}';
     }
 }

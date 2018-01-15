@@ -312,10 +312,9 @@ public class DbHelper extends SQLiteOpenHelper {
                     "joborder_date DATETIME, \n" +
                     "prejewelout BOOL, \n" +
                     "prejewelout_date DATETIME, \n" +
-                    "date_start DATETIME, \n" +
-                    "date_end DATETIME, \n" +
+                    "date_target DATETIME, \n" +
                     "remarks VARCHAR COLLATE NOCASE, \n" +
-                    "date_joined DATETIME, \n" +
+                    "date_start DATETIME, \n" +
                     "date_end DATETIME, \n" +
                     "active BOOL, \n" +
                     "is_delete BOOL, \n" +
@@ -386,6 +385,17 @@ public class DbHelper extends SQLiteOpenHelper {
                     "photo VARCHAR COLLATE NOCASE, \n" +
                     "active BOOL, \n" +
                     "smith_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_MANUFACTURING_JOBSTATUS = "manufacturing_jobstatus";
+    private static final String TABLE_CREATE_MANUFACTURING_JOBSTATUS =
+            "CREATE TABLE manufacturing_jobstatus \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "description VARCHAR COLLATE NOCASE, \n" +
+                    "status_type VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL \n" +
                     ")";
 
     private static final String TABLE_INVENTORY_GOODSINVENTORY = "inventory_goodsinventory";
@@ -465,6 +475,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBTYPE+ " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITHMEMBERS);
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITHMEMBERS+ " has been created");
+        db.execSQL(TABLE_CREATE_MANUFACTURING_JOBSTATUS);
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_JOBSTATUS+ " has been created");
 
     }
 
@@ -492,6 +504,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBTYPE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITHMEMBERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_JOBSTATUS);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
