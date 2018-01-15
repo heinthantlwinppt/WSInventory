@@ -284,17 +284,45 @@ public class WsApi {
                 Log.i(TAG, "JOB Name : " + jobstatus.getName());
             }
             RemoveActionList(apiModel.getName());
-        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBORDERLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBGOLDLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smith_joborder>>() {
+            Type listType = new TypeToken<ArrayList<Smith_JobGold>>() {
             }.getType();
-            List<Smith_joborder> smith_joborderList = gson.fromJson(jsonString, listType);
-            for (Smith_joborder smith_joborder : smith_joborderList) {
-                importSmithJobOrderList(smith_joborder);
-                Log.i(TAG, "Smith JobOrder No : " + smith_joborder.getJoborderNo());
+            List<Smith_JobGold> jobstatusList = gson.fromJson(jsonString, listType);
+            for (Smith_JobGold smith_jobgold : jobstatusList) {
+                importSmithJobGoldList(smith_jobgold);
+                Log.i(TAG, "Gold ID : " + smith_jobgold.getGold());
             }
             RemoveActionList(apiModel.getName());
-        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBTYPELIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBPRODUCTLIST)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<Smith_jobproduct>>() {
+            }.getType();
+            List<Smith_jobproduct> jobstatusList = gson.fromJson(jsonString, listType);
+            for (Smith_jobproduct smith_jobproduct : jobstatusList) {
+                importSmithJobProductList(smith_jobproduct);
+                Log.i(TAG, "Product ID : " + smith_jobproduct.getProducts());
+            }
+            RemoveActionList(apiModel.getName());
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBORDERLIST)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smith_joborder>>() {
+                }.getType();
+                List<Smith_joborder> smith_joborderList = gson.fromJson(jsonString, listType);
+                for (Smith_joborder smith_joborder : smith_joborderList) {
+                    if (importSmithJobOrderList(smith_joborder)) {
+                        appContext.setTs(smith_joborder.getTs());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBTYPELIST)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<Smith_jobtype>>() {
             }.getType();
@@ -781,22 +809,21 @@ public class WsApi {
         return (l > 0);
     }
 
-//    private boolean importSmithJobGoldList(Smith_JobGold wsSmith_JobGold) {
-//        dbaccess = DbAccess.getInstance();
-//        Manufacturing_Smith_Jobgold manufacturing_smith_jobgold = new Manufacturing_Smith_Jobgold();
-//        manufacturing_smith_jobgold.setSmith_joborder_id(wsSmith_JobGold.ge());
-//        manufacturing_smith_jobgold.setWeight(wsSmith_JobGold.getName());
-//        manufacturing_smith_jobgold.setQty(wsSmith_JobGold.getNickname());
-//        manufacturing_smith_jobgold.setGoldsaving(wsSmith_JobGold.getNrc());
-//        manufacturing_smith_jobgold.setRemarks(wsSmith_JobGold.getAddress());
-//        manufacturing_smith_jobgold.setRow_no(wsSmith_JobGold.getPhone());
-//        manufacturing_smith_jobgold.setIs_delete(wsSmith_JobGold.getActive());
-//        manufacturing_smith_jobgold.setGold_id(String.valueOf(wsSmith_JobGold.getSmith()));
-//        manufacturing_smith_jobgold.setUom_id(wsSmith_JobGold.getPhoto());
-//        long l = dbaccess.insertManufacturing_Smith_Jobgold(manufacturing_smith_jobgold);
-//        return (l > 0);
-//    }
-//
+    private boolean importSmithJobGoldList(Smith_JobGold wsSmith_JobGold) {
+        dbaccess = DbAccess.getInstance();
+        Manufacturing_Smith_Jobgold manufacturing_smith_jobgold = new Manufacturing_Smith_Jobgold();
+        manufacturing_smith_jobgold.setSmith_joborder_id(wsSmith_JobGold.getSmithJoborder());
+        manufacturing_smith_jobgold.setWeight(Double.valueOf(wsSmith_JobGold.getWeight()));
+        manufacturing_smith_jobgold.setQty(Double.valueOf(wsSmith_JobGold.getQty()));
+        manufacturing_smith_jobgold.setGoldsaving(Double.valueOf(wsSmith_JobGold.getGoldsaving()));
+        manufacturing_smith_jobgold.setRemarks(wsSmith_JobGold.getRemarks());
+        manufacturing_smith_jobgold.setRow_no(wsSmith_JobGold.getRowNo());
+        manufacturing_smith_jobgold.setIs_delete(wsSmith_JobGold.getIsDelete());
+        manufacturing_smith_jobgold.setGold_id(wsSmith_JobGold.getGold());
+        manufacturing_smith_jobgold.setUom_id(wsSmith_JobGold.getUom());
+        long l = dbaccess.insertManufacturing_Smith_Jobgold(manufacturing_smith_jobgold);
+        return (l > 0);
+    }
     private boolean importSmithJobOrderList(Smith_joborder wsSmith_joborder) {
         dbaccess = DbAccess.getInstance();
         Manufacturing_smith_joborder manufacturing_smith_joborder = new Manufacturing_smith_joborder();
@@ -828,34 +855,33 @@ public class WsApi {
         return (l > 0);
     }
 //
-//    private boolean importSmithJobProductList(Smith_jobproduct wsSmith_jobproduct) {
-//        dbaccess = DbAccess.getInstance();
-//        Manufacturing_smith_jobproduct manufacturing_smith_jobproduct = new Manufacturing_smith_jobproduct();
-//        manufacturing_smith_jobproduct.setPlength(wsSmith_jobproduct.ge());
-//        manufacturing_smith_jobproduct.setWeight(wsSmith_jobproduct.getName());
-//        manufacturing_smith_jobproduct.setK(wsSmith_jobproduct.getNickname());
-//        manufacturing_smith_jobproduct.setP(wsSmith_jobproduct.getNrc());
-//        manufacturing_smith_jobproduct.setY(wsSmith_jobproduct.getAddress());
-//        manufacturing_smith_jobproduct.setQty(wsSmith_jobproduct.getPhone());
-//        manufacturing_smith_jobproduct.setReduce_weight(wsSmith_jobproduct.getActive());
-//        manufacturing_smith_jobproduct.setReduce_k(wsSmith_jobproduct.getActive());
-//        manufacturing_smith_jobproduct.setReduce_p(String.valueOf(wsSmith_jobproduct.getSmith()));
-//        manufacturing_smith_jobproduct.setReduce_y(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setTarget_date(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setStart_date(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setEnd_date(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setWages(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setRemarks(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setProducts_id(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setSmith_joborder_id(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setIs_delete(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setRow_no(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setTo_location_id(wsSmith_jobproduct.getPhoto());
-//        manufacturing_smith_jobproduct.setUom_id(wsSmith_jobproduct.getPhoto());
-//        long l = dbaccess.insertManufacturing_smith_jobproduct(manufacturing_smith_jobproduct);
-//        return (l > 0);
-//    }
-//
+    private boolean importSmithJobProductList(Smith_jobproduct wsSmith_jobproduct) {
+        dbaccess = DbAccess.getInstance();
+        Manufacturing_smith_jobproduct manufacturing_smith_jobproduct = new Manufacturing_smith_jobproduct();
+        manufacturing_smith_jobproduct.setPlength(wsSmith_jobproduct.getPlength());
+        manufacturing_smith_jobproduct.setWeight(wsSmith_jobproduct.getWeight());
+        manufacturing_smith_jobproduct.setK(wsSmith_jobproduct.getK());
+        manufacturing_smith_jobproduct.setP(wsSmith_jobproduct.getP());
+        manufacturing_smith_jobproduct.setY(wsSmith_jobproduct.getY());
+        manufacturing_smith_jobproduct.setQty(wsSmith_jobproduct.getQty());
+        manufacturing_smith_jobproduct.setReduce_weight(wsSmith_jobproduct.getReduceWeight());
+        manufacturing_smith_jobproduct.setReduce_k(wsSmith_jobproduct.getReduceK());
+        manufacturing_smith_jobproduct.setReduce_p(wsSmith_jobproduct.getReduceP());
+        manufacturing_smith_jobproduct.setReduce_y(wsSmith_jobproduct.getReduceY());
+        manufacturing_smith_jobproduct.setTarget_date(wsSmith_jobproduct.getTargetDate());
+        manufacturing_smith_jobproduct.setStart_date(wsSmith_jobproduct.getStartDate());
+        manufacturing_smith_jobproduct.setEnd_date(wsSmith_jobproduct.getEndDate());
+        manufacturing_smith_jobproduct.setWages(wsSmith_jobproduct.getWages());
+        manufacturing_smith_jobproduct.setRemarks(wsSmith_jobproduct.getRemarks());
+        manufacturing_smith_jobproduct.setProducts_id(wsSmith_jobproduct.getProducts());
+        manufacturing_smith_jobproduct.setSmith_joborder_id(wsSmith_jobproduct.getSmithJoborder());
+        manufacturing_smith_jobproduct.setIs_delete(wsSmith_jobproduct.getIsDelete());
+        manufacturing_smith_jobproduct.setRow_no(wsSmith_jobproduct.getRowNo());
+        manufacturing_smith_jobproduct.setTo_location_id(wsSmith_jobproduct.getToLocation());
+        manufacturing_smith_jobproduct.setUom_id(wsSmith_jobproduct.getUom());
+        long l = dbaccess.insertManufacturing_smith_jobproduct(manufacturing_smith_jobproduct);
+        return (l > 0);
+    }
     private boolean importSmithJobTypeList(Smith_jobtype wsSmith_jobtype) {
         dbaccess = DbAccess.getInstance();
         Manufacturing_smith_jobtype manufacturing_smith_jobtype = new Manufacturing_smith_jobtype();
