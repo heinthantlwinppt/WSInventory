@@ -25,12 +25,11 @@ import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
-import com.ppt.wsinventory.websocket.WsApi;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     DbAccess dbAccess;
 //    Item item;
     List<Item> ItemList = new ArrayList<>();
-    RecyclerViewAdapter adapter;
+    SmithJobOrderAdapter adapter;
     private GlobalVariables appContext;
     private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
 
