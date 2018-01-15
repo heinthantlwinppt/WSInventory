@@ -46,6 +46,8 @@ public class SmithJobOrderAdapter extends ArrayAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.smithjoborder_items, parent, false);
         }
+        txt_OrderItem = convertView.findViewById(R.id.OrderItem);
+        txt_OrderName = convertView.findViewById(R.id.OrderName);
 
         AdministrationWsdashboard administrationWsdashboard = mDataSet.get(position);
         txt_OrderName.setText(administrationWsdashboard.getTitle());

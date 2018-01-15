@@ -56,13 +56,13 @@ public class DashboardSmithJob extends AppCompatActivity {
         navigation.clearAnimation();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-//        dbAccess = new DbAccess(this);
-//        dbAccess.open();
-////            minflater = inflater;
-//        smithJobOrderList = dbAccess.getAllDashboardItems();
-//        SmithJobOrderAdapter adapter = new SmithJobOrderAdapter( this, smithJobOrderList);
+        dbAccess = new DbAccess(this);
+        dbAccess.open();
+//            minflater = inflater;
+        smithJobOrderList = dbAccess.getAllDashboardItems();
+        SmithJobOrderAdapter adapter = new SmithJobOrderAdapter( this, smithJobOrderList);
         ListView listView = findViewById(R.id.lv_smithorder);
-//        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 
 
