@@ -1,9 +1,11 @@
 package com.ppt.wsinventory.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.DashboardSmithJob;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -42,6 +44,8 @@ public class BusinessLogic {
     public void openScreen(WsEvents.EventOpenScreen e) {
         if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_RECEIVING_INVENTORY)){
 
+            Intent intent = new Intent(this.appContext, DashboardSmithJob.class);
+            appContext.startActivity(intent);
             Toast.makeText(mContext, "Show Receiving Detail", Toast.LENGTH_SHORT).show();
         }
         else if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_TAGGING_INVENTORY)){
