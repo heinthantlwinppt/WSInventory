@@ -27,7 +27,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/OrderName"
+                android:id="@+id/smith_id"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
@@ -36,7 +36,7 @@
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/OrderItem"
+                android:id="@+id/orderid"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
@@ -48,19 +48,19 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/date_start"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_below="@+id/OrderName"
+                android:layout_below="@+id/smith_id"
                 android:text="text"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/date_target"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/OrderItem"
+                android:layout_below="@+id/orderid"
                 android:text="Item"
                 android:textColor="@android:color/black" />
 

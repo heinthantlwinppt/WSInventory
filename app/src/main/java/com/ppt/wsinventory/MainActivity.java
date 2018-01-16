@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity
     DbAccess dbAccess;
 //    Item item;
     List<Item> ItemList = new ArrayList<>();
-    SmithJobOrderAdapter adapter;
     private GlobalVariables appContext;
     private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
 

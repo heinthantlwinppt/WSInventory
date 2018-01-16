@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.util.ArrayList;
@@ -29,14 +30,14 @@ public class SmithJobFragment extends Fragment{
     private LayoutInflater minflater;
     DbAccess dbaccess;
     SmithJobAdapter adapter;
-    private List<AdministrationWsdashboard> administrationWsdashboardList;
+    private List<Manufacturing_smith_joborder> manufacturing_smith_joborders;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_smith_job, container, false);
         ListView = (RecyclerView) rootView.findViewById(R.id.activity_recycler_view);
         minflater = inflater;
-        administrationWsdashboardList = new ArrayList<>();
+        manufacturing_smith_joborders = new ArrayList<>();
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
         loadRecyclerView();
@@ -45,8 +46,8 @@ public class SmithJobFragment extends Fragment{
 
     private void loadRecyclerView() {
 
-        administrationWsdashboardList = dbaccess.getAllDashboardItems();
-        adapter = new SmithJobAdapter((ArrayList<AdministrationWsdashboard>) administrationWsdashboardList);
+        manufacturing_smith_joborders = dbaccess.getAllSmithJoborder();
+        adapter = new SmithJobAdapter((ArrayList<Manufacturing_smith_joborder>) manufacturing_smith_joborders);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());

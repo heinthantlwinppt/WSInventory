@@ -25,7 +25,6 @@ public class DashboardSmithJob extends AppCompatActivity  {
 
     private TextView mTextMessage;
     DbAccess dbAccess;
-    SmithJobOrderAdapter adapter;
     RecyclerView recyclerView;
     String mCurrentFragmentTag;
     List<AdministrationWsdashboard> smithJobOrderList = new ArrayList<>();

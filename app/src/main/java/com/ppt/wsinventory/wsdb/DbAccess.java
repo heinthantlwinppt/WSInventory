@@ -233,6 +233,76 @@ public class DbAccess {
 
     }
 
+    public List<Manufacturing_smith_joborder> getAllSmithJoborder() {
+        List<Manufacturing_smith_joborder> smithorder = new ArrayList<>();
+        Cursor cursor = readData(Manufacturing_smith_joborder.TABLE_MANUFACTURING_SMITH_JOBORDER
+                , Manufacturing_smith_joborder.COLUMN_ALL
+                , null, null, null, null, null
+//                , new String[]{"1"}, null, null, null
+        );
+
+        while (cursor.moveToNext()) {
+            Manufacturing_smith_joborder item = new Manufacturing_smith_joborder();
+            item.setJoborder_no(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_NO)));
+            try {
+                item.setJoborder_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_DATE))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            item.setPrejewelout(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_PREJEWELOUT))));
+            try {
+                item.setPrejewelout_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_PREJEWELOUT_DATE))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                item.setDate_target(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_TARGET))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                item.setDate_start(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_START))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                item.setDate_end(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_END))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            item.setRemarks(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMARKS)));
+            item.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTIVE))));
+            item.setIs_delete(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_IS_DELETE))));
+            try {
+                item.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            item.setJoborder_type_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_TYPE_ID))));
+            item.setJobstatus_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBSTATUS_ID))));
+            item.setSmith_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SMITH_ID))));
+            item.setDensity(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DENSITY))));
+            item.setDiff_k(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_K))));
+            item.setDiff_p(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_P))));
+            item.setDiff_weight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_WEIGHT))));
+            item.setDiff_y(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_Y))));
+            item.setPrint_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRINT_COUNT))));
+            item.setProduct_weight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRODUCT_WEIGHT))));
+            item.setRemain_gold(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMAIN_GOLD))));
+            item.setRemain_jewel(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMAIN_JEWEL))));
+            item.setSave_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SAVE_COUNT))));
+
+            smithorder.add(item);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return smithorder;
+
+
+    }
+
     public AdministrationSettings getAdministrationSettings() {
 //        AdministrationSettings administrationSettings = new AdministrationSettings();
         AdministrationSettings administrationSetting = new AdministrationSettings();
