@@ -30,6 +30,7 @@ import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
+import com.ppt.wsinventory.model.Inventory_serialgolds;
 import com.ppt.wsinventory.model.JobStatus;
 import com.ppt.wsinventory.model.Location;
 import com.ppt.wsinventory.model.ManufacturingSmith;
@@ -44,6 +45,7 @@ import com.ppt.wsinventory.model.Product;
 import com.ppt.wsinventory.model.ProductGroup;
 import com.ppt.wsinventory.model.ProductSerial;
 import com.ppt.wsinventory.model.Role;
+import com.ppt.wsinventory.model.Serialgolds;
 import com.ppt.wsinventory.model.Settings;
 import com.ppt.wsinventory.model.Smith;
 import com.ppt.wsinventory.model.Smith_JobGold;
@@ -384,6 +386,23 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSERIALGOLDSLISTLIST)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Serialgolds>>() {
+                }.getType();
+                List<Serialgolds> serialgoldsList = gson.fromJson(jsonString, listType);
+                for (Serialgolds serialgolds : serialgoldsList) {
+                    if (importInventory_serialgolds(serialgolds)) {
+                        appContext.setTs(serialgolds.getTs());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPALLET)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
@@ -711,6 +730,29 @@ public class WsApi {
 
     }
 
+    private boolean importInventory_serialgolds(Serialgolds wsSerialgolds) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_serialgolds inventory_serialgolds = new Inventory_serialgolds();
+        inventory_serialgolds.setSerial_id(wsSerialgolds.getSerial());
+        inventory_serialgolds.setReduce_weight(Double.parseDouble(wsSerialgolds.getReduceWeight()));
+        inventory_serialgolds.setReduce_k(wsSerialgolds.getReduceK());
+        inventory_serialgolds.setReduce_p(wsSerialgolds.getReduceP());
+        inventory_serialgolds.setReduce_y(Double.parseDouble(wsSerialgolds.getReduceY()));
+        inventory_serialgolds.setProduction_fee(Double.parseDouble(wsSerialgolds.getProductionFee()));
+        inventory_serialgolds.setCost_reduce_weight(Double.parseDouble(wsSerialgolds.getReduceWeight()));
+        inventory_serialgolds.setCost_reduce_k(wsSerialgolds.getReduceK());
+        inventory_serialgolds.setCost_reduce_p(wsSerialgolds.getReduceP());
+        inventory_serialgolds.setCost_reduce_y(Double.parseDouble(wsSerialgolds.getReduceY()));
+        inventory_serialgolds.setCost_productionfee(Double.parseDouble(wsSerialgolds.getProductionFee()));
+        inventory_serialgolds.setIs_delete(wsSerialgolds.getIsDelete());
+        inventory_serialgolds.setGold_id(wsSerialgolds.getGold());
+        inventory_serialgolds.setTs(wsSerialgolds.getTs());
+
+        long l = dbaccess.insertInventory_serialgolds(inventory_serialgolds);
+        return (l > 0);
+
+    }
+
     private boolean importSmith(Smith wsSmith) {
         dbaccess = DbAccess.getInstance();
         ManufacturingSmith manufacturingsmith = new ManufacturingSmith();
@@ -753,7 +795,7 @@ public class WsApi {
         inventoryPallet.setTag(wsPallet.getTag());
         inventoryPallet.setLocation_id(wsPallet.getTag());
         inventoryPallet.setWeight(Double.parseDouble(wsPallet.getWeight()));
-        inventoryPallet.setIs_used(wsPallet.getActive());
+        inventoryPallet.setIs_used(wsPallet.getIsUsed());
         inventoryPallet.setActive(wsPallet.getActive());
         inventoryPallet.setTs(wsPallet.getTs());
 

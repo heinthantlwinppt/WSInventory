@@ -262,6 +262,26 @@ public class DbHelper extends SQLiteOpenHelper {
                     "uom_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
+    private static final String TABLE_INVENTORY_SERIALGOLDS = "inventory_serialgolds";
+    private static final String TABLE_CREATE_INVENTORY_SERIALGOLDS =
+            "CREATE TABLE inventory_serialgolds \n" +
+                    "(\n" +
+                    "serial_id VARCHAR COLLATE NOCASE, \n" +
+                    "reduce_weight NUMERIC, \n" +
+                    "reduce_k INTEGER, \n" +
+                    "reduce_p INTEGER, \n" +
+                    "reduce_y NUMERIC, \n" +
+                    "production_fee NUMERIC, \n" +
+                    "cost_reduce_weight NUMERIC, \n" +
+                    "cost_reduce_k INTEGER, \n" +
+                    "cost_reduce_p INTEGER, \n" +
+                    "cost_reduce_y NUMERIC, \n" +
+                    "cost_productionfee NUMERIC, \n" +
+                    "is_delete BOOL, \n" +
+                    "gold_id INTEGER, \n" +
+                    "ts DATETIME \n" +
+                    ")";
+
     private static final String TABLE_MANUFACTURING_SMITH = "manufacturing_smith";
     private static final String TABLE_CREATE_MANUFACTURING_SMITH =
             "CREATE TABLE manufacturing_smith \n" +
@@ -463,6 +483,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSERIAL);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_SERIALGOLDS);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SERIALGOLDS+ " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH);
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH+ " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBGOLD);
@@ -497,6 +519,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_PALLET);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTROY_GOLDUOM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSERIAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_SERIALGOLDS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBGOLD);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITH_JOBORDER);

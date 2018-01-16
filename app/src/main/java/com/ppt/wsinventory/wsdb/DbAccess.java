@@ -24,6 +24,7 @@ import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
+import com.ppt.wsinventory.model.Inventory_serialgolds;
 import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.model.ManufacturingSmith;
 import com.ppt.wsinventory.model.Manufacturing_Smith_Jobgold;
@@ -575,6 +576,28 @@ public class DbAccess {
         values.put(Inventory_productserial.COLUMN_DELIVERED, inventory_productserial.isDelivered());
         values.put(Inventory_productserial.COLUMN_GOODSID, inventory_productserial.getGoodsid());
         long resultid = database.insert(inventory_productserial.TABLE_INVENTORY_PRODUCTSERIAL, null, values);
+//        Inventory_productserial.set(resultid);
+        return resultid;
+    }
+
+    public long insertInventory_serialgolds(Inventory_serialgolds inventory_serialgolds) {
+        ContentValues values = new ContentValues();
+        values.put(Inventory_serialgolds.COLUMN_SERIAL_ID, inventory_serialgolds.getSerial_id());
+        values.put(Inventory_serialgolds.COLUMN_REDUCE_WEIGHT, inventory_serialgolds.getReduce_weight());
+        values.put(Inventory_serialgolds.COLUMN_REDUCE_K, inventory_serialgolds.getReduce_k());
+        values.put(Inventory_serialgolds.COLUMN_REDUCE_P, inventory_serialgolds.getReduce_p());
+        values.put(Inventory_serialgolds.COLUMN_REDUCE_Y, inventory_serialgolds.getReduce_y());
+        values.put(Inventory_serialgolds.COLUMN_PRODUCTION_FEE, inventory_serialgolds.getProduction_fee());
+        values.put(Inventory_serialgolds.COLUMN_COST_REDUCE_WEIGHT, inventory_serialgolds.getCost_reduce_weight());
+        values.put(Inventory_serialgolds.COLUMN_COST_REDUCE_K, inventory_serialgolds.getCost_reduce_k());
+        values.put(Inventory_serialgolds.COLUMN_REDUCE_P, inventory_serialgolds.getCost_reduce_p());
+        values.put(Inventory_serialgolds.COLUMN_COST_REDUCE_Y, inventory_serialgolds.getCost_reduce_y());
+        values.put(Inventory_serialgolds.COLUMN_COST_PRODUCTIONFEE, inventory_serialgolds.getCost_productionfee());
+        values.put(Inventory_serialgolds.COLUMN_IS_DELETE, inventory_serialgolds.isIs_delete());
+        values.put(Inventory_serialgolds.COLUMN_GOLD_ID, inventory_serialgolds.getGold_id());
+        values.put(Inventory_serialgolds.COLUMN_TS, Utility.dateFormat.format(inventory_serialgolds.getTs()));
+
+        long resultid = database.insert(inventory_serialgolds.TABLE_INVENTORY_SERIALGOLDS, null, values);
 //        Inventory_productserial.set(resultid);
         return resultid;
     }
