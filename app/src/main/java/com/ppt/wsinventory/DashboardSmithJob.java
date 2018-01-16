@@ -1,28 +1,32 @@
 package com.ppt.wsinventory;
 
-import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardSmithJob extends AppCompatActivity {
+import static android.text.TextUtils.isEmpty;
+
+public class DashboardSmithJob extends AppCompatActivity  {
 
     private TextView mTextMessage;
     DbAccess dbAccess;
+    SmithJobOrderAdapter adapter;
+    RecyclerView recyclerView;
     List<AdministrationWsdashboard> smithJobOrderList = new ArrayList<>();
+    private static final String TAG = "Ws-Smithjob";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,16 +35,16 @@ public class DashboardSmithJob extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+//                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+//                    mTextMessage.setText(R.string.title_notifications);
                     return true;
                 case R.id.navigation_dashboard1:
-                    mTextMessage.setText("List");
+//                    mTextMessage.setText("List");
             }
             return false;
         }
@@ -58,13 +62,24 @@ public class DashboardSmithJob extends AppCompatActivity {
 
         dbAccess = new DbAccess(this);
         dbAccess.open();
-//            minflater = inflater;
-        smithJobOrderList = dbAccess.getAllDashboardItems();
-        SmithJobOrderAdapter adapter = new SmithJobOrderAdapter( this, smithJobOrderList);
-        ListView listView = findViewById(R.id.lv_smithorder);
-        listView.setAdapter(adapter);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
+        loadRecyclerView();
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+    private void loadRecyclerView() {
+
+        smithJobOrderList = dbAccess.getAllDashboardItems();
+        Log.i(TAG, "onReceive: " + smithJobOrderList);
+        adapter = new SmithJobOrderAdapter((ArrayList<AdministrationWsdashboard>) smithJobOrderList);
+        recyclerView.setAdapter(adapter);
+    }
 
 
 }

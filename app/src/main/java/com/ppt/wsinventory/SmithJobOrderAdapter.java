@@ -1,59 +1,67 @@
 package com.ppt.wsinventory;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.ppt.wsinventory.model.AdministrationStaff;
+import android.widget.Toast;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by User on 15/01/2018.
  */
 
-public class SmithJobOrderAdapter extends ArrayAdapter {
-    ArrayList<AdministrationWsdashboard> mDataSet;
-    LayoutInflater mInflater;
-    @BindView(R.id.OrderName)
-    TextView txt_OrderName;
-    @BindView(R.id.OrderItem)
-    TextView txt_OrderItem;
-    @BindView(R.id.textView)
-    TextView txt_textView;
-    @BindView(R.id.textView1)
-    TextView txt_textView1;
+public class SmithJobOrderAdapter extends RecyclerView.Adapter<SmithJobOrderAdapter.DataObjectHolder> {
 
-    public SmithJobOrderAdapter(@NonNull Context context, @NonNull List<AdministrationWsdashboard> objects) {
-        super(context, R.layout.smithjoborder_items, objects);
-        mInflater = LayoutInflater.from(context);
-        mDataSet = (ArrayList<AdministrationWsdashboard>) objects;
+    ArrayList<AdministrationWsdashboard> mDataSet;
+    private Unbinder unbinder;
+    Context mContext;
+    private static final String TAG = "Ws-smithjob";
+
+    public SmithJobOrderAdapter(ArrayList<AdministrationWsdashboard> myDataset) {
+        mDataSet = myDataset;
+
+        Log.i(TAG, "onReceive: " + mDataSet);
+    }
+    @Override
+    public SmithJobOrderAdapter.DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.smithjoborder_items, parent, false);
+        mContext = parent.getContext();
+        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
+        return dataObjectHolder;
     }
 
-
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.smithjoborder_items, parent, false);
+    public void onBindViewHolder(SmithJobOrderAdapter.DataObjectHolder holder, int position) {
+       holder.txt_OrderName.setText(mDataSet.get(position).getGroupname());
+       holder.txt_OrderItem.setText(mDataSet.get(position).getTitle());
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+    public class DataObjectHolder extends RecyclerView.ViewHolder {
+
+        TextView txt_OrderName,txt_OrderItem;
+        public DataObjectHolder(View itemView) {
+            super(itemView);
+
+            txt_OrderItem = (TextView) itemView.findViewById(R.id.OrderItem);
+            txt_OrderName = (TextView) itemView.findViewById(R.id.OrderName);
         }
-        txt_OrderItem = convertView.findViewById(R.id.OrderItem);
-        txt_OrderName = convertView.findViewById(R.id.OrderName);
-
-        AdministrationWsdashboard administrationWsdashboard = mDataSet.get(position);
-        txt_OrderName.setText(administrationWsdashboard.getTitle());
-        txt_OrderItem.setText(administrationWsdashboard.getActionname());
-
-
-        return convertView;
     }
 }
