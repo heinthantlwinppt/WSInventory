@@ -4,8 +4,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +27,10 @@ public class DashboardSmithJob extends AppCompatActivity  {
     DbAccess dbAccess;
     SmithJobOrderAdapter adapter;
     RecyclerView recyclerView;
+    String mCurrentFragmentTag;
     List<AdministrationWsdashboard> smithJobOrderList = new ArrayList<>();
     private static final String TAG = "Ws-Smithjob";
+    private static final String SMITHJOBFRAGMENT_TAG = "smithjobfragment_tag";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,8 +66,15 @@ public class DashboardSmithJob extends AppCompatActivity  {
 
         dbAccess = new DbAccess(this);
         dbAccess.open();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
-        loadRecyclerView();
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
+        if (!TextUtils.isEmpty(StateManager.getInstance().getCurrentFragmentTag())) {
+
+            mCurrentFragmentTag = StateManager.getInstance().getCurrentFragmentTag();
+        }else {
+
+            mCurrentFragmentTag = SMITHJOBFRAGMENT_TAG;
+        }
+        LoadSmithJobOrder();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,13 +84,44 @@ public class DashboardSmithJob extends AppCompatActivity  {
         return true;
     }
 
-    private void loadRecyclerView() {
+//    private void loadRecyclerView() {
+//
+//        smithJobOrderList = dbAccess.getAllDashboardItems();
+//        Log.i(TAG, "onReceive: " + smithJobOrderList);
+//        adapter = new SmithJobOrderAdapter((ArrayList<AdministrationWsdashboard>) smithJobOrderList);
+//        recyclerView.setAdapter(adapter);
+//    }
 
-        smithJobOrderList = dbAccess.getAllDashboardItems();
-        Log.i(TAG, "onReceive: " + smithJobOrderList);
-        adapter = new SmithJobOrderAdapter((ArrayList<AdministrationWsdashboard>) smithJobOrderList);
-        recyclerView.setAdapter(adapter);
+    private void LoadSmithJobOrder() {
+
+        removeFragment();
+
+        SmithJobFragment frag = new SmithJobFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.content, frag ,SMITHJOBFRAGMENT_TAG)
+                .commit();
+
+
+        mCurrentFragmentTag = SMITHJOBFRAGMENT_TAG;
+        StateManager.getInstance().setCurrentFragmentTag(mCurrentFragmentTag);
+
+//        finish();
     }
 
+    private void removeFragment() {
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(mCurrentFragmentTag);
+
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commit();
+
+        }
+    }
 
 }
