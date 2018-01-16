@@ -28,6 +28,7 @@ public class ApiModel {
     public static String GETWSGOODSINVENTORYLIST = "getGoodsinventoryList";
     public static String GETWSPRODUCTGROUPLIST = "getProductgroupsList";
     public static String GETWSPRODUCTSERIALLIST = "getProductSerialList";
+    public static String GETWSSERIALGOLDSLISTLIST = "getSerialGoldsList";
     public static String GETWSSMITHLIST = "getManufacturingSmithList";
     public static String GETWSSMITHJOBGOLDLIST = "getManufacturingSmithJobGold";
     public static String GETWSSMITHJOBORDERLIST = "getManufacturingSmithJobOrder";
