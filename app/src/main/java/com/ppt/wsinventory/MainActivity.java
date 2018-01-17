@@ -1,5 +1,6 @@
 package com.ppt.wsinventory;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,13 +19,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.support.v7.widget.SearchView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
+import com.ppt.wsinventory.util.MessageBox;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +50,9 @@ public class MainActivity extends AppCompatActivity
     List<Item> ItemList = new ArrayList<>();
     private GlobalVariables appContext;
     private static final String ITEMLISTFRAGMENT_TAG = "ItemListFragment_tag";
+    public static final String CONFIRM_SIGN_OUT = "CONFIRM_SIGN_OUT";
+    public static final String SYNCHRONIZATION_COMPLETED = "SYNCHRONIZATION_COMPLETED";
+
 
 
     @Override
@@ -52,11 +61,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        appContext = (GlobalVariables) getApplicationContext();
 
         dbAccess = new DbAccess(this);
         dbAccess.open();
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,8 +101,28 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
+            MessageBox.ShowMessage(getSupportFragmentManager(),
+                    appContext.getTranslation("Sign Out"),
+                    appContext.getTranslation("Do you want to Exit application?"),
+                    CONFIRM_SIGN_OUT,
+                    "Cancel",
+                    "OK"
+            );
+
+        }
+    }
+
+    @Subscribe
+    public void onMessageBoxResult(WsEvents.EventMessages e) {
+        if (e.getMsgResult() == MessageBox.RESULT_OK && e.getAction() == CONFIRM_SIGN_OUT) {
+            Intent returnIntent = new Intent();
+            setResult(RESULT_OK, returnIntent);
             finish();
         }
+//        else if(e.getMsgResult() == MessageBox.RESULT_OK && e.getAction() == SYNCHRONIZATION_COMPLETED) {
+////            ShowProgress(false);
+//            LoadItemList();
+//        }
     }
 
     @Override

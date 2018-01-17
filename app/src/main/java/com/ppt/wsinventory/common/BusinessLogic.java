@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.widget.Toast;
 
 import com.ppt.wsinventory.DashboardSmithJob;
+import com.ppt.wsinventory.DashboardSmithJobOrder;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
@@ -44,7 +46,8 @@ public class BusinessLogic {
     public void openScreen(WsEvents.EventOpenScreen e) {
         if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_RECEIVING_INVENTORY)){
 
-            Intent intent = new Intent(this.appContext, DashboardSmithJob.class);
+            Intent intent = new Intent(this.appContext, DashboardSmithJobOrder.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             appContext.startActivity(intent);
             Toast.makeText(mContext, "Show Receiving Detail", Toast.LENGTH_SHORT).show();
         }
@@ -53,6 +56,93 @@ public class BusinessLogic {
             Toast.makeText(mContext, "Show Tagging Detail", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public Manufacturing_smith_joborder openSmithJobScreen(WsEvents.EventOpenSmithJob event) {
+        dbaccess = DbAccess.getInstance();
+        Manufacturing_smith_joborder manufacturing_smith_joborder = new Manufacturing_smith_joborder();
+        if(dbaccess != null) {
+            if(!dbaccess.isOpen())
+                dbaccess.open();
+            Cursor cursor = dbaccess.readData(Manufacturing_smith_joborder.TABLE_MANUFACTURING_SMITH_JOBORDER
+                    ,Manufacturing_smith_joborder.COLUMN_ALL
+                    ,Manufacturing_smith_joborder.COLUMN_JOBORDER_NO + " = ?"
+                    ,new String[]{event.getJoborder_no()},null,null,null
+                    );
+
+            while (cursor.moveToNext()) {
+                Manufacturing_smith_joborder item = new Manufacturing_smith_joborder();
+                item.setJoborder_no(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_NO)));
+                try {
+                    item.setJoborder_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_DATE))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                item.setPrejewelout(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_PREJEWELOUT))));
+                try {
+                    item.setPrejewelout_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_PREJEWELOUT_DATE))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    item.setDate_target(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_TARGET))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    item.setDate_start(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_START))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    item.setDate_end(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_DATE_END))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                item.setRemarks(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMARKS)));
+                item.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTIVE))));
+                item.setIs_delete(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_IS_DELETE))));
+                try {
+                    item.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(item.COLUMN_TS))));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                item.setJoborder_type_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBORDER_TYPE_ID))));
+                item.setJobstatus_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_JOBSTATUS_ID))));
+                item.setSmith_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SMITH_ID))));
+                item.setDensity(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DENSITY))));
+                item.setDiff_k(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_K))));
+                item.setDiff_p(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_P))));
+                item.setDiff_weight(Double.parseDouble(String.valueOf(cursor.getColumnIndex(item.COLUMN_DIFF_WEIGHT))));
+                item.setDiff_y(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_Y))));
+                item.setPrint_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRINT_COUNT))));
+                item.setProduct_weight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRODUCT_WEIGHT))));
+                item.setRemain_gold(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMAIN_GOLD))));
+                item.setRemain_jewel(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_REMAIN_JEWEL))));
+                item.setSave_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SAVE_COUNT))));
+
+                break;
+
+            }
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+
+        }
+        return manufacturing_smith_joborder;
+
+        }
+//        if(e.getJoborder_no().equalsIgnoreCase(WsEvents.OPEN_RECEIVING_INVENTORY)){
+//
+//            Intent intent = new Intent(this.appContext, DashboardSmithJobOrder.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            appContext.startActivity(intent);
+//            Toast.makeText(mContext, "Show Receiving Detail", Toast.LENGTH_SHORT).show();
+//        }
+//        else if(e.getActionname().equalsIgnoreCase(WsEvents.OPEN_TAGGING_INVENTORY)){
+//
+//            Toast.makeText(mContext, "Show Tagging Detail", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 //    public AdministrationSettings getAdministrationSettings() {
 ////        AdministrationSettings administrationSettings = new AdministrationSettings();

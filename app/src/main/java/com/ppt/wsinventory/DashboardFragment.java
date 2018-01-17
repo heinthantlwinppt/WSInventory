@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
+import com.ppt.wsinventory.util.MessageBox;
 import com.ppt.wsinventory.websocket.WsApi;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.util.ScreenUtility;
@@ -72,6 +74,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     private static final String TAG = "Ws-Dashboard";
     BusinessLogic b1;
     float w;
+    ProgressBar my_progress;
+
+
+    private void ShowProgress(boolean show) {
+        my_progress.setVisibility(show ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
+
+    }
 
 
     public DashboardFragment() {
@@ -95,6 +105,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        my_progress = rootView.findViewById(R.id.confirm_progress);
         loadRecyclerView();
 
 
@@ -185,7 +196,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     }
 
                 } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
-                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    ShowProgress(false);
+                    MessageBox.ShowMessage(getFragmentManager(),
+                            appContext.getTranslation("ERROR"),
+                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
+                            null,
+                            null,
+                            "OK");
                 }
 
             } else if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_MESSAGE)) {
@@ -206,6 +224,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     }
                 } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
                     Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+
+//                    ShowProgress(false);
+//                    MessageBox.ShowMessage(getFragmentManager(),
+//                            appContext.getTranslation("ERROR"),
+//                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
+//                            null,
+//                            null,
+//                            "OK");
                 }
 
             }
@@ -278,6 +304,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             WsApi wsapi = new WsApi(appContext);
             wsapi.getGoodsID();
         }
+
         Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
 
     }
@@ -319,7 +346,21 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             WsApi wsapi = new WsApi(appContext);
             wsapi.getActionList();
         }
+
+        ShowProgress(true);
+//        loadRecyclerView();
         Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe
+    public void ShowMessage(WsEvents.EventShowMessage e) {
+        ShowProgress(false);
+        MessageBox.ShowMessage(getFragmentManager(),
+                appContext.getTranslation(e.getTitle()),
+                appContext.getTranslation(appContext.getTranslation(e.getCaption())),
+                e.getAction(),
+                e.getButtonLeft(),
+                e.getButtonRight());
     }
 
     private List<AdministrationWsdashboard> filter(List<AdministrationWsdashboard> pl, String query) {

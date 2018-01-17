@@ -7,7 +7,9 @@ import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.util.RequestPackage;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 28/12/2017.
@@ -24,6 +26,7 @@ public class GlobalVariables extends Application {
     private String solutionname = "SALES-HH";
     private String deviceid ;
     private AdministrationStaff mStaff;
+    private Map<String, String> translation = new HashMap<String, String>();
 
     public String getSolutionname() {
         return solutionname;
@@ -96,4 +99,18 @@ public class GlobalVariables extends Application {
     public void setmStaff(AdministrationStaff mStaff) {
         this.mStaff = mStaff;
     }
+
+    public String getTranslation(String key) {
+
+        try {
+            return translation.get(key.toUpperCase()).toString();
+        } catch (Exception e) {
+            return key;
+        }
+    }
+
+    public void addTranslation(String key, String value) {
+        this.translation.put(key.toUpperCase(), value);
+    }
+
 }

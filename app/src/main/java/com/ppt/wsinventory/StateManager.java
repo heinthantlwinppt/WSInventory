@@ -1,6 +1,7 @@
 package com.ppt.wsinventory;
 
 import com.ppt.wsinventory.model.Item;
+import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ class StateManager {
 
     private String CurrentFragmentTag;
     private Map<String, String> translation = new HashMap<String, String>();
+    private Manufacturing_smith_joborder mSelectedSmithJobOrder;
 
     public String getCurrentFragmentTag() {
         return CurrentFragmentTag;
@@ -49,6 +51,14 @@ class StateManager {
 
     public void addTranslation(String key, String value) {
         this.translation.put(key.toUpperCase(), value);
+    }
+
+    public Manufacturing_smith_joborder getmSelectedSmithJobOrder() {
+        return mSelectedSmithJobOrder;
+    }
+
+    public void setmSelectedSmithJobOrder(Manufacturing_smith_joborder mSelectedSmithJobOrder) {
+        this.mSelectedSmithJobOrder = mSelectedSmithJobOrder;
     }
 
     private StateManager() {

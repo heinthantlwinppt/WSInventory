@@ -8,6 +8,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
+import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
@@ -82,6 +84,7 @@ public class WsApi {
     private Context mContext;
     DbAccess dbaccess;
     private GlobalVariables appContext;
+    public static final String SYNCHRONIZATION_COMPLETED = "SYNCHRONIZATION_COMPLETED";
 
     public WsApi(Context mContext) {
         this.mContext = mContext;
@@ -467,6 +470,15 @@ public class WsApi {
             Intent intent = new Intent(mContext, WsSyncService.class);
             intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
             mContext.startService(intent);
+        }else{
+            GlobalBus.getBus().post(
+                    new WsEvents.EventShowMessage("Synchronization",
+                            "Synchronization Completed!",
+                            SYNCHRONIZATION_COMPLETED,
+                            null,
+                            "OK"
+                    )
+            );
         }
     }
 

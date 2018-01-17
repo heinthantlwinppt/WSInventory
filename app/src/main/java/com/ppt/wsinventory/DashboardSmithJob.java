@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -63,8 +65,8 @@ public class DashboardSmithJob extends AppCompatActivity  {
         navigation.clearAnimation();
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        dbAccess = new DbAccess(this);
-        dbAccess.open();
+//        dbAccess = new DbAccess(this);
+//        dbAccess.open();
 //        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
         if (!TextUtils.isEmpty(StateManager.getInstance().getCurrentFragmentTag())) {
 
@@ -121,6 +123,28 @@ public class DashboardSmithJob extends AppCompatActivity  {
                     .commit();
 
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LoadSmithJobOrder();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+//            super.onBackPressed();
+            finish();
+
     }
 
 }

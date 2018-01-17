@@ -75,4 +75,75 @@ public class WsEvents {
         }
     }
 
+    public static class EventOpenSmithJob {
+        private String joborder_no;
+        public EventOpenSmithJob(String joborder_no) {
+            this.joborder_no = joborder_no;
+        }
+
+        public String getJoborder_no() {
+            return joborder_no;
+        }
+    }
+
+
+    public static class EventMessages {
+
+        private int mResult;
+        private String mAction;
+
+        public EventMessages(String Action, int MsgResult) {
+            this.mResult = MsgResult;
+            this.mAction = Action;
+        }
+
+        public int getMsgResult() {
+            return mResult;
+        }
+
+        public String getAction() {
+            return mAction;
+        }
+    }
+
+    public static class EventShowMessage {
+        String title;
+        String caption;
+        String action;
+        String ButtonLeft;
+        String ButtonRight;
+
+        public EventShowMessage(String title,
+                                String caption,
+                                String action,
+                                String buttonLeft,
+                                String buttonRight) {
+            this.title = title;
+            this.caption = caption;
+            this.action = action;
+            this.ButtonLeft = buttonLeft;
+            this.ButtonRight = buttonRight;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getCaption() {
+            return caption;
+        }
+
+        public String getAction() {
+            return action;
+        }
+
+        public String getButtonLeft() {
+            return ButtonLeft;
+        }
+
+        public String getButtonRight() {
+            return ButtonRight;
+        }
+    }
+
 }

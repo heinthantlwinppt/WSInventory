@@ -284,7 +284,7 @@ public class DbAccess {
             item.setDensity(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DENSITY))));
             item.setDiff_k(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_K))));
             item.setDiff_p(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_P))));
-            item.setDiff_weight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_WEIGHT))));
+            item.setDiff_weight(Double.parseDouble(String.valueOf(cursor.getColumnIndex(item.COLUMN_DIFF_WEIGHT))));
             item.setDiff_y(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_DIFF_Y))));
             item.setPrint_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRINT_COUNT))));
             item.setProduct_weight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(item.COLUMN_PRODUCT_WEIGHT))));
