@@ -1,6 +1,9 @@
 package com.ppt.wsinventory.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 
 /**
  * Created by User on 02/01/2018.
@@ -27,13 +30,22 @@ public class HexStringConverter {
 
     public String hexToString(String txtInHex)
     {
-        byte [] txtInByte = new byte [txtInHex.length() / 2];
-        int j = 0;
-        for (int i = 0; i < txtInHex.length(); i += 2)
-        {
-            txtInByte[j++] = Byte.parseByte(txtInHex.substring(i, i + 2), 16);
+        String hex = txtInHex;
+        ByteBuffer buff = ByteBuffer.allocate(hex.length()/2);
+        for (int i = 0; i < hex.length(); i+=2) {
+            buff.put((byte)Integer.parseInt(hex.substring(i, i+2), 16));
         }
-        return new String(txtInByte);
+        buff.rewind();
+        Charset cs = Charset.forName("UTF-8");                              // BBB
+        CharBuffer cb = cs.decode(buff);
+        return  cb.toString();
+//        byte [] txtInByte = new byte [txtInHex.length() / 2];
+//        int j = 0;
+//        for (int i = 0; i < txtInHex.length(); i += 2)
+//        {
+//            txtInByte[j++] = Byte.parseByte(txtInHex.substring(i, i + 2), 16);
+//        }
+//        return new String(txtInByte);
     }
 
     private String asHex(byte[] buf)

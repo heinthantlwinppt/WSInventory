@@ -38,7 +38,8 @@ public class WsService extends IntentService {
     public static final String SERVICE_ERROR = "service_error";
     private static final String TAG = "WS-WsSyncService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
-    public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.6:9090/wsmessage";
+//    public final String WEBSOCKET_URL = "ws://192.168.1.9:9090/wsmessage";
+    public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.9:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
     String msgtype;
@@ -84,10 +85,10 @@ public class WsService extends IntentService {
                 .readTimeout(180, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
-        if(msgtype.equalsIgnoreCase(SERVICE_GOODSID)){
+        if (msgtype.equalsIgnoreCase(SERVICE_GOODSID)) {
             mServerUrl = WEBSOCKET_SHOP_URL;
 
-        }else {
+        } else {
             mServerUrl = WEBSOCKET_URL;
         }
         Request request = new Request.Builder()
