@@ -637,8 +637,8 @@ public class WsApi {
         inventoryGold.setSaleprice(Double.parseDouble(wsGold.getSaleprice()));
         inventoryGold.setPurchaseprice(Double.parseDouble(wsGold.getPurchaseprice()));
         inventoryGold.setCost(Double.parseDouble(wsGold.getCost()));
-        inventoryGold.setTax1(Double.parseDouble(wsGold.getTax1()));
-        inventoryGold.setTax2(Double.parseDouble(wsGold.getTax2()));
+        inventoryGold.setTax1(Double.parseDouble(wsGold.getTax1() == null? "0.00" :wsGold.getTax1()));
+        inventoryGold.setTax2(Double.parseDouble(wsGold.getTax2() == null? "0.00" :wsGold.getTax2()));
         inventoryGold.setActive(wsGold.getActive());
         dbaccess.insertInventoryGold(inventoryGold);
 
