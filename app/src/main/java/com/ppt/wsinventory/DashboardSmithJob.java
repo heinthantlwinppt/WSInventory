@@ -31,7 +31,7 @@ public class DashboardSmithJob extends AppCompatActivity  {
     String mCurrentFragmentTag;
     List<AdministrationWsdashboard> smithJobOrderList = new ArrayList<>();
     private static final String TAG = "Ws-Smithjob";
-    private static final String SMITHJOBFRAGMENT_TAG = "smithjobfragment_tag";
+    private static final String SMITHJOBDETAILFRAGMENT_TAG = "smithjobdetailfragment";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,7 +73,7 @@ public class DashboardSmithJob extends AppCompatActivity  {
             mCurrentFragmentTag = StateManager.getInstance().getCurrentFragmentTag();
         }else {
 
-            mCurrentFragmentTag = SMITHJOBFRAGMENT_TAG;
+            mCurrentFragmentTag = SMITHJOBDETAILFRAGMENT_TAG;
         }
         LoadSmithJobOrder();
     }
@@ -97,16 +97,16 @@ public class DashboardSmithJob extends AppCompatActivity  {
 
         removeFragment();
 
-        SmithJobFragment frag = new SmithJobFragment();
+        SmithJobDetailFragment frag = new SmithJobDetailFragment();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .add(R.id.content, frag ,SMITHJOBFRAGMENT_TAG)
+                .add(R.id.content, frag ,SMITHJOBDETAILFRAGMENT_TAG)
                 .commit();
 
 
-        mCurrentFragmentTag = SMITHJOBFRAGMENT_TAG;
+        mCurrentFragmentTag = SMITHJOBDETAILFRAGMENT_TAG;
         StateManager.getInstance().setCurrentFragmentTag(mCurrentFragmentTag);
 
 //        finish();
@@ -136,7 +136,7 @@ public class DashboardSmithJob extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
 
-        LoadSmithJobOrder();
+//        LoadSmithJobOrder();
     }
 
     @Override

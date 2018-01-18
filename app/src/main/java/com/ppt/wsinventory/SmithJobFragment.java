@@ -121,13 +121,12 @@ public class SmithJobFragment extends Fragment{
     public void onStart() {
         super.onStart();
         dbaccess.open();
-
+        GlobalBus.getBus().register(this);
     }
 
     @Override
     public void onStop() {
-        dbaccess.close();
+        GlobalBus.getBus().unregister(this);
         super.onStop();
-
     }
 }

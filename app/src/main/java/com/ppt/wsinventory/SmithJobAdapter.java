@@ -24,6 +24,7 @@ import java.util.List;
 public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyViewHolder> {
     ArrayList<Manufacturing_smith_joborder> mDataSet;
     Context mContext;
+    Manufacturing_smith_joborder smith_joborder;
 
     public SmithJobAdapter(ArrayList<Manufacturing_smith_joborder> mDataSet) {
         this.mDataSet = mDataSet;
@@ -40,7 +41,8 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        Manufacturing_smith_joborder smith_joborder = mDataSet.get(position);
+        smith_joborder = mDataSet.get(position);
+        holder.setData(mDataSet.get(position));
         holder.txt_smith_id.setText(String.valueOf(smith_joborder.getSmith_id()));
         holder.txt_orderid.setText(String.valueOf(smith_joborder.getJoborder_no()));
         holder.txt_date_start.setText(Utility.dateFormat.format( smith_joborder.getDate_start()));
@@ -57,16 +59,27 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
         Manufacturing_smith_joborder manufacturing_smith_joborder;
         public MyViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             txt_smith_id = itemView.findViewById(R.id.smith_id);
             txt_orderid = itemView.findViewById(R.id.orderid);
             txt_date_start = itemView.findViewById(R.id.date_start);
             txt_date_target = itemView.findViewById(R.id.date_target);
         }
 
+        public void setData(Manufacturing_smith_joborder dashboarditem) {
+            this.manufacturing_smith_joborder = dashboarditem;
+
+//            textView.setText(dashboarditem.getTitle());
+//            textView1.setText(dashboarditem.getGroupname());
+//            relativeLayout.setBackgroundColor(Color.parseColor(item.color));
+
+        }
+
         @Override
         public void onClick(View v) {
+            String joborder_no = manufacturing_smith_joborder.getJoborder_no();
             GlobalBus.getBus().post(
-                    new WsEvents.EventOpenSmithJob(manufacturing_smith_joborder.getJoborder_no()));
+                    new WsEvents.EventOpenSmithJob(joborder_no));
         }
     }
 

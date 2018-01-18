@@ -201,18 +201,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(this,"click_gallery navigation",Toast.LENGTH_SHORT).show();
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this,ProfileDetailActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_goldprice) {
+//            Toast.makeText(this,"click_gallery navigation",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,GoldPriceActivity.class);
+            startActivity(intent);
+        }  else if (id == R.id.nav_tools) {
             Intent intent = new Intent(this, BackUpDatabase.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_setting) {
 
 
         } else if (id == R.id.nav_send) {
