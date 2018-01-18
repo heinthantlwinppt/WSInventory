@@ -1,7 +1,6 @@
 package com.ppt.wsinventory;
 
 import android.content.Context;
-import android.net.sip.SipSession;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,10 @@ import android.widget.TextView;
 
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
-import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.util.Utility;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by User on 16/01/2018.
@@ -43,10 +40,11 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
 
         smith_joborder = mDataSet.get(position);
         holder.setData(mDataSet.get(position));
-        holder.txt_smith_id.setText(String.valueOf(smith_joborder.getSmith_id()));
+//        holder.txt_smith_id.setText(String.valueOf(smith_joborder.getSmith_id()));
         holder.txt_orderid.setText(String.valueOf(smith_joborder.getJoborder_no()));
-        holder.txt_date_start.setText(Utility.dateFormat.format( smith_joborder.getDate_start()));
-        holder.txt_date_target.setText(Utility.dateFormat.format( smith_joborder.getDate_target()));
+        holder.smith_id.setText( String.valueOf(smith_joborder.getSmith_id()));
+        if(smith_joborder.getRemarks() != null)
+        holder.remarks.setText(Utility.dateFormat.format( smith_joborder.getRemarks()));
     }
 
     @Override
@@ -55,15 +53,15 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txt_smith_id,txt_orderid,txt_date_start,txt_date_target;
+        public TextView txt_smith_id,txt_orderid, smith_id,remarks;
         Manufacturing_smith_joborder manufacturing_smith_joborder;
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            txt_smith_id = itemView.findViewById(R.id.smith_id);
+            txt_smith_id = itemView.findViewById(R.id.smith_id1);
             txt_orderid = itemView.findViewById(R.id.orderid);
-            txt_date_start = itemView.findViewById(R.id.date_start);
-            txt_date_target = itemView.findViewById(R.id.date_target);
+            smith_id = itemView.findViewById(R.id.smith_id);
+            remarks = itemView.findViewById(R.id.remarks);
         }
 
         public void setData(Manufacturing_smith_joborder dashboarditem) {

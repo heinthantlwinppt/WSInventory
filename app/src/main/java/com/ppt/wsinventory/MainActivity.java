@@ -101,14 +101,15 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
-            MessageBox.ShowMessage(getSupportFragmentManager(),
-                    appContext.getTranslation("Sign Out"),
-                    appContext.getTranslation("Do you want to Exit application?"),
-                    CONFIRM_SIGN_OUT,
-                    "Cancel",
-                    "OK"
-            );
+//            MessageBox.ShowMessage(getSupportFragmentManager(),
+//                    appContext.getTranslation("Sign Out"),
+//                    appContext.getTranslation("Do you want to Exit application?"),
+//                    CONFIRM_SIGN_OUT,
+//                    "Cancel",
+//                    "OK"
+//            );
 
+            finish();
         }
     }
 
