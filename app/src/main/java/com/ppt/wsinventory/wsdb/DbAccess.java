@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -303,6 +304,31 @@ public class DbAccess {
 
     }
 
+    public List<Inventory_SmithJob> getAllInventorySmithJob() {
+        List<Inventory_SmithJob> inventory_smithJobs = new ArrayList<>();
+        String sql = "select s.name, s.nickname, sjob.joborder_no, sjob.smith_id, sjob.remarks , sjob.date_start  from manufacturing_smith_joborder sjob " +
+                "inner join manufacturing_smith s on sjob.smith_id = s.id";
+        Cursor cursor = readData(sql, null);
+
+        while (cursor.moveToNext()) {
+            Inventory_SmithJob inventory_smithJob = new Inventory_SmithJob();
+            inventory_smithJob.setName(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_NAME)));
+            inventory_smithJob.setNickname(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_NICKNAME)));
+            inventory_smithJob.setSmith_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_SMITH_ID))));
+            inventory_smithJob.setJoborder_no(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_JOBORDER_NO)));
+            try {
+                inventory_smithJob.setDate_start(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_DATE_START))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            inventory_smithJobs.add(inventory_smithJob);
+        }
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_smithJobs;
+    }
+
     public AdministrationSettings getAdministrationSettings() {
 //        AdministrationSettings administrationSettings = new AdministrationSettings();
         AdministrationSettings administrationSetting = new AdministrationSettings();
@@ -573,8 +599,8 @@ public class DbAccess {
         values.put(InventoryGoodInventory.COLUMN_IS_DELETE, goodsinventory.isIs_delete());
         values.put(InventoryGoodInventory.COLUMN_TS, Utility.dateFormat.format(goodsinventory.getTs()));
         values.put(InventoryGoodInventory.COLUMN_LOCATION_ID, goodsinventory.getLocation_id());
-        values.put(InventoryGoodInventory.COLUMN_PRODUCT_ID,goodsinventory.getProduct_id());
-        values.put(InventoryGoodInventory.COLUMN_UOM_ID,goodsinventory.getUom_id());
+        values.put(InventoryGoodInventory.COLUMN_PRODUCT_ID, goodsinventory.getProduct_id());
+        values.put(InventoryGoodInventory.COLUMN_UOM_ID, goodsinventory.getUom_id());
 
         long resultid = database.insert(goodsinventory.TABLE_INVENTORY_GOODSINVENTORY, null, values);
 //        goodsinventory.setId(resultid);

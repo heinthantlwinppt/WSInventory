@@ -15,7 +15,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/search"
+        android:id="@+id/searchsmithjob"
         android:orderInCategory="102"
         android:icon="@drawable/ic_search"
         android:title="search here"

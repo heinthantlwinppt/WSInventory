@@ -83,11 +83,18 @@ public class DashboardSmithJobOrder extends AppCompatActivity {
         return true;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void onBackPressed() {
+        super.onBackPressed();
 
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+        finish();
     }
 }

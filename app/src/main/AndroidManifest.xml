@@ -58,7 +58,7 @@
         <activity
             android:name=".DashboardSmithJob"
             android:label="@string/title_activity_dashboard_smith_job"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".DashboardSmithJobOrder">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ppt.wsinventory.MainActivity" />

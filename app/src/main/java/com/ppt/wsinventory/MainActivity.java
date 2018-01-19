@@ -157,44 +157,44 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem items) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = items.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-//            WsApi wsapi = new WsApi(this);
-//            wsapi.TestWebSocket();
-//            exportDatabse("WS.db");
-//            Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
-//            return true;
-            WsInputDialog wsInputDialog = new WsInputDialog();
-            Bundle args = new Bundle();
-            wsInputDialog.setArguments(args);
-            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
-            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
-
-        }
-        else if(id == R.id.saveItems) {
-
-            exportDatabse("WS.db");
-            Toast.makeText(this, " database is exported", Toast.LENGTH_SHORT).show();
-
-//            dbAccess = new DbAccess(getApplicationContext());
-//            dbAccess.open();
-////            item =  StateManager.getInstance().getItem();
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem items) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = items.getItemId();
 //
-//            item = new Item();
-//            item.setItemName("Inventory");
-//            item.setItemType("Item_2");
-//            dbAccess.insertItems(item);
-        }
-
-        return super.onOptionsItemSelected(items);
-    }
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+////            WsApi wsapi = new WsApi(this);
+////            wsapi.TestWebSocket();
+////            exportDatabse("WS.db");
+////            Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
+////            return true;
+//            WsInputDialog wsInputDialog = new WsInputDialog();
+//            Bundle args = new Bundle();
+//            wsInputDialog.setArguments(args);
+//            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
+//            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
+//
+//        }
+//        else if(id == R.id.saveItems) {
+//
+//            exportDatabse("WS.db");
+//            Toast.makeText(this, " database is exported", Toast.LENGTH_SHORT).show();
+//
+////            dbAccess = new DbAccess(getApplicationContext());
+////            dbAccess.open();
+//////            item =  StateManager.getInstance().getItem();
+////
+////            item = new Item();
+////            item.setItemName("Inventory");
+////            item.setItemType("Item_2");
+////            dbAccess.insertItems(item);
+//        }
+//
+//        return super.onOptionsItemSelected(items);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -101,7 +104,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
+        setHasOptionsMenu(true);
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -143,10 +146,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu,inflater);
+        menu.clear();
         inflater.inflate(R.menu.main, menu);
-        final MenuItem myActionMenuItem = menu.findItem(R.id.search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
-        ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text)).setHintTextColor(getResources().getColor((R.color.white)));
+        MenuItem myActionMenuItem = menu.findItem(R.id.search);
+        searchView = new SearchView(((MainActivity) mContext).getSupportActionBar().getThemedContext());
+        changeSerchViewTextColor(searchView);
+        MenuItemCompat.setShowAsAction(myActionMenuItem, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        MenuItemCompat.setActionView(myActionMenuItem, searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -361,6 +368,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                 e.getAction(),
                 e.getButtonLeft(),
                 e.getButtonRight());
+        loadRecyclerView();
     }
 
     private List<AdministrationWsdashboard> filter(List<AdministrationWsdashboard> pl, String query) {
@@ -406,5 +414,27 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void changeSerchViewTextColor(View view) {
+
+        if(view != null) {
+
+            if(view instanceof TextView) {
+                ((TextView) view).setTextColor(Color.WHITE);
+                return;
+            }else if(view instanceof ViewGroup) {
+
+                ViewGroup viewGroup = (ViewGroup) view;
+                for(int i= 0; i<viewGroup.getChildCount(); i++) {
+
+                    changeSerchViewTextColor(viewGroup.getChildAt(i));
+                }
+            }
+        }
+    }
 }

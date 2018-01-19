@@ -2,6 +2,7 @@ package com.ppt.wsinventory;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +10,24 @@ import android.widget.TextView;
 
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
+import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.util.Utility;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 16/01/2018.
  */
 
 public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyViewHolder> {
-    ArrayList<Manufacturing_smith_joborder> mDataSet;
+    ArrayList<Inventory_SmithJob> mDataSet;
     Context mContext;
-    Manufacturing_smith_joborder smith_joborder;
+    Inventory_SmithJob smith_joborder;
 
-    public SmithJobAdapter(ArrayList<Manufacturing_smith_joborder> mDataSet) {
+    public SmithJobAdapter(ArrayList<Inventory_SmithJob> mDataSet) {
         this.mDataSet = mDataSet;
     }
 
@@ -40,11 +44,12 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
 
         smith_joborder = mDataSet.get(position);
         holder.setData(mDataSet.get(position));
-//        holder.txt_smith_id.setText(String.valueOf(smith_joborder.getSmith_id()));
-        holder.txt_orderid.setText(String.valueOf(smith_joborder.getJoborder_no()));
-        holder.smith_id.setText( String.valueOf(smith_joborder.getSmith_id()));
+        holder.txt_joborder_no.setText(String.valueOf(smith_joborder.getJoborder_no()));
+        holder.txt_name.setText(String.valueOf(smith_joborder.getName()) +","+smith_joborder.getNickname()
+        +", Smith"+smith_joborder.getSmith_id());
+        holder.txt_orderdate.setText( Utility.dateFormat.format(smith_joborder.getDate_start()));
         if(smith_joborder.getRemarks() != null)
-        holder.remarks.setText(Utility.dateFormat.format( smith_joborder.getRemarks()));
+        holder.remarks.setText(Utility.dateFormat.format( smith_joborder.getRemarks())+", အသစ္ျပင္");
     }
 
     @Override
@@ -53,19 +58,23 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txt_smith_id,txt_orderid, smith_id,remarks;
-        Manufacturing_smith_joborder manufacturing_smith_joborder;
+        public TextView txt_joborder_no,txt_name, txt_orderdate,remarks;
+        Inventory_SmithJob inventorySmithJob;
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            txt_smith_id = itemView.findViewById(R.id.smith_id1);
-            txt_orderid = itemView.findViewById(R.id.orderid);
-            smith_id = itemView.findViewById(R.id.smith_id);
+            txt_joborder_no = itemView.findViewById(R.id.joborder_no);
+            txt_joborder_no.setAllCaps(true);
+            txt_name = itemView.findViewById(R.id.name);
+            txt_name.setAllCaps(true);
+//            txt_name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+            txt_orderdate = itemView.findViewById(R.id.orderdate);
             remarks = itemView.findViewById(R.id.remarks);
+//            remarks.setAllCaps(true);
         }
 
-        public void setData(Manufacturing_smith_joborder dashboarditem) {
-            this.manufacturing_smith_joborder = dashboarditem;
+        public void setData(Inventory_SmithJob dashboarditem) {
+            this.inventorySmithJob = dashboarditem;
 
 //            textView.setText(dashboarditem.getTitle());
 //            textView1.setText(dashboarditem.getGroupname());
@@ -75,10 +84,16 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
 
         @Override
         public void onClick(View v) {
-            String joborder_no = manufacturing_smith_joborder.getJoborder_no();
+            String joborder_no = inventorySmithJob.getJoborder_no();
             GlobalBus.getBus().post(
                     new WsEvents.EventOpenSmithJob(joborder_no));
         }
+    }
+
+    public void setfilter(List<Inventory_SmithJob> itemList) {
+        mDataSet = new ArrayList<>();
+        mDataSet.addAll(itemList);
+        notifyDataSetChanged();
     }
 
 

@@ -19,7 +19,7 @@
         android:icon="@drawable/ic_search"
         android:title="search here"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass = "android:support.v7.widget.SearchView" />
+        app:actionViewClass = "android:support.v7.widget.SearchView"/>
 
 
 </menu>
