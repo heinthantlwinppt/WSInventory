@@ -39,6 +39,7 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
@@ -213,32 +214,47 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                             "OK");
                 }
 
-            } else if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_MESSAGE)) {
+            }
+
+        }
+    };
+
+    private BroadcastReceiver mBroadcastIntegration = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_MESSAGE)) {
                 String msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
-//                WsApi wsApi = new WsApi(context);
+                WsApi wsApi = new WsApi(context);
                 if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_RESPONSE)) {
                     String response = appContext.getResponseMessage();
                     response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
                     Log.i(TAG, "onReceive: " + response);
                     Gson gson = JsonHelper.getGson();
                     ApiModel apiModel = gson.fromJson(response, ApiModel.class);
-                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETGOODSLIST)) {
-//                        ArrayList<String> goodsitem = new ArrayList<String>();
-//                        Type listType = new TypeToken<ArrayList>() {
-//                        }.getType();
-//                        goodsitem = gson.fromJson(apiModel.getMessage(), listType);
-//                        Log.i(TAG, "goodsitems " + goodsitem);
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)) {
+                        appContext.setActionLists(null);
+                        List<ActionList> actionLists = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<ActionList>>() {
+                        }.getType();
+                        actionLists = gson.fromJson(apiModel.getMessage(), listType);
+                        appContext.setActionLists(actionLists);
+                        if (appContext.getActionLists().size() > 0)
+                            wsApi.doSync();
+                    } else {
+                        //TODO Implement Delete the tables records
+                        wsApi.doSync();
                     }
-                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
-                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
 
-//                    ShowProgress(false);
-//                    MessageBox.ShowMessage(getFragmentManager(),
-//                            appContext.getTranslation("ERROR"),
-//                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
-//                            null,
-//                            null,
-//                            "OK");
+                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
+//                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    ShowProgress(false);
+                    MessageBox.ShowMessage(getFragmentManager(),
+                            appContext.getTranslation("ERROR"),
+                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
+                            null,
+                            null,
+                            "OK");
                 }
 
             }
@@ -250,6 +266,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onPause() {
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .unregisterReceiver(mBroadcastReceiver);
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .unregisterReceiver(mBroadcastIntegration);
         dbaccess.close();
         super.onPause();
     }
@@ -261,6 +279,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .registerReceiver(mBroadcastReceiver,
                         new IntentFilter(WsSyncService.API_SERVICE_SYNC));
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .registerReceiver(mBroadcastIntegration,
+                        new IntentFilter(WsService.API_SERVICE_MESSAGE));
     }
 
     @Override
@@ -292,7 +313,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
 //            appContext.setDeviceid(e.getValue());
             params.add(
-                    new ApiParam("goodsid", e.getGoodsid())
+                    new ApiParam("getGoodsList", e.getGoodsid())
             );
             String jsonString = gson.toJson(params);
             Log.i(TAG, "onInputEvent: " + jsonString);
