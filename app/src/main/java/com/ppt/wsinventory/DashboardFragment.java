@@ -39,6 +39,7 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.Goods;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -232,18 +233,16 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     Log.i(TAG, "onReceive: " + response);
                     Gson gson = JsonHelper.getGson();
                     ApiModel apiModel = gson.fromJson(response, ApiModel.class);
-                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)) {
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETGOODSLIST)) {
                         appContext.setActionLists(null);
-                        List<ActionList> actionLists = new ArrayList<>();
-                        Type listType = new TypeToken<ArrayList<ActionList>>() {
+                        List<Goods> goodsList = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<Goods>>() {
                         }.getType();
-                        actionLists = gson.fromJson(apiModel.getMessage(), listType);
-                        appContext.setActionLists(actionLists);
-                        if (appContext.getActionLists().size() > 0)
-                            wsApi.doSync();
-                    } else {
-                        //TODO Implement Delete the tables records
-                        wsApi.doSync();
+                        goodsList = gson.fromJson(apiModel.getMessage(), listType);
+                        for(Goods goods: goodsList){
+                            Log.i(TAG, "onReceive: " + goods.toString());
+                            break;
+                        }
                     }
 
                 } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
@@ -313,7 +312,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
 //            appContext.setDeviceid(e.getValue());
             params.add(
-                    new ApiParam("getGoodsList", e.getGoodsid())
+                    new ApiParam("goodsid", e.getGoodsid())
             );
             String jsonString = gson.toJson(params);
             Log.i(TAG, "onInputEvent: " + jsonString);
