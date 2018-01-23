@@ -36,6 +36,8 @@ public class ApiModel {
     public static String GETWSSMITHJOBTYPELIST = "getManufacturingSmithJobType";
     public static String GETWSSMITHJOBSTATUSLIST = "getManufacturingJobStatus";
     public static String GETWSSMITHMEMBERSLIST = "getManufacturingSmithmembersList";
+    public static String GETWSIMAGESTYPE = "getWsImagesType";
+    public static String GETWSIMAGES = "getWsImages";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose

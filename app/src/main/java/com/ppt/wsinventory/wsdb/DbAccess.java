@@ -34,6 +34,8 @@ import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
+import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
+import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -839,6 +841,30 @@ public class DbAccess {
         long resultid = database.insert(manufacturing_smith_jobtype.TABLE_MANUFACTURING_SMITH_JOBTYPE, null, values);
 //        Inventory_productserial.set(resultid);
         return resultid;
+    }
+
+    public long insertAdministration_wsimages(AdministrationWsimages administrationWsimages){
+
+        ContentValues values = new ContentValues();
+        values.put(AdministrationWsimages.COLUMN_ID, administrationWsimages.getId());
+        values.put(AdministrationWsimages.COLUMN_NAME, administrationWsimages.getName());
+        values.put(AdministrationWsimages.COLUMN_PATH, administrationWsimages.getPath());
+        values.put(AdministrationWsimages.COLUMN_TIMESTAMP, Utility.dateFormat.format(administrationWsimages.getTimestamp()));
+        values.put(AdministrationWsimages.COLUMN_DELETE, administrationWsimages.getDelete());
+        values.put(AdministrationWsimages.COLUMN_SOLUTION_ID, administrationWsimages.getSolution_id());
+        values.put(AdministrationWsimages.COLUMN_TYPE_ID, administrationWsimages.getType_id());
+        Long resultid = database.insert(administrationWsimages.TABLE_ADMINISTRATION_WSIMAGES,null,values);
+        return resultid;
+
+    }
+
+    public long insertAdministration_wsimagestype(AdministrationWsimagestype administrationWsimagestype){
+
+        ContentValues values = new ContentValues();
+        values.put(AdministrationWsimagestype.COLUMN_NAME, administrationWsimagestype.getName());
+        Long resultid = database.insert(administrationWsimagestype.TABLE_ADMINISTRATION_WSIMAGESTYPE,null,values);
+        return resultid;
+
     }
 
     public boolean deleteAdministrationWsdashboard(String table, String whereArgs) {

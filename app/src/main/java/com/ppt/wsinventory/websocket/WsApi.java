@@ -60,6 +60,10 @@ import com.ppt.wsinventory.model.Staff;
 import com.ppt.wsinventory.model.TableToDelete;
 import com.ppt.wsinventory.model.UOM;
 import com.ppt.wsinventory.model.WsDashboard;
+import com.ppt.wsinventory.model.WsImages;
+import com.ppt.wsinventory.model.WsImagesType;
+import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
+import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -269,7 +273,7 @@ public class WsApi {
                 Log.i(TAG, "Product Name : " + productGroup.getName());
             }
             RemoveActionList(apiModel.getName());
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHMEMBERSLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHMEMBERSLIST)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<Smithmembers>>() {
             }.getType();
@@ -327,7 +331,7 @@ public class WsApi {
                 RemoveActionList(apiModel.getName());
             }
 
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBTYPELIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBTYPELIST)) {
             jsonString = apiModel.getMessage();
             Type listType = new TypeToken<ArrayList<Smith_jobtype>>() {
             }.getType();
@@ -337,8 +341,7 @@ public class WsApi {
                 Log.i(TAG, "Smith Name : " + smith_jobtype.getName());
             }
             RemoveActionList(apiModel.getName());
-        }
-        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<BIN>>() {
@@ -351,7 +354,7 @@ public class WsApi {
                         break;
                     }
                 }
-            }else {
+            } else {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
@@ -389,7 +392,7 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSERIALGOLDSLISTLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSERIALGOLDSLISTLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<Serialgolds>>() {
@@ -424,8 +427,36 @@ public class WsApi {
                 RemoveActionList(apiModel.getName());
             }
 
-        }
-        else {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGESTYPE)) {
+            jsonString = apiModel.getMessage();
+            Type listType = new TypeToken<ArrayList<WsImagesType>>() {
+            }.getType();
+            List<WsImagesType> wsImagesTypes = gson.fromJson(jsonString, listType);
+            for (WsImagesType wsImagesType : wsImagesTypes) {
+                importWsImagesType(wsImagesType);
+                Log.i(TAG, "Solution Name : " + wsImagesType.getName());
+            }
+            RemoveActionList(apiModel.getName());
+
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGES)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<WsImages>>() {
+                }.getType();
+                List<WsImages> images = gson.fromJson(jsonString, listType);
+                for (WsImages wsImages : images) {
+                    if (importWsImages(wsImages)) {
+                        appContext.setTs(wsImages.getTimestamp());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+
+        } else {
             RemoveActionList(apiModel.getName());
             Log.i(TAG, "doSync: arkar");
         }
@@ -433,8 +464,7 @@ public class WsApi {
         if (appContext.getActionLists().size() > 0) {
             ActionList actionList = appContext.getActionLists().get(0);
             List<ApiParam> params = new ArrayList<>();
-            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList"))
-            {
+            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
                 String test = actionList.getActionname();
             }
             params.add(
@@ -470,7 +500,7 @@ public class WsApi {
             Intent intent = new Intent(mContext, WsSyncService.class);
             intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
             mContext.startService(intent);
-        }else{
+        } else {
             GlobalBus.getBus().post(
                     new WsEvents.EventShowMessage("Synchronization",
                             "Synchronization Completed!",
@@ -637,8 +667,8 @@ public class WsApi {
         inventoryGold.setSaleprice(Double.parseDouble(wsGold.getSaleprice()));
         inventoryGold.setPurchaseprice(Double.parseDouble(wsGold.getPurchaseprice()));
         inventoryGold.setCost(Double.parseDouble(wsGold.getCost()));
-        inventoryGold.setTax1(Double.parseDouble(wsGold.getTax1() == null? "0.00" :wsGold.getTax1()));
-        inventoryGold.setTax2(Double.parseDouble(wsGold.getTax2() == null? "0.00" :wsGold.getTax2()));
+        inventoryGold.setTax1(Double.parseDouble(wsGold.getTax1() == null ? "0.00" : wsGold.getTax1()));
+        inventoryGold.setTax2(Double.parseDouble(wsGold.getTax2() == null ? "0.00" : wsGold.getTax2()));
         inventoryGold.setActive(wsGold.getActive());
         dbaccess.insertInventoryGold(inventoryGold);
 
@@ -878,6 +908,7 @@ public class WsApi {
         long l = dbaccess.insertManufacturing_Smith_Jobgold(manufacturing_smith_jobgold);
         return (l > 0);
     }
+
     private boolean importSmithJobOrderList(Smith_joborder wsSmith_joborder) {
         dbaccess = DbAccess.getInstance();
         Manufacturing_smith_joborder manufacturing_smith_joborder = new Manufacturing_smith_joborder();
@@ -892,7 +923,7 @@ public class WsApi {
         manufacturing_smith_joborder.setActive(wsSmith_joborder.getActive());
         manufacturing_smith_joborder.setIs_delete(wsSmith_joborder.getIsDelete());
         manufacturing_smith_joborder.setTs(wsSmith_joborder.getTs());
-        manufacturing_smith_joborder.setJoborder_type_id(wsSmith_joborder.getJoborderType() );
+        manufacturing_smith_joborder.setJoborder_type_id(wsSmith_joborder.getJoborderType());
         manufacturing_smith_joborder.setJobstatus_id(wsSmith_joborder.getJobstatus());
         manufacturing_smith_joborder.setSmith_id(wsSmith_joborder.getSmith());
         manufacturing_smith_joborder.setDensity(wsSmith_joborder.getDiffK());
@@ -908,7 +939,8 @@ public class WsApi {
         long l = dbaccess.insertManufacturing_smith_joborder(manufacturing_smith_joborder);
         return (l > 0);
     }
-//
+
+    //
     private boolean importSmithJobProductList(Smith_jobproduct wsSmith_jobproduct) {
         dbaccess = DbAccess.getInstance();
         Manufacturing_smith_jobproduct manufacturing_smith_jobproduct = new Manufacturing_smith_jobproduct();
@@ -936,6 +968,7 @@ public class WsApi {
         long l = dbaccess.insertManufacturing_smith_jobproduct(manufacturing_smith_jobproduct);
         return (l > 0);
     }
+
     private boolean importSmithJobTypeList(Smith_jobtype wsSmith_jobtype) {
         dbaccess = DbAccess.getInstance();
         Manufacturing_smith_jobtype manufacturing_smith_jobtype = new Manufacturing_smith_jobtype();
@@ -945,6 +978,22 @@ public class WsApi {
         manufacturing_smith_jobtype.setActive(wsSmith_jobtype.getActive());
         manufacturing_smith_jobtype.setJobtype_group(wsSmith_jobtype.getJobtypeGroup());
         long l = dbaccess.insertManufacturing_smith_jobtype(manufacturing_smith_jobtype);
+        return (l > 0);
+    }
+
+    private boolean importWsImagesType(WsImagesType wsImagesType) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationWsimagestype administrationWsimagestype = new AdministrationWsimagestype();
+        administrationWsimagestype.setName(wsImagesType.getName());
+        long l = dbaccess.insertAdministration_wsimagestype(administrationWsimagestype);
+        return (l > 0);
+    }
+
+    private boolean importWsImages(WsImages wsImages) {
+        dbaccess = DbAccess.getInstance();
+        AdministrationWsimages administrationWsimages = new AdministrationWsimages();
+        administrationWsimages.setName(wsImages.getName());
+        long l = dbaccess.insertAdministration_wsimages(administrationWsimages);
         return (l > 0);
     }
 

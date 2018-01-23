@@ -435,6 +435,26 @@ public class DbHelper extends SQLiteOpenHelper {
                     " is_delete    BOOL \n" +
                     ")";
 
+    private static final String TABLE_ADMINISTRATION_WSIMAGESTYPE = "administration_wsimagestype";
+    private static final String TABLE_CREATE_ADMINISTRATION_WSIMAGESTYPE =
+            "CREATE TABLE administration_wsimagestype \n" +
+                    "(\n" +
+                    "name VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+    private static final String TABLE_ADMINISTRATION_WSIMAGES = "administration_wsimages";
+    private static final String TABLE_CREATE_ADMINISTRATION_WSIMAGES =
+            "CREATE TABLE administration_wsimages \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "path VARCHAR COLLATE NOCASE, \n" +
+                    "timestamp DATETIME, \n" +
+                    "delete BOOL, \n" +
+                    "solution_id VARCHAR COLLATE NOCASE, \n" +
+                    "type_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -499,6 +519,10 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITHMEMBERS+ " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_JOBSTATUS);
         Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_JOBSTATUS+ " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_WSIMAGES);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGES+ " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_WSIMAGESTYPE);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGESTYPE+ " has been created");
 
     }
 
@@ -528,6 +552,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_SMITHMEMBERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOODSINVENTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_JOBSTATUS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSIMAGES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSIMAGESTYPE);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
