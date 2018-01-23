@@ -450,7 +450,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     "name VARCHAR COLLATE NOCASE, \n" +
                     "path VARCHAR COLLATE NOCASE, \n" +
                     "timestamp DATETIME, \n" +
-                    "delete BOOL, \n" +
+                    "is_delete BOOL, \n" +
                     "solution_id VARCHAR COLLATE NOCASE, \n" +
                     "type_id VARCHAR COLLATE NOCASE \n" +
                     ")";

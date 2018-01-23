@@ -1003,6 +1003,7 @@ public class WsApi {
         dbaccess = DbAccess.getInstance();
         AdministrationWsimagestype administrationWsimagestype = new AdministrationWsimagestype();
         administrationWsimagestype.setName(wsImagesType.getName());
+        Log.i(TAG,"ImgesTypes"+administrationWsimagestype.getName());
         long l = dbaccess.insertAdministration_wsimagestype(administrationWsimagestype);
         return (l > 0);
     }
@@ -1014,7 +1015,7 @@ public class WsApi {
         administrationWsimages.setId(wsImages.getId());
         administrationWsimages.setPath(wsImages.getPath());
         administrationWsimages.setTimestamp(wsImages.getTimestamp());
-        administrationWsimages.setDelete(wsImages.getDelete());
+        administrationWsimages.setIs_delete(wsImages.getDelete());
         administrationWsimages.setSolution_id(wsImages.getSolution());
         administrationWsimages.setType_id(wsImages.getType());
         long l = dbaccess.insertAdministration_wsimages(administrationWsimages);

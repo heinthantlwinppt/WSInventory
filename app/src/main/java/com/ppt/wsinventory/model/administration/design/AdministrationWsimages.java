@@ -32,7 +32,7 @@ public class AdministrationWsimages {
     private String name ;
     private String path ;
     private Date timestamp ;
-    private boolean delete ;
+    private boolean is_delete ;
     private String solution_id ;
     private String type_id ;
 
@@ -68,12 +68,12 @@ public class AdministrationWsimages {
         this.timestamp = timestamp;
     }
 
-    public boolean getDelete() {
-        return delete;
+    public boolean getIs_delete() {
+        return is_delete;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setIs_delete(boolean is_delete) {
+        this.is_delete = is_delete;
     }
 
     public String getSolution_id() {

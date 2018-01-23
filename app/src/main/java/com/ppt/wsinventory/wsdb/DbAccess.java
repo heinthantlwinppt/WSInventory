@@ -850,7 +850,7 @@ public class DbAccess {
         values.put(AdministrationWsimages.COLUMN_NAME, administrationWsimages.getName());
         values.put(AdministrationWsimages.COLUMN_PATH, administrationWsimages.getPath());
         values.put(AdministrationWsimages.COLUMN_TIMESTAMP, Utility.dateFormat.format(administrationWsimages.getTimestamp()));
-        values.put(AdministrationWsimages.COLUMN_DELETE, administrationWsimages.getDelete());
+        values.put(AdministrationWsimages.COLUMN_DELETE, administrationWsimages.getIs_delete());
         values.put(AdministrationWsimages.COLUMN_SOLUTION_ID, administrationWsimages.getSolution_id());
         values.put(AdministrationWsimages.COLUMN_TYPE_ID, administrationWsimages.getType_id());
         Long resultid = database.insert(administrationWsimages.TABLE_ADMINISTRATION_WSIMAGES,null,values);
