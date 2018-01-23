@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
+import com.ppt.wsinventory.PicassoImageTarget;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.ActionList;
@@ -70,7 +71,9 @@ import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -434,6 +437,11 @@ public class WsApi {
             List<WsImagesType> wsImagesTypes = gson.fromJson(jsonString, listType);
             for (WsImagesType wsImagesType : wsImagesTypes) {
                 importWsImagesType(wsImagesType);
+//                if(wsImagesType.getName() == "deisgn")
+//                {
+//                    Utility.creatdesignfolder();
+//                }
+                //If folder not exist --> Create folder for each type
                 Log.i(TAG, "Solution Name : " + wsImagesType.getName());
             }
             RemoveActionList(apiModel.getName());
@@ -446,6 +454,16 @@ public class WsApi {
                 List<WsImages> images = gson.fromJson(jsonString, listType);
                 for (WsImages wsImages : images) {
                     if (importWsImages(wsImages)) {
+                        // if delete is true then delete the image file
+                        // else save the image to storage depend on their type
+                        // import data
+//                        if(wsImages.getType() == "design"){
+//                            File dir = Utility.creatdesignfolder();
+//                            String url = "http://52.230.10.246:8080/media/"+wsImages.getName();
+//                            Picasso.with(mContext)
+//                                    .load(url)
+//                                    .into(new PicassoImageTarget(wsImages.getName(),dir));
+//                        }
                         appContext.setTs(wsImages.getTimestamp());
                     } else {
                         break;
@@ -993,6 +1011,12 @@ public class WsApi {
         dbaccess = DbAccess.getInstance();
         AdministrationWsimages administrationWsimages = new AdministrationWsimages();
         administrationWsimages.setName(wsImages.getName());
+        administrationWsimages.setId(wsImages.getId());
+        administrationWsimages.setPath(wsImages.getPath());
+        administrationWsimages.setTimestamp(wsImages.getTimestamp());
+        administrationWsimages.setDelete(wsImages.getDelete());
+        administrationWsimages.setSolution_id(wsImages.getSolution());
+        administrationWsimages.setType_id(wsImages.getType());
         long l = dbaccess.insertAdministration_wsimages(administrationWsimages);
         return (l > 0);
     }

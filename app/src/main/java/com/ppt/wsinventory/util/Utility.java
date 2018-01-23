@@ -3,7 +3,9 @@ package com.ppt.wsinventory.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -36,4 +38,23 @@ public class Utility {
     public static  boolean isNumeric(String value){
         return  value.matches("\\d+(?:\\.\\d+)?");
     }
+
+    public static File creatdesignfolder(){
+        File sd = Environment.getExternalStorageDirectory();
+//        File sd = new File("/mnt/sdcard");
+        File folder = new File(sd.getAbsolutePath() + "/Design");
+        if(!folder.exists()) {
+            folder.mkdir();
+        }
+        return folder;
+
+    }
+
+//    public static void creatdesignfolder(){
+//        File sd = Environment.getExternalStorageDirectory();
+////        File sd = new File("/mnt/sdcard");
+//        File folder = new File(sd.getAbsolutePath() + "/design");
+//        folder.mkdir();
+//    }
+
 }
