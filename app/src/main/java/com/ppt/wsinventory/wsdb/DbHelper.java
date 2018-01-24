@@ -190,7 +190,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     " minqty   INTEGER, \n" +
                     " maxqty   INTEGER, \n" +
                     " active    BOOL, \n" +
-                    " is_delete    BOOL \n" +
+                    " is_delete    BOOL, \n" +
+                    " ts DATETIME \n" +
                     ")";
 
     private static final String TABLE_INVENTORY_PRODUCTGROUPS= "inventory_productgroups";

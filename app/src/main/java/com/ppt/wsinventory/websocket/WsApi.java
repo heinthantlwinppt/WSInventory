@@ -73,9 +73,17 @@ import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -145,177 +153,249 @@ public class WsApi {
             apiModel.setMessage("");
         if (apiModel.getName().equalsIgnoreCase(ApiModel.GETTABLESTODELETE)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<TableToDelete>>() {
-            }.getType();
-            List<TableToDelete> tableToDeletes = gson.fromJson(jsonString, listType);
-            for (TableToDelete toDelete : tableToDeletes) {
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<TableToDelete>>() {
+                }.getType();
+                List<TableToDelete> tableToDeletes = gson.fromJson(jsonString, listType);
+                for (TableToDelete toDelete : tableToDeletes) {
 
 //                dbaccess.deleteData(toDelete.getTablename());
-                importTableToDelete(toDelete);
-                Log.i(TAG, "Delete Table: " + toDelete.getTablename());
+                    importTableToDelete(toDelete);
+                    Log.i(TAG, "Delete Table: " + toDelete.getTablename());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
-
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSOLUTIONS)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Solution>>() {
-            }.getType();
-            List<Solution> solutionList = gson.fromJson(jsonString, listType);
-            for (Solution solution : solutionList) {
-                importSolutions(solution);
-                Log.i(TAG, "Solution Name : " + solution.getSolutionName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Solution>>() {
+                }.getType();
+                List<Solution> solutionList = gson.fromJson(jsonString, listType);
+                for (Solution solution : solutionList) {
+                    importSolutions(solution);
+                    Log.i(TAG, "Solution Name : " + solution.getSolutionName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSETTINGS)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Settings>>() {
-            }.getType();
-            List<Settings> settingsList = gson.fromJson(jsonString, listType);
-            for (Settings settings : settingsList) {
-                importSettings(settings);
-                Log.i(TAG, "setting id : " + settings.getDeviceId());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Settings>>() {
+                }.getType();
+                List<Settings> settingsList = gson.fromJson(jsonString, listType);
+                for (Settings settings : settingsList) {
+                    importSettings(settings);
+                    Log.i(TAG, "setting id : " + settings.getDeviceId());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSDASHBOARD)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<WsDashboard>>() {
-            }.getType();
-            List<WsDashboard> dashboardsList = gson.fromJson(jsonString, listType);
-            for (WsDashboard dashboard : dashboardsList) {
-                importWsDashboard(dashboard);
-                Log.i(TAG, "dashboard Name : " + dashboard.getActionname());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<WsDashboard>>() {
+                }.getType();
+                List<WsDashboard> dashboardsList = gson.fromJson(jsonString, listType);
+                for (WsDashboard dashboard : dashboardsList) {
+                    importWsDashboard(dashboard);
+                    Log.i(TAG, "dashboard Name : " + dashboard.getActionname());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSTAFFLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Staff>>() {
-            }.getType();
-            List<Staff> staffsList = gson.fromJson(jsonString, listType);
-            for (Staff staff : staffsList) {
-                importStaff(staff);
-                Log.i(TAG, "Staff Name : " + staff.getStaffName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Staff>>() {
+                }.getType();
+                List<Staff> staffsList = gson.fromJson(jsonString, listType);
+                for (Staff staff : staffsList) {
+                    importStaff(staff);
+                    Log.i(TAG, "Staff Name : " + staff.getStaffName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETROLELIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Role>>() {
-            }.getType();
-            List<Role> roleList = gson.fromJson(jsonString, listType);
-            for (Role role : roleList) {
-                importRole(role);
-                Log.i(TAG, "Role Name : " + role.getRoleName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Role>>() {
+                }.getType();
+                List<Role> roleList = gson.fromJson(jsonString, listType);
+                for (Role role : roleList) {
+                    importRole(role);
+                    Log.i(TAG, "Role Name : " + role.getRoleName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETLOCATIONSLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Location>>() {
-            }.getType();
-            List<Location> roleList = gson.fromJson(jsonString, listType);
-            for (Location location : roleList) {
-                importLocations(location);
-                Log.i(TAG, "Location Name : " + location.getLocName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Location>>() {
+                }.getType();
+                List<Location> roleList = gson.fromJson(jsonString, listType);
+                for (Location location : roleList) {
+                    importLocations(location);
+                    Log.i(TAG, "Location Name : " + location.getLocName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETUOMLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<UOM>>() {
-            }.getType();
-            List<UOM> uomList = gson.fromJson(jsonString, listType);
-            for (UOM uom : uomList) {
-                importUOM(uom);
-                Log.i(TAG, "UOM ID : " + uom.getUom());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<UOM>>() {
+                }.getType();
+                List<UOM> uomList = gson.fromJson(jsonString, listType);
+                for (UOM uom : uomList) {
+                    importUOM(uom);
+                    Log.i(TAG, "UOM ID : " + uom.getUom());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLDUOM)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<GoldUOM>>() {
-            }.getType();
-            List<GoldUOM> golduomList = gson.fromJson(jsonString, listType);
-            for (GoldUOM golduom : golduomList) {
-                importGoldUOM(golduom);
-                Log.i(TAG, "UOM ID : " + golduom.getUom());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<GoldUOM>>() {
+                }.getType();
+                List<GoldUOM> golduomList = gson.fromJson(jsonString, listType);
+                for (GoldUOM golduom : golduomList) {
+                    importGoldUOM(golduom);
+                    Log.i(TAG, "UOM ID : " + golduom.getUom());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSGOLD)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Gold>>() {
-            }.getType();
-            List<Gold> goldList = gson.fromJson(jsonString, listType);
-            for (Gold gold : goldList) {
-                importGold(gold);
-                Log.i(TAG, "Gold Name : " + gold.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Gold>>() {
+                }.getType();
+                List<Gold> goldList = gson.fromJson(jsonString, listType);
+                for (Gold gold : goldList) {
+                    importGold(gold);
+                    Log.i(TAG, "Gold Name : " + gold.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCT)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Product>>() {
-            }.getType();
-            List<Product> productList = gson.fromJson(jsonString, listType);
-            for (Product product : productList) {
-                importProduct(product);
-                Log.i(TAG, "Product Name : " + product.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Product>>() {
+                }.getType();
+                List<Product> productList = gson.fromJson(jsonString, listType);
+                for (Product product : productList) {
+                    if (importProduct(product)) {
+                        appContext.setTs(product.getTs());
+                    } else {
+                        break;
+                    }
+                    Log.i(TAG, "Product Name : " + product.getName());
+                }
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smith>>() {
-            }.getType();
-            List<Smith> smithList = gson.fromJson(jsonString, listType);
-            for (Smith smith : smithList) {
-                importSmith(smith);
-                Log.i(TAG, "Smith Name : " + smith.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smith>>() {
+                }.getType();
+                List<Smith> smithList = gson.fromJson(jsonString, listType);
+                for (Smith smith : smithList) {
+                    importSmith(smith);
+                    Log.i(TAG, "Smith Name : " + smith.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSPRODUCTGROUPLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<ProductGroup>>() {
-            }.getType();
-            List<ProductGroup> productGroupList = gson.fromJson(jsonString, listType);
-            for (ProductGroup productGroup : productGroupList) {
-                importProductGroup(productGroup);
-                Log.i(TAG, "Product Name : " + productGroup.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<ProductGroup>>() {
+                }.getType();
+                List<ProductGroup> productGroupList = gson.fromJson(jsonString, listType);
+                for (ProductGroup productGroup : productGroupList) {
+                    importProductGroup(productGroup);
+                    Log.i(TAG, "Product Name : " + productGroup.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHMEMBERSLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smithmembers>>() {
-            }.getType();
-            List<Smithmembers> smithmembersList = gson.fromJson(jsonString, listType);
-            for (Smithmembers smithmembers : smithmembersList) {
-                importSmithMemberList(smithmembers);
-                Log.i(TAG, "Smith Name : " + smithmembers.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smithmembers>>() {
+                }.getType();
+                List<Smithmembers> smithmembersList = gson.fromJson(jsonString, listType);
+                for (Smithmembers smithmembers : smithmembersList) {
+                    importSmithMemberList(smithmembers);
+                    Log.i(TAG, "Smith Name : " + smithmembers.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBSTATUSLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<JobStatus>>() {
-            }.getType();
-            List<JobStatus> jobstatusList = gson.fromJson(jsonString, listType);
-            for (JobStatus jobstatus : jobstatusList) {
-                importJobStatusList(jobstatus);
-                Log.i(TAG, "JOB Name : " + jobstatus.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JobStatus>>() {
+                }.getType();
+                List<JobStatus> jobstatusList = gson.fromJson(jsonString, listType);
+                for (JobStatus jobstatus : jobstatusList) {
+                    importJobStatusList(jobstatus);
+                    Log.i(TAG, "JOB Name : " + jobstatus.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBGOLDLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smith_JobGold>>() {
-            }.getType();
-            List<Smith_JobGold> jobstatusList = gson.fromJson(jsonString, listType);
-            for (Smith_JobGold smith_jobgold : jobstatusList) {
-                importSmithJobGoldList(smith_jobgold);
-                Log.i(TAG, "Gold ID : " + smith_jobgold.getGold());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smith_JobGold>>() {
+                }.getType();
+                List<Smith_JobGold> jobstatusList = gson.fromJson(jsonString, listType);
+                for (Smith_JobGold smith_jobgold : jobstatusList) {
+                    importSmithJobGoldList(smith_jobgold);
+                    Log.i(TAG, "Gold ID : " + smith_jobgold.getGold());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBPRODUCTLIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smith_jobproduct>>() {
-            }.getType();
-            List<Smith_jobproduct> jobstatusList = gson.fromJson(jsonString, listType);
-            for (Smith_jobproduct smith_jobproduct : jobstatusList) {
-                importSmithJobProductList(smith_jobproduct);
-                Log.i(TAG, "Product ID : " + smith_jobproduct.getProducts());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smith_jobproduct>>() {
+                }.getType();
+                List<Smith_jobproduct> jobstatusList = gson.fromJson(jsonString, listType);
+                for (Smith_jobproduct smith_jobproduct : jobstatusList) {
+                    importSmithJobProductList(smith_jobproduct);
+                    Log.i(TAG, "Product ID : " + smith_jobproduct.getProducts());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBORDERLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
@@ -336,14 +416,18 @@ public class WsApi {
 
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSSMITHJOBTYPELIST)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<Smith_jobtype>>() {
-            }.getType();
-            List<Smith_jobtype> smith_jobtypeList = gson.fromJson(jsonString, listType);
-            for (Smith_jobtype smith_jobtype : smith_jobtypeList) {
-                importSmithJobTypeList(smith_jobtype);
-                Log.i(TAG, "Smith Name : " + smith_jobtype.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Smith_jobtype>>() {
+                }.getType();
+                List<Smith_jobtype> smith_jobtypeList = gson.fromJson(jsonString, listType);
+                for (Smith_jobtype smith_jobtype : smith_jobtypeList) {
+                    importSmithJobTypeList(smith_jobtype);
+                    Log.i(TAG, "Smith Name : " + smith_jobtype.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETBINLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
@@ -432,19 +516,22 @@ public class WsApi {
 
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGESTYPE)) {
             jsonString = apiModel.getMessage();
-            Type listType = new TypeToken<ArrayList<WsImagesType>>() {
-            }.getType();
-            List<WsImagesType> wsImagesTypes = gson.fromJson(jsonString, listType);
-            for (WsImagesType wsImagesType : wsImagesTypes) {
-                importWsImagesType(wsImagesType);
-//                if(wsImagesType.getName() == "deisgn")
-//                {
-//                    Utility.creatdesignfolder();
-//                }
-                //If folder not exist --> Create folder for each type
-                Log.i(TAG, "Solution Name : " + wsImagesType.getName());
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<WsImagesType>>() {
+                }.getType();
+                List<WsImagesType> wsImagesTypes = gson.fromJson(jsonString, listType);
+                for (WsImagesType wsImagesType : wsImagesTypes) {
+                    importWsImagesType(wsImagesType);
+
+                    Utility.creatdesignfolder(wsImagesType.getName());
+
+                    //If folder not exist --> Create folder for each type
+                    Log.i(TAG, "Solution Name : " + wsImagesType.getName());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
             }
-            RemoveActionList(apiModel.getName());
 
         } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGES)) {
             jsonString = apiModel.getMessage();
@@ -453,82 +540,138 @@ public class WsApi {
                 }.getType();
                 List<WsImages> images = gson.fromJson(jsonString, listType);
                 for (WsImages wsImages : images) {
+
+//                    File dir = Utility.creatdesignfolder(wsImages.getType());
+//                    File my_file = new File(dir, wsImages.getName() + ".png");
+//                    if(my_file.exists()){
+//                        my_file.delete();
+//                    }
+//                    String url = "http://52.230.10.246:8080" + wsImages.getPath();
+//                    Picasso.with(mContext)
+//                            .load(url)
+//                            .into(new PicassoImageTarget(wsImages.getName(), dir));
+
                     if (importWsImages(wsImages)) {
                         // if delete is true then delete the image file
                         // else save the image to storage depend on their type
                         // import data
-//                        if(wsImages.getType() == "design"){
-//                            File dir = Utility.creatdesignfolder();
-//                            String url = "http://52.230.10.246:8080/media/"+wsImages.getName();
-//                            Picasso.with(mContext)
-//                                    .load(url)
-//                                    .into(new PicassoImageTarget(wsImages.getName(),dir));
-//                        }
-                        appContext.setTs(wsImages.getTimestamp());
-                    } else {
-                        break;
+                        String urls = "http://52.230.10.246:8080" + wsImages.getPath();
+
+                        try {
+
+                            File dir = Utility.creatdesignfolder(wsImages.getType());
+                            File my_file = new File(dir, wsImages.getName() + ".png");
+                            if (my_file.exists()) {
+                                my_file.delete();
+                            }
+
+                            URL url = new URL(urls);
+
+                            long startTime = System.currentTimeMillis();
+                            Log.d("DownloadManager", "download begining");
+                            Log.d("DownloadManager", "download url:" + url);
+                            Log.d("DownloadManager", "downloaded file name:" + wsImages.getName());
+
+                            try {
+                                URLConnection ucon = url.openConnection();
+
+                                InputStream is = ucon.getInputStream();
+//                                BufferedInputStream bis = new BufferedInputStream(is);
+
+//                                ByteArrayBuffer baf = new ByteArrayBuffer(5000);
+//                                int current = 0;
+//                                while ((current = bis.read()) != -1) {
+//                                    baf.append((byte) current);
+//                                }
+
+                                BufferedInputStream bis = new BufferedInputStream(is);
+                                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+                                byte[] data = new byte[5000];
+                                int current = 0;
+
+                                while((current = bis.read(data,0,data.length)) != -1){
+                                    buffer.write(data,0,current);
+                                }
+
+                                FileOutputStream fos = new FileOutputStream(my_file);
+                                fos.write(buffer.toByteArray());
+                                fos.close();
+                                Log.d("DownloadManager", "download ready in" + ((System.currentTimeMillis() - startTime) / 1000) + " sec");
+
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        } catch(MalformedURLException e){
+                                e.printStackTrace();
+                            }
+                            appContext.setTs(wsImages.getTimestamp());
+                        } else{
+                            break;
+                        }
                     }
+                } else{
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
                 }
+
             } else {
-                appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
+                Log.i(TAG, "doSync: arkar");
             }
 
-        } else {
-            RemoveActionList(apiModel.getName());
-            Log.i(TAG, "doSync: arkar");
-        }
+            if (appContext.getActionLists().size() > 0) {
+                ActionList actionList = appContext.getActionLists().get(0);
+                List<ApiParam> params = new ArrayList<>();
+                if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
+                    String test = actionList.getActionname();
+                }
+                params.add(
+                        new ApiParam("actionname", actionList.getActionname())
+                );
+                Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
+                appContext.setTs(ts);
+                params.add(
+                        new ApiParam("solutionname", appContext.getSolutionname())
+                );
+                params.add(
+                        new ApiParam("ts", Utility.dateFormat.format(ts))
+                );
+                params.add(
+                        new ApiParam("deviceid", appContext.getDeviceid())
+                );
 
-        if (appContext.getActionLists().size() > 0) {
-            ActionList actionList = appContext.getActionLists().get(0);
-            List<ApiParam> params = new ArrayList<>();
-            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
-                String test = actionList.getActionname();
-            }
-            params.add(
-                    new ApiParam("actionname", actionList.getActionname())
-            );
-            Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
-            appContext.setTs(ts);
-            params.add(
-                    new ApiParam("solutionname", appContext.getSolutionname())
-            );
-            params.add(
-                    new ApiParam("ts", Utility.dateFormat.format(ts))
-            );
-            params.add(
-                    new ApiParam("deviceid", appContext.getDeviceid())
-            );
-
-            jsonString = gson.toJson(params);
-            Log.i(TAG, "dosync: " + jsonString);
-            ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
-            jsonString = gson.toJson(apimodel);
-            String req = "";
-            try {
-                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            }
-            Log.i(TAG, "dosync: " + req);
+                jsonString = gson.toJson(params);
+                Log.i(TAG, "dosync: " + jsonString);
+                ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
+                jsonString = gson.toJson(apimodel);
+                String req = "";
+                try {
+                    req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                }
+                Log.i(TAG, "dosync: " + req);
 
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
-            appContext.setRequestMessage(req);
-            Intent intent = new Intent(mContext, WsSyncService.class);
-            intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
-            mContext.startService(intent);
-        } else {
-            GlobalBus.getBus().post(
-                    new WsEvents.EventShowMessage("Synchronization",
-                            "Synchronization Completed!",
-                            SYNCHRONIZATION_COMPLETED,
-                            null,
-                            "OK"
-                    )
-            );
+                appContext.setRequestMessage(req);
+                Intent intent = new Intent(mContext, WsSyncService.class);
+                intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
+                mContext.startService(intent);
+            } else {
+                GlobalBus.getBus().post(
+                        new WsEvents.EventShowMessage("Synchronization",
+                                "Synchronization Completed!",
+                                SYNCHRONIZATION_COMPLETED,
+                                null,
+                                "OK"
+                        )
+                );
+            }
         }
-    }
 
     public void RemoveActionList(String actionname) {
         for (ActionList actionList : appContext.getActionLists()) {
@@ -692,7 +835,7 @@ public class WsApi {
 
     }
 
-    private void importProduct(Product wsProduct) {
+    private boolean importProduct(Product wsProduct) {
         dbaccess = DbAccess.getInstance();
         Inventory_products inventory_products = new Inventory_products();
         inventory_products.setId(wsProduct.getId());
@@ -706,7 +849,10 @@ public class WsApi {
         inventory_products.setTag(wsProduct.getTag());
         inventory_products.setIs_delete(wsProduct.getIsDelete());
         inventory_products.setActive(wsProduct.getActive());
-        dbaccess.insertInventory_products(inventory_products);
+        inventory_products.setTs(wsProduct.getTs());
+
+        long l = dbaccess.insertInventory_products(inventory_products);
+        return (l > 0);
 
     }
 
@@ -1003,7 +1149,7 @@ public class WsApi {
         dbaccess = DbAccess.getInstance();
         AdministrationWsimagestype administrationWsimagestype = new AdministrationWsimagestype();
         administrationWsimagestype.setName(wsImagesType.getName());
-        Log.i(TAG,"ImgesTypes"+administrationWsimagestype.getName());
+        Log.i(TAG, "ImgesTypes" + administrationWsimagestype.getName());
         long l = dbaccess.insertAdministration_wsimagestype(administrationWsimagestype);
         return (l > 0);
     }
@@ -1015,7 +1161,7 @@ public class WsApi {
         administrationWsimages.setId(wsImages.getId());
         administrationWsimages.setPath(wsImages.getPath());
         administrationWsimages.setTimestamp(wsImages.getTimestamp());
-        administrationWsimages.setIs_delete(wsImages.getDelete());
+        administrationWsimages.setIs_delete(wsImages.getIsDelete());
         administrationWsimages.setSolution_id(wsImages.getSolution());
         administrationWsimages.setType_id(wsImages.getType());
         long l = dbaccess.insertAdministration_wsimages(administrationWsimages);

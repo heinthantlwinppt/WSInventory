@@ -291,8 +291,15 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
 
     @Override
+    public void onDestroy() {
+        dbaccess.close();
+        super.onDestroy();
+    }
+
+    @Override
     public void onStop() {
         GlobalBus.getBus().unregister(this);
+        dbaccess.close();
         super.onStop();
     }
 

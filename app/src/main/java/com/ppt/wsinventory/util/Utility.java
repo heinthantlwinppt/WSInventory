@@ -39,10 +39,10 @@ public class Utility {
         return  value.matches("\\d+(?:\\.\\d+)?");
     }
 
-    public static File creatdesignfolder(){
+    public static File creatdesignfolder(String foldername){
         File sd = Environment.getExternalStorageDirectory();
 //        File sd = new File("/mnt/sdcard");
-        File folder = new File(sd.getAbsolutePath() + "/Design");
+        File folder = new File(sd.getAbsolutePath() + "/"+ foldername);
         if(!folder.exists()) {
             folder.mkdir();
         }

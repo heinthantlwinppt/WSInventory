@@ -3,6 +3,8 @@ package com.ppt.wsinventory.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Product {
 
     @SerializedName("id")
@@ -38,6 +40,9 @@ public class Product {
     @SerializedName("is_delete")
     @Expose
     private String isDelete;
+    @SerializedName("ts")
+    @Expose
+    private Date ts;
 
     public String getId() {
         return id;
@@ -127,4 +132,7 @@ public class Product {
         this.isDelete = isDelete;
     }
 
+    public Date getTs() { return ts; }
+
+    public void setTs(Date ts) { this.ts = ts; }
 }

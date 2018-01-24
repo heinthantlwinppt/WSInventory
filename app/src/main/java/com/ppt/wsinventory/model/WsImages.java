@@ -4,7 +4,6 @@ package com.ppt.wsinventory.model;
  * Created by User on 22/01/2018.
  */
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -24,9 +23,9 @@ public class WsImages {
     @SerializedName("timestamp")
     @Expose
     private Date timestamp;
-    @SerializedName("delete")
+    @SerializedName("is_delete")
     @Expose
-    private Boolean delete;
+    private Boolean isDelete;
     @SerializedName("solution")
     @Expose
     private String solution;
@@ -66,12 +65,12 @@ public class WsImages {
         this.timestamp = timestamp;
     }
 
-    public Boolean getDelete() {
-        return delete;
+    public Boolean getIsDelete() {
+        return isDelete;
     }
 
-    public void setDelete(Boolean delete) {
-        this.delete = delete;
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getSolution() {
@@ -91,7 +90,6 @@ public class WsImages {
     }
 
 }
-
 
 
 

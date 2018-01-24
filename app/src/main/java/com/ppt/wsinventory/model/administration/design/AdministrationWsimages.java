@@ -13,7 +13,7 @@ public class AdministrationWsimages {
     public static final String COLUMN_NAME  = "name";
     public static final String COLUMN_PATH  = "path";
     public static final String COLUMN_TIMESTAMP = "timestamp";
-    public static final String COLUMN_DELETE  = "delete";
+    public static final String COLUMN_IS_DELETE= "is_delete";
     public static final String COLUMN_SOLUTION_ID = "solution_id";
     public static final String COLUMN_TYPE_ID = "type_id";
 
@@ -23,7 +23,7 @@ public class AdministrationWsimages {
             COLUMN_NAME,
             COLUMN_PATH ,
             COLUMN_TIMESTAMP ,
-            COLUMN_DELETE ,
+            COLUMN_IS_DELETE ,
             COLUMN_SOLUTION_ID ,
             COLUMN_TYPE_ID
     };

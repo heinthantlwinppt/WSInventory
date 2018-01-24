@@ -502,7 +502,7 @@ public class DbAccess {
         return inventoryProductGroup;
     }
 
-    public Inventory_products insertInventory_products(Inventory_products inventory_products) {
+    public long insertInventory_products(Inventory_products inventory_products) {
         ContentValues values = new ContentValues();
 
         values.put(Inventory_products.COLUMN_ID, inventory_products.getId());
@@ -516,10 +516,11 @@ public class DbAccess {
         values.put(Inventory_products.COLUMN_MAXQTY, inventory_products.getMaxqty());
         values.put(Inventory_products.COLUMN_ACTIVE, inventory_products.isActive());
         values.put(Inventory_products.COLUMN_IS_DELETE, inventory_products.isIs_delete());
+        values.put(Inventory_products.COLUMN_TS,Utility.dateFormat.format(inventory_products.getTs()));
 
         long resultid = database.insert(inventory_products.TABLE_INVENTORY_PRODUCTS, null, values);
 //        inventory_products.setId(resultid);
-        return inventory_products;
+        return resultid;
     }
 
     public AdministrationSolutions insertAdministrationSolutions(AdministrationSolutions administrationSolutions) {
@@ -850,7 +851,7 @@ public class DbAccess {
         values.put(AdministrationWsimages.COLUMN_NAME, administrationWsimages.getName());
         values.put(AdministrationWsimages.COLUMN_PATH, administrationWsimages.getPath());
         values.put(AdministrationWsimages.COLUMN_TIMESTAMP, Utility.dateFormat.format(administrationWsimages.getTimestamp()));
-        values.put(AdministrationWsimages.COLUMN_DELETE, administrationWsimages.getIs_delete());
+        values.put(AdministrationWsimages.COLUMN_IS_DELETE, administrationWsimages.getIs_delete());
         values.put(AdministrationWsimages.COLUMN_SOLUTION_ID, administrationWsimages.getSolution_id());
         values.put(AdministrationWsimages.COLUMN_TYPE_ID, administrationWsimages.getType_id());
         Long resultid = database.insert(administrationWsimages.TABLE_ADMINISTRATION_WSIMAGES,null,values);

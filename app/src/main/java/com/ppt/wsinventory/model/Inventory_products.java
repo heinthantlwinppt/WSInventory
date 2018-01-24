@@ -1,5 +1,7 @@
 package com.ppt.wsinventory.model;
 
+import java.util.Date;
+
 /**
  * Created by ThinkCentre on 1/12/2018.
  */
@@ -17,6 +19,7 @@ public class Inventory_products {
     public static final String COLUMN_MAXQTY = "maxqty";
     public static final String COLUMN_ACTIVE = "active";
     public static final String COLUMN_IS_DELETE = "is_delete";
+    public static final String COLUMN_TS = "ts";
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -30,7 +33,8 @@ public class Inventory_products {
             COLUMN_MINQTY ,
             COLUMN_MAXQTY ,
             COLUMN_ACTIVE ,
-            COLUMN_IS_DELETE
+            COLUMN_IS_DELETE,
+            COLUMN_TS
 
     };
 
@@ -45,6 +49,7 @@ public class Inventory_products {
     private int maxqty ;
     private boolean active ;
     private String is_delete ;
+    private Date ts ;
 
     public String getId() {
         return id;
@@ -132,6 +137,14 @@ public class Inventory_products {
 
     public void setIs_delete(String is_delete) {
         this.is_delete = is_delete;
+    }
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
     }
 
     @Override
