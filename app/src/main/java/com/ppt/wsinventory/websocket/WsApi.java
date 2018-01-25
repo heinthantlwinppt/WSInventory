@@ -574,7 +574,8 @@ public class WsApi {
 
                             try {
                                 URLConnection ucon = url.openConnection();
-
+                                android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                android.os.StrictMode.setThreadPolicy(policy);
                                 InputStream is = ucon.getInputStream();
 //                                BufferedInputStream bis = new BufferedInputStream(is);
 
@@ -590,8 +591,8 @@ public class WsApi {
                                 byte[] data = new byte[5000];
                                 int current = 0;
 
-                                while((current = bis.read(data,0,data.length)) != -1){
-                                    buffer.write(data,0,current);
+                                while ((current = bis.read(data, 0, data.length)) != -1) {
+                                    buffer.write(data, 0, current);
                                 }
 
                                 FileOutputStream fos = new FileOutputStream(my_file);
@@ -604,74 +605,74 @@ public class WsApi {
                                 e.printStackTrace();
                             }
 
-                        } catch(MalformedURLException e){
-                                e.printStackTrace();
-                            }
-                            appContext.setTs(wsImages.getTimestamp());
-                        } else{
-                            break;
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
                         }
+                        appContext.setTs(wsImages.getTimestamp());
+                    } else {
+                        break;
                     }
-                } else{
-                    appContext.setTs(Utility.getDateBegin());
-                    RemoveActionList(apiModel.getName());
                 }
-
             } else {
+                appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
-                Log.i(TAG, "doSync: arkar");
             }
 
-            if (appContext.getActionLists().size() > 0) {
-                ActionList actionList = appContext.getActionLists().get(0);
-                List<ApiParam> params = new ArrayList<>();
-                if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
-                    String test = actionList.getActionname();
-                }
-                params.add(
-                        new ApiParam("actionname", actionList.getActionname())
-                );
-                Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
-                appContext.setTs(ts);
-                params.add(
-                        new ApiParam("solutionname", appContext.getSolutionname())
-                );
-                params.add(
-                        new ApiParam("ts", Utility.dateFormat.format(ts))
-                );
-                params.add(
-                        new ApiParam("deviceid", appContext.getDeviceid())
-                );
+        } else {
+            RemoveActionList(apiModel.getName());
+            Log.i(TAG, "doSync: arkar");
+        }
 
-                jsonString = gson.toJson(params);
-                Log.i(TAG, "dosync: " + jsonString);
-                ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
-                jsonString = gson.toJson(apimodel);
-                String req = "";
-                try {
-                    req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
-                }
-                Log.i(TAG, "dosync: " + req);
+        if (appContext.getActionLists().size() > 0) {
+            ActionList actionList = appContext.getActionLists().get(0);
+            List<ApiParam> params = new ArrayList<>();
+            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
+                String test = actionList.getActionname();
+            }
+            params.add(
+                    new ApiParam("actionname", actionList.getActionname())
+            );
+            Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
+            appContext.setTs(ts);
+            params.add(
+                    new ApiParam("solutionname", appContext.getSolutionname())
+            );
+            params.add(
+                    new ApiParam("ts", Utility.dateFormat.format(ts))
+            );
+            params.add(
+                    new ApiParam("deviceid", appContext.getDeviceid())
+            );
+
+            jsonString = gson.toJson(params);
+            Log.i(TAG, "dosync: " + jsonString);
+            ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
+            jsonString = gson.toJson(apimodel);
+            String req = "";
+            try {
+                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
+            Log.i(TAG, "dosync: " + req);
 
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
-                appContext.setRequestMessage(req);
-                Intent intent = new Intent(mContext, WsSyncService.class);
-                intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
-                mContext.startService(intent);
-            } else {
-                GlobalBus.getBus().post(
-                        new WsEvents.EventShowMessage("Synchronization",
-                                "Synchronization Completed!",
-                                SYNCHRONIZATION_COMPLETED,
-                                null,
-                                "OK"
-                        )
-                );
-            }
+            appContext.setRequestMessage(req);
+            Intent intent = new Intent(mContext, WsSyncService.class);
+            intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
+            mContext.startService(intent);
+        } else {
+            GlobalBus.getBus().post(
+                    new WsEvents.EventShowMessage("Synchronization",
+                            "Synchronization Completed!",
+                            SYNCHRONIZATION_COMPLETED,
+                            null,
+                            "OK"
+                    )
+            );
         }
+    }
 
     public void RemoveActionList(String actionname) {
         for (ActionList actionList : appContext.getActionLists()) {
@@ -849,6 +850,11 @@ public class WsApi {
         inventory_products.setTag(wsProduct.getTag());
         inventory_products.setIs_delete(wsProduct.getIsDelete());
         inventory_products.setActive(wsProduct.getActive());
+        inventory_products.setPgroup_id(wsProduct.getPgroup());
+        inventory_products.setRow_no(wsProduct.getRowNo());
+        inventory_products.setPlength_id(wsProduct.getPlength());
+        inventory_products.setPreduce_id(wsProduct.getPreduce());
+        inventory_products.setPsubgroup_id(wsProduct.getPsubgroup());
         inventory_products.setTs(wsProduct.getTs());
 
         long l = dbaccess.insertInventory_products(inventory_products);

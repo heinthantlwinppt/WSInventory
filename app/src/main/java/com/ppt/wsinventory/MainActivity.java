@@ -214,7 +214,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, BackUpDatabase.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_setting) {
+        } else if (id == R.id.nav_product) {
+            Intent intent = new Intent(this, ProductActivity.class);
+            startActivity(intent);
+
+        }  else if (id == R.id.nav_setting) {
 
 
         } else if (id == R.id.nav_send) {

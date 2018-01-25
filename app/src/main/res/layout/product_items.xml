@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_rowWeight="1"
+        card_view:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/productPhoto"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_launcher" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:id="@+id/designname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin10"
+                        android:text="Design Name"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="@dimen/margin10"
+                        android:text="Name"
+                        android:textColor="@android:color/black"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/groupname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/designname"
+                        android:padding="10dp"
+                        android:text="GroupName -->SubGroupName -->length"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic" />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin10">
+
+                <TextView
+                    android:id="@+id/reduceid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reduce"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/reducekpy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/valuek"
+                    android:layout_below="@id/reduceid"
+                    android:paddingRight="5dp"
+                    android:text="K"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/valuek"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reduceid"
+                    android:layout_toEndOf="@+id/txtCostK"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/reduceP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/valueP"
+                    android:layout_below="@id/reduceid"
+                    android:layout_toEndOf="@+id/valuek"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="P"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/valueP"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reduceid"
+                    android:layout_toEndOf="@+id/txtCostP"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/reduceY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/valueY"
+                    android:layout_below="@id/reduceid"
+                    android:layout_toEndOf="@+id/valueP"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="Y"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/valueY"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reduceid"
+                    android:layout_toEndOf="@+id/txtCostY"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/txtReduceCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reducekpy"
+                    android:textColor="@android:color/black"
+                    android:text="Reduce Cost"
+                    android:textStyle="bold"
+                    android:paddingTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/txtCostK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReduceCost"
+                    android:paddingRight="5dp"
+                    android:text="CK"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/costK"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtCostK"
+                    android:layout_below="@+id/reducekpy"
+                    android:layout_toEndOf="@+id/txtCostK"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/txtCostP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReduceCost"
+                    android:layout_toEndOf="@+id/costK"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="CK"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/costP"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtCostP"
+                    android:layout_below="@+id/reducekpy"
+                    android:layout_toEndOf="@+id/txtCostP"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/txtCostY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   android:layout_below="@+id/txtReduceCost"
+                    android:layout_toEndOf="@+id/costP"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="CK"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+                <EditText
+                    android:id="@+id/costY"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtCostY"
+                    android:layout_below="@+id/reducekpy"
+                    android:layout_toEndOf="@+id/txtCostY"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+
+                <!--<TextView-->
+                <!--android:id="@+id/cost"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/reducekpy"-->
+                <!--android:text="CostK / CostP / CostY"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:textStyle="italic" />-->
+
+                <TextView
+                    android:id="@+id/txtmqty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReduceCost"
+                    android:text="Min QTY   "
+                   android:layout_toStartOf="@+id/mqty"
+                    android:paddingBottom="5dp"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/mqty"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtmqty"
+                    android:background="@drawable/bg_edittext"
+                    android:layout_toStartOf="@+id/txtmaxqty"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/txtmaxqty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReduceCost"
+                   android:layout_toStartOf="@+id/maxqty"
+                    android:text="Max QTY   "
+                    android:paddingLeft="10dp"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/maxqty"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/txtmaxqty"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_edittext"
+                    android:text="1"
+                    android:textSize="12dp" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

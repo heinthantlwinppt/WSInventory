@@ -516,6 +516,11 @@ public class DbAccess {
         values.put(Inventory_products.COLUMN_MAXQTY, inventory_products.getMaxqty());
         values.put(Inventory_products.COLUMN_ACTIVE, inventory_products.isActive());
         values.put(Inventory_products.COLUMN_IS_DELETE, inventory_products.isIs_delete());
+        values.put(Inventory_products.COLUMN_PGROUP_ID, inventory_products.getPgroup_id());
+        values.put(Inventory_products.COLUMN_ROW_NO, inventory_products.getRow_no());
+        values.put(Inventory_products.COLUMN_PLENGTH_ID, inventory_products.getPlength_id());
+        values.put(Inventory_products.COLUMN_PREDUCE_ID, inventory_products.getPreduce_id());
+        values.put(Inventory_products.COLUMN_PSUBGROUP_ID, inventory_products.getPsubgroup_id());
         values.put(Inventory_products.COLUMN_TS,Utility.dateFormat.format(inventory_products.getTs()));
 
         long resultid = database.insert(inventory_products.TABLE_INVENTORY_PRODUCTS, null, values);

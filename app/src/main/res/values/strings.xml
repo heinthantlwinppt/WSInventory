@@ -49,4 +49,5 @@
     <string name="title_activity_dashboard_smith_job_order">Smith Job Order</string>
     <string name="title_activity_profile_detail">ProfileDetailActivity</string>
     <string name="title_activity_gold_price">GoldPriceActivity</string>
+    <string name="title_activity_product">ProductActivity</string>
 </resources>

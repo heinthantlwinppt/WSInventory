@@ -42,7 +42,7 @@ public class Utility {
     public static File creatdesignfolder(String foldername){
         File sd = Environment.getExternalStorageDirectory();
 //        File sd = new File("/mnt/sdcard");
-        File folder = new File(sd.getAbsolutePath() + "/"+ foldername);
+        File folder = new File(sd.getAbsolutePath() + "/Images/"+ foldername);
         if(!folder.exists()) {
             folder.mkdir();
         }

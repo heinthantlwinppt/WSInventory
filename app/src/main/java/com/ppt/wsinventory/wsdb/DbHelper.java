@@ -191,6 +191,11 @@ public class DbHelper extends SQLiteOpenHelper {
                     " maxqty   INTEGER, \n" +
                     " active    BOOL, \n" +
                     " is_delete    BOOL, \n" +
+                    " pgroup_id     INTEGER, \n" +
+                    " row_no      INTEGER, \n" +
+                    " plength_id     INTEGER, \n" +
+                    " preduce_id     INTEGER, \n" +
+                    " psubgroup_id     INTEGER, \n" +
                     " ts DATETIME \n" +
                     ")";
 

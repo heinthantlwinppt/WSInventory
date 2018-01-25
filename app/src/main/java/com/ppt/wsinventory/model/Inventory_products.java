@@ -19,6 +19,11 @@ public class Inventory_products {
     public static final String COLUMN_MAXQTY = "maxqty";
     public static final String COLUMN_ACTIVE = "active";
     public static final String COLUMN_IS_DELETE = "is_delete";
+    public static final String COLUMN_PGROUP_ID = "pgroup_id";
+    public static final String COLUMN_ROW_NO = "row_no";
+    public static final String COLUMN_PLENGTH_ID = "plength_id";
+    public static final String COLUMN_PREDUCE_ID = "preduce_id";
+    public static final String COLUMN_PSUBGROUP_ID = "psubgroup_id";
     public static final String COLUMN_TS = "ts";
 
     public static final String[] COLUMN_ALL = new String[]{
@@ -34,6 +39,11 @@ public class Inventory_products {
             COLUMN_MAXQTY ,
             COLUMN_ACTIVE ,
             COLUMN_IS_DELETE,
+            COLUMN_PGROUP_ID,
+            COLUMN_ROW_NO,
+            COLUMN_PLENGTH_ID,
+            COLUMN_PREDUCE_ID,
+            COLUMN_PSUBGROUP_ID,
             COLUMN_TS
 
     };
@@ -48,7 +58,12 @@ public class Inventory_products {
     private int minqty ;
     private int maxqty ;
     private boolean active ;
-    private String is_delete ;
+    private boolean is_delete ;
+    private int pgroup_id ;
+    private int row_no ;
+    private int plength_id ;
+    private int preduce_id ;
+    private int psubgroup_id ;
     private Date ts ;
 
     public String getId() {
@@ -131,12 +146,52 @@ public class Inventory_products {
         this.active = active;
     }
 
-    public String isIs_delete() {
+    public boolean isIs_delete() {
         return is_delete;
     }
 
-    public void setIs_delete(String is_delete) {
+    public void setIs_delete(boolean is_delete) {
         this.is_delete = is_delete;
+    }
+
+    public int getPgroup_id() {
+        return pgroup_id;
+    }
+
+    public void setPgroup_id(int pgroup_id) {
+        this.pgroup_id = pgroup_id;
+    }
+
+    public int getRow_no() {
+        return row_no;
+    }
+
+    public void setRow_no(int row_no) {
+        this.row_no = row_no;
+    }
+
+    public int getPlength_id() {
+        return plength_id;
+    }
+
+    public void setPlength_id(int plength_id) {
+        this.plength_id = plength_id;
+    }
+
+    public int getPreduce_id() {
+        return preduce_id;
+    }
+
+    public void setPreduce_id(int preduce_id) {
+        this.preduce_id = preduce_id;
+    }
+
+    public int getPsubgroup_id() {
+        return psubgroup_id;
+    }
+
+    public void setPsubgroup_id(int psubgroup_id) {
+        this.psubgroup_id = psubgroup_id;
     }
 
     public Date getTs() {

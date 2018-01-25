@@ -16,9 +16,6 @@ public class Product {
     @SerializedName("designname")
     @Expose
     private String designname;
-    @SerializedName("photo")
-    @Expose
-    private String photo;
     @SerializedName("barcode")
     @Expose
     private String barcode;
@@ -34,15 +31,33 @@ public class Product {
     @SerializedName("maxqty")
     @Expose
     private Integer maxqty;
+    @SerializedName("row_no")
+    @Expose
+    private Integer rowNo;
     @SerializedName("active")
     @Expose
     private Boolean active;
-    @SerializedName("is_delete")
-    @Expose
-    private String isDelete;
     @SerializedName("ts")
     @Expose
     private Date ts;
+    @SerializedName("is_delete")
+    @Expose
+    private Boolean isDelete;
+    @SerializedName("pgroup")
+    @Expose
+    private Integer pgroup;
+    @SerializedName("psubgroup")
+    @Expose
+    private Integer psubgroup;
+    @SerializedName("plength")
+    @Expose
+    private Integer plength;
+    @SerializedName("preduce")
+    @Expose
+    private Integer preduce;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
 
     public String getId() {
         return id;
@@ -66,14 +81,6 @@ public class Product {
 
     public void setDesignname(String designname) {
         this.designname = designname;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getBarcode() {
@@ -116,6 +123,14 @@ public class Product {
         this.maxqty = maxqty;
     }
 
+    public Integer getRowNo() {
+        return rowNo;
+    }
+
+    public void setRowNo(Integer rowNo) {
+        this.rowNo = rowNo;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -124,15 +139,60 @@ public class Product {
         this.active = active;
     }
 
-    public String getIsDelete() {
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
+
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(String isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 
-    public Date getTs() { return ts; }
+    public Integer getPgroup() {
+        return pgroup;
+    }
 
-    public void setTs(Date ts) { this.ts = ts; }
+    public void setPgroup(Integer pgroup) {
+        this.pgroup = pgroup;
+    }
+
+    public Integer getPsubgroup() {
+        return psubgroup;
+    }
+
+    public void setPsubgroup(Integer psubgroup) {
+        this.psubgroup = psubgroup;
+    }
+
+    public Integer getPlength() {
+        return plength;
+    }
+
+    public void setPlength(Integer plength) {
+        this.plength = plength;
+    }
+
+    public Integer getPreduce() {
+        return preduce;
+    }
+
+    public void setPreduce(Integer preduce) {
+        this.preduce = preduce;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
 }
