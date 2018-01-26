@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp">
 
     <android.support.v7.widget.CardView
@@ -27,7 +27,7 @@
                 <ImageView
                     android:id="@+id/productPhoto"
                     android:layout_width="60dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="90dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <RelativeLayout
@@ -40,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/margin10"
-                        android:text="Design Name"
+                        android:text="၀န္းရန္ခ  "
                         android:textColor="@android:color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:padding="@dimen/margin10"
-                        android:text="Name"
+                        android:text="AA"
                         android:textColor="@android:color/black"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/designname"
                         android:padding="10dp"
-                        android:text="GroupName -->SubGroupName -->length"
+                        android:text='ဆြဲၾကိုး -->သံၾကိုးစိတ္ -->12"'
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
                         android:textStyle="bold|italic" />
@@ -105,7 +105,10 @@
                     android:layout_below="@+id/reduceid"
                     android:layout_toEndOf="@+id/txtCostK"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="0"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -130,6 +133,9 @@
                     android:layout_toEndOf="@+id/txtCostP"
                     android:background="@drawable/bg_edittext"
                     android:text="1"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -148,12 +154,15 @@
 
                 <EditText
                     android:id="@+id/valueY"
-                    android:layout_width="25dp"
+                    android:layout_width="27dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/reduceid"
                     android:layout_toEndOf="@+id/txtCostY"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="0.00"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -179,13 +188,16 @@
 
                 <EditText
                     android:id="@+id/costK"
-                    android:layout_width="25dp"
+                    android:layout_width="27dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/txtCostK"
                     android:layout_below="@+id/reducekpy"
                     android:layout_toEndOf="@+id/txtCostK"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="0.00"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -203,13 +215,16 @@
 
                 <EditText
                     android:id="@+id/costP"
-                    android:layout_width="25dp"
+                    android:layout_width="27dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/txtCostP"
                     android:layout_below="@+id/reducekpy"
                     android:layout_toEndOf="@+id/txtCostP"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="0.00"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -227,13 +242,16 @@
 
                 <EditText
                     android:id="@+id/costY"
-                    android:layout_width="25dp"
+                    android:layout_width="27dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/txtCostY"
                     android:layout_below="@+id/reducekpy"
                     android:layout_toEndOf="@+id/txtCostY"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="0.00"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
 
@@ -264,6 +282,9 @@
                     android:background="@drawable/bg_edittext"
                     android:layout_toStartOf="@+id/txtmaxqty"
                     android:text="1"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
                 <TextView
@@ -283,7 +304,10 @@
                     android:layout_alignBaseline="@+id/txtmaxqty"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/bg_edittext"
-                    android:text="1"
+                    android:text="999"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:cursorVisible="false"
                     android:textSize="12dp" />
 
 

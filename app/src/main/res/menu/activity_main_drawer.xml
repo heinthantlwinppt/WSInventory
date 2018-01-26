@@ -22,8 +22,8 @@
             android:title="Tools" />
         <item
             android:id="@+id/nav_product"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_add_to_queue_black_24dp"
+            android:title="Product" />
     </group>
 
     <item android:title="Communicate">

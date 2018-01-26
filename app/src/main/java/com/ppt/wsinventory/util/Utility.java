@@ -41,12 +41,19 @@ public class Utility {
 
     public static File creatdesignfolder(String foldername){
         File sd = Environment.getExternalStorageDirectory();
-//        File sd = new File("/mnt/sdcard");
-        File folder = new File(sd.getAbsolutePath() + "/Images/"+ foldername);
+//        File sd = new File("/mnt/sdcard/wsimages");
+        File folder = new File(sd.getAbsolutePath()  , "WsImages");
         if(!folder.exists()) {
             folder.mkdir();
         }
-        return folder;
+
+        File subfolder = new File(folder,foldername);
+
+        if(!subfolder.exists()){
+
+            subfolder.mkdir();
+        }
+        return subfolder;
 
     }
 

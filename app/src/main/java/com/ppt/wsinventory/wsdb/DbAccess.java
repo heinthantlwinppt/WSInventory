@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
@@ -22,6 +23,9 @@ import com.ppt.wsinventory.model.InventoryGoldUOM;
 import com.ppt.wsinventory.model.InventoryGoodInventory;
 import com.ppt.wsinventory.model.InventoryPallet;
 import com.ppt.wsinventory.model.InventoryProductGroup;
+import com.ppt.wsinventory.model.InventoryProductSubgroups;
+import com.ppt.wsinventory.model.InventoryProductlength;
+import com.ppt.wsinventory.model.InventoryProductreduce;
 import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
@@ -329,6 +333,51 @@ public class DbAccess {
             cursor.close();
         }
         return inventory_smithJobs;
+    }
+
+    public List<InventoryAllProducts> getInventoryAllProducts(){
+        List<InventoryAllProducts> inventoryAllProducts = new ArrayList<>();
+        String sql = "select invP.id as product_id , invP.name as product_name , invP.designname as design_name,invP.minqty as minqty,invP.maxqty as maxqty , invP.photo ,\n" +
+                " invPG.id as productgroups_id,invPG.name as group_name ,invPR.id as productreduce_id,invPR.reduce_g ,invPR.reduce_k,invPR.reduce_p,invPR.reduce_y ,\n" +
+                " invPR.id as productreduce_fee ,invPR.cost_reduce_k,invPR.cost_reduce_p,invPR.cost_reduce_y,invPR.cost_production_fee,invPR.remarks,\n" +
+                " invPL.id as productlength_id , invPL.plength ,invPSG.id as productsubgroups_id , invPSG.name as subgroup_name\n" +
+                "from inventory_products invP\n" +
+                "inner join inventory_productgroups invPG on invP.pgroup_id = invPG.id\n" +
+                "inner join inventory_productreduce invPR on invP.preduce_id = invPR.id\n" +
+                "inner join inventory_productlength invPL on invP.plength_id = invPL.id\n" +
+                "inner join inventory_productsubgroups invPSG on invP.plength_id = invPSG.id";
+
+        Cursor cursor = readData(sql,null);
+
+        while (cursor.moveToNext()) {
+            InventoryAllProducts inventoryAllProduct = new InventoryAllProducts();
+            inventoryAllProduct.setProduct_id(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PRODUCT_ID)));
+            inventoryAllProduct.setProductlength_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PRODUCTLENGTH_ID))));
+            inventoryAllProduct.setProductsubgroups_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PRODUCTSUBGROUPS_ID))));
+            inventoryAllProduct.setProductgroups_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PRODUCTGROUPS_ID))));
+            inventoryAllProduct.setProduct_name(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PRODUCT_NAME)));
+            inventoryAllProduct.setDesign_name(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_DESIGNNAME)));
+            inventoryAllProduct.setGroup_name(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_GNAME)));
+            inventoryAllProduct.setSubgroup_name(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_SUBGNAME)));
+            inventoryAllProduct.setPlength(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PLENGTH)));
+            inventoryAllProduct.setReduce_g(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_REDUCE_G))));
+            inventoryAllProduct.setReduce_k(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_REDUCE_K))));
+            inventoryAllProduct.setReduce_p(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_REDUCE_P))));
+            inventoryAllProduct.setReduce_y(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_REDUCE_Y))));
+            inventoryAllProduct.setCost_reduce_k(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_COST_REDUCE_K))));
+            inventoryAllProduct.setCost_reduce_p(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_COST_REDUCE_P))));
+            inventoryAllProduct.setCost_reduce_y(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_COST_REDUCE_Y))));
+            inventoryAllProduct.setMinqty(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_MINQTY))));
+            inventoryAllProduct.setMaxqty(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_MAXQTY))));
+            inventoryAllProduct.setPhoto(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PHOTO)));
+
+            inventoryAllProducts.add(inventoryAllProduct);
+
+        }
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventoryAllProducts;
     }
 
     public AdministrationSettings getAdministrationSettings() {
@@ -871,6 +920,50 @@ public class DbAccess {
         Long resultid = database.insert(administrationWsimagestype.TABLE_ADMINISTRATION_WSIMAGESTYPE,null,values);
         return resultid;
 
+    }
+
+    public long insertProduct_Reduce(InventoryProductreduce inventoryProductreduce){
+
+        ContentValues values = new ContentValues();
+        values.put(InventoryProductreduce.COLUMN_ID, inventoryProductreduce.getId());
+        values.put(InventoryProductreduce.COLUMN_REDUCE_G, inventoryProductreduce.getReduce_g());
+        values.put(InventoryProductreduce.COLUMN_REDUCE_K, inventoryProductreduce.getReduce_k());
+        values.put(InventoryProductreduce.COLUMN_REDUCE_P, inventoryProductreduce.getReduce_p());
+        values.put(InventoryProductreduce.COLUMN_REDUCE_Y, inventoryProductreduce.getReduce_y());
+        values.put(InventoryProductreduce.COLUMN_PRODUCTION_FEE, inventoryProductreduce.getProduction_fee());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_K, inventoryProductreduce.getCost_reduce_k());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_P, inventoryProductreduce.getCost_reduce_p());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_Y, inventoryProductreduce.getCost_reduce_y());
+        values.put(InventoryProductreduce.COLUMN_COST_PRODUCTION_FEE, inventoryProductreduce.getCost_production_fee());
+        values.put(InventoryProductreduce.COLUMN_REMARKS, inventoryProductreduce.getRemarks());
+        values.put(InventoryProductreduce.COLUMN_ACTIVE, inventoryProductreduce.getActive());
+        values.put(InventoryProductreduce.COLUMN_IS_DELETE, inventoryProductreduce.getIs_delete());
+        values.put(InventoryProductreduce.COLUMN_GOLD_ID, inventoryProductreduce.getGold_id());
+        values.put(InventoryProductreduce.COLUMN_PLENGTH_ID, inventoryProductreduce.getPlength_id());
+        Long resultid = database.insert(inventoryProductreduce.TABLE_INVENTORY_PRODUCTREDUCE,null,values);
+        return resultid;
+
+    }
+    public long insertProductSubGroup(InventoryProductSubgroups inventoryProductSubgroups) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryProductSubgroups.COLUMN_ID,inventoryProductSubgroups.getId());
+        values.put(InventoryProductSubgroups.COLUMN_NAME,inventoryProductSubgroups.getName());
+        values.put(InventoryProductSubgroups.COLUMN_ACTIVE,inventoryProductSubgroups.getActive());
+        values.put(InventoryProductSubgroups.COLUMN_IS_DELETE,inventoryProductSubgroups.getIs_delete());
+        values.put(InventoryProductSubgroups.COLUMN_PGROUP_ID,inventoryProductSubgroups.getPgroup_id());
+        Long resultid = database.insert(inventoryProductSubgroups.TABLE_INVENTORY_PRODUCTSUBGROUPS,null,values);
+        return resultid;
+    }
+
+    public long insertProductLength(InventoryProductlength inventoryProductlength) {
+        ContentValues values = new ContentValues();
+        values.put(InventoryProductlength.COLUMN_ID,inventoryProductlength.getId());
+        values.put(InventoryProductlength.COLUMN_PLENGTH,inventoryProductlength.getPlength());
+        values.put(InventoryProductlength.COLUMN_ACTIVE,inventoryProductlength.getActive());
+        values.put(InventoryProductlength.COLUMN_IS_DELETE,inventoryProductlength.getIs_delete());
+        values.put(InventoryProductlength.COLUMN_PSGROUP_ID,inventoryProductlength.getPsgroup_id());
+        long resultid = database.insert(inventoryProductlength.TABLE_INVENTORY_PRODUCTLENGTH,null,values);
+        return resultid;
     }
 
     public boolean deleteAdministrationWsdashboard(String table, String whereArgs) {

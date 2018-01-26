@@ -111,7 +111,7 @@ public class ProductSerial {
     private Boolean delivered;
     @SerializedName("is_delete")
     @Expose
-    private String isDelete;
+    private boolean isDelete;
     @SerializedName("ts")
     @Expose
     private Date ts;
@@ -412,11 +412,11 @@ public class ProductSerial {
         this.delivered = delivered;
     }
 
-    public String getIsDelete() {
+    public boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(String isDelete) {
+    public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;
     }
 

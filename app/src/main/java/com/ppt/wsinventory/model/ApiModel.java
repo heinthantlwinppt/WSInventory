@@ -38,6 +38,9 @@ public class ApiModel {
     public static String GETWSSMITHMEMBERSLIST = "getManufacturingSmithmembersList";
     public static String GETWSIMAGESTYPE = "getWsImagesType";
     public static String GETWSIMAGES = "getWsImages";
+    public static String GETPRODUCTREDUCE = "getProductreduce";
+    public static String GETPRODUCTLENGTH = "getProductLength";
+    public static String GETPRODUCTSUBGROUP = "getProductSubGroup";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose

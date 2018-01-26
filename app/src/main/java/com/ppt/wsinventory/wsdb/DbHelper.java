@@ -461,6 +461,51 @@ public class DbHelper extends SQLiteOpenHelper {
                     "type_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
+    private static final String TABLE_INVENTORY_PRODUCTREDUCE= "inventory_productreduce";
+    private static final String TABLE_CREATE_INVENTORY_PRODUCTREDUCE =
+            "CREATE TABLE inventory_productreduce \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "reduce_g NUMERIC, \n" +
+                    "reduce_k INTEGER, \n" +
+                    "reduce_p INTEGER, \n" +
+                    "reduce_y INTEGER, \n" +
+                    "production_fee NUMERIC, \n" +
+                    "cost_reduce_k NUMERIC, \n" +
+                    "cost_reduce_p NUMERIC, \n" +
+                    "cost_reduce_y NUMERIC, \n" +
+                    "cost_production_fee NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "is_delete BOOL, \n" +
+                    "gold_id INTEGER, \n" +
+                    "plength_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_PRODUCTSUBGROUPS = "inventory_productsubgroups";
+    private static final String TABLE_CREATE_INVENTORY_PRODUCTSUBGROUPS =
+            "CREATE TABLE inventory_productsubgroups \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "is_delete BOOL, \n" +
+                    "pgroup_id INTEGER \n" +
+
+                    ")";
+
+    private static final String TABLE_INVENTORY_PRODUCTLENGTH =  "inventory_productlength";
+    private static final String TABLE_CREATE_INVENTORY_PRODUCTLENGTH =
+            "CREATE TABLE inventory_productlength \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "plength VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "is_delete BOOL, \n" +
+                    "psgroup_id INTEGER \n" +
+
+                    ")";
+
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -529,6 +574,12 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGES+ " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_WSIMAGESTYPE);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGESTYPE+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTREDUCE);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTREDUCE+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSUBGROUPS);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSUBGROUPS+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTLENGTH);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTLENGTH+ " has been created");
 
     }
 
@@ -560,6 +611,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MANUFACTURING_JOBSTATUS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSIMAGES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_WSIMAGESTYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTREDUCE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSUBGROUPS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTLENGTH);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

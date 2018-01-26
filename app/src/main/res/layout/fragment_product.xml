@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#9e9e9e"
     tools:context="com.ppt.wsinventory.ProductActivityFragment"
     tools:showIn="@layout/activity_product">
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/activity_recycler_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="@dimen/fab_margin"-->
-        <!--android:padding="10dp"-->
-        <!--android:scrollbars="vertical" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_Product_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:padding="10dp"
+        android:scrollbars="vertical" />
 
-    <include layout="@layout/product_items" />
+    <!--<include layout="@layout/product_items" />-->
 
 
 </RelativeLayout>
