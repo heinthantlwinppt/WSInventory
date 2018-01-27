@@ -24,7 +24,9 @@ public class InventoryAllProducts {
     public static final String COLUMN_COST_REDUCE_Y = "cost_reduce_y";
     public static final String COLUMN_MINQTY = "minqty";
     public static final String COLUMN_MAXQTY = "maxqty";
-    public static final String COLUMN_PHOTO = "photo";
+    public static final String COLUMN_PHOTO_ID = "photo_id";
+    public static final String COLUMN_PHOTO_NAME = "photo_name";
+    public static final String COLUMN_PHOTO_TYPE = "photo_type";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_PRODUCT_ID,
@@ -46,7 +48,9 @@ public class InventoryAllProducts {
             COLUMN_COST_REDUCE_Y,
             COLUMN_MINQTY,
             COLUMN_MAXQTY,
-            COLUMN_PHOTO
+            COLUMN_PHOTO_ID,
+            COLUMN_PHOTO_NAME,
+            COLUMN_PHOTO_TYPE
     };
 
     private String product_id;
@@ -59,16 +63,18 @@ public class InventoryAllProducts {
     private String group_name;
     private String subgroup_name;
     private String plength;
-    private int reduce_g ;
-    private int reduce_k ;
-    private int reduce_p ;
-    private int reduce_y ;
-    private int cost_reduce_k ;
-    private int cost_reduce_p ;
-    private int cost_reduce_y ;
-    private int minqty ;
-    private int maxqty ;
-    private String photo;
+    private int reduce_g;
+    private int reduce_k;
+    private int reduce_p;
+    private int reduce_y;
+    private int cost_reduce_k;
+    private int cost_reduce_p;
+    private int cost_reduce_y;
+    private int minqty;
+    private int maxqty;
+    private String photo_id;
+    private String photo_name;
+    private String photo_type;
 
     public String getProduct_id() {
         return product_id;
@@ -223,22 +229,41 @@ public class InventoryAllProducts {
     }
 
     public String getPhoto() {
-        return photo;
+        return photo_id;
     }
 
     public void setPhoto(String photo) {
-        this.photo = photo;
+        this.photo_id = photo;
+    }
+
+    public String getPhoto_name() {
+        return photo_name;
+    }
+
+    public void setPhoto_name(String photo_name) {
+        this.photo_name = photo_name;
+    }
+
+    public String getPhoto_type() {
+        return photo_type;
+    }
+
+    public void setPhoto_type(String photo_type) {
+        this.photo_type = photo_type;
     }
 
     @Override
     public String toString() {
         return "InventoryAllProducts{" +
-                "product_name='" + product_name + '\'' +
+                "product_id='" + product_id + '\'' +
+                ", product_name='" + product_name + '\'' +
                 ", design_name='" + design_name + '\'' +
                 ", group_name='" + group_name + '\'' +
                 ", subgroup_name='" + subgroup_name + '\'' +
                 ", plength='" + plength + '\'' +
-                ", photo='" + photo + '\'' +
+                ", photo_id='" + photo_id + '\'' +
+                ", photo_name='" + photo_name + '\'' +
+                ", photo_type='" + photo_type + '\'' +
                 '}';
     }
 }

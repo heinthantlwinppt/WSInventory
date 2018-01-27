@@ -32,8 +32,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     Context mContext;
     InventoryAllProducts inventoryAllProduct;
 
-    public ProductListAdapter(ArrayList<InventoryAllProducts> mDataSet) {
+    public ProductListAdapter(Context context,ArrayList<InventoryAllProducts> mDataSet) {
         this.mDataSet =  mDataSet;
+        mContext = context;
     }
 
     @Override
@@ -60,7 +61,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.costY.setText(String.valueOf(inventoryAllProduct.getCost_reduce_y()));
         holder.minqty.setText(String.valueOf(inventoryAllProduct.getMinqty()));
         holder.maxqty.setText(String.valueOf(inventoryAllProduct.getMaxqty()));
-//        RequestCreator load = Picasso.with(this).load(m);
+
+        File dir = Utility.creatdesignfolder(inventoryAllProduct.getPhoto_type());
+        File my_file = new File(dir, inventoryAllProduct.getPhoto_name() + ".png");
+        Picasso.with(mContext).load(my_file).resize(50,50).into(holder.productPhoto);
 
     }
 
@@ -74,8 +78,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public ImageView productPhoto;
         public TextView txtdesignname,txtname,txtgroupname;
         public EditText valueK,valueP,valueY,costK,costP,costY,minqty,maxqty;
-//        File dir = Utility.creatdesignfolder("products");
-//       public File my_file = new File(dir, inventoryAllProducts.getPhoto() + ".png");
         public MyProductViewHolder(View itemView) {
             super(itemView);
             txtdesignname = itemView.findViewById(R.id.designname);

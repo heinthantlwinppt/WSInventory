@@ -337,14 +337,16 @@ public class DbAccess {
 
     public List<InventoryAllProducts> getInventoryAllProducts(){
         List<InventoryAllProducts> inventoryAllProducts = new ArrayList<>();
-        String sql = "select invP.id as product_id , invP.name as product_name , invP.designname as design_name,invP.minqty as minqty,invP.maxqty as maxqty , invP.photo ,\n" +
+        String sql ="select invP.id as product_id , invP.name as product_name , invP.designname as design_name,invP.minqty as minqty,invP.maxqty as maxqty , invP.photo ,\n" +
                 " invPG.id as productgroups_id,invPG.name as group_name ,invPR.id as productreduce_id,invPR.reduce_g ,invPR.reduce_k,invPR.reduce_p,invPR.reduce_y ,\n" +
-                " invPR.id as productreduce_fee ,invPR.cost_reduce_k,invPR.cost_reduce_p,invPR.cost_reduce_y,invPR.cost_production_fee,invPR.remarks,\n" +
-                " invPL.id as productlength_id , invPL.plength ,invPSG.id as productsubgroups_id , invPSG.name as subgroup_name\n" +
+                " invPR.production_fee ,invPR.cost_reduce_k,invPR.cost_reduce_p,invPR.cost_reduce_y,invPR.cost_production_fee,invPR.remarks,\n" +
+                " invPL.id as productlength_id , invPL.plength ,invPSG.id as productsubgroups_id , invPSG.name as subgroup_name,aws.id as photo_id ," +
+                " aws.type_id as photo_type,aws.name as photo_name\n" +
                 "from inventory_products invP\n" +
                 "inner join inventory_productgroups invPG on invP.pgroup_id = invPG.id\n" +
                 "inner join inventory_productreduce invPR on invP.preduce_id = invPR.id\n" +
                 "inner join inventory_productlength invPL on invP.plength_id = invPL.id\n" +
+                "inner join administration_wsimages aws on invP.photo = aws.id\n" +
                 "inner join inventory_productsubgroups invPSG on invP.plength_id = invPSG.id";
 
         Cursor cursor = readData(sql,null);
@@ -369,7 +371,9 @@ public class DbAccess {
             inventoryAllProduct.setCost_reduce_y(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_COST_REDUCE_Y))));
             inventoryAllProduct.setMinqty(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_MINQTY))));
             inventoryAllProduct.setMaxqty(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_MAXQTY))));
-            inventoryAllProduct.setPhoto(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PHOTO)));
+            inventoryAllProduct.setPhoto(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PHOTO_ID)));
+            inventoryAllProduct.setPhoto_name(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PHOTO_NAME)));
+            inventoryAllProduct.setPhoto_type(cursor.getString(cursor.getColumnIndex(inventoryAllProduct.COLUMN_PHOTO_TYPE)));
 
             inventoryAllProducts.add(inventoryAllProduct);
 

@@ -33,6 +33,12 @@ public class ProductActivityFragment extends Fragment {
     private List<InventoryAllProducts> inventoryAllProducts;
     ProductListAdapter adapter;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
     public ProductActivityFragment() {
     }
 
@@ -55,7 +61,7 @@ public class ProductActivityFragment extends Fragment {
     private void loadProductRecyclerView() {
 
         inventoryAllProducts = dbaccess.getInventoryAllProducts();
-        adapter = new ProductListAdapter((ArrayList< InventoryAllProducts >)inventoryAllProducts);
+        adapter = new ProductListAdapter(mContext,(ArrayList< InventoryAllProducts >)inventoryAllProducts);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
