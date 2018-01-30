@@ -27,6 +27,9 @@ public class GlobalVariables extends Application {
     private String deviceid ;
     private AdministrationStaff mStaff;
     private Map<String, String> translation = new HashMap<String, String>();
+    private String productname;
+    private String groupname;
+    private String subgroupname;
 
     public String getSolutionname() {
         return solutionname;
@@ -113,4 +116,28 @@ public class GlobalVariables extends Application {
         this.translation.put(key.toUpperCase(), value);
     }
 
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
+    }
+
+    public String getSubgroupname() {
+        return subgroupname;
+    }
+
+    public void setSubgroupname(String subgroupname) {
+        this.subgroupname = subgroupname;
+    }
 }

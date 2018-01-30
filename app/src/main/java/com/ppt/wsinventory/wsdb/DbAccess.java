@@ -16,6 +16,7 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.CodeValue;
 import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
@@ -312,14 +313,16 @@ public class DbAccess {
 
     public List<Inventory_SmithJob> getAllInventorySmithJob() {
         List<Inventory_SmithJob> inventory_smithJobs = new ArrayList<>();
-        String sql = "select s.name, s.nickname, sjob.joborder_no, sjob.smith_id, sjob.remarks , sjob.date_start  from manufacturing_smith_joborder sjob " +
-                "inner join manufacturing_smith s on sjob.smith_id = s.id";
+        String sql = "select s.name as smith_name, s.nickname as smith_nickname, sjob.joborder_no, sjob.smith_id, sjob.remarks , sjob.date_start , jt.description , jt.name as Jobtype_name\n" +
+                "from manufacturing_smith_joborder sjob \n" +
+                "inner join manufacturing_smith s on sjob.smith_id = s.id\n" +
+                "inner join manufacturing_smith_jobtype jt on sjob.joborder_type_id = jt.id";
         Cursor cursor = readData(sql, null);
 
         while (cursor.moveToNext()) {
             Inventory_SmithJob inventory_smithJob = new Inventory_SmithJob();
-            inventory_smithJob.setName(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_NAME)));
-            inventory_smithJob.setNickname(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_NICKNAME)));
+            inventory_smithJob.setName(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_SMITH_NAME)));
+            inventory_smithJob.setNickname(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_SMITH_NICKNAME)));
             inventory_smithJob.setSmith_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_SMITH_ID))));
             inventory_smithJob.setJoborder_no(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_JOBORDER_NO)));
             try {
@@ -327,6 +330,8 @@ public class DbAccess {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            inventory_smithJob.setDescription(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_DESCRIPTION)));
+            inventory_smithJob.setJobtype_name(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_JOBTYPE_NAME)));
             inventory_smithJobs.add(inventory_smithJob);
         }
         if (cursor != null && !cursor.isClosed()) {
@@ -335,7 +340,7 @@ public class DbAccess {
         return inventory_smithJobs;
     }
 
-    public List<InventoryAllProducts> getInventoryAllProducts(){
+    public List<InventoryAllProducts> getInventoryAllProducts(String productname,String groupname,String subgroupname){
         List<InventoryAllProducts> inventoryAllProducts = new ArrayList<>();
         String sql ="select invP.id as product_id , invP.name as product_name , invP.designname as design_name,invP.minqty as minqty,invP.maxqty as maxqty , invP.photo ,\n" +
                 " invPG.id as productgroups_id,invPG.name as group_name ,invPR.id as productreduce_id,invPR.reduce_g ,invPR.reduce_k,invPR.reduce_p,invPR.reduce_y ,\n" +
@@ -347,7 +352,46 @@ public class DbAccess {
                 "inner join inventory_productreduce invPR on invP.preduce_id = invPR.id\n" +
                 "inner join inventory_productlength invPL on invP.plength_id = invPL.id\n" +
                 "inner join administration_wsimages aws on invP.photo = aws.id\n" +
-                "inner join inventory_productsubgroups invPSG on invP.plength_id = invPSG.id";
+                "inner join inventory_productsubgroups invPSG on invP.plength_id = invPSG.id\n";
+
+
+
+        if(!productname.isEmpty() && productname != null){
+
+            sql = sql + "where invP.name = '" + productname + "'\n";
+
+            if(!groupname.isEmpty() && productname != null){
+
+                sql = sql + "and invPG.name = '" + groupname + "'\n";
+            }
+
+            if(!subgroupname.isEmpty() && subgroupname != null){
+
+                    sql = sql + "and invPSG.name = '" + subgroupname + "'\n";
+            }
+
+
+        }else {
+
+            if (!groupname.isEmpty() && productname != null) {
+
+                sql = sql + "where invPG.name = '" + groupname + "'\n";
+
+                if (!subgroupname.isEmpty() && subgroupname != null) {
+
+                    sql = sql + "and invPSG.name = '" + subgroupname + "'\n";
+                }
+            } else {
+
+                if (!subgroupname.isEmpty() && subgroupname != null) {
+
+                    sql = sql + "where invPSG.name = '" + subgroupname + "'\n";
+                }
+
+            }
+
+        }
+
 
         Cursor cursor = readData(sql,null);
 
@@ -431,6 +475,46 @@ public class DbAccess {
         }
 
         return administrationSetting;
+    }
+
+    public List<CodeValue> getProductGroupList (){
+
+        List<CodeValue>codeValues =new ArrayList<>();
+        Cursor cursor = readData(InventoryProductGroup.TABLE_PRODUCTGROUP
+                                ,new String[]{InventoryProductGroup.COLUMN_ID,
+                                                InventoryProductGroup.COLUMN_NAME},
+                            null);
+        while (cursor.moveToNext()){
+            CodeValue codeValue = new CodeValue();
+            codeValue.setCode(cursor.getString(cursor.getColumnIndex(InventoryProductGroup.COLUMN_ID)));
+            codeValue.setValue(cursor.getString(cursor.getColumnIndex(InventoryProductGroup.COLUMN_NAME)));
+            codeValues.add(codeValue);
+        }
+
+        if(cursor !=null &&  !cursor.isClosed()){
+            cursor.close();
+        }
+        return codeValues;
+    }
+
+    public List<CodeValue> getProductSubGroupList (){
+
+        List<CodeValue>codeValues =new ArrayList<>();
+        Cursor cursor = readData(InventoryProductSubgroups.TABLE_INVENTORY_PRODUCTSUBGROUPS
+                ,new String[]{InventoryProductSubgroups.COLUMN_ID,
+                        InventoryProductSubgroups.COLUMN_NAME},
+                null);
+        while (cursor.moveToNext()){
+            CodeValue codeValue = new CodeValue();
+            codeValue.setCode(cursor.getString(cursor.getColumnIndex(InventoryProductSubgroups.COLUMN_ID)));
+            codeValue.setValue(cursor.getString(cursor.getColumnIndex(InventoryProductSubgroups.COLUMN_NAME)));
+            codeValues.add(codeValue);
+        }
+
+        if(cursor !=null &&  !cursor.isClosed()){
+            cursor.close();
+        }
+        return codeValues;
     }
 
     public Item insertItems(Item item) {

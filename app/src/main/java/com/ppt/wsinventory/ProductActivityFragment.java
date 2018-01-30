@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.common.WsSearchDialog;
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.wsdb.DbAccess;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +38,17 @@ public class ProductActivityFragment extends Fragment {
     private GlobalVariables appContext;
     private List<InventoryAllProducts> inventoryAllProducts;
     ProductListAdapter adapter;
+    private static final String TAG = "TruckKit-productfrag";
+    String productname = "";
+    String groupname = "";
+    String subgroupname = "";
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        appContext = (GlobalVariables) context.getApplicationContext();
     }
 
     public ProductActivityFragment() {
@@ -50,23 +62,59 @@ public class ProductActivityFragment extends Fragment {
         setHasOptionsMenu(true);
         minflater = inflater;
 
+        if(appContext.getProductname()!=null) {
+            productname = appContext.getProductname();
+        }
+        if(appContext.getGroupname()!= null) {
+            groupname = appContext.getGroupname();
+        }
+        if(appContext.getSubgroupname()!= null) {
+            subgroupname = appContext.getSubgroupname();
+        }
+
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
         inventoryAllProducts = new ArrayList<>();
-        loadProductRecyclerView();
+        inventoryAllProducts = dbaccess.getInventoryAllProducts(productname ,groupname,subgroupname);
+        loadProductRecyclerView(inventoryAllProducts);
         return rootView;
 
     }
 
-    private void loadProductRecyclerView() {
+    private void loadProductRecyclerView(List<InventoryAllProducts> inventoryAllProducts) {
 
-        inventoryAllProducts = dbaccess.getInventoryAllProducts();
+
         adapter = new ProductListAdapter(mContext,(ArrayList< InventoryAllProducts >)inventoryAllProducts);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
         ListView.setAdapter(adapter);
 
+
+    }
+
+
+    @Subscribe
+    public void onSearchEvent(WsEvents.EventSearchProduct e) {
+
+        if (e.getactionname().equalsIgnoreCase(WsSearchDialog.ACTION_ENTER_SEARCH)) {
+
+            Log.i(TAG, "onInputEvent: " + e.getmGroupname());
+            appContext.setProductname(e.getmProductname());
+            appContext.setGroupname(e.getmGroupname());
+            appContext.setSubgroupname(groupname = e.getmSubGroupname());
+           inventoryAllProducts = dbaccess.getInventoryAllProducts(e.getmProductname(),e.getmGroupname(),e.getmSubGroupname());
+
+           if(inventoryAllProducts.isEmpty()){
+
+               Toast.makeText(getContext(), " no search items ", Toast.LENGTH_SHORT).show();
+           }else {
+               loadProductRecyclerView(inventoryAllProducts);
+           }
+
+
+
+        }
 
     }
 
@@ -81,6 +129,7 @@ public class ProductActivityFragment extends Fragment {
     public void onResume() {
         super.onResume();
         dbaccess.open();
+        loadProductRecyclerView(inventoryAllProducts);
 
     }
 
@@ -88,12 +137,21 @@ public class ProductActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
         dbaccess.open();
+        loadProductRecyclerView(inventoryAllProducts);
+        GlobalBus.getBus().register(this);
 
     }
 
     @Override
     public void onStop() {
+
+        GlobalBus.getBus().unregister(this);
        dbaccess.close();
+//       appContext.setProductname("");
+//       appContext.setGroupname("");
+//       appContext.setSubgroupname("");
         super.onStop();
     }
+
+
 }

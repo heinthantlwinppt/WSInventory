@@ -63,6 +63,36 @@ public class WsEvents {
 
     }
 
+    public static class EventSearchProduct {
+        private String mProductname;
+        private String mGroupname;
+        private String mSubGroupname;
+        private String mactionname;
+
+        public String getmProductname() {
+            return mProductname;
+        }
+
+        public String getmGroupname() {
+            return mGroupname;
+        }
+
+        public String getmSubGroupname() {
+            return mSubGroupname;
+        }
+
+        public String getactionname() {
+            return mactionname;
+        }
+
+        public EventSearchProduct(String mProductname, String mGroupname, String mSubGroupname, String mactionname) {
+            this.mProductname = mProductname;
+            this.mGroupname = mGroupname;
+            this.mSubGroupname = mSubGroupname;
+            this.mactionname = mactionname;
+        }
+    }
+
 
 
     public static class EventOpenScreen {

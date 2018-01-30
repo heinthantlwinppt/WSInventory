@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
@@ -101,15 +102,15 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
-//            MessageBox.ShowMessage(getSupportFragmentManager(),
-//                    appContext.getTranslation("Sign Out"),
-//                    appContext.getTranslation("Do you want to Exit application?"),
-//                    CONFIRM_SIGN_OUT,
-//                    "Cancel",
-//                    "OK"
-//            );
+            MessageBox.ShowMessage(getSupportFragmentManager(),
+                    appContext.getTranslation("Sign Out"),
+                    appContext.getTranslation("Do you want to Exit application?"),
+                    CONFIRM_SIGN_OUT,
+                    "Cancel",
+                    "OK"
+            );
 
-            finish();
+//            finish();
         }
     }
 
@@ -283,6 +284,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         dbAccess.open();
+        GlobalBus.getBus().register(this);
         LoadItemList();
 
     }
@@ -299,6 +301,13 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         dbAccess.open();
         LoadItemList();
+    }
+
+    @Override
+    public void onStop() {
+        GlobalBus.getBus().unregister(this);
+        dbAccess.close();
+        super.onStop();
     }
 
     public void exportDatabse(String databaseName) {

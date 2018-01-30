@@ -11,25 +11,31 @@ public class Inventory_SmithJob {
     public static final String COLUMN_JOBORDER_NO = "joborder_no";
     public static final String COLUMN_REMARKS = "remarks";
     public static final String COLUMN_SMITH_ID = "smith_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_NICKNAME = "nickname";
+    public static final String COLUMN_SMITH_NAME = "smith_name";
+    public static final String COLUMN_SMITH_NICKNAME = "smith_nickname";
     public static final String COLUMN_DATE_START = "date_start";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_JOBTYPE_NAME = "Jobtype_name";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_JOBORDER_NO,
             COLUMN_REMARKS,
             COLUMN_SMITH_ID,
-            COLUMN_NAME,
-            COLUMN_NICKNAME,
-            COLUMN_DATE_START
+            COLUMN_SMITH_NAME,
+            COLUMN_SMITH_NICKNAME,
+            COLUMN_DATE_START,
+            COLUMN_DESCRIPTION,
+            COLUMN_JOBTYPE_NAME
     };
 
    private String joborder_no;
    private String remarks;
    private int smith_id;
-   private String name;
-   private String nickname;
+   private String smith_name;
+   private String smith_nickname;
    private Date date_start;
+   private String description;
+   private String jobtype_name;
 
     public String getJoborder_no() {
         return joborder_no;
@@ -56,27 +62,41 @@ public class Inventory_SmithJob {
     }
 
     public String getName() {
-        return name;
+        return smith_name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.smith_name = name;
     }
 
     public String getNickname() {
-        return nickname;
+        return smith_nickname;
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.smith_nickname = nickname;
     }
 
-    public Date getDate_start() {
-        return date_start;
-    }
+    public Date getDate_start() { return date_start; }
 
     public void setDate_start(Date date_start) {
         this.date_start = date_start;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getJobtype_name() {
+        return jobtype_name;
+    }
+
+    public void setJobtype_name(String jobtype_name) {
+        this.jobtype_name = jobtype_name;
     }
 
     @Override
@@ -84,8 +104,10 @@ public class Inventory_SmithJob {
         return "Inventory_SmithJob{" +
                 "joborder_no='" + joborder_no + '\'' +
                 ", remarks='" + remarks + '\'' +
-                ", name='" + name + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", smith_name='" + smith_name + '\'' +
+                ", smith_nickname='" + smith_nickname + '\'' +
+                ", description='" + description + '\'' +
+                ", jobtype_name='" + jobtype_name + '\'' +
                 '}';
     }
 }

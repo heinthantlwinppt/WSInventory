@@ -45,11 +45,13 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
         smith_joborder = mDataSet.get(position);
         holder.setData(mDataSet.get(position));
         holder.txt_joborder_no.setText(String.valueOf(smith_joborder.getJoborder_no()));
-        holder.txt_name.setText(String.valueOf(smith_joborder.getName()) +","+smith_joborder.getNickname()
-        +", Smith"+smith_joborder.getSmith_id());
-        holder.txt_orderdate.setText( Utility.dateFormat.format(smith_joborder.getDate_start()));
-        if(smith_joborder.getRemarks() != null)
-        holder.remarks.setText(Utility.dateFormat.format( smith_joborder.getRemarks())+", အသစ္ျပင္");
+        holder.txt_name.setText(String.valueOf(smith_joborder.getName()) + "," + smith_joborder.getNickname()
+                + ", Smith" + smith_joborder.getSmith_id());
+        holder.txt_orderdate.setText(Utility.dateFormat.format(smith_joborder.getDate_start()));
+        if (smith_joborder.getRemarks() != null)
+            holder.remarks.setText(smith_joborder.getRemarks() + "," + smith_joborder.getDescription());
+            holder.remarks.setText( "Item ," + smith_joborder.getDescription());
+
     }
 
     @Override
@@ -58,8 +60,9 @@ public class SmithJobAdapter extends RecyclerView.Adapter<SmithJobAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txt_joborder_no,txt_name, txt_orderdate,remarks;
+        public TextView txt_joborder_no, txt_name, txt_orderdate, remarks;
         Inventory_SmithJob inventorySmithJob;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
