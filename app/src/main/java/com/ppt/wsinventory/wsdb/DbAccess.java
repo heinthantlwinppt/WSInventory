@@ -352,7 +352,7 @@ public class DbAccess {
                 "inner join inventory_productreduce invPR on invP.preduce_id = invPR.id\n" +
                 "inner join inventory_productlength invPL on invP.plength_id = invPL.id\n" +
                 "inner join administration_wsimages aws on invP.photo = aws.id\n" +
-                "inner join inventory_productsubgroups invPSG on invP.plength_id = invPSG.id\n";
+                "inner join inventory_productsubgroups invPSG on invP.psubgroup_id = invPSG.id\n";
 
 
 
@@ -360,12 +360,12 @@ public class DbAccess {
 
             sql = sql + "where invP.name = '" + productname + "'\n";
 
-            if(!groupname.isEmpty() && productname != null){
+            if(!groupname.isEmpty() && !groupname.equals("All Group")){
 
                 sql = sql + "and invPG.name = '" + groupname + "'\n";
             }
 
-            if(!subgroupname.isEmpty() && subgroupname != null){
+            if(!subgroupname.isEmpty() && !subgroupname.equals("All SubGroup")){
 
                     sql = sql + "and invPSG.name = '" + subgroupname + "'\n";
             }
@@ -373,17 +373,17 @@ public class DbAccess {
 
         }else {
 
-            if (!groupname.isEmpty() && productname != null) {
+            if (!groupname.isEmpty() &&  !groupname.equals("All Group")) {
 
                 sql = sql + "where invPG.name = '" + groupname + "'\n";
 
-                if (!subgroupname.isEmpty() && subgroupname != null) {
+                if (!subgroupname.isEmpty() && !subgroupname.equals("All SubGroup")) {
 
                     sql = sql + "and invPSG.name = '" + subgroupname + "'\n";
                 }
             } else {
 
-                if (!subgroupname.isEmpty() && subgroupname != null) {
+                if (!subgroupname.isEmpty() && !subgroupname.equals("All SubGroup")) {
 
                     sql = sql + "where invPSG.name = '" + subgroupname + "'\n";
                 }
@@ -497,13 +497,23 @@ public class DbAccess {
         return codeValues;
     }
 
-    public List<CodeValue> getProductSubGroupList (){
+    public List<CodeValue> getProductSubGroupList (String groupname){
 
         List<CodeValue>codeValues =new ArrayList<>();
-        Cursor cursor = readData(InventoryProductSubgroups.TABLE_INVENTORY_PRODUCTSUBGROUPS
-                ,new String[]{InventoryProductSubgroups.COLUMN_ID,
-                        InventoryProductSubgroups.COLUMN_NAME},
-                null);
+        String sql = "select psg.id ,psg.name\n" +
+                "from inventory_productsubgroups as psg\n" +
+                "inner join inventory_productgroups as pg on psg.pgroup_id = pg.id\n";
+
+        if(!groupname.isEmpty() && !groupname.equals("All Group") && groupname != null){
+
+            sql = sql + "where pg.name = '" + groupname + "'";
+        }
+//        Cursor cursor = readData(InventoryProductSubgroups.TABLE_INVENTORY_PRODUCTSUBGROUPS
+//                ,new String[]{InventoryProductSubgroups.COLUMN_ID,
+//                        InventoryProductSubgroups.COLUMN_NAME},
+//                null);
+
+        Cursor cursor = readData(sql,null);
         while (cursor.moveToNext()){
             CodeValue codeValue = new CodeValue();
             codeValue.setCode(cursor.getString(cursor.getColumnIndex(InventoryProductSubgroups.COLUMN_ID)));

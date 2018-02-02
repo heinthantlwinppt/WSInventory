@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class ProductSearchListAdapter extends ArrayAdapter<CodeValue> {
-    List<CodeValue> mRoutelist;
+    List<CodeValue> mRoutelist = new ArrayList<>();
     Context mContext;
     GlobalVariables appcontext;
 

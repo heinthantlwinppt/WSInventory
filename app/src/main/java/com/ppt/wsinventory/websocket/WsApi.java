@@ -603,28 +603,31 @@ public class WsApi {
                         // if delete is true then delete the image file
                         // else save the image to storage depend on their type
                         // import data
-                        String urls = "http://52.230.10.246:8080" + wsImages.getPath();
 
-                        try {
+                            String urls = "http://52.230.10.246:8080" + wsImages.getPath();
 
-                            File dir = Utility.creatdesignfolder(wsImages.getType());
-                            File my_file = new File(dir, wsImages.getName() + ".png");
-                            if (my_file.exists()) {
-                                my_file.delete();
-                            }
+                        File dir = Utility.creatdesignfolder(wsImages.getType());
+                        File my_file = new File(dir, wsImages.getName() + ".png");
+                        if (my_file.exists()) {
+                            my_file.delete();
+                        }
 
-                            URL url = new URL(urls);
-
-                            long startTime = System.currentTimeMillis();
-                            Log.d("DownloadManager", "download begining");
-                            Log.d("DownloadManager", "download url:" + url);
-                            Log.d("DownloadManager", "downloaded file name:" + wsImages.getName());
+                        if(wsImages.getIsDelete() == false) {
 
                             try {
-                                URLConnection ucon = url.openConnection();
-                                android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                android.os.StrictMode.setThreadPolicy(policy);
-                                InputStream is = ucon.getInputStream();
+
+                                URL url = new URL(urls);
+
+                                long startTime = System.currentTimeMillis();
+                                Log.d("DownloadManager", "download begining");
+                                Log.d("DownloadManager", "download url:" + url);
+                                Log.d("DownloadManager", "downloaded file name:" + wsImages.getName());
+
+                                try {
+                                    URLConnection ucon = url.openConnection();
+                                    android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    android.os.StrictMode.setThreadPolicy(policy);
+                                    InputStream is = ucon.getInputStream();
 //                                BufferedInputStream bis = new BufferedInputStream(is);
 
 //                                ByteArrayBuffer baf = new ByteArrayBuffer(5000);
@@ -633,30 +636,34 @@ public class WsApi {
 //                                    baf.append((byte) current);
 //                                }
 
-                                BufferedInputStream bis = new BufferedInputStream(is);
-                                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                                    BufferedInputStream bis = new BufferedInputStream(is);
+                                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
-                                byte[] data = new byte[5000];
-                                int current = 0;
+                                    byte[] data = new byte[5000];
+                                    int current = 0;
 
-                                while ((current = bis.read(data, 0, data.length)) != -1) {
-                                    buffer.write(data, 0, current);
+                                    while ((current = bis.read(data, 0, data.length)) != -1) {
+                                        buffer.write(data, 0, current);
+                                    }
+
+                                    FileOutputStream fos = new FileOutputStream(my_file);
+                                    fos.write(buffer.toByteArray());
+                                    fos.close();
+                                    Log.d("DownloadManager", "download ready in" + ((System.currentTimeMillis() - startTime) / 1000) + " sec");
+
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
 
-                                FileOutputStream fos = new FileOutputStream(my_file);
-                                fos.write(buffer.toByteArray());
-                                fos.close();
-                                Log.d("DownloadManager", "download ready in" + ((System.currentTimeMillis() - startTime) / 1000) + " sec");
 
-
-                            } catch (IOException e) {
+                            } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             }
-
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
                         }
-                        appContext.setTs(wsImages.getTimestamp());
+
+                            appContext.setTs(wsImages.getTimestamp());
+
                     } else {
                         break;
                     }
@@ -1057,7 +1064,8 @@ public class WsApi {
         manufacturingsmith.setG(Double.parseDouble(wsSmith.getG()));
         manufacturingsmith.setCost(Double.parseDouble(wsSmith.getCost()));
         manufacturingsmith.setDate_joined(wsSmith.getDateJoined());
-        manufacturingsmith.setDate_end(wsSmith.getDateEnd());
+        if(wsSmith.getDateEnd() != null){
+        manufacturingsmith.setDate_end(wsSmith.getDateEnd());}
         manufacturingsmith.setIs_smith2(wsSmith.getIsSmith2());
         manufacturingsmith.setInhandjob(wsSmith.getInhandjob());
         manufacturingsmith.setActive(wsSmith.getActive());
@@ -1287,7 +1295,8 @@ public class WsApi {
         if (wsImages.getIsDelete() == true) {
             boolean b =  dbaccess.deleteData(AdministrationWsimages.TABLE_ADMINISTRATION_WSIMAGES,
                     AdministrationWsimages.COLUMN_ID,
-                    new String[]{wsImages.getId()});
+                    new String[]{String.valueOf(wsImages.getId())});
+
             return b;
         } else {
             long l = dbaccess.insertAdministration_wsimages(administrationWsimages);

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.ProductListAdapter;
@@ -50,14 +51,23 @@ public class WsSearchDialog extends DialogFragment {
     private GlobalVariables appContext;
     String groupname = new String("");
     String subgroupname;
+    TextView textView;
+    String result;
 
+    //    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        mContext = context;
+//        appContext = (GlobalVariables) context.getApplicationContext();
+//    }
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-        appContext = (GlobalVariables) context.getApplicationContext();
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        appContext = (GlobalVariables) activity
+                .getApplicationContext();
+        dbaccess = DbAccess.getInstance();
+//        mListener = (CustomerSearchResultListener) activity;
     }
-
 
     @Nullable
     @Override
@@ -88,7 +98,12 @@ public class WsSearchDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                groupname =  sp_groupname.getSelectedItem().toString();
+                CodeValue codeValue = (CodeValue) parent.getItemAtPosition(position);
+                groupname = codeValue.getValue();
+                LoadSubGroupSpinnerList(groupname);
+
+//                Toast.makeText(getActivity(), result ,
+//                        Toast.LENGTH_SHORT).show();
 //                LoadSubGroupSpinnerList(groupname);
 
             }
@@ -103,7 +118,8 @@ public class WsSearchDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                subgroupname = sp_subgroupname.getSelectedItem().toString();
+                CodeValue codeValue = (CodeValue) parent.getItemAtPosition(position);
+                subgroupname = codeValue.getValue();
             }
 
             @Override
@@ -150,7 +166,7 @@ public class WsSearchDialog extends DialogFragment {
         codeValues = dbaccess.getProductGroupList();
         codeValues.add(all);
         ProductSearchListAdapter dataAdapter =
-                new ProductSearchListAdapter(mContext,
+                new ProductSearchListAdapter(getActivity(),
                         android.R.layout.simple_spinner_item, codeValues);
 
         int idx = 0;
@@ -165,16 +181,16 @@ public class WsSearchDialog extends DialogFragment {
         sp_groupname.setSelection(idx);
     }
 
-    private void LoadSubGroupSpinnerList(String groupname){
+    private void LoadSubGroupSpinnerList(String groupname) {
         List<CodeValue> codeValues = new ArrayList<>();
         CodeValue all = new CodeValue();
         all.setCode("ALL");
         all.setValue(appContext.getTranslation("All SubGroup"));
 
-        codeValues = dbaccess.getProductSubGroupList();
+        codeValues = dbaccess.getProductSubGroupList(groupname);
         codeValues.add(all);
         ProductSearchListAdapter dataAdapter =
-                new ProductSearchListAdapter(mContext,
+                new ProductSearchListAdapter(getActivity(),
                         android.R.layout.simple_spinner_item, codeValues);
 
         int idx = 0;
@@ -189,7 +205,35 @@ public class WsSearchDialog extends DialogFragment {
         sp_subgroupname.setSelection(idx);
 
 
+    }
 
+    @Override
+    public void onPause() {
 
+        dbaccess.close();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbaccess.open();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dbaccess.open();
+
+    }
+
+    @Override
+    public void onStop() {
+        dbaccess.close();
+//       appContext.setProductname("");
+//       appContext.setGroupname("");
+//       appContext.setSubgroupname("");
+        super.onStop();
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textStyle="bold|italic"
+        android:paddingLeft="15dp"
+        android:textSize="20dp"/>
+
+    <ImageView
+        android:id="@+id/productPhoto"
+        android:layout_width="380dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"/>
+
+
+</LinearLayout>

@@ -1,6 +1,10 @@
 package com.ppt.wsinventory;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
@@ -64,7 +69,24 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         File dir = Utility.creatdesignfolder(inventoryAllProduct.getPhoto_type());
         File my_file = new File(dir, inventoryAllProduct.getPhoto_name() + ".png");
-        Picasso.with(mContext).load(my_file).resize(50,50).into(holder.productPhoto);
+        if(my_file.exists()) {
+            Picasso.with(mContext).load(my_file).resize(50, 50).into(holder.productPhoto);
+        }
+
+        holder.productPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,"Click " + mDataSet.get(position).getProduct_name(),Toast.LENGTH_SHORT).show();
+                Bundle arguments = new Bundle();
+                arguments.putString(inventoryAllProduct.COLUMN_PRODUCT_NAME,mDataSet.get(position).getProduct_name());
+                arguments.putString(inventoryAllProduct.COLUMN_PHOTO_TYPE,mDataSet.get(position).getPhoto_type());
+                arguments.putString (inventoryAllProduct.COLUMN_PHOTO_NAME,mDataSet.get(position).getPhoto_name());
+
+                ProductInfoDialog productInfoDialog = new ProductInfoDialog();
+                productInfoDialog.setArguments(arguments);
+                productInfoDialog.show(((FragmentActivity) mContext).getFragmentManager(), "ProductInfo Dialog");
+            }
+        });
 
     }
 
@@ -73,7 +95,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return mDataSet.size();
     }
 
-    public class MyProductViewHolder extends RecyclerView.ViewHolder {
+    public class MyProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         InventoryAllProducts inventoryAllProducts;
         public ImageView productPhoto;
         public TextView txtdesignname,txtname,txtgroupname;
@@ -100,6 +122,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 //            textView.setText(dashboarditem.getTitle());
 //            textView1.setText(dashboarditem.getGroupname());
 //            relativeLayout.setBackgroundColor(Color.parseColor(item.color));
+
+        }
+
+        @Override
+        public void onClick(View v) {
 
         }
     }

@@ -50,4 +50,5 @@
     <string name="title_activity_profile_detail">ProfileDetailActivity</string>
     <string name="title_activity_gold_price">GoldPriceActivity</string>
     <string name="title_activity_product">ProductActivity</string>
+    <string name="All_group">All Group</string>
 </resources>

@@ -209,6 +209,7 @@ public class Smith {
     }
 
     public void setDateEnd(Date dateEnd) {
+
         this.dateEnd = dateEnd;
     }
 
