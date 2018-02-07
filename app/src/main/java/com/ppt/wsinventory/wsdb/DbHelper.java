@@ -503,8 +503,85 @@ public class DbHelper extends SQLiteOpenHelper {
                     "active BOOL, \n" +
                     "is_delete BOOL, \n" +
                     "psgroup_id INTEGER \n" +
-
                     ")";
+
+    private static final String TABLE_INVENTORY_JEWELLENGTH = "inventory_jewellength";
+    private static final String TABLE_CREATE_INVENTORY_JEWELLENGTH =
+            "CREATE TABLE inventory_jewellength \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "jewelshape_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_JEWELINVENTORY = "inventory_jewelinventory";
+    private static final String TABLE_CREATE_INVENTORY_JEWELINVENTORY =
+            "CREATE TABLE inventory_jewelinventory \n" +
+                    "(\n" +
+                    "qty NUMERIC, \n" +
+                    "ts DATETIME, \n" +
+                    "jewellength_id INTEGER, \n" +
+                    "jewelshape_id INTEGER, \n" +
+                    "jeweltype_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_JEWELPURCHASE = "inventory_jewelpurchase";
+    private static final String TABLE_CREATE_INVENTORY_JEWELPURCHASE =
+            "CREATE TABLE inventory_jewelpurchase \n" +
+                    "(\n" +
+                    "purchase_no VARCHAR COLLATE NOCASE, \n" +
+                    "purchase_date DATETIME, \n" +
+                    "reference_no VARCHAR COLLATE NOCASE, \n" +
+                    "amount NUMERIC, \n" +
+                    "paid_amount NUMERIC, \n" +
+                    "deduction NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "supplier_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_JEWELPURCHASEITEMS = "inventory_jewelpurchaseitems";
+    private static final String TABLE_CREATE_INVENTORY_JEWELPURCHASEITEMS =
+            "CREATE TABLE inventory_jewelpurchaseitems \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "qty NUMERIC, \n" +
+                    "price NUMERIC, \n" +
+                    "amount NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "row_no INTEGER, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "jewel_purchase_id VARCHAR COLLATE NOCASE, \n" +
+                    "jewellength_id INTEGER, \n" +
+                    "jewelshape_id INTEGER, \n" +
+                    "jeweltype_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_JEWELSHAPE = "inventory_jewelshape";
+    private static final String TABLE_CREATE_INVENTORY_JEWELSHAPE =
+            "CREATE TABLE inventory_jewelshape \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "jeweltype_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_JEWELTYPE = "inventory_jeweltype";
+    private static final String TABLE_CREATE_INVENTORY_JEWELTYPE =
+            "CREATE TABLE inventory_jeweltype \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "unittype VARCHAR COLLATE NOCASE, \n" +
+                    "purchase_unittype VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL \n" +
+                    ")";
+
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -580,6 +657,18 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSUBGROUPS+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTLENGTH);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTLENGTH+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELINVENTORY);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELINVENTORY+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELLENGTH);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELLENGTH+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELPURCHASE);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASE+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELPURCHASEITEMS);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASEITEMS+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELSHAPE);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELSHAPE+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_JEWELTYPE);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELTYPE+ " has been created");
 
     }
 
@@ -614,6 +703,11 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTREDUCE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTSUBGROUPS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODUCTLENGTH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELINVENTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELLENGTH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELPURCHASE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELSHAPE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELTYPE);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

@@ -8,12 +8,12 @@ public class AdministrationSolutions {
 
     public static final String TABLE_ADMINISTRATION_SOLUTIONS = "administration_solutions";
     public static final String COLUMN_SOLUTION_NAME = "solution_name";
-    public static final String COLUMN_active  = "active";
+    public static final String COLUMN_ACTIVE  = "active";
 
     public static final String[] COLUMN_ALL = new String[]{
 
             COLUMN_SOLUTION_NAME ,
-            COLUMN_active
+            COLUMN_ACTIVE
 
 
     };

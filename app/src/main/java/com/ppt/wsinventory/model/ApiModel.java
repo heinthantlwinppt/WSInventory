@@ -93,4 +93,5 @@ public class ApiModel {
         this.type = type;
         this.message = message;
     }
+
 }

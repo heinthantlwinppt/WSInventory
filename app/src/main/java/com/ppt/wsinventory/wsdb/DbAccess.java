@@ -41,6 +41,12 @@ import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelinventory;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewellength;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurchase;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurchaseitems;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelshape;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jeweltype;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -678,7 +684,7 @@ public class DbAccess {
     public AdministrationSolutions insertAdministrationSolutions(AdministrationSolutions administrationSolutions) {
         ContentValues values = new ContentValues();
         values.put(AdministrationSolutions.COLUMN_SOLUTION_NAME, administrationSolutions.getSolution_name());
-        values.put(AdministrationSolutions.COLUMN_active, administrationSolutions.getActive());
+        values.put(AdministrationSolutions.COLUMN_ACTIVE, administrationSolutions.getActive());
 
         long resultid = database.insert(administrationSolutions.TABLE_ADMINISTRATION_SOLUTIONS, null, values);
         administrationSolutions.setId(resultid);
@@ -1061,6 +1067,84 @@ public class DbAccess {
         values.put(InventoryProductlength.COLUMN_IS_DELETE,inventoryProductlength.getIs_delete());
         values.put(InventoryProductlength.COLUMN_PSGROUP_ID,inventoryProductlength.getPsgroup_id());
         long resultid = database.insert(inventoryProductlength.TABLE_INVENTORY_PRODUCTLENGTH,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jewelinventory(Inventory_jewelinventory inventory_jewelinventory) {
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jewelinventory.COLUMN_QTY,inventory_jewelinventory.getQty());
+        values.put(Inventory_jewelinventory.COLUMN_TS,Utility.dateFormat.format(inventory_jewelinventory.getTs()));
+        values.put(Inventory_jewelinventory.COLUMN_JEWELLENGTH_ID,inventory_jewelinventory.getJewellength_id());
+        values.put(Inventory_jewelinventory.COLUMN_JEWELSHAPE_ID,inventory_jewelinventory.getJewelshape_id());
+        values.put(Inventory_jewelinventory.COLUMN_JEWELTYPE_ID,inventory_jewelinventory.getJeweltype_id());
+        long resultid = database.insert(inventory_jewelinventory.TABLE_INVENTORY_JEWELINVENTORY,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jewellength(Inventory_jewellength inventory_jewellength){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jewellength.COLUMN_ID,inventory_jewellength.getId());
+        values.put(Inventory_jewellength.COLUMN_NAME,inventory_jewellength.getName());
+        values.put(Inventory_jewellength.COLUMN_ACTIVE,inventory_jewellength.getActive());
+        values.put(Inventory_jewellength.COLUMN_JEWELSHAPE_ID,inventory_jewellength.getJewelshape_id());
+        long resultid = database.insert(inventory_jewellength.TABLE_INVENTORY_JEWELLENGTH,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jewelpurchase(Inventory_jewelpurchase inventory_jewelpurchase){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jewelpurchase.COLUMN_PURCHASE_NO,inventory_jewelpurchase.getPurchase_no());
+        values.put(Inventory_jewelpurchase.COLUMN_PURCHASE_DATE,Utility.dateFormat.format(inventory_jewelpurchase.getPurchase_date()));
+        values.put(Inventory_jewelpurchase.COLUMN_REFERENCE_NO,inventory_jewelpurchase.getReference_no());
+        values.put(Inventory_jewelpurchase.COLUMN_AMOUNT,inventory_jewelpurchase.getAmount());
+        values.put(Inventory_jewelpurchase.COLUMN_PAID_AMOUNT,inventory_jewelpurchase.getPaid_amount());
+        values.put(Inventory_jewelpurchase.COLUMN_DEDUCTION,inventory_jewelpurchase.getDeduction());
+        values.put(Inventory_jewelpurchase.COLUMN_REMARKS,inventory_jewelpurchase.getRemarks());
+        values.put(Inventory_jewelpurchase.COLUMN_IS_DELETE,inventory_jewelpurchase.getIs_delete());
+        values.put(Inventory_jewelpurchase.COLUMN_TS,Utility.dateFormat.format(inventory_jewelpurchase.getTs()));
+        values.put(Inventory_jewelpurchase.COLUMN_SUPPLIER_ID,inventory_jewelpurchase.getSupplier_id());
+        long resultid = database.insert(inventory_jewelpurchase.TABLE_INVENTORY_JEWELPURCHASE,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jewelpurchaseitems(Inventory_jewelpurchaseitems inventory_jewelpurchaseitems){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jewelpurchaseitems.COLUMN_ID,inventory_jewelpurchaseitems.getId());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_QTY,Utility.dateFormat.format(inventory_jewelpurchaseitems.getQty()));
+        values.put(Inventory_jewelpurchaseitems.COLUMN_PRICE,inventory_jewelpurchaseitems.getPrice());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_AMOUNT,inventory_jewelpurchaseitems.getAmount());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_REMARKS,inventory_jewelpurchaseitems.getRemarks());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_ROW_NO,inventory_jewelpurchaseitems.getRow_no());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_IS_DELETE,inventory_jewelpurchaseitems.getIs_delete());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_TS,Utility.dateFormat.format(inventory_jewelpurchaseitems.getTs()));
+        values.put(Inventory_jewelpurchaseitems.COLUMN_JEWEL_PURCHASE_ID,inventory_jewelpurchaseitems.getJewel_purchase_id());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_JEWELLENGTH_ID,inventory_jewelpurchaseitems.getJewel_purchase_id());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_JEWELSHAPE_ID,inventory_jewelpurchaseitems.getJewelshape_id());
+        values.put(Inventory_jewelpurchaseitems.COLUMN_JEWELTYPE_ID,inventory_jewelpurchaseitems.getJeweltype_id());
+        long resultid = database.insert(inventory_jewelpurchaseitems.TABLE_INVENTORY_JEWELPURCHASEITEMS,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jewelshape(Inventory_jewelshape inventory_jewelshape){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jewelshape.COLUMN_ID,inventory_jewelshape.getId());
+        values.put(Inventory_jewelshape.COLUMN_NAME,inventory_jewelshape.getName());
+        values.put(Inventory_jewelshape.COLUMN_ACTIVE,inventory_jewelshape.getActive());
+        values.put(Inventory_jewelshape.COLUMN_JEWELTYPE_ID,inventory_jewelshape.getJeweltype_id());
+
+        long resultid = database.insert(inventory_jewelshape.TABLE_INVENTORY_JEWELSHAPE,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_jeweltype(Inventory_jeweltype inventory_jeweltype){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_jeweltype.COLUMN_ID,inventory_jeweltype.getId());
+        values.put(Inventory_jeweltype.COLUMN_NAME,inventory_jeweltype.getName());
+        values.put(Inventory_jeweltype.COLUMN_UNITTYPE,inventory_jeweltype.getUnittype());
+        values.put(Inventory_jeweltype.COLUMN_PURCHASE_UNITTYPE,inventory_jeweltype.getPurchase_unittype());
+        values.put(Inventory_jeweltype.COLUMN_ACTIVE,inventory_jeweltype.getActive());
+
+        long resultid = database.insert(inventory_jeweltype.TABLE_INVENTORY_JEWELTYPE,null,values);
         return resultid;
     }
 

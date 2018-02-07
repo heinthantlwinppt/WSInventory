@@ -64,6 +64,18 @@
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
+            <!--<SearchView-->
+                <!--android:id="@+id/searchView1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" >-->
+            <!--</SearchView>-->
+
+            <!--<ListView-->
+                <!--android:id="@+id/listView1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="326dp" >-->
+            <!--</ListView>-->
+
             <TextView
                 android:id="@+id/txtgroup_name"
                 android:layout_width="320dp"
