@@ -41,6 +41,14 @@ public class ApiModel {
     public static String GETPRODUCTREDUCE = "getProductreduce";
     public static String GETPRODUCTLENGTH = "getProductLength";
     public static String GETPRODUCTSUBGROUP = "getProductSubGroup";
+    public static String GETJEWELINVENTORY = "getJewelInventory";
+    public static String GETJEWELLENGTH = "getJewellength";
+    public static String GETJEWELPURCHASE = "getJewelPurchase";
+    public static String GETJEWELPURCHASEITEMS = "getJewelPurchaseItems";
+    public static String GETJEWELSHAPE = "GETJEWELSHAPE";
+    public static String GETJEWELTYPE = "getJewelType";
+    public static String GETSUPPLIER = "getSupplier";
+    public static String GETSUPPLIERGROUP = "getSupplierGroup";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose

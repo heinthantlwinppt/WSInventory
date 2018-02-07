@@ -135,6 +135,7 @@ public class WsService extends IntentService {
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 webSocket.cancel();
                 String responsemessage = text;
+                Log.i("WsSerivice","server respon"+ text);
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 appContext.setResponseMessage("Cannot connect to server.");
                 Intent messageIntent = new Intent(API_SERVICE_SYNC);

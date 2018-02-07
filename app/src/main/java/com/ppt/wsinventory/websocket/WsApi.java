@@ -37,6 +37,12 @@ import com.ppt.wsinventory.model.InventoryUOM;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Inventory_serialgolds;
+import com.ppt.wsinventory.model.JewelInventory;
+import com.ppt.wsinventory.model.JewelPurchase;
+import com.ppt.wsinventory.model.JewelPurchaseItems;
+import com.ppt.wsinventory.model.JewelShape;
+import com.ppt.wsinventory.model.JewelType;
+import com.ppt.wsinventory.model.Jewellength;
 import com.ppt.wsinventory.model.JobStatus;
 import com.ppt.wsinventory.model.Location;
 import com.ppt.wsinventory.model.ManufacturingSmith;
@@ -64,6 +70,8 @@ import com.ppt.wsinventory.model.Smith_jobtype;
 import com.ppt.wsinventory.model.Smithmembers;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.Staff;
+import com.ppt.wsinventory.model.Supplier;
+import com.ppt.wsinventory.model.SupplierGroup;
 import com.ppt.wsinventory.model.TableToDelete;
 import com.ppt.wsinventory.model.UOM;
 import com.ppt.wsinventory.model.WsDashboard;
@@ -77,6 +85,8 @@ import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurcha
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurchaseitems;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelshape;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jeweltype;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_supplier;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_suppliergroup;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -679,7 +689,141 @@ public class WsApi {
                 RemoveActionList(apiModel.getName());
             }
 
-        } else {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELINVENTORY)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JewelInventory>>() {
+                }.getType();
+                List<JewelInventory> jewelInventories = gson.fromJson(jsonString, listType);
+                for (JewelInventory jewelInventory : jewelInventories) {
+                    if (importJewelinventory(jewelInventory)) {
+                        appContext.setTs(jewelInventory.getTs());
+                    } else {
+                        break;
+                    }
+                    Log.i(TAG, "Jewelly Type : " + jewelInventory.getJeweltype());
+                }
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELLENGTH)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Jewellength>>() {
+                }.getType();
+                List<Jewellength> jewellengths = gson.fromJson(jsonString, listType);
+                for (Jewellength jewellength : jewellengths) {
+                    importJewellength(jewellength);
+                    Log.i(TAG, "Jewelly Length Name : " + jewellength.getName());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASE)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JewelPurchase>>() {
+                }.getType();
+                List<JewelPurchase> jewelPurchases = gson.fromJson(jsonString, listType);
+                for (JewelPurchase jewelPurchase : jewelPurchases) {
+                    if (importJewelpurchase(jewelPurchase)) {
+                        appContext.setTs(jewelPurchase.getTs());
+                    } else {
+                        break;
+                    }
+                    Log.i(TAG, "Purchases Class : " + jewelPurchase.getClass());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASEITEMS)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JewelPurchaseItems>>() {
+                }.getType();
+                List<JewelPurchaseItems> jewelPurchaseItems = gson.fromJson(jsonString, listType);
+                for (JewelPurchaseItems purchaseItems : jewelPurchaseItems) {
+                    if (importJewelpurchaseitems(purchaseItems)) {
+                        appContext.setTs(purchaseItems.getTs());
+                    } else {
+                        break;
+                    }
+                    Log.i(TAG, "JewelPurchaseitem : " + purchaseItems.getJewelPurchase());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELSHAPE)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JewelShape>>() {
+                }.getType();
+                List<JewelShape> jewelShapes = gson.fromJson(jsonString, listType);
+                for (JewelShape shapes : jewelShapes) {
+                   importJewelshape(shapes);
+                    Log.i(TAG, "JewelShape : " + shapes.getName());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELTYPE)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<JewelType>>() {
+                }.getType();
+                List<JewelType> jewelTypes = gson.fromJson(jsonString, listType);
+                for (JewelType jewelType: jewelTypes) {
+                    importJeweltype(jewelType);
+                    Log.i(TAG, "JewelType : " + jewelType.getName());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIER)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Supplier>>() {
+                }.getType();
+                List<Supplier> suppliers = gson.fromJson(jsonString, listType);
+                for (Supplier supplier: suppliers) {
+                    importSupplier(supplier);
+                    Log.i(TAG, "Supplier Name : " + supplier.getName());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIERGROUP)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<SupplierGroup>>() {
+                }.getType();
+                List<SupplierGroup> supplierGroups = gson.fromJson(jsonString, listType);
+                for (SupplierGroup supplierGroup: supplierGroups) {
+                    importSuppliergroup(supplierGroup);
+                    Log.i(TAG, "SupplierGroup Name : " + supplierGroup.getName());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else {
             RemoveActionList(apiModel.getName());
             Log.i(TAG, "doSync: arkar");
         }
@@ -1106,7 +1250,6 @@ public class WsApi {
 
     }
 
-
     private boolean importGoodsInventory(GoodsInventory wsgoodsInventory) {
         dbaccess = DbAccess.getInstance();
         InventoryGoodInventory goodsinventory = new InventoryGoodInventory();
@@ -1385,117 +1528,146 @@ public class WsApi {
 
     }
 
-//    private boolean importJewelinventory() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jewelinventory inventory_jewelinventory = new Inventory_jewelinventory();
-//        inventory_jewelinventory.setQty();
-//        inventory_jewelinventory.setTs();
-//        inventory_jewelinventory.setJewellength_id();
-//        inventory_jewelinventory.setJewelshape_id();
-//        inventory_jewelinventory.setJeweltype_id();
-//
-//        Long l = dbaccess.insertInventory_jewelinventory(inventory_jewelinventory);
-//        return (l > 0);
-//
-//
-//    }
-//
-//    private boolean importJewellength() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jewellength inventory_jewellength = new Inventory_jewellength();
-//        inventory_jewellength.setId();
-//        inventory_jewellength.setName();
-//        inventory_jewellength.setActive();
-//        inventory_jewellength.setJewelshape_id();
-//
-//        Long l = dbaccess.insertInventory_jewellength(inventory_jewellength);
-//        return (l > 0);
-//
-//
-//    }
-//
-//    private boolean importJewelpurchase() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jewelpurchase inventory_jewelpurchase = new Inventory_jewelpurchase();
-//        inventory_jewelpurchase.setPurchase_no();
-//        inventory_jewelpurchase.setPurchase_date();
-//        inventory_jewelpurchase.setReference_no();
-//        inventory_jewelpurchase.setAmount();
-//        inventory_jewelpurchase.setPaid_amount();
-//        inventory_jewelpurchase.setDeduction();
-//        inventory_jewelpurchase.setRemarks();
-//        inventory_jewelpurchase.setIs_delete();
-//        inventory_jewelpurchase.setTs();
-//        inventory_jewelpurchase.setSupplier_id();
-//
-//        if (productLength.getIsDelete() == true) {
-//            boolean b = dbaccess.deleteData(Inventory_jewelpurchase.TABLE_INVENTORY_JEWELPURCHASE,
-//                    inventory_jewelpurchase.COLUMN_PURCHASE_NO + "=?",
-//                    new String[]{String.valueOf(productLength.getId())});
-//            return b;
-//        } else {
-//            Long l = dbaccess.insertInventory_jewelpurchase(inventory_jewelpurchase);
-//            return (l > 0);
-//        }
-//
-//
-//    }
-//
-//    private boolean importJewelpurchaseitems() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jewelpurchaseitems inventory_jewelpurchaseitems = new Inventory_jewelpurchaseitems();
-//        inventory_jewelpurchaseitems.setId();
-//        inventory_jewelpurchaseitems.setQty();
-//        inventory_jewelpurchaseitems.setPrice();
-//        inventory_jewelpurchaseitems.setAmount();
-//        inventory_jewelpurchaseitems.setRemarks();
-//        inventory_jewelpurchaseitems.setRow_no();
-//        inventory_jewelpurchaseitems.setIs_delete();
-//        inventory_jewelpurchaseitems.setTs();
-//        inventory_jewelpurchaseitems.setJewel_purchase_id();
-//        inventory_jewelpurchaseitems.setJewellength_id();
-//        inventory_jewelpurchaseitems.setJewelshape_id();
-//        inventory_jewelpurchaseitems.setJeweltype_id();
-//
-//        if (productLength.getIsDelete() == true) {
-//            boolean b = dbaccess.deleteData(Inventory_jewelpurchaseitems.TABLE_INVENTORY_JEWELPURCHASEITEMS,
-//                    inventory_jewelpurchaseitems.COLUMN_ID+ "=?",
-//                    new String[]{String.valueOf(productLength.getId())});
-//            return b;
-//        } else {
-//            Long l = dbaccess.insertInventory_jewelpurchaseitems(inventory_jewelpurchaseitems);
-//            return (l > 0);
-//        }
-//
-//
-//    }
-//
-//    private boolean importJewelshape() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jewelshape inventory_jewelshape = new Inventory_jewelshape();
-//        inventory_jewelshape.setId();
-//        inventory_jewelshape.setName();
-//        inventory_jewelshape.setActive();
-//        inventory_jewelshape.setJeweltype_id();
-//
-//        Long l = dbaccess.insertInventory_jewelshape(inventory_jewelshape);
-//        return (l > 0);
-//
-//
-//    }
-//
-//    private boolean importJeweltype() {
-//        dbaccess = DbAccess.getInstance();
-//        Inventory_jeweltype inventoryJeweltype = new Inventory_jeweltype();
-//        inventoryJeweltype.setId();
-//        inventoryJeweltype.setName();
-//        inventoryJeweltype.setUnittype();
-//        inventoryJeweltype.setPurchase_unittype();
-//        inventoryJeweltype.setActive();
-//
-//        Long l = dbaccess.insertInventory_jeweltype(inventoryJeweltype);
-//        return (l > 0);
-//
-//
-//    }
+    private boolean importJewelinventory(JewelInventory jewelInventory) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jewelinventory inventory_jewelinventory = new Inventory_jewelinventory();
+        inventory_jewelinventory.setQty(jewelInventory.getQty());
+        inventory_jewelinventory.setTs(jewelInventory.getTs());
+        inventory_jewelinventory.setJewellength_id(jewelInventory.getJewellength());
+        inventory_jewelinventory.setJewelshape_id(jewelInventory.getJewelshape());
+        inventory_jewelinventory.setJeweltype_id(jewelInventory.getJeweltype());
+
+        Long l = dbaccess.insertInventory_jewelinventory(inventory_jewelinventory);
+        return (l > 0);
+
+
+    }
+
+    private boolean importJewellength(Jewellength jewellength) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jewellength inventory_jewellength = new Inventory_jewellength();
+        inventory_jewellength.setId(jewellength.getId());
+        inventory_jewellength.setName(jewellength.getName());
+        inventory_jewellength.setActive(jewellength.getActive());
+        inventory_jewellength.setJewelshape_id(jewellength.getJewelshape());
+
+        Long l = dbaccess.insertInventory_jewellength(inventory_jewellength);
+        return (l > 0);
+
+
+    }
+
+    private boolean importJewelpurchase(JewelPurchase jewelPurchase) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jewelpurchase inventory_jewelpurchase = new Inventory_jewelpurchase();
+        inventory_jewelpurchase.setPurchase_no(jewelPurchase.getPurchaseNo());
+        inventory_jewelpurchase.setPurchase_date(jewelPurchase.getPurchaseDate());
+        inventory_jewelpurchase.setReference_no(jewelPurchase.getReferenceNo());
+        inventory_jewelpurchase.setAmount(jewelPurchase.getAmount());
+        inventory_jewelpurchase.setPaid_amount(jewelPurchase.getPaidAmount());
+        inventory_jewelpurchase.setDeduction(jewelPurchase.getDeduction());
+        inventory_jewelpurchase.setRemarks(jewelPurchase.getRemarks());
+        inventory_jewelpurchase.setIs_delete(jewelPurchase.getIsDelete());
+        inventory_jewelpurchase.setTs(jewelPurchase.getTs());
+        inventory_jewelpurchase.setSupplier_id(jewelPurchase.getSupplier());
+
+        if (jewelPurchase.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_jewelpurchase.TABLE_INVENTORY_JEWELPURCHASE,
+                    inventory_jewelpurchase.COLUMN_PURCHASE_NO + "=?",
+                    new String[]{String.valueOf(jewelPurchase.getPurchaseNo())});
+            return b;
+        } else {
+            Long l = dbaccess.insertInventory_jewelpurchase(inventory_jewelpurchase);
+            return (l > 0);
+        }
+
+
+    }
+
+    private boolean importJewelpurchaseitems(JewelPurchaseItems jewelPurchaseItems) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jewelpurchaseitems inventory_jewelpurchaseitems = new Inventory_jewelpurchaseitems();
+        inventory_jewelpurchaseitems.setId(jewelPurchaseItems.getId());
+        inventory_jewelpurchaseitems.setQty(jewelPurchaseItems.getQty());
+        inventory_jewelpurchaseitems.setPrice(jewelPurchaseItems.getPrice());
+        inventory_jewelpurchaseitems.setAmount(jewelPurchaseItems.getAmount());
+        inventory_jewelpurchaseitems.setRemarks(jewelPurchaseItems.getRemarks());
+        inventory_jewelpurchaseitems.setRow_no(jewelPurchaseItems.getRowNo());
+        inventory_jewelpurchaseitems.setIs_delete(jewelPurchaseItems.getIsDelete());
+        inventory_jewelpurchaseitems.setTs(jewelPurchaseItems.getTs());
+        inventory_jewelpurchaseitems.setJewel_purchase_id(jewelPurchaseItems.getJewelPurchase());
+        inventory_jewelpurchaseitems.setJewellength_id(jewelPurchaseItems.getJewellength());
+        inventory_jewelpurchaseitems.setJewelshape_id(jewelPurchaseItems.getJewelshape());
+        inventory_jewelpurchaseitems.setJeweltype_id(jewelPurchaseItems.getJeweltype());
+
+        if (jewelPurchaseItems.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_jewelpurchaseitems.TABLE_INVENTORY_JEWELPURCHASEITEMS,
+                    inventory_jewelpurchaseitems.COLUMN_ID+ "=?",
+                    new String[]{String.valueOf(jewelPurchaseItems.getId())});
+            return b;
+        } else {
+            Long l = dbaccess.insertInventory_jewelpurchaseitems(inventory_jewelpurchaseitems);
+            return (l > 0);
+        }
+
+
+    }
+
+    private boolean importJewelshape(JewelShape jewelShape) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jewelshape inventory_jewelshape = new Inventory_jewelshape();
+        inventory_jewelshape.setId(jewelShape.getId());
+        inventory_jewelshape.setName(jewelShape.getName());
+        inventory_jewelshape.setActive(jewelShape.getActive());
+        inventory_jewelshape.setJeweltype_id(jewelShape.getJeweltype());
+
+        Long l = dbaccess.insertInventory_jewelshape(inventory_jewelshape);
+        return (l > 0);
+
+
+    }
+
+    private boolean importJeweltype(JewelType jewelType) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_jeweltype inventoryJeweltype = new Inventory_jeweltype();
+        inventoryJeweltype.setId(jewelType.getId());
+        inventoryJeweltype.setName(jewelType.getName());
+        inventoryJeweltype.setUnittype(jewelType.getUnittype());
+        inventoryJeweltype.setPurchase_unittype(jewelType.getPurchaseUnittype());
+        inventoryJeweltype.setActive(jewelType.getActive());
+
+        Long l = dbaccess.insertInventory_jeweltype(inventoryJeweltype);
+        return (l > 0);
+
+
+    }
+
+    private boolean importSupplier(Supplier supplier) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_supplier inventory_supplier = new Inventory_supplier();
+        inventory_supplier.setId(supplier.getId());
+        inventory_supplier.setName(supplier.getName());
+        inventory_supplier.setAddress(supplier.getAddress());
+        inventory_supplier.setPhone(supplier.getPhone());
+        inventory_supplier.setActive(supplier.getActive());
+        inventory_supplier.setSupplier_group_id(supplier.getSupplierGroup());
+
+        Long l = dbaccess.insertInventory_supplier(inventory_supplier);
+        return (l > 0);
+
+
+    }
+
+    private boolean importSuppliergroup(SupplierGroup supplierGroup) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_suppliergroup inventory_suppliergroup = new Inventory_suppliergroup();
+        inventory_suppliergroup.setId(supplierGroup.getId());
+        inventory_suppliergroup.setName(supplierGroup.getName());
+        inventory_suppliergroup.setActive(supplierGroup.getActive());
+
+        Long l = dbaccess.insertInventory_suppliergroup(inventory_suppliergroup);
+        return (l > 0);
+
+
+    }
 }

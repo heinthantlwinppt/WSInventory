@@ -582,6 +582,27 @@ public class DbHelper extends SQLiteOpenHelper {
                     "active BOOL \n" +
                     ")";
 
+    private static final String TABLE_INVENTORY_SUPPLIER = "inventory_supplier";
+    private static final String TABLE_CREATE_INVENTORY_SUPPLIER =
+            "CREATE TABLE inventory_supplier \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "address VARCHAR COLLATE NOCASE, \n" +
+                    "phone VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL, \n" +
+                    "supplier_group_id INTEGER \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_SUPPLIERGROUP = "inventory_suppliergroup";
+    private static final String TABLE_CREATE_INVENTORY_SUPPLIERGROUP =
+            "CREATE TABLE inventory_suppliergroup \n" +
+                    "(\n" +
+                    "id INTEGER, \n" +
+                    "name VARCHAR COLLATE NOCASE, \n" +
+                    "active BOOL \n" +
+                    ")";
+
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -669,6 +690,10 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELSHAPE+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELTYPE);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELTYPE+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_SUPPLIER);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIER+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_SUPPLIERGROUP);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIERGROUP+ " has been created");
 
     }
 
@@ -708,6 +733,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELPURCHASE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELSHAPE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELTYPE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_SUPPLIER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_SUPPLIERGROUP);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

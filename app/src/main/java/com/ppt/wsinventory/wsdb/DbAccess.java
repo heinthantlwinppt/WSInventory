@@ -47,6 +47,8 @@ import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurcha
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelpurchaseitems;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelshape;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jeweltype;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_supplier;
+import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_suppliergroup;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -1145,6 +1147,29 @@ public class DbAccess {
         values.put(Inventory_jeweltype.COLUMN_ACTIVE,inventory_jeweltype.getActive());
 
         long resultid = database.insert(inventory_jeweltype.TABLE_INVENTORY_JEWELTYPE,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_supplier(Inventory_supplier inventory_supplier){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_supplier.COLUMN_ID,inventory_supplier.getId());
+        values.put(Inventory_supplier.COLUMN_NAME,inventory_supplier.getName());
+        values.put(Inventory_supplier.COLUMN_ADDRESS,inventory_supplier.getAddress());
+        values.put(Inventory_supplier.COLUMN_PHONE,inventory_supplier.getPhone());
+        values.put(Inventory_supplier.COLUMN_ACTIVE,inventory_supplier.getActive());
+        values.put(Inventory_supplier.COLUMN_SUPPLIER_GROUP_ID,inventory_supplier.getSupplier_group_id());
+
+        long resultid = database.insert(inventory_supplier.TABLE_INVENTORY_SUPPLIER,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_suppliergroup(Inventory_suppliergroup inventory_suppliergroup){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_suppliergroup.COLUMN_ID,inventory_suppliergroup.getId());
+        values.put(Inventory_suppliergroup.COLUMN_NAME,inventory_suppliergroup.getName());
+        values.put(Inventory_suppliergroup.COLUMN_ACTIVE,inventory_suppliergroup.getActive());
+
+        long resultid = database.insert(inventory_suppliergroup.TABLE_INVENTORY_SUPPLIERGROUP,null,values);
         return resultid;
     }
 
