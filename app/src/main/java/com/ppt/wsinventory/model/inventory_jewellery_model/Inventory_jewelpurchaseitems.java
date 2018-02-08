@@ -34,7 +34,7 @@ public class Inventory_jewelpurchaseitems {
             COLUMN_JEWEL_PURCHASE_ID,
             COLUMN_JEWELLENGTH_ID,
             COLUMN_JEWELSHAPE_ID,
-            COLUMN_JEWELTYPE_ID,
+            COLUMN_JEWELTYPE_ID
 
     };
 

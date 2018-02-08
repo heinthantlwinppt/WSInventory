@@ -49,6 +49,9 @@ import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelshape;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jeweltype;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_supplier;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_suppliergroup;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveddetail;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receivedhdr;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveserial;
 import com.ppt.wsinventory.util.Utility;
 
 import java.io.File;
@@ -321,7 +324,7 @@ public class DbAccess {
 
     public List<Inventory_SmithJob> getAllInventorySmithJob() {
         List<Inventory_SmithJob> inventory_smithJobs = new ArrayList<>();
-        String sql = "select s.name as smith_name, s.nickname as smith_nickname, sjob.joborder_no, sjob.smith_id, sjob.remarks , sjob.date_start , jt.description , jt.name as Jobtype_name\n" +
+        String sql = "select s.name as smith_name, s.nickname as smith_nickname, sjob.joborder_no, sjob.smith_id, sjob.remarks , sjob.date_start , sjob.date_end , jt.description , jt.name as Jobtype_name\n" +
                 "from manufacturing_smith_joborder sjob \n" +
                 "inner join manufacturing_smith s on sjob.smith_id = s.id\n" +
                 "inner join manufacturing_smith_jobtype jt on sjob.joborder_type_id = jt.id";
@@ -340,6 +343,11 @@ public class DbAccess {
             }
             inventory_smithJob.setDescription(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_DESCRIPTION)));
             inventory_smithJob.setJobtype_name(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_JOBTYPE_NAME)));
+            try {
+                inventory_smithJob.setDate_end(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventory_smithJob.COLUMN_DATE_END))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             inventory_smithJobs.add(inventory_smithJob);
         }
         if (cursor != null && !cursor.isClosed()) {
@@ -1170,6 +1178,60 @@ public class DbAccess {
         values.put(Inventory_suppliergroup.COLUMN_ACTIVE,inventory_suppliergroup.getActive());
 
         long resultid = database.insert(inventory_suppliergroup.TABLE_INVENTORY_SUPPLIERGROUP,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_receiveserial(Inventory_receiveserial inventory_receiveserial){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_receiveserial.COLUMN_PRODUCTSERIAL_ID,inventory_receiveserial.getProductserial_id());
+        values.put(Inventory_receiveserial.COLUMN_LINENO,inventory_receiveserial.getLineno());
+        values.put(Inventory_receiveserial.COLUMN_IS_DELETE,inventory_receiveserial.getIs_delete());
+        values.put(Inventory_receiveserial.COLUMN_TS,Utility.dateFormat.format(inventory_receiveserial.getTs()));
+
+        long resultid = database.insert(inventory_receiveserial.TABLE_INVENTORY_RECEIVESERIAL,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_receiveddetail(Inventory_receiveddetail inventory_receiveddetail){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_receiveddetail.COLUMN_LINENO,inventory_receiveddetail.getLineno());
+        values.put(Inventory_receiveddetail.COLUMN_QTY,inventory_receiveddetail.getQty());
+        values.put(Inventory_receiveddetail.COLUMN_WEIGHT,inventory_receiveddetail.getWeight());
+        values.put(Inventory_receiveddetail.COLUMN_K,inventory_receiveddetail.getK());
+        values.put(Inventory_receiveddetail.COLUMN_P,inventory_receiveddetail.getP());
+        values.put(Inventory_receiveddetail.COLUMN_Y,inventory_receiveddetail.getY());
+        values.put(Inventory_receiveddetail.COLUMN_DENSITY,inventory_receiveddetail.getDensity());
+        values.put(Inventory_receiveddetail.COLUMN_REMARKS,inventory_receiveddetail.getRemarks());
+        values.put(Inventory_receiveddetail.COLUMN_IS_DELETE,inventory_receiveddetail.isIs_delete());
+        values.put(Inventory_receiveddetail.COLUMN_TS,Utility.dateFormat.format(inventory_receiveddetail.getTs()));
+        values.put(Inventory_receiveddetail.COLUMN_BIN_ID,inventory_receiveddetail.getBin_id());
+        values.put(Inventory_receiveddetail.COLUMN_PALLET_ID,inventory_receiveddetail.getPallet_id());
+        values.put(Inventory_receiveddetail.COLUMN_PRODUCT_ID,inventory_receiveddetail.getProduct_id());
+        values.put(Inventory_receiveddetail.COLUMN_RECEIVEDHDR_ID,inventory_receiveddetail.getReceivedhdr_id());
+        values.put(Inventory_receiveddetail.COLUMN_TOLOCATION_ID,inventory_receiveddetail.getTolocation_id());
+        values.put(Inventory_receiveddetail.COLUMN_UOM_ID,inventory_receiveddetail.getUom_id());
+
+        long resultid = database.insert(inventory_receiveddetail.TABLE_INVENTORY_RECEIVEDDETAIL,null,values);
+        return resultid;
+    }
+
+    public long insertInventory_receivedhdr(Inventory_receivedhdr inventory_receivedhdr){
+        ContentValues values = new ContentValues();
+        values.put(Inventory_receivedhdr.COLUMN_RECEIVE_NO,inventory_receivedhdr.getReceive_no());
+        values.put(Inventory_receivedhdr.COLUMN_RECEIVE_DATE,Utility.dateFormat.format(inventory_receivedhdr.getReceive_date()));
+        values.put(Inventory_receivedhdr.COLUMN_IS_COMPLETED,inventory_receivedhdr.getIs_completed());
+        values.put(Inventory_receivedhdr.COLUMN_IS_APPROVED,inventory_receivedhdr.getIs_completed());
+        values.put(Inventory_receivedhdr.COLUMN_IS_VOID,inventory_receivedhdr.getIs_void());
+        values.put(Inventory_receivedhdr.COLUMN_VOID_DATE,Utility.dateFormat.format(inventory_receivedhdr.getVoid_date()));
+        values.put(Inventory_receivedhdr.COLUMN_IS_DELETE,inventory_receivedhdr.getIs_delete());
+        values.put(Inventory_receivedhdr.COLUMN_TS,Utility.dateFormat.format(inventory_receivedhdr.getTs()));
+        values.put(Inventory_receivedhdr.COLUMN_DOCTYPE_ID,inventory_receivedhdr.getDoctype_id());
+        values.put(Inventory_receivedhdr.COLUMN_LOCATION_ID,inventory_receivedhdr.getLocation_id());
+        values.put(Inventory_receivedhdr.COLUMN_SMITH_ID,inventory_receivedhdr.getSmith_id());
+        values.put(Inventory_receivedhdr.COLUMN_STAFF_ID,inventory_receivedhdr.getStaff_id());
+
+
+        long resultid = database.insert(inventory_receivedhdr.TABLE_INVENTORY_RECEIVEDHDR,null,values);
         return resultid;
     }
 

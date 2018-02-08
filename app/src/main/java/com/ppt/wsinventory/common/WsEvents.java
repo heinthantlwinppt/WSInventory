@@ -8,6 +8,7 @@ public class WsEvents {
 
     public static final String OPEN_RECEIVING_INVENTORY = "Receiving";
     public static final String OPEN_TAGGING_INVENTORY = "Tagging";
+    public static final String OPEN_PRORECEIVING_LIST = "open_proreceivinglist";
 
     public static class EventNewChange {
         private String mvalue;

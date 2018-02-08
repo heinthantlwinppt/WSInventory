@@ -59,6 +59,9 @@ import com.ppt.wsinventory.model.ProductLength;
 import com.ppt.wsinventory.model.ProductReduce;
 import com.ppt.wsinventory.model.ProductSerial;
 import com.ppt.wsinventory.model.ProductSubGroup;
+import com.ppt.wsinventory.model.ReceiveSerial;
+import com.ppt.wsinventory.model.ReceivedDetail;
+import com.ppt.wsinventory.model.ReceivedHdr;
 import com.ppt.wsinventory.model.Role;
 import com.ppt.wsinventory.model.Serialgolds;
 import com.ppt.wsinventory.model.Settings;
@@ -87,6 +90,9 @@ import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelshape;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jeweltype;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_supplier;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_suppliergroup;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveddetail;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receivedhdr;
+import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveserial;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -821,6 +827,66 @@ public class WsApi {
                 RemoveActionList(apiModel.getName());
 
             } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVESERIAL)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<ReceiveSerial>>() {
+                }.getType();
+                List<ReceiveSerial> receiveSerials = gson.fromJson(jsonString, listType);
+                for (ReceiveSerial receiveSerial : receiveSerials) {
+                    if (importInventory_receiveserial(receiveSerial)) {
+                        appContext.setTs(receiveSerial.getTs());
+                    } else {
+                        break;
+                    }
+                    Log.i(TAG, "Receiveserialno : " + receiveSerial.getProductserial());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDDETAIL)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<ReceivedDetail>>() {
+                }.getType();
+                List<ReceivedDetail> receivedDetails = gson.fromJson(jsonString, listType);
+                for (ReceivedDetail receivedDetail : receivedDetails) {
+                    if (importInventory_receiveddetail(receivedDetail)) {
+                        appContext.setTs(receivedDetail.getTs());
+                    } else {
+                        break;
+                    }
+//                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDHDR)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<ReceivedHdr>>() {
+                }.getType();
+                List<ReceivedHdr> receivedHdrs = gson.fromJson(jsonString, listType);
+                for (ReceivedHdr receivedHdr : receivedHdrs) {
+                    if (importInventory_receivedhdr(receivedHdr)) {
+                        appContext.setTs(receivedHdr.getTs());
+                    } else {
+                        break;
+                    }
+//                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
         }else {
@@ -1668,6 +1734,86 @@ public class WsApi {
         Long l = dbaccess.insertInventory_suppliergroup(inventory_suppliergroup);
         return (l > 0);
 
+
+    }
+
+    private boolean importInventory_receiveserial(ReceiveSerial receiveSerial) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_receiveserial inventory_receiveserial = new Inventory_receiveserial();
+        inventory_receiveserial.setProductserial_id(receiveSerial.getProductserial());
+        inventory_receiveserial.setLineno(receiveSerial.getLineno());
+        inventory_receiveserial.setIs_delete(receiveSerial.getIsDelete());
+        inventory_receiveserial.setTs(receiveSerial.getTs());
+
+        if (receiveSerial.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_receiveserial.TABLE_INVENTORY_RECEIVESERIAL,
+                    inventory_receiveserial.COLUMN_PRODUCTSERIAL_ID+ "=?",
+                    new String[]{String.valueOf(receiveSerial.getProductserial())});
+            return b;
+        }else {
+            Long l = dbaccess.insertInventory_receiveserial(inventory_receiveserial);
+            return (l > 0);
+        }
+
+    }
+
+    private boolean importInventory_receiveddetail(ReceivedDetail receivedDetail) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_receiveddetail inventory_receiveddetail = new Inventory_receiveddetail();
+        inventory_receiveddetail.setLineno(receivedDetail.getLineno());
+        inventory_receiveddetail.setQty(receivedDetail.getQty());
+        inventory_receiveddetail.setWeight(receivedDetail.getWeight());
+        inventory_receiveddetail.setK(receivedDetail.getK());
+        inventory_receiveddetail.setP(receivedDetail.getP());
+        inventory_receiveddetail.setY(receivedDetail.getY());
+        inventory_receiveddetail.setDensity(receivedDetail.getDensity());
+        inventory_receiveddetail.setRemarks(receivedDetail.getRemarks());
+        inventory_receiveddetail.setIs_delete(receivedDetail.getIsDelete());
+        inventory_receiveddetail.setTs(receivedDetail.getTs());
+        inventory_receiveddetail.setBin_id(receivedDetail.getBin());
+        inventory_receiveddetail.setPallet_id(receivedDetail.getPallet());
+        inventory_receiveddetail.setProduct_id(receivedDetail.getProduct());
+        inventory_receiveddetail.setReceivedhdr_id(receivedDetail.getReceivedhdr());
+        inventory_receiveddetail.setTolocation_id(receivedDetail.getTolocation());
+        inventory_receiveddetail.setUom_id(receivedDetail.getUom());
+
+
+        if (receivedDetail.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_receiveddetail.TABLE_INVENTORY_RECEIVEDDETAIL,
+                    inventory_receiveddetail.COLUMN_LINENO+ "=?",
+                    new String[]{String.valueOf(receivedDetail.getLineno())});
+            return b;
+        }else {
+            Long l = dbaccess.insertInventory_receiveddetail(inventory_receiveddetail);
+            return (l > 0);
+        }
+
+    }
+
+    private boolean importInventory_receivedhdr(ReceivedHdr receivedHdr) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_receivedhdr inventory_receivedhdr = new Inventory_receivedhdr();
+        inventory_receivedhdr.setReceive_no(receivedHdr.getReceiveNo());
+        inventory_receivedhdr.setReceive_date(receivedHdr.getReceiveDate());
+        inventory_receivedhdr.setIs_completed(receivedHdr.getIsCompleted());
+        inventory_receivedhdr.setIs_approved(receivedHdr.getIsApproved());
+        inventory_receivedhdr.setVoid_date(receivedHdr.getVoidDate());
+        inventory_receivedhdr.setIs_delete(receivedHdr.getIsDelete());
+        inventory_receivedhdr.setTs(receivedHdr.getTs());
+        inventory_receivedhdr.setDoctype_id(receivedHdr.getDoctype());
+        inventory_receivedhdr.setLocation_id(receivedHdr.getLocation());
+        inventory_receivedhdr.setSmith_id(receivedHdr.getSmith());
+        inventory_receivedhdr.setStaff_id(receivedHdr.getStaff());
+
+        if (receivedHdr.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_receivedhdr.TABLE_INVENTORY_RECEIVEDHDR,
+                    inventory_receivedhdr.COLUMN_RECEIVE_NO+ "=?",
+                    new String[]{String.valueOf(receivedHdr.getReceiveNo())});
+            return b;
+        }else {
+            Long l = dbaccess.insertInventory_receivedhdr(inventory_receivedhdr);
+            return (l > 0);
+        }
 
     }
 }

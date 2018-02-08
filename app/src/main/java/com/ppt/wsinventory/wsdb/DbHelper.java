@@ -603,6 +603,56 @@ public class DbHelper extends SQLiteOpenHelper {
                     "active BOOL \n" +
                     ")";
 
+    private static final String TABLE_INVENTORY_RECEIVEDDETAIL = "Inventory_receiveddetail";
+    private static final String TABLE_CREATE_INVENTORY_RECEIVEDDETAIL =
+            "CREATE TABLE inventory_receiveddetail \n" +
+                    "(\n" +
+                    "lineno INTEGER, \n" +
+                    "qty NUMERIC, \n" +
+                    "weight NUMERIC, \n" +
+                    "k INTEGER, \n" +
+                    "p INTEGER, \n" +
+                    "y NUMERIC, \n" +
+                    "density NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "bin_id VARCHAR COLLATE NOCASE, \n" +
+                    "pallet_id VARCHAR COLLATE NOCASE, \n" +
+                    "product_id VARCHAR COLLATE NOCASE, \n" +
+                    "receivedhdr_id VARCHAR COLLATE NOCASE, \n" +
+                    "tolocation_id VARCHAR COLLATE NOCASE, \n" +
+                    "uom_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_RECEIVESERIAL = "inventory_receiveserial";
+    private static final String TABLE_CREATE_INVENTORY_RECEIVESERIAL =
+            "CREATE TABLE inventory_receiveserial \n" +
+                    "(\n" +
+                    "productserial_id VARCHAR COLLATE NOCASE, \n" +
+                    "lineno INTEGER, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME \n" +
+                    ")";
+
+    private static final String TABLE_INVENTORY_RECEIVEDHDR = "inventory_receivedhdr";
+    private static final String TABLE_CREATE_INVENTORY_RECEIVEDHDR =
+            "CREATE TABLE inventory_receivedhdr \n" +
+                    "(\n" +
+                    "receive_no VARCHAR COLLATE NOCASE, \n" +
+                    "receive_date DATETIME, \n" +
+                    "is_completed BOOL, \n" +
+                    "is_approved BOOL, \n" +
+                    "is_void BOOL, \n" +
+                    "void_date DATETIME, \n" +
+                    "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
+                    "doctype_id INTEGER, \n" +
+                    "location_id VARCHAR COLLATE NOCASE, \n" +
+                    "smith_id INTEGER, \n" +
+                    "staff_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -694,6 +744,12 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIER+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_SUPPLIERGROUP);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIERGROUP+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_RECEIVESERIAL);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVESERIAL+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_RECEIVEDDETAIL);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDDETAIL+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_RECEIVEDHDR);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDHDR+ " has been created");
 
     }
 
@@ -735,6 +791,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_JEWELTYPE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_SUPPLIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_SUPPLIERGROUP);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVESERIAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVEDDETAIL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVEDHDR);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);

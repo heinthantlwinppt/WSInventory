@@ -7,13 +7,13 @@ import java.util.Date;
  */
 
 public class Inventory_SmithJob {
-
     public static final String COLUMN_JOBORDER_NO = "joborder_no";
     public static final String COLUMN_REMARKS = "remarks";
     public static final String COLUMN_SMITH_ID = "smith_id";
     public static final String COLUMN_SMITH_NAME = "smith_name";
     public static final String COLUMN_SMITH_NICKNAME = "smith_nickname";
     public static final String COLUMN_DATE_START = "date_start";
+    public static final String COLUMN_DATE_END = "date_end";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_JOBTYPE_NAME = "Jobtype_name";
 
@@ -25,7 +25,8 @@ public class Inventory_SmithJob {
             COLUMN_SMITH_NICKNAME,
             COLUMN_DATE_START,
             COLUMN_DESCRIPTION,
-            COLUMN_JOBTYPE_NAME
+            COLUMN_JOBTYPE_NAME,
+            COLUMN_DATE_END
     };
 
    private String joborder_no;
@@ -36,6 +37,7 @@ public class Inventory_SmithJob {
    private Date date_start;
    private String description;
    private String jobtype_name;
+   private Date date_end;
 
     public String getJoborder_no() {
         return joborder_no;
@@ -97,6 +99,14 @@ public class Inventory_SmithJob {
 
     public void setJobtype_name(String jobtype_name) {
         this.jobtype_name = jobtype_name;
+    }
+
+    public Date getDate_end() {
+        return date_end;
+    }
+
+    public void setDate_end(Date date_end) {
+        this.date_end = date_end;
     }
 
     @Override

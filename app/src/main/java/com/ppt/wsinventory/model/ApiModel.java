@@ -49,6 +49,9 @@ public class ApiModel {
     public static String GETJEWELTYPE = "getJewelType";
     public static String GETSUPPLIER = "getSupplier";
     public static String GETSUPPLIERGROUP = "getSupplierGroup";
+    public static String GETRECEIVESERIAL = "getReceiveSerial";
+    public static String GETRECEIVEDDETAIL = "getReceivedDetail";
+    public static String GETRECEIVEDHDR = "getReceivedHdr";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose

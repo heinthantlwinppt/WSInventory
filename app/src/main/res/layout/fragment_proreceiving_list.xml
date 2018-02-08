@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ppt.wsinventory.ProreceivingListActivityFragment"
+    tools:showIn="@layout/activity_proreceiving_list">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorSecondary">
+        <TextView
+            android:id="@+id/ordernotxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order no."
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/delivery_datetxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivery Date"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/smithtxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smith"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/proreceivingList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        />
+
+</LinearLayout>
