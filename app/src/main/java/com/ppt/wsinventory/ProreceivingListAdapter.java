@@ -24,8 +24,9 @@ public class ProreceivingListAdapter extends RecyclerView.Adapter<ProreceivingLi
     Context mContext;
     Inventory_SmithJob smith_joborder;
 
-    public ProreceivingListAdapter(ArrayList<Inventory_SmithJob> mDataSet) {
+    public ProreceivingListAdapter(ArrayList<Inventory_SmithJob> mDataSet, Context mContext) {
         this.mDataSet = mDataSet;
+        this.mContext = mContext;
     }
 
     @Override

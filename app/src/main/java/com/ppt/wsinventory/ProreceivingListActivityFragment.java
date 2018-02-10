@@ -60,7 +60,7 @@ public class ProreceivingListActivityFragment extends Fragment {
     private void loadRecyclerView() {
 
         inventory_smithJobs = dbaccess.getAllInventorySmithJob();
-        adapter = new ProreceivingListAdapter((ArrayList<Inventory_SmithJob>) inventory_smithJobs);
+        adapter = new ProreceivingListAdapter((ArrayList<Inventory_SmithJob>) inventory_smithJobs,appContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mLayoutManager);
         listView.setAdapter(adapter);

@@ -8,31 +8,32 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/spinner_listview"
+        android:layout_height="70dp"
         android:paddingTop="25dp"
-        android:paddingBottom="25dp"
+        android:background="@drawable/spinner_listview"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
     <TextView
         android:id="@+id/orderno"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="order no."
         android:textColor="@color/black"/>
 
    <TextView
        android:id="@+id/delivery_date"
-       android:layout_width="wrap_content"
+       android:layout_width="150dp"
        android:layout_height="wrap_content"
        android:text="Delivery Date"
+       android:textAlignment="center"
        android:textColor="@color/black"
        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/smith"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
         android:text="Smith"
         android:textColor="@color/black"
         android:layout_alignParentEnd="true"/>
