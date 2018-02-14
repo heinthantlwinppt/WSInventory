@@ -10,13 +10,13 @@ import java.util.Date;
 
 public class Inventory_proddetail  {
 
-    public static final String TABLE_INVENTORY_PRODDETAIL = "inventory_proddetial";
+    public static final String TABLE_INVENTORY_PRODDETAIL = "inventory_proddetail";
     public static final String COLUMN_ID = "id";
-    public static final String COLUMN_QTY = "pty";
+    public static final String COLUMN_QTY = "qty";
     public static final String COLUMN_RECEIVED_QTY = "received_qty";
     public static final String COLUMN_WEIGHT  = "weight";
     public static final String COLUMN_K = "k";
-    public static final String COLUNM_P = "p";
+    public static final String COLUMN_P = "p";
     public static final String COLUMN_Y = "y";
     public static final String COLUMN_DENSITY = "density";
     public static final String COLUMN_REMARKS = "remarks";
@@ -34,7 +34,7 @@ public class Inventory_proddetail  {
                     COLUMN_RECEIVED_QTY,
                     COLUMN_WEIGHT,
                     COLUMN_K,
-                    COLUNM_P,
+                    COLUMN_P,
                     COLUMN_Y,
                     COLUMN_DENSITY,
                     COLUMN_REMARKS,

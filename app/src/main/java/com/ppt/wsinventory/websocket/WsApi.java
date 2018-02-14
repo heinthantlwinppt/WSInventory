@@ -34,6 +34,8 @@ import com.ppt.wsinventory.model.InventoryProductSubgroups;
 import com.ppt.wsinventory.model.InventoryProductlength;
 import com.ppt.wsinventory.model.InventoryProductreduce;
 import com.ppt.wsinventory.model.InventoryUOM;
+import com.ppt.wsinventory.model.Inventory_proddetail;
+import com.ppt.wsinventory.model.Inventory_prodhdr;
 import com.ppt.wsinventory.model.Inventory_products;
 import com.ppt.wsinventory.model.Inventory_productserial;
 import com.ppt.wsinventory.model.Inventory_serialgolds;
@@ -53,6 +55,8 @@ import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
 import com.ppt.wsinventory.model.Pallet;
+import com.ppt.wsinventory.model.ProdDetail;
+import com.ppt.wsinventory.model.ProdHdr;
 import com.ppt.wsinventory.model.Product;
 import com.ppt.wsinventory.model.ProductGroup;
 import com.ppt.wsinventory.model.ProductLength;
@@ -714,7 +718,7 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELLENGTH)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELLENGTH)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<Jewellength>>() {
@@ -729,7 +733,7 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASE)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASE)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<JewelPurchase>>() {
@@ -749,7 +753,7 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASEITEMS)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELPURCHASEITEMS)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<JewelPurchaseItems>>() {
@@ -769,14 +773,14 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELSHAPE)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELSHAPE)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<JewelShape>>() {
                 }.getType();
                 List<JewelShape> jewelShapes = gson.fromJson(jsonString, listType);
                 for (JewelShape shapes : jewelShapes) {
-                   importJewelshape(shapes);
+                    importJewelshape(shapes);
                     Log.i(TAG, "JewelShape : " + shapes.getName());
                 }
                 RemoveActionList(apiModel.getName());
@@ -784,13 +788,13 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELTYPE)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETJEWELTYPE)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<JewelType>>() {
                 }.getType();
                 List<JewelType> jewelTypes = gson.fromJson(jsonString, listType);
-                for (JewelType jewelType: jewelTypes) {
+                for (JewelType jewelType : jewelTypes) {
                     importJeweltype(jewelType);
                     Log.i(TAG, "JewelType : " + jewelType.getName());
                 }
@@ -799,13 +803,13 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIER)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIER)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<Supplier>>() {
                 }.getType();
                 List<Supplier> suppliers = gson.fromJson(jsonString, listType);
-                for (Supplier supplier: suppliers) {
+                for (Supplier supplier : suppliers) {
                     importSupplier(supplier);
                     Log.i(TAG, "Supplier Name : " + supplier.getName());
                 }
@@ -814,13 +818,13 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIERGROUP)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSUPPLIERGROUP)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<SupplierGroup>>() {
                 }.getType();
                 List<SupplierGroup> supplierGroups = gson.fromJson(jsonString, listType);
-                for (SupplierGroup supplierGroup: supplierGroups) {
+                for (SupplierGroup supplierGroup : supplierGroups) {
                     importSuppliergroup(supplierGroup);
                     Log.i(TAG, "SupplierGroup Name : " + supplierGroup.getName());
                 }
@@ -829,7 +833,7 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVESERIAL)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVESERIAL)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<ReceiveSerial>>() {
@@ -849,7 +853,7 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDDETAIL)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDDETAIL)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<ReceivedDetail>>() {
@@ -869,7 +873,7 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDHDR)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETRECEIVEDHDR)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<ReceivedHdr>>() {
@@ -885,65 +889,109 @@ public class WsApi {
                 }
                 RemoveActionList(apiModel.getName());
 
-            } else {
+            }else {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else {
-            RemoveActionList(apiModel.getName());
-            Log.i(TAG, "doSync: arkar");
-        }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETPRODHDR)) {
+                jsonString = apiModel.getMessage();
+                if (!TextUtils.isEmpty(jsonString)) {
+                    Type listType = new TypeToken<ArrayList<ProdHdr>>() {
+                    }.getType();
+                    List<ProdHdr> prodHdrs = gson.fromJson(jsonString, listType);
+                    for (ProdHdr prodHdr : prodHdrs) {
+                        if (importInventory_prodHdr(prodHdr)) {
+                            appContext.setTs(prodHdr.getTs());
+                        } else {
+                            break;
+                        }
+//                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
+                    }
+                    RemoveActionList(apiModel.getName());
 
-        if (appContext.getActionLists().size() > 0) {
-            ActionList actionList = appContext.getActionLists().get(0);
-            List<ApiParam> params = new ArrayList<>();
-            if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
-                String test = actionList.getActionname();
-            }
-            params.add(
-                    new ApiParam("actionname", actionList.getActionname())
-            );
-            Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
-            appContext.setTs(ts);
-            params.add(
-                    new ApiParam("solutionname", appContext.getSolutionname())
-            );
-            params.add(
-                    new ApiParam("ts", Utility.dateFormat.format(ts))
-            );
-            params.add(
-                    new ApiParam("deviceid", appContext.getDeviceid())
-            );
+                } else {
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
+                }
+            } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETPRODDETAIL)) {
+                jsonString = apiModel.getMessage();
+                if (!TextUtils.isEmpty(jsonString)) {
+                    Type listType = new TypeToken<ArrayList<ProdDetail>>() {
+                    }.getType();
+                    List<ProdDetail> prodDetails = gson.fromJson(jsonString, listType);
+                    for (ProdDetail details : prodDetails) {
+                        if (importInventory_proddetail(details)) {
+                            appContext.setTs(details.getTs());
+                        } else {
+                            break;
+                        }
+//                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
+                    }
+                    RemoveActionList(apiModel.getName());
 
-            jsonString = gson.toJson(params);
-            Log.i(TAG, "dosync: " + jsonString);
-            ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
-            jsonString = gson.toJson(apimodel);
-            String req = "";
-            try {
-                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
+                } else {
+                    appContext.setTs(Utility.getDateBegin());
+                    RemoveActionList(apiModel.getName());
+                }
+            } else {
+                RemoveActionList(apiModel.getName());
+                Log.i(TAG, "doSync: arkar");
             }
-            Log.i(TAG, "dosync: " + req);
+
+            if (appContext.getActionLists().size() > 0) {
+                ActionList actionList = appContext.getActionLists().get(0);
+                List<ApiParam> params = new ArrayList<>();
+                if (actionList.getActionname().equalsIgnoreCase("getManufacturingSmithList")) {
+                    String test = actionList.getActionname();
+                }
+                params.add(
+                        new ApiParam("actionname", actionList.getActionname())
+                );
+                Date ts = appContext.getTs(); // new GregorianCalendar(2001, 1, 1, 0, 0, 0).getTime();
+                appContext.setTs(ts);
+                params.add(
+                        new ApiParam("solutionname", appContext.getSolutionname())
+                );
+                params.add(
+                        new ApiParam("ts", Utility.dateFormat.format(ts))
+                );
+                params.add(
+                        new ApiParam("deviceid", appContext.getDeviceid())
+                );
+
+                jsonString = gson.toJson(params);
+                Log.i(TAG, "dosync: " + jsonString);
+                ApiModel apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_GET, jsonString);
+                jsonString = gson.toJson(apimodel);
+                String req = "";
+                try {
+                    req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                }
+                Log.i(TAG, "dosync: " + req);
 
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
-            appContext.setRequestMessage(req);
-            Intent intent = new Intent(mContext, WsSyncService.class);
-            intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
-            mContext.startService(intent);
-        } else {
-            GlobalBus.getBus().post(
-                    new WsEvents.EventShowMessage("Synchronization",
-                            "Synchronization Completed!",
-                            SYNCHRONIZATION_COMPLETED,
-                            null,
-                            "OK"
-                    )
-            );
-        }
+                appContext.setRequestMessage(req);
+                Intent intent = new Intent(mContext, WsSyncService.class);
+                intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
+                mContext.startService(intent);
+            } else {
+                GlobalBus.getBus().post(
+                        new WsEvents.EventShowMessage("Synchronization",
+                                "Synchronization Completed!",
+                                SYNCHRONIZATION_COMPLETED,
+                                null,
+                                "OK"
+                        )
+                );
+            }
+
     }
+
+
+
 
     public void RemoveActionList(String actionname) {
         for (ActionList actionList : appContext.getActionLists()) {
@@ -1816,4 +1864,62 @@ public class WsApi {
         }
 
     }
+
+    private boolean importInventory_prodHdr(ProdHdr prodHdr) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_prodhdr inventory_prodhdr = new Inventory_prodhdr();
+        inventory_prodhdr.setProd_no(prodHdr.getProdNo());
+        inventory_prodhdr.setProd_date(prodHdr.getProdDate());
+        inventory_prodhdr.setVoucher_no(prodHdr.getVoucherNo());
+        inventory_prodhdr.setSave_count(prodHdr.getSaveCount());
+        inventory_prodhdr.setIs_delivered(prodHdr.getIsDelivered());
+        inventory_prodhdr.setIs_confirmed(prodHdr.getIsConfirmed());
+        inventory_prodhdr.setConfirmedby(prodHdr.getConfirmedby());
+        inventory_prodhdr.setIs_void(prodHdr.getIsVoid());
+        inventory_prodhdr.setVoid_date(prodHdr.getVoidDate());
+        inventory_prodhdr.setTs(prodHdr.getTs());
+        inventory_prodhdr.setLocation_id(prodHdr.getLocation());
+        inventory_prodhdr.setSmit_id(prodHdr.getSmith());
+        inventory_prodhdr.setStaff_id(prodHdr.getStaff());
+
+
+            Long l = dbaccess.insertInventory_prodhdr(inventory_prodhdr);
+            return (l > 0);
+
+
+    }
+
+    private boolean importInventory_proddetail(ProdDetail prodDetail) {
+        dbaccess = DbAccess.getInstance();
+        Inventory_proddetail inventory_proddetail = new Inventory_proddetail();
+        inventory_proddetail.setId(prodDetail.getId());
+        inventory_proddetail.setQty(prodDetail.getQty());
+        inventory_proddetail.setReceived_qty(prodDetail.getReceivedQty());
+        inventory_proddetail.setWeight(prodDetail.getWeight());
+        inventory_proddetail.setK(prodDetail.getK());
+        inventory_proddetail.setP(prodDetail.getP());
+        inventory_proddetail.setY(prodDetail.getY());
+        inventory_proddetail.setDensity(prodDetail.getDensity());
+        inventory_proddetail.setRemarks(prodDetail.getRemarks());
+        inventory_proddetail.setIs_delete(prodDetail.getIsDelete());
+        inventory_proddetail.setProdhdr_id(prodDetail.getProdhdr());
+        inventory_proddetail.setProduct_id(prodDetail.getProduct());
+        inventory_proddetail.setTolocation_id(prodDetail.getTolocation());
+        inventory_proddetail.setUon_id(prodDetail.getUom());
+        inventory_proddetail.setTs(prodDetail.getTs());
+
+
+        if (prodDetail.getIsDelete() == true) {
+            boolean b = dbaccess.deleteData(Inventory_proddetail.TABLE_INVENTORY_PRODDETAIL,
+                    inventory_proddetail.COLUMN_ID+ "=?",
+                    new String[]{String.valueOf(prodDetail.getId())});
+            return b;
+        }else {
+            Long l = dbaccess.insertInventory_proddetail(inventory_proddetail);
+            return (l > 0);
+        }
+
+
+    }
 }
+

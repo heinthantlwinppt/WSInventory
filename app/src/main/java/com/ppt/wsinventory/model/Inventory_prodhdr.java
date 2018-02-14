@@ -10,7 +10,7 @@ public class Inventory_prodhdr  {
 
     public static final String TABLE_INVENTORY_PRODHDR = "inventory_prodhdr";
     public static final String COLUMN_PROD_NO = "prod_no";
-    public static final String COLUMN_PROD_DATE ="pord_date";
+    public static final String COLUMN_PROD_DATE ="prod_date";
     public static final String COLUMN_VOUCHER_NO = "voucher_no";
     public static final String COLUMN_IS_DELIVERED = "is_delivered";
     public static final String COLUMN_IS_CONFIRMED = "is_confirmed";
@@ -21,6 +21,7 @@ public class Inventory_prodhdr  {
     public static final String COLUMN_LOCATION_ID = "location_id";
     public static final String COLUMN_SMIT_ID = "smit_id";
     public static final String COLUMN_STAFF_ID = "staff_id";
+    public static final String COLUMN_SAVE_COUNT = "save_count";
 
 
     public static final String[] COLUMN_ALL = new String[]
@@ -36,10 +37,11 @@ public class Inventory_prodhdr  {
                     COLUMN_TS,
                     COLUMN_LOCATION_ID,
                     COLUMN_SMIT_ID,
-                    COLUMN_STAFF_ID
+                    COLUMN_STAFF_ID,
+                    COLUMN_SAVE_COUNT
             };
 
-    private String pord_no;
+    private String prod_no;
     private Date prod_date;
     private String voucher_no;
     private Boolean is_delivered;
@@ -51,13 +53,22 @@ public class Inventory_prodhdr  {
     private String location_id;
     private String smit_id;
     private String staff_id;
+    private int save_count;
 
-    public String getPord_no() {
-        return pord_no;
+    public int getSave_count() {
+        return save_count;
     }
 
-    public void setPord_no(String pord_no) {
-        this.pord_no = pord_no;
+    public void setSave_count(int save_count) {
+        this.save_count = save_count;
+    }
+
+    public String getProd_no() {
+        return prod_no;
+    }
+
+    public void setProd_no(String pord_no) {
+        this.prod_no = pord_no;
     }
 
     public Date getProd_date() {
@@ -149,15 +160,5 @@ public class Inventory_prodhdr  {
     }
 
 
-    @Override
-    public String toString() {
-        return "Inventory_prodhdr{" +
-                "pord_no='" + pord_no + '\'' +
-                ", voucher_no='" + voucher_no + '\'' +
-                ", confirmedby='" + confirmedby + '\'' +
-                ", location_id='" + location_id + '\'' +
-                ", smit_id='" + smit_id + '\'' +
-                ", staff_id='" + staff_id + '\'' +
-                '}';
-    }
+
 }

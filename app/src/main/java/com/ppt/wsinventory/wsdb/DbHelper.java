@@ -682,7 +682,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     "voucher_no VARCHAR COLLATE NOCASE, \n" +
                     "is_delivered BOOL, \n" +
                     "is_confirmed BOOL, \n" +
-                    "cofirmedby VARCHAR COLLATE NOCASE, \n" +
+                    "save_count INTEGER, \n" +
+                    "confirmed_by VARCHAR COLLATE NOCASE, \n" +
                     "is_void BOOL, \n" +
                     "void_date DATETIME, \n" +
                     "ts DATETIME, \n" +

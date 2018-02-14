@@ -52,6 +52,8 @@ public class ApiModel {
     public static String GETRECEIVESERIAL = "getReceiveSerial";
     public static String GETRECEIVEDDETAIL = "getReceivedDetail";
     public static String GETRECEIVEDHDR = "getReceivedHdr";
+    public static String GETPRODHDR = "getProdHdr";
+    public static String GETPRODDETAIL = "getProdDetail";
     public static String TYPE_GET = "get";
     @SerializedName("id")
     @Expose
