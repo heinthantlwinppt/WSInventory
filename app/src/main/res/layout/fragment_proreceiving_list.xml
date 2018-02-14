@@ -15,7 +15,7 @@
         android:paddingBottom="25dp"
         android:paddingRight="12dp"
         android:paddingLeft="12dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="0.1dp"
         android:background="@color/colorSecondary">
         <TextView
             android:id="@+id/ordernotxt"

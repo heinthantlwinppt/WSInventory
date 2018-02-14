@@ -653,6 +653,44 @@ public class DbHelper extends SQLiteOpenHelper {
                     "staff_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
+    private static final String TABLE_INVENTORY_PRODDETAI = "inventory_proddetail";
+    private static final String TABLE_CREATE_INVENTORY_PRODDETAIL =
+            "CREATE TABLE inventory_proddetail \n" +
+                    "(\n" +
+                    "id INTEGER , \n" +
+                    "qty NUMERIC, \n" +
+                    "received_qty NUMERIC, \n" +
+                    "weight NUMERIC, \n" +
+                    "k INTEGER, \n" +
+                    "p INTEGER, \n" +
+                    "y INTEGER, \n" +
+                    "density NUMERIC, \n" +
+                    "remarks VARCHAR COLLATE NOCASE, \n" +
+                    "is_delete BOOL, \n" +
+                    "prodhdr_id VARCHAR COLLATE NOCASE, \n" +
+                    "product_id VARCHAR COLLATE NOCASE, \n" +
+                    "tolocation_id VARCHAR COLLATE NOCASE, \n" +
+                    "uom_id VARCHAR COLLATE NOCASE, \n" +
+                    "ts DATETIME \n" +
+                    ")";
+    private static final String TABLE_INVENTORY_PRODHDR = "inventory_prodhdr";
+    private static final String TABLE_CREATE_INVENTORY_PRODHDR =
+            "CREATE TABLE inventory_prodhdr \n" +
+                    "(\n" +
+                    "prod_no VARCHAR COLLATE NOCASE, \n" +
+                    "prod_date DATETIME, \n" +
+                    "voucher_no VARCHAR COLLATE NOCASE, \n" +
+                    "is_delivered BOOL, \n" +
+                    "is_confirmed BOOL, \n" +
+                    "cofirmedby VARCHAR COLLATE NOCASE, \n" +
+                    "is_void BOOL, \n" +
+                    "void_date DATETIME, \n" +
+                    "ts DATETIME, \n" +
+                    "location_id VARCHAR COLLATE NOCASE, \n" +
+                    "smit_id VARCHAR COLLATE NOCASE, \n" +
+                    "staff_id VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -750,6 +788,10 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDDETAIL+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_RECEIVEDHDR);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDHDR+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODDETAIL);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODDETAI+ " has been created");
+        db.execSQL(TABLE_CREATE_INVENTORY_PRODHDR);
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODHDR+ " has been created");
 
     }
 
@@ -794,6 +836,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVESERIAL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVEDDETAIL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_RECEIVEDHDR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODDETAI);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_PRODHDR);
         onCreate(db);
         Log.i(TAG, "Database has been upgraded from " +
                 oldVersion + " to " + newVersion);
