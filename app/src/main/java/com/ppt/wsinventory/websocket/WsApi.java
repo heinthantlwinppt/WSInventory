@@ -1175,6 +1175,22 @@ public class WsApi {
         inventory_products.setPreduce_id(wsProduct.getPreduce());
         inventory_products.setPsubgroup_id(wsProduct.getPsubgroup());
         inventory_products.setTs(wsProduct.getTs());
+        inventory_products.setDiamond(wsProduct.getDiamond());
+        inventory_products.setDiamondcaratweight(wsProduct.getDiamondcaratweight());
+        inventory_products.setDiamondclarity(wsProduct.getDiamondclarity());
+        inventory_products.setDiamondmeasurement(wsProduct.getDiamondmeasurement());
+        inventory_products.setDiamondprice(wsProduct.getDiamondprice());
+        inventory_products.setJewelcost(wsProduct.getJewelcost());
+        inventory_products.setJewellength_id(wsProduct.getJewellength());
+        inventory_products.setJewelprice(wsProduct.getJewelprice());
+        inventory_products.setJewelshape_id(wsProduct.getJewelshape());
+        inventory_products.setJeweltype_id(wsProduct.getJeweltype());
+        inventory_products.setLabourcharge(wsProduct.getLabourcharge());
+        inventory_products.setRemarks(wsProduct.getRemarks());
+        inventory_products.setSellinglabourcharge(wsProduct.getSellinglabourcharge());
+        inventory_products.setDiamondcolor_id(wsProduct.getDiamondcolor());
+        inventory_products.setDiamondshape_id(wsProduct.getDiamondshape());
+        inventory_products.setDiamondtype_id(wsProduct.getDiamondtype());
 
 
         if (wsProduct.getIsDelete() == true) {

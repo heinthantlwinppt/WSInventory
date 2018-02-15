@@ -688,6 +688,23 @@ public class DbAccess {
         values.put(Inventory_products.COLUMN_PSUBGROUP_ID, inventory_products.getPsubgroup_id());
         values.put(Inventory_products.COLUMN_TS,Utility.dateFormat.format(inventory_products.getTs()));
 
+        values.put(Inventory_products.COLUMN_DIAMOND, inventory_products.getDiamond());
+        values.put(Inventory_products.COLUMN_DIAMONDCARATWEIGHT, inventory_products.getDiamondcaratweight());
+        values.put(Inventory_products.COLUMN_DIAMONDCLARITY, inventory_products.getDiamondclarity());
+        values.put(Inventory_products.COLUMN_DIAMONDMEASUREMENT, inventory_products.getDiamondmeasurement());
+        values.put(Inventory_products.COLUMN_DIAMONDPRICE, inventory_products.getDiamondprice());
+        values.put(Inventory_products.COLUMN_JEWELCOST, inventory_products.getJewelcost());
+        values.put(Inventory_products.COLUMN_JEWELLENGTH_ID, inventory_products.getJewellength_id());
+        values.put(Inventory_products.COLUMN_JEWELPRICE, inventory_products.getJewelprice());
+        values.put(Inventory_products.COLUMN_JEWELSHAPE_ID, inventory_products.getJewelshape_id());
+        values.put(Inventory_products.COLUMN_JEWELTYPE_ID, inventory_products.getJeweltype_id());
+        values.put(Inventory_products.COLUMN_LABOURCHARE, inventory_products.getLabourcharge());
+        values.put(Inventory_products.COLUMN_REMARKS, inventory_products.getRemarks());
+        values.put(Inventory_products.COLUMN_SELLINGLABOURCHARGE, inventory_products.getSellinglabourcharge());
+        values.put(Inventory_products.COLUMN_DIAMONDCOLOR_ID, inventory_products.getDiamondcolor_id());
+        values.put(Inventory_products.COLUMN_DIAMONDSHAPE_ID, inventory_products.getDiamondshape_id());
+        values.put(Inventory_products.COLUMN_DIAMONDTYPE_ID, inventory_products.getDiamondtype_id());
+
         long resultid = database.insert(inventory_products.TABLE_INVENTORY_PRODUCTS, null, values);
 //        inventory_products.setId(resultid);
         return resultid;

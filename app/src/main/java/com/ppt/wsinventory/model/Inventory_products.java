@@ -1,5 +1,7 @@
 package com.ppt.wsinventory.model;
 
+import android.widget.SearchView;
+
 import java.util.Date;
 
 /**
@@ -25,6 +27,23 @@ public class Inventory_products {
     public static final String COLUMN_PREDUCE_ID = "preduce_id";
     public static final String COLUMN_PSUBGROUP_ID = "psubgroup_id";
     public static final String COLUMN_TS = "ts";
+    public static final String COLUMN_DIAMOND = "diamond";
+    public static final String COLUMN_DIAMONDCARATWEIGHT = "diamondcaratweight";
+    public static final String COLUMN_DIAMONDCLARITY = "diamonclarity";
+    public static final String COLUMN_DIAMONDMEASUREMENT = "diamondmeasurement";
+    public static final String COLUMN_DIAMONDPRICE = "diamondprice";
+    public static final String COLUMN_JEWELCOST ="jewelcost";
+    public static final String COLUMN_JEWELLENGTH_ID = "jewellength_id";
+    public static final String COLUMN_JEWELPRICE = "jewelprice";
+    public static final String COLUMN_JEWELSHAPE_ID = "jewelshape_id";
+    public static final String COLUMN_JEWELTYPE_ID ="jeweltype_id";
+    public static final String COLUMN_LABOURCHARE =" laboutcharge";
+    public static final String COLUMN_REMARKS ="remarks";
+    public static final String COLUMN_SELLINGLABOURCHARGE = "sellinglabourcharge";
+    public static final String COLUMN_DIAMONDCOLOR_ID = "diamondcolor_id";
+    public static final String COLUMN_DIAMONDSHAPE_ID = "diamondshape_id";
+    public static final String COLUMN_DIAMONDTYPE_ID = "diamondtype_id";
+
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -44,7 +63,24 @@ public class Inventory_products {
             COLUMN_PLENGTH_ID,
             COLUMN_PREDUCE_ID,
             COLUMN_PSUBGROUP_ID,
-            COLUMN_TS
+            COLUMN_TS,
+
+            COLUMN_DIAMOND,
+            COLUMN_DIAMONDCARATWEIGHT,
+            COLUMN_DIAMONDCLARITY,
+            COLUMN_DIAMONDMEASUREMENT,
+            COLUMN_DIAMONDPRICE,
+            COLUMN_JEWELCOST,
+            COLUMN_JEWELLENGTH_ID,
+            COLUMN_JEWELPRICE,
+            COLUMN_JEWELSHAPE_ID,
+            COLUMN_JEWELTYPE_ID,
+            COLUMN_LABOURCHARE,
+            COLUMN_REMARKS,
+            COLUMN_SELLINGLABOURCHARGE,
+            COLUMN_DIAMONDCOLOR_ID,
+            COLUMN_DIAMONDSHAPE_ID,
+            COLUMN_DIAMONDTYPE_ID
 
     };
 
@@ -65,6 +101,23 @@ public class Inventory_products {
     private int preduce_id ;
     private int psubgroup_id ;
     private Date ts ;
+
+    private String diamond;
+    private double diamondcaratweight;
+    private double diamondclarity;
+    private double diamondmeasurement;
+    private double diamondprice;
+    private double jewelcost;
+    private int jewellength_id;
+    private double jewelprice;
+    private int jewelshape_id;
+    private int jeweltype_id;
+    private double labourcharge;
+    private String remarks;
+    private double sellinglabourcharge;
+    private int diamondcolor_id;
+    private int diamondshape_id;
+    private int diamondtype_id;
 
     public String getId() {
         return id;
@@ -202,20 +255,146 @@ public class Inventory_products {
         this.ts = ts;
     }
 
+    public String getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(String diamond) {
+        this.diamond = diamond;
+    }
+
+    public double getDiamondcaratweight() {
+        return diamondcaratweight;
+    }
+
+    public void setDiamondcaratweight(double diamondcaratweight) {
+        this.diamondcaratweight = diamondcaratweight;
+    }
+
+    public double getDiamondclarity() {
+        return diamondclarity;
+    }
+
+    public void setDiamondclarity(double diamondclarity) {
+        this.diamondclarity = diamondclarity;
+    }
+
+    public double getDiamondmeasurement() {
+        return diamondmeasurement;
+    }
+
+    public void setDiamondmeasurement(double diamondmeasurement) {
+        this.diamondmeasurement = diamondmeasurement;
+    }
+
+    public double getDiamondprice() {
+        return diamondprice;
+    }
+
+    public void setDiamondprice(double diamondprice) {
+        this.diamondprice = diamondprice;
+    }
+
+    public double getJewelcost() {
+        return jewelcost;
+    }
+
+    public void setJewelcost(double jewelcost) {
+        this.jewelcost = jewelcost;
+    }
+
+    public int getJewellength_id() {
+        return jewellength_id;
+    }
+
+    public void setJewellength_id(int jewellength_id) {
+        this.jewellength_id = jewellength_id;
+    }
+
+    public double getJewelprice() {
+        return jewelprice;
+    }
+
+    public void setJewelprice(double jewelprice) {
+        this.jewelprice = jewelprice;
+    }
+
+    public int getJewelshape_id() {
+        return jewelshape_id;
+    }
+
+    public void setJewelshape_id(int jewelshape_id) {
+        this.jewelshape_id = jewelshape_id;
+    }
+
+    public int getJeweltype_id() {
+        return jeweltype_id;
+    }
+
+    public void setJeweltype_id(int jeweltype_id) {
+        this.jeweltype_id = jeweltype_id;
+    }
+
+    public double getLabourcharge() {
+        return labourcharge;
+    }
+
+    public void setLabourcharge(double labourcharge) {
+        this.labourcharge = labourcharge;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public double getSellinglabourcharge() {
+        return sellinglabourcharge;
+    }
+
+    public void setSellinglabourcharge(double sellinglabourcharge) {
+        this.sellinglabourcharge = sellinglabourcharge;
+    }
+
+    public int getDiamondcolor_id() {
+        return diamondcolor_id;
+    }
+
+    public void setDiamondcolor_id(int diamondcolor_id) {
+        this.diamondcolor_id = diamondcolor_id;
+    }
+
+    public int getDiamondshape_id() {
+        return diamondshape_id;
+    }
+
+    public void setDiamondshape_id(int diamondshape_id) {
+        this.diamondshape_id = diamondshape_id;
+    }
+
+    public int getDiamondtype_id() {
+        return diamondtype_id;
+    }
+
+    public void setDiamondtype_id(int diamondtype_id) {
+        this.diamondtype_id = diamondtype_id;
+    }
+
     @Override
     public String toString() {
         return "Inventory_products{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", designname='" + designname + '\'' +
                 ", photo='" + photo + '\'' +
                 ", barcode='" + barcode + '\'' +
                 ", tag='" + tag + '\'' +
                 ", baseuom='" + baseuom + '\'' +
-                ", minqty=" + minqty +
-                ", maxqty=" + maxqty +
-                ", active=" + active +
-                ", is_delete=" + is_delete +
+                ", diamond='" + diamond + '\'' +
+                ", remarks='" + remarks + '\'' +
                 '}';
     }
 }

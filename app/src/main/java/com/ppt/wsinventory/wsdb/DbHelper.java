@@ -196,7 +196,24 @@ public class DbHelper extends SQLiteOpenHelper {
                     " plength_id     INTEGER, \n" +
                     " preduce_id     INTEGER, \n" +
                     " psubgroup_id     INTEGER, \n" +
-                    " ts DATETIME \n" +
+                    " ts DATETIME, \n" +
+
+                    " diamond     VARCHAR COLLATE NOCASE, \n" +
+                    " diamondcaratweight     NUMERIC, \n" +
+                    " diamondclarity     VARCHAR COLLATE NOCASE, \n" +
+                    " diamondmeasurement     VARCHAR COLLATE NOCASE, \n" +
+                    " diamondprice     NUMERIC, \n" +
+                    " jewelcost     NUMERIC, \n" +
+                    " jewellength_id     INTEGER, \n" +
+                    " jewelprice     NUMERIC, \n" +
+                    " jewelshape_id     INTEGER, \n" +
+                    " jeweltype_id     INTEGER, \n" +
+                    " labourcharge     NUMERIC, \n" +
+                    " remarks     VARCHAR COLLATE NOCASE, \n" +
+                    " sellinglabourcharge     NUMERIC, \n" +
+                    " diamondcolor_id     INTEGER, \n" +
+                    " diamondshape_id     INTEGER, \n" +
+                    " diamondtype_id     INTEGER \n" +
                     ")";
 
     private static final String TABLE_INVENTORY_PRODUCTGROUPS= "inventory_productgroups";

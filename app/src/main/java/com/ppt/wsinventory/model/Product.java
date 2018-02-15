@@ -16,6 +16,12 @@ public class Product {
     @SerializedName("designname")
     @Expose
     private String designname;
+    @SerializedName("labourcharge")
+    @Expose
+    private double labourcharge;
+    @SerializedName("sellinglabourcharge")
+    @Expose
+    private double sellinglabourcharge;
     @SerializedName("barcode")
     @Expose
     private String barcode;
@@ -34,6 +40,30 @@ public class Product {
     @SerializedName("row_no")
     @Expose
     private Integer rowNo;
+    @SerializedName("jewelcost")
+    @Expose
+    private Double jewelcost;
+    @SerializedName("jewelprice")
+    @Expose
+    private Double jewelprice;
+    @SerializedName("diamondmeasurement")
+    @Expose
+    private Double diamondmeasurement;
+    @SerializedName("diamondclarity")
+    @Expose
+    private Double diamondclarity;
+    @SerializedName("diamondcaratweight")
+    @Expose
+    private Double diamondcaratweight;
+    @SerializedName("diamond")
+    @Expose
+    private String diamond;
+    @SerializedName("diamondprice")
+    @Expose
+    private Double diamondprice;
+    @SerializedName("remarks")
+    @Expose
+    private String remarks;
     @SerializedName("active")
     @Expose
     private Boolean active;
@@ -58,6 +88,24 @@ public class Product {
     @SerializedName("photo")
     @Expose
     private String photo;
+    @SerializedName("jeweltype")
+    @Expose
+    private Integer jeweltype;
+    @SerializedName("jewelshape")
+    @Expose
+    private Integer jewelshape;
+    @SerializedName("jewellength")
+    @Expose
+    private Integer jewellength;
+    @SerializedName("diamondtype")
+    @Expose
+    private Integer diamondtype;
+    @SerializedName("diamondshape")
+    @Expose
+    private Integer diamondshape;
+    @SerializedName("diamondcolor")
+    @Expose
+    private Integer diamondcolor;
 
     public String getId() {
         return id;
@@ -81,6 +129,22 @@ public class Product {
 
     public void setDesignname(String designname) {
         this.designname = designname;
+    }
+
+    public double getLabourcharge() {
+        return labourcharge;
+    }
+
+    public void setLabourcharge(double labourcharge) {
+        this.labourcharge = labourcharge;
+    }
+
+    public Double getSellinglabourcharge() {
+        return sellinglabourcharge;
+    }
+
+    public void setSellinglabourcharge(double sellinglabourcharge) {
+        this.sellinglabourcharge = sellinglabourcharge;
     }
 
     public String getBarcode() {
@@ -129,6 +193,70 @@ public class Product {
 
     public void setRowNo(Integer rowNo) {
         this.rowNo = rowNo;
+    }
+
+    public Double getJewelcost() {
+        return jewelcost;
+    }
+
+    public void setJewelcost(Double jewelcost) {
+        this.jewelcost = jewelcost;
+    }
+
+    public Double getJewelprice() {
+        return jewelprice;
+    }
+
+    public void setJewelprice(Double jewelprice) {
+        this.jewelprice = jewelprice;
+    }
+
+    public Double getDiamondmeasurement() {
+        return diamondmeasurement;
+    }
+
+    public void setDiamondmeasurement(Double diamondmeasurement) {
+        this.diamondmeasurement = diamondmeasurement;
+    }
+
+    public Double getDiamondclarity() {
+        return diamondclarity;
+    }
+
+    public void setDiamondclarity(Double diamondclarity) {
+        this.diamondclarity = diamondclarity;
+    }
+
+    public Double getDiamondcaratweight() {
+        return diamondcaratweight;
+    }
+
+    public void setDiamondcaratweight(Double diamondcaratweight) {
+        this.diamondcaratweight = diamondcaratweight;
+    }
+
+    public String getDiamond() {
+        return diamond;
+    }
+
+    public void setDiamond(String diamond) {
+        this.diamond = diamond;
+    }
+
+    public Double getDiamondprice() {
+        return diamondprice;
+    }
+
+    public void setDiamondprice(Double diamondprice) {
+        this.diamondprice = diamondprice;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Boolean getActive() {
@@ -193,6 +321,54 @@ public class Product {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Integer getJeweltype() {
+        return jeweltype;
+    }
+
+    public void setJeweltype(Integer jeweltype) {
+        this.jeweltype = jeweltype;
+    }
+
+    public Integer getJewelshape() {
+        return jewelshape;
+    }
+
+    public void setJewelshape(Integer jewelshape) {
+        this.jewelshape = jewelshape;
+    }
+
+    public Integer getJewellength() {
+        return jewellength;
+    }
+
+    public void setJewellength(Integer jewellength) {
+        this.jewellength = jewellength;
+    }
+
+    public Integer getDiamondtype() {
+        return diamondtype;
+    }
+
+    public void setDiamondtype(Integer diamondtype) {
+        this.diamondtype = diamondtype;
+    }
+
+    public Integer getDiamondshape() {
+        return diamondshape;
+    }
+
+    public void setDiamondshape(Integer diamondshape) {
+        this.diamondshape = diamondshape;
+    }
+
+    public Integer getDiamondcolor() {
+        return diamondcolor;
+    }
+
+    public void setDiamondcolor(Integer diamondcolor) {
+        this.diamondcolor = diamondcolor;
     }
 
 }
