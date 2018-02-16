@@ -21,7 +21,7 @@ public class Utility {
     public static final int APPEXIT_REQUEST = 0;
 
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-    public static final SimpleDateFormat dateFormatDoc = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.US);
+    public static final SimpleDateFormat dateFormatDoc = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.US);
     public static final SimpleDateFormat dateFormatddMMyyyy = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 //    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

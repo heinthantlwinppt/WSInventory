@@ -53,4 +53,8 @@
     <string name="title_activity_product">ProductActivity</string>
     <string name="All_group">All Group</string>
     <string name="title_activity_proreceiving_list">ProreceivingListActivity</string>
+    <string name="title_activity_prodcut_receiving_investory">ProdcutReceivingInvestoryActivity
+    </string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_receving_inventory">Prod Receiving</string>
 </resources>

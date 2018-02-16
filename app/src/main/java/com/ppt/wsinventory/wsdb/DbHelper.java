@@ -200,7 +200,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                     " diamond     VARCHAR COLLATE NOCASE, \n" +
                     " diamondcaratweight     NUMERIC, \n" +
-                    " diamondclarity     VARCHAR COLLATE NOCASE, \n" +
+                    " diamonclarity     VARCHAR COLLATE NOCASE, \n" +
                     " diamondmeasurement     VARCHAR COLLATE NOCASE, \n" +
                     " diamondprice     NUMERIC, \n" +
                     " jewelcost     NUMERIC, \n" +
@@ -208,7 +208,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " jewelprice     NUMERIC, \n" +
                     " jewelshape_id     INTEGER, \n" +
                     " jeweltype_id     INTEGER, \n" +
-                    " labourcharge     NUMERIC, \n" +
+                    " laboutcharge     NUMERIC, \n" +
                     " remarks     VARCHAR COLLATE NOCASE, \n" +
                     " sellinglabourcharge     NUMERIC, \n" +
                     " diamondcolor_id     INTEGER, \n" +

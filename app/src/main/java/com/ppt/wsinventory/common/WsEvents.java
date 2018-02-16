@@ -9,10 +9,12 @@ public class WsEvents {
     public static final String OPEN_RECEIVING_INVENTORY = "Receiving";
     public static final String OPEN_TAGGING_INVENTORY = "Tagging";
     public static final String OPEN_PRORECEIVING_LIST = "open_proreceivinglist";
+    public static final String OPEN_PRODUCTION_RECEIVING_INVESTORY ="open_production_receiving_investor";
 
     public static class EventNewChange {
         private String mvalue;
         private String msolution_name;
+
         private String mactionname;
 
         public String getActionname() {

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
+import com.ppt.wsinventory.inventory.model.Inventory_production_receiving;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -357,6 +358,54 @@ public class DbAccess {
         }
         return inventory_smithJobs;
     }
+
+
+    public List<Inventory_production_receiving> getAllInventoryProdhdr()
+    {
+        List<Inventory_production_receiving> inventory_prodhdr = new ArrayList<>();
+        String sql = "select invP.* , manS.name as smith_name\n" +
+                "from  inventory_prodhdr as invP\n" +
+                "inner join manufacturing_smith as manS on invP.smit_id = manS.id\n";
+        Cursor cursor = readData(sql, null);
+
+        while (cursor.moveToNext()) {
+            Inventory_production_receiving inventory_production_receiving = new Inventory_production_receiving();
+            inventory_production_receiving.setProd_no(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_PROD_NO)));
+            try {
+                inventory_production_receiving.setProd_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_PROD_DATE))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            inventory_production_receiving.setVoucher_no(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_VOUCHER_NO)));
+            inventory_production_receiving.setIs_delivered(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_IS_DELIVERED))));
+            inventory_production_receiving.setIs_confirmed(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_IS_CONFIRMED))));
+            inventory_production_receiving.setConfirmedby(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_CONFIRMED_BY)));
+            inventory_production_receiving.setIs_void(Boolean.valueOf(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_IS_VOID))));
+            try {
+                inventory_production_receiving.setVoid_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_VOID_DATE))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                inventory_production_receiving.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            inventory_production_receiving.setLocation_id(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_LOCATION_ID)));
+            inventory_production_receiving.setSmit_id(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_SMIT_ID)));
+            inventory_production_receiving.setStaff_id(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_STAFF_ID)));
+            inventory_production_receiving.setSave_count(Integer.parseInt(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_SAVE_COUNT))));
+            inventory_production_receiving.setSmith_name(cursor.getString(cursor.getColumnIndex(inventory_production_receiving.COLUMN_SMITH_NAME)));
+            inventory_prodhdr.add(inventory_production_receiving);
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_prodhdr;
+    }
+
 
     public List<InventoryAllProducts> getInventoryAllProducts(String productname,String groupname,String subgroupname){
         List<InventoryAllProducts> inventoryAllProducts = new ArrayList<>();
@@ -1301,4 +1350,5 @@ public class DbAccess {
         database.delete(table, "id = ?", new String[]{whereArgs});
         return true;
     }
+
 }

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_scrollview"
+    android:layout_marginBottom="5dip"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dip"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="125dip"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_textview"
+                android:hint="From Date"
+                android:editable="false"
+                android:clickable="true"
+                android:layout_marginRight="5dip"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_marginRight="5dip"
+                android:layout_width="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="To" />
+
+            <EditText
+                android:id="@+id/date1"
+                android:layout_width="125dip"
+                android:editable="false"
+                android:clickable="true"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_textview"
+                android:hint="To Date"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Search By"
+            android:textSize="15dip"
+            android:textColor="@color/black"
+            android:layout_margin="10dip"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dip"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Smith"
+                    android:id="@+id/by_smith"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/by_voucher_no"
+                    android:layout_marginLeft="5dip"
+                    android:text="Voucher No" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/by_Location"
+                    android:layout_marginLeft="5dip"
+                    android:text="Location" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:text="Search Product"
+            android:textColor="#000"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="280dip"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dip"
+            android:background="@drawable/bg_textview"
+            android:hint="Search"
+            android:layout_height="50dip" />
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="100dip"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/bg_button"
+                android:layout_height="50dip"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/btnOk"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/bg_button"
+                android:layout_width="100dip"
+                android:layout_height="50dip"
+                android:text="OK" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
