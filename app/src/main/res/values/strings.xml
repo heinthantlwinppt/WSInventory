@@ -57,4 +57,5 @@
     </string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_receving_inventory">Prod Receiving</string>
+    <string name="title_activity_receive_product">Receive_product</string>
 </resources>

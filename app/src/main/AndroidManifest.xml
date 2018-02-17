@@ -45,8 +45,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -133,6 +133,10 @@
         <activity
             android:name=".RecevingInventoryActivity"
             android:label="@string/title_activity_receving_inventory"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Receive_product"
+            android:label="@string/title_activity_receive_product"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

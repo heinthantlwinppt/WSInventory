@@ -11,6 +11,7 @@ import android.util.Log;
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.inventory.model.Inventory_production_receiving;
+import com.ppt.wsinventory.inventory.model.ProductReceiving;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -405,7 +406,28 @@ public class DbAccess {
         }
         return inventory_prodhdr;
     }
+    public List<ProductReceiving> getAllProductReceiving()
+    {
+        List<ProductReceiving> productpeceivings = new ArrayList<>();
+        String sql = "select * , invP.designname  \n" +
+                "from inventory_proddetail as invPD\n" +
+                "inner join inventory_products as invP on invPD.product_id = invP.id";
+        Cursor cursor = readData(sql, null);
 
+        while (cursor.moveToNext()) {
+            ProductReceiving productpeceiving = new ProductReceiving();
+            productpeceiving.setDesignname(cursor.getString(cursor.getColumnIndex(productpeceiving.COLUMN_DESIGN_NAME)));
+            productpeceiving.setQty(Double.parseDouble(cursor.getString(cursor.getColumnIndex(ProductReceiving.COLUMN_QTY))));
+            productpeceiving.setWeight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(ProductReceiving.COLUMN_WEIGHT))));
+
+            productpeceivings.add(productpeceiving);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return productpeceivings;
+    }
 
     public List<InventoryAllProducts> getInventoryAllProducts(String productname,String groupname,String subgroupname){
         List<InventoryAllProducts> inventoryAllProducts = new ArrayList<>();
