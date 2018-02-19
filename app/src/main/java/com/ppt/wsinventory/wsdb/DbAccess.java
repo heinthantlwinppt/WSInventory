@@ -406,13 +406,16 @@ public class DbAccess {
         }
         return inventory_prodhdr;
     }
-    public List<ProductReceiving> getAllProductReceiving()
+    public List<ProductReceiving> getAllProductReceiving(String prod_no)
     {
         List<ProductReceiving> productpeceivings = new ArrayList<>();
-        String sql = "select * , invP.designname  \n" +
-                "from inventory_proddetail as invPD\n" +
-                "inner join inventory_products as invP on invPD.product_id = invP.id";
-        Cursor cursor = readData(sql, null);
+        String sql = "select *, invD.designname  \n" +
+                "from inventory_prodhdr as invP\n" +
+                "inner join inventory_proddetail as invPD on invP.prod_no = invPD.prodhdr_id\n" +
+                "inner join inventory_products as invD on invPD.product_id = invD.id \n" +
+                "where invP.prod_no = ?";
+
+        Cursor cursor = readData(sql, new String[]{prod_no});
 
         while (cursor.moveToNext()) {
             ProductReceiving productpeceiving = new ProductReceiving();

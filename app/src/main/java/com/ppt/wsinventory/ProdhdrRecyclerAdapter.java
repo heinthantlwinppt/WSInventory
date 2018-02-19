@@ -2,6 +2,7 @@ package com.ppt.wsinventory;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +25,14 @@ public class ProdhdrRecyclerAdapter extends RecyclerView.Adapter<ProdhdrRecycler
     ArrayList<Inventory_production_receiving> mDataSet;
     Context mContext;
     Inventory_production_receiving inventory_prodhdr;
+    GlobalVariables appContext;
 
-    public ProdhdrRecyclerAdapter(ArrayList<Inventory_production_receiving> mDataSet, Context mContext) {
+    public ProdhdrRecyclerAdapter(ArrayList<Inventory_production_receiving> mDataSet, Context context) {
         this.mDataSet = mDataSet;
-        this.mContext = mContext;
+        this.mContext = context;
+        appContext = (GlobalVariables)context;
+        appContext.setSmith_id(null);
+
     }
 
     @Override
@@ -41,7 +46,9 @@ public class ProdhdrRecyclerAdapter extends RecyclerView.Adapter<ProdhdrRecycler
     @Override
     public void onBindViewHolder(ProdhdrRecyclerAdapter.MyViewHolder holder, int position) {
 
+        String prod_no;
         inventory_prodhdr = mDataSet.get(position);
+        prod_no = inventory_prodhdr.getProd_no();
         holder.setData(mDataSet.get(position));
         holder.txt_voucher_no.setText(String.valueOf(inventory_prodhdr.getVoucher_no()));
         holder.txt_product_no.setText(String.valueOf(inventory_prodhdr.getProd_no()));
@@ -52,15 +59,11 @@ public class ProdhdrRecyclerAdapter extends RecyclerView.Adapter<ProdhdrRecycler
             public void onClick(View v) {
                 Intent i = new Intent(mContext,Receive_product.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                appContext.setProduct_no(prod_no);
                 mContext.startActivity(i);
             }
         });
-
-
-
     }
-
-
 
     @Override
     public int getItemCount() {

@@ -52,7 +52,7 @@ public class Receive_productFragment extends Fragment {
     }
 
     private void loadRecyclerView() {
-        productReceivings = dbaccess.getAllProductReceiving();
+        productReceivings = dbaccess.getAllProductReceiving(appContext.getProduct_no());
         Toast.makeText(getContext(),productReceivings.size()+"",Toast.LENGTH_LONG).show();
         adapter = new ProductReceivingAdapter((ArrayList<ProductReceiving>) productReceivings, appContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

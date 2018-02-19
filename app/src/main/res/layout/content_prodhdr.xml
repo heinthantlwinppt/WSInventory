@@ -119,7 +119,7 @@
                         android:layout_width="100dip"
                         android:layout_height="50dip"
                         android:id="@+id/detail"
-                        android:background="@color/button_primary"
+                        android:background="@color/button_info"
                         android:text="View Detail"/>
                     <Button
                         android:layout_width="100dip"
