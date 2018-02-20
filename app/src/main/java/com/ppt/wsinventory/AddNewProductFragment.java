@@ -1,6 +1,7 @@
 package com.ppt.wsinventory;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,32 +16,50 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ppt.wsinventory.wsdb.DbAccess;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.microedition.khronos.opengles.GL;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class AddNewProductFragment extends Fragment {
     ImageView imageView;
-    Spinner design,gold,smith,location,counter,tray;
+    Spinner design,gold,location,counter,tray;
     ViewGroup rootView;
+    TextView smith;
+    GlobalVariables appContext;
+    Context mContext;
+
     DbAccess dbaccess;
     public AddNewProductFragment() {
+
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        appContext = (GlobalVariables) context
+                .getApplicationContext();
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        String smithname = appContext.getSmith_name();
         rootView =(ViewGroup) inflater.inflate(R.layout.fragment_add_new_product, container, false);
-
         design = (Spinner)rootView.findViewById(R.id.product);
         gold =(Spinner)rootView.findViewById(R.id.gold);
-        smith = (Spinner)rootView.findViewById(R.id.smith);
+        smith = (TextView) rootView.findViewById(R.id.smith);
+        smith.setText(smithname);
         location =(Spinner)rootView.findViewById(R.id.location);
         counter =(Spinner)rootView.findViewById(R.id.bin);
         tray=(Spinner)rootView.findViewById(R.id.pallet);

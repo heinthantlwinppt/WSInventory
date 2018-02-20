@@ -84,12 +84,11 @@ public class ProductReceivingAdapter extends RecyclerView.Adapter<ProductReceivi
         public void onClick(View v)
         {
             String prod_no = appContext.getProduct_no();
-
+            String smithname =appContext.getSmith_name();
             Intent intent = new Intent(mContext,AddReceivingForm.class);
             intent.putExtra("data",prod_no);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
-            Toast.makeText(mContext, "dfjwofjweofwejf", Toast.LENGTH_SHORT).show();
             GlobalBus.getBus().post(
                     new WsEvents.EventOpenProductReceiving(prod_no)
             );

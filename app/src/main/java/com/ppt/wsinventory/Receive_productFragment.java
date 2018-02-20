@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ppt.wsinventory.common.BusinessLogic;
@@ -31,6 +32,7 @@ public class Receive_productFragment extends Fragment{
     RecyclerView listView;
     private Context mContext;
     private LayoutInflater minflater;
+    TextView smithname;
     DbAccess dbaccess;
     private GlobalVariables appContext;
     private List<ProductReceiving> productReceivings;
@@ -39,6 +41,7 @@ public class Receive_productFragment extends Fragment{
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+
         appContext = (GlobalVariables) context.getApplicationContext();
     }
 
@@ -47,8 +50,13 @@ public class Receive_productFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
+        String smith_name = appContext.getSmith_name();
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_receive_product, container, false);
+        smithname = (TextView)rootView.findViewById(R.id.smith_name);
+        smithname.setText(smith_name);
+        appContext.setSmith_name(smith_name);
         listView = rootView.findViewById(R.id.id_receiving_recycler);
         setHasOptionsMenu(true);
         minflater = inflater;

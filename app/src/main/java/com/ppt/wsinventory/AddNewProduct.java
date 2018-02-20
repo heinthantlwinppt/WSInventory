@@ -9,6 +9,7 @@ import android.view.View;
 
 public class AddNewProduct extends AppCompatActivity {
 
+    GlobalVariables appContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

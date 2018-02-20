@@ -32,6 +32,15 @@ public class GlobalVariables extends Application {
     private String subgroupname;
     private String smith_id;
     private String product_no;
+    private String smith_name;
+
+    public String getSmith_name() {
+        return smith_name;
+    }
+
+    public void setSmith_name(String smith_name) {
+        this.smith_name = smith_name;
+    }
 
     public String getProduct_no() {
         return product_no;

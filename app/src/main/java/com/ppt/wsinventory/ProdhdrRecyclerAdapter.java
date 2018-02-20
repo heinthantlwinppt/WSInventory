@@ -60,6 +60,7 @@ public class ProdhdrRecyclerAdapter extends RecyclerView.Adapter<ProdhdrRecycler
                 Intent i = new Intent(mContext,Receive_product.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 appContext.setProduct_no(prod_no);
+                appContext.setSmith_name(String.valueOf(inventory_prodhdr.getSmith_name()));
                 mContext.startActivity(i);
             }
         });
