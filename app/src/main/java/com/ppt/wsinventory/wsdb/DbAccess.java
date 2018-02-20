@@ -1376,4 +1376,93 @@ public class DbAccess {
         return true;
     }
 
+    public List<String> getALLProductList()
+    {
+        List<String> list = new ArrayList<>();
+        String sql = "select designname from inventory_products";
+        Cursor cursor = readData(sql, null);
+
+
+        while (cursor.moveToNext()) {
+            list.add(cursor.getString( cursor.getColumnIndex("designname")));
+        }
+
+        return list;
+    }
+
+    public List<String> getALLGoldtList() {
+
+        List<String> list = new ArrayList<>();
+        String sql = "select name from inventory_gold";
+        Cursor cursor = readData(sql, null);
+
+
+        while (cursor.moveToNext()) {
+            list.add(cursor.getString( cursor.getColumnIndex("name")));
+        }
+
+        return list;
+    }
+
+    public List<String> getALLSmithList() {
+        List<String> list = new ArrayList<>();
+
+        return list;
+    }
+
+    public List<String> getALLLocationList() {
+        List<String> list = new ArrayList<>();
+        String sql = "select loc_name from administration_locations";
+        Cursor cursor = readData(sql, null);
+
+
+        while (cursor.moveToNext())
+        {
+            list.add(cursor.getString( cursor.getColumnIndex("loc_name")));
+        }
+        return list;
+    }
+
+    public List<String> getALLContainerList(String location_id) {
+
+        List<String> list = new ArrayList<>();
+        String sql = "select bin_name from inventory_bin where location_id = ?";
+        Cursor cursor = readData(sql, new String[]{location_id});
+
+
+        while (cursor.moveToNext())
+        {
+            list.add(cursor.getString( cursor.getColumnIndex("bin_name")));
+        }
+        return list;
+    }
+
+    public List<String> getALLTrayList() {
+        List<String> list = new ArrayList<>();
+
+        return list;
+    }
+
+    public String getLocaionId(String locationname) {
+        String sql = "select id from administration_locations where loc_name = ?";
+        Cursor cursor = readData(sql, new String[]{locationname});
+
+        cursor.moveToNext();
+        return cursor.getString( cursor.getColumnIndex("id"));
+
+    }
+
+    public List<String> getALLTrayList(String location_id) {
+
+        List<String> list = new ArrayList<>();
+        String sql = "select pallet_name from inventory_pallet where location_id = ?";
+        Cursor cursor = readData(sql, new String[]{location_id});
+
+
+        while (cursor.moveToNext())
+        {
+            list.add(cursor.getString( cursor.getColumnIndex("pallet_name")));
+        }
+        return list;
+    }
 }

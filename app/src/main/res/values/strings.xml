@@ -57,5 +57,8 @@
     </string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_receving_inventory">Prod Receiving</string>
-    <string name="title_activity_receive_product">Receive_product</string>
+    <string name="title_activity_receive_product">Receive product</string>
+    <string name="title_activity_add_receiveing_form">AddReceiveingForm</string>
+    <string name="title_activity_add_receiving_form">Add Receiving Form</string>
+    <string name="title_activity_add_new_product">Add New Product</string>
 </resources>

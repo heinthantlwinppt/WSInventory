@@ -10,6 +10,7 @@ import com.ppt.wsinventory.DashboardSmithJobOrder;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.ProductionReceivingInvestoryActivity;
 import com.ppt.wsinventory.ProreceivingListActivity;
+import com.ppt.wsinventory.inventory.model.ProductReceiving;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
@@ -251,4 +252,5 @@ public class BusinessLogic {
         }
         return staff;
     }
+
 }

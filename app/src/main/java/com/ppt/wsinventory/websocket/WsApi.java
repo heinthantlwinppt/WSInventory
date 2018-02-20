@@ -1225,6 +1225,7 @@ public class WsApi {
         inventoryBIN.setBin_type(wsBIN.getBinType());
         inventoryBIN.setBarcode(wsBIN.getBarcode());
         inventoryBIN.setTag(wsBIN.getTag());
+        inventoryBIN.setLocation_id(wsBIN.getLocation());
         inventoryBIN.setActive(wsBIN.getActive());
         inventoryBIN.setTs(wsBIN.getTs());
 
@@ -1369,7 +1370,7 @@ public class WsApi {
         inventoryPallet.setPallet_type(wsPallet.getPalletType());
         inventoryPallet.setBarcode(wsPallet.getBarcode());
         inventoryPallet.setTag(wsPallet.getTag());
-        inventoryPallet.setLocation_id(wsPallet.getTag());
+        inventoryPallet.setLocation_id(wsPallet.getLocation());
         inventoryPallet.setWeight(Double.parseDouble(wsPallet.getWeight()));
         inventoryPallet.setIs_used(wsPallet.getIsUsed());
         inventoryPallet.setActive(wsPallet.getActive());

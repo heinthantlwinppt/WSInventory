@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="350dip"
+    android:orientation="vertical">
+    <ImageView android:layout_width="300dip"
+        android:layout_gravity="center"
+        android:id="@+id/image_view"
+        android:layout_height="350dip"/>
+
+</LinearLayout>

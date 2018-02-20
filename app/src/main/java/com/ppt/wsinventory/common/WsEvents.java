@@ -1,5 +1,7 @@
 package com.ppt.wsinventory.common;
 
+import com.ppt.wsinventory.inventory.model.ProductReceiving;
+
 /**
  * Created by User on 02/01/2018.
  */
@@ -9,6 +11,7 @@ public class WsEvents {
     public static final String OPEN_RECEIVING_INVENTORY = "Receiving";
     public static final String OPEN_TAGGING_INVENTORY = "Tagging";
     public static final String OPEN_PRORECEIVING_LIST = "open_proreceivinglist";
+    public static final String OPEN_RECEVING_PRODUCT = "receiving_product";
     public static final String OPEN_PRODUCTION_RECEIVING_INVESTORY ="open_production_receiving_investor";
 
     public static class EventNewChange {
@@ -179,4 +182,14 @@ public class WsEvents {
         }
     }
 
+    public static class EventOpenProductReceiving {
+        private String  productReceiving;
+        public EventOpenProductReceiving(String productReceiving) {
+            this.productReceiving = productReceiving;
+        }
+        public String  getActionname() {
+            return productReceiving;
+        }
+    }
 }
+

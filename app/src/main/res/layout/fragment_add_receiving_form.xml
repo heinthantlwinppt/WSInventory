@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ppt.wsinventory.AddReceivingFormFragment"
+    tools:showIn="@layout/activity_add_receiving_form">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:orientation="vertical"
+                android:background="@color/cardview_shadow_start_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:text="Receive No"/>
+                    <TextView
+                        android:paddingTop="5dip"
+                        android:layout_width="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/receive_no"
+                        android:text="123456789"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dip"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="5dip">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
+                            android:text="Receive Date"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/receive_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:paddingTop="5dip"
+                            android:text="16.2.2018" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="100dip"
+                        android:layout_height="0dip"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="5dip">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:text="Smith Name"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/smith_name"
+                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dip"
+                            android:text="Aung Aung" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <ListView
+            android:divider="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+        <LinearLayout
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/save_receive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="save"/>
+            <Button
+                android:id="@+id/add_receive"
+                android:layout_width="100dip"
+                android:layout_height="50dip"
+                android:text="Add"/>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
