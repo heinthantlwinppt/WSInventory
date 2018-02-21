@@ -18,6 +18,7 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.AdministratoryNoSerie;
 import com.ppt.wsinventory.model.CodeValue;
 import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
@@ -43,6 +44,7 @@ import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
+import com.ppt.wsinventory.model.NoSeries;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelinventory;
@@ -1464,5 +1466,25 @@ public class DbAccess {
             list.add(cursor.getString( cursor.getColumnIndex("pallet_name")));
         }
         return list;
+    }
+
+    public Long administration_no_series(AdministratoryNoSerie noSerie) {
+
+        ContentValues values = new ContentValues();
+        values.put(AdministratoryNoSerie.COLUMN_ID,noSerie.getId());
+        values.put(AdministratoryNoSerie.COLUMN_CLIENT_ID,noSerie.getClient_id());
+        values.put(AdministratoryNoSerie.COLUMN_MODULE_NAME,noSerie.getModule_name());
+        values.put(AdministratoryNoSerie.COLUMN_PREFIX,noSerie.getPrefix());
+        values.put(AdministratoryNoSerie.COLUMN_DIY,noSerie.isDiy());
+        values.put(AdministratoryNoSerie.COLUMN_LENGTH,noSerie.getLength());
+        values.put(AdministratoryNoSerie.COLUMN_LAST,noSerie.getLast());
+        values.put(AdministratoryNoSerie.COLUMN_LAST_DIY,noSerie.getLastDiy());
+        values.put(AdministratoryNoSerie.COLUMN_DATE_START,noSerie.getDateStart());
+        values.put(AdministratoryNoSerie.COLUMN_DATE_END,noSerie.getDateend());
+        values.put(AdministratoryNoSerie.COLUMN_ACTIVE,noSerie.isActive());
+        values.put(AdministratoryNoSerie.COLUMN_SOLUTION,noSerie.getSolution());
+
+
+        return database.insert(noSerie.TABLE_ADMINISTRATORY_NOSERIES,null,values);
     }
 }

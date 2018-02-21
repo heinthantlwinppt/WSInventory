@@ -55,6 +55,7 @@ public class ApiModel {
     public static String GETPRODHDR = "getProdHdr";
     public static String GETPRODDETAIL = "getProdDetail";
     public static String TYPE_GET = "get";
+    public static String ADMINISORY_NOSERIES = "getNoSeries";
     @SerializedName("id")
     @Expose
     private Integer id;

@@ -18,6 +18,7 @@ import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.AdministratoryNoSerie;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.BIN;
@@ -54,6 +55,7 @@ import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
+import com.ppt.wsinventory.model.NoSeries;
 import com.ppt.wsinventory.model.Pallet;
 import com.ppt.wsinventory.model.ProdDetail;
 import com.ppt.wsinventory.model.ProdHdr;
@@ -893,7 +895,32 @@ public class WsApi {
                 appContext.setTs(Utility.getDateBegin());
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETPRODHDR)) {
+        }
+
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.ADMINISORY_NOSERIES)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<NoSeries>>() {
+                }.getType();
+                List<NoSeries> noseries = gson.fromJson(jsonString, listType);
+                                    Log.i(TAG, "NO SERIES: " + noseries.size());
+//
+                for (NoSeries noSeries : noseries) {
+                    importInventory_noseries(noSeries);
+
+//                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
+                }
+                RemoveActionList(apiModel.getName());
+
+            } else {
+                appContext.setTs(Utility.getDateBegin());
+                RemoveActionList(apiModel.getName());
+            }
+        }
+
+
+
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETPRODHDR)) {
                 jsonString = apiModel.getMessage();
                 if (!TextUtils.isEmpty(jsonString)) {
                     Type listType = new TypeToken<ArrayList<ProdHdr>>() {
@@ -933,7 +960,13 @@ public class WsApi {
                     appContext.setTs(Utility.getDateBegin());
                     RemoveActionList(apiModel.getName());
                 }
-            } else {
+            }
+
+
+
+
+
+            else {
                 RemoveActionList(apiModel.getName());
                 Log.i(TAG, "doSync: arkar");
             }
@@ -990,7 +1023,32 @@ public class WsApi {
 
     }
 
+    private boolean importInventory_noseries(NoSeries noSeries) {
 
+
+        dbaccess = DbAccess.getInstance();
+        AdministratoryNoSerie noSerie = new AdministratoryNoSerie();
+        noSerie.setId(noSeries.getId());
+        noSerie.setClient_id(noSeries.getClientId());
+        noSerie.setModule_name(noSeries.getModuleName());
+        noSerie.setPrefix(noSeries.getPrefix());
+        noSerie.setDiy(noSeries.getDiy());
+        noSerie.setLength(noSeries.getLength());
+        noSerie.setLast(noSeries.getLast());
+        noSerie.setLastDiy(noSeries.getLastDiy());
+        noSerie.setDateStart(noSeries.getDateStart());
+        noSerie.setDateend(noSeries.getDateEnd());
+        noSerie.setActive(noSeries.getActive());
+        noSerie.setSolution(noSeries.getSolution());
+
+        Long l = dbaccess.administration_no_series(noSerie);
+
+                            Log.i(TAG, "DATABASE ERROR NOT HAPPEN" + l);
+
+        return (l > 0);
+
+
+    }
 
 
     public void RemoveActionList(String actionname) {

@@ -711,6 +711,26 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 
+    private static final String TABLE_ADMINISTION_NO_SERIE = "administration_noseries";
+    private static final String TABLE_CREATE_ADMINISTRATION_NO_SERIES=
+            "CREATE TABLE administration_noseries \n" +
+                    "(\n" +
+                    "id VARCHAR COLLATE NOCASE, \n" +
+                    "client_id DATETIME, \n" +
+                    "module_name VARCHAR COLLATE NOCASE, \n" +
+                    "prefix VARCHAR COLLATE NOCASE, \n" +
+                    "diy BOOL, \n" +
+                    "length INTEGER, \n" +
+                    "last INTEGER, \n" +
+                    "last_diy INTEGER, \n" +
+                    "date_start INTEGER, \n" +
+                    "date_end INTEGER, \n" +
+                    "active BOOL, \n" +
+                    "solution VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+
+
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -810,6 +830,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODDETAI+ " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODHDR);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODHDR+ " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_NO_SERIES);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTION_NO_SERIE+ " has been created");
 
     }
 
