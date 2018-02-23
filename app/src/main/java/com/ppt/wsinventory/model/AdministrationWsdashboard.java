@@ -9,6 +9,8 @@ public class AdministrationWsdashboard {
     public static final String TABLE_ADMINISTRATION_WSDASHBOARD = "administration_wsdashboard";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_IS_FOLDER = "is_folder";
+    public static final String COLUMN_PARENT_ID = "parent_id";
     public static final String COLUMN_ACTIONNAME = "actionname";
     public static final String COLUMN_GROUPNAME = "groupname";
     public static final String COLUMN_IMAGE = "image";
@@ -20,6 +22,8 @@ public class AdministrationWsdashboard {
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_ID ,
             COLUMN_TITLE ,
+            COLUMN_IS_FOLDER ,
+            COLUMN_PARENT_ID ,
             COLUMN_ACTIONNAME ,
             COLUMN_GROUPNAME ,
             COLUMN_IMAGE ,
@@ -32,6 +36,8 @@ public class AdministrationWsdashboard {
     private String id;
     private String title;
     private String actionname;
+    private boolean is_folder;
+    private int parent_id;
     private String groupname;
     private String image;
     private String timestamp;
@@ -41,6 +47,26 @@ public class AdministrationWsdashboard {
 
     public String getId() {
         return id;
+    }
+
+    public boolean isIs_folder() {
+        return is_folder;
+    }
+
+    public void setIs_folder(boolean is_folder) {
+        this.is_folder = is_folder;
+    }
+
+    public int getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(int parent_id) {
+        this.parent_id = parent_id;
+    }
+
+    public boolean isIs_delete() {
+        return is_delete;
     }
 
     public void setId(String id) {

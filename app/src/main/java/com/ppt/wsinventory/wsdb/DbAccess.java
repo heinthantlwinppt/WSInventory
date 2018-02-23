@@ -17,6 +17,7 @@ import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.model.AdministrationStaffRole;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.AdministratoryNoSerie;
 import com.ppt.wsinventory.model.CodeValue;
@@ -800,6 +801,8 @@ public class DbAccess {
         ContentValues values = new ContentValues();
         values.put(AdministrationWsdashboard.COLUMN_ID, administrationWsdashboard.getId());
         values.put(AdministrationWsdashboard.COLUMN_TITLE, administrationWsdashboard.getTitle());
+        values.put(AdministrationWsdashboard.COLUMN_IS_FOLDER, administrationWsdashboard.isIs_folder());
+        values.put(AdministrationWsdashboard.COLUMN_PARENT_ID, administrationWsdashboard.getParent_id());
         values.put(AdministrationWsdashboard.COLUMN_ACTIONNAME, administrationWsdashboard.getActionname());
         values.put(AdministrationWsdashboard.COLUMN_GROUPNAME, administrationWsdashboard.getGroupname());
         values.put(AdministrationWsdashboard.COLUMN_IMAGE, administrationWsdashboard.getImage());
@@ -1486,5 +1489,19 @@ public class DbAccess {
 
 
         return database.insert(noSerie.TABLE_ADMINISTRATORY_NOSERIES,null,values);
+    }
+
+    public void insertAdministrationStaffRole(AdministrationStaffRole administrationStaffRole)
+
+    {
+        ContentValues values = new ContentValues();
+        values.put(AdministrationStaffRole.COLUMN_ID,administrationStaffRole.getId());
+        values.put(AdministrationStaffRole.COLUMN_ACTIVE,administrationStaffRole.isActive());
+        values.put(AdministrationStaffRole.COLUMN_ROLE,administrationStaffRole.getRole());
+        values.put(AdministrationStaffRole.COLUMN_STAFF,administrationStaffRole.getStaff());
+
+         database.insert(AdministrationStaffRole.TABLE_ADMINISTRATION_STAFF_ROLE,null,values);
+
+
     }
 }

@@ -97,6 +97,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     "(\n" +
                     " id VARCHAR COLLATE NOCASE, \n" +
                     " title VARCHAR COLLATE NOCASE, \n" +
+                    " is_folder VARCHAR BOOL NOCASE, \n" +
+                    " parent_id INTEGER, \n" +
                     " actionname  VARCHAR COLLATE NOCASE, \n" +
                     " groupname  VARCHAR COLLATE NOCASE, \n" +
                     " image  VARCHAR COLLATE NOCASE, \n" +
@@ -729,6 +731,17 @@ public class DbHelper extends SQLiteOpenHelper {
                     "solution VARCHAR COLLATE NOCASE \n" +
                     ")";
 
+    private static final String TABLE_ADMINISTRATION_STAFF_ROLE = "administration_staffrole";
+    private static final String TABLE_CREATE_ADMINISTRATION_STAFFROLE=
+            "CREATE TABLE administration_staffrole \n" +
+                    "(\n" +
+                    " id  INTEGER, \n" +
+                    " active   BOOL,\n" +
+                    " role   VARCHAR COLLATE NOCASE, \n" +
+                    " staff   VARCHAR COLLATE NOCASE \n" +
+                    ")";
+
+
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -832,6 +845,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODHDR+ " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_NO_SERIES);
         Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTION_NO_SERIE+ " has been created");
+        db.execSQL(TABLE_CREATE_ADMINISTRATION_STAFFROLE);
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_STAFF_ROLE+ " has been created");
 
     }
 

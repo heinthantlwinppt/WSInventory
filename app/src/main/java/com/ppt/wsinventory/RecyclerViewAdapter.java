@@ -89,8 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 //                mListener.onItemClick(dashboarditem);
                 GlobalBus.getBus().post(
-                        new WsEvents.EventOpenScreen(dashboarditem.getActionname())
-                );
+                        new WsEvents.EventOpenScreen(dashboarditem.getActionname()));
 
             }
         }

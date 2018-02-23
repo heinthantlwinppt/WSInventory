@@ -41,6 +41,8 @@ public class ApiModel {
     public static String GETPRODUCTREDUCE = "getProductreduce";
     public static String GETPRODUCTLENGTH = "getProductLength";
     public static String GETPRODUCTSUBGROUP = "getProductSubGroup";
+    public static String GETSTAFFROLE = "getStaffRole";
+
     public static String GETJEWELINVENTORY = "getJewelInventory";
     public static String GETJEWELLENGTH = "getJewellength";
     public static String GETJEWELPURCHASE = "getJewelPurchase";

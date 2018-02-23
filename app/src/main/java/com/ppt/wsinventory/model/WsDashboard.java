@@ -15,6 +15,12 @@ public class WsDashboard {
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("is_folder")
+    @Expose
+    private Boolean isFolder;
+    @SerializedName("parent_id")
+    @Expose
+    private Integer parentId;
     @SerializedName("actionname")
     @Expose
     private String actionname;
@@ -52,6 +58,23 @@ public class WsDashboard {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public Boolean getIsFolder() {
+        return isFolder;
+    }
+
+    public void setIsFolder(Boolean isFolder) {
+        this.isFolder = isFolder;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
 
     public String getActionname() {
         return actionname;
