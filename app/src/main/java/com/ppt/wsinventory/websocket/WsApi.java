@@ -17,6 +17,7 @@ import com.ppt.wsinventory.model.AdministrationRole;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationSolutions;
 import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.model.AdministrationStaffRole;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.AdministratoryNoSerie;
 import com.ppt.wsinventory.model.ApiModel;
@@ -79,6 +80,7 @@ import com.ppt.wsinventory.model.Smith_jobtype;
 import com.ppt.wsinventory.model.Smithmembers;
 import com.ppt.wsinventory.model.Solution;
 import com.ppt.wsinventory.model.Staff;
+import com.ppt.wsinventory.model.StaffRole;
 import com.ppt.wsinventory.model.Supplier;
 import com.ppt.wsinventory.model.SupplierGroup;
 import com.ppt.wsinventory.model.TableToDelete;
@@ -609,7 +611,27 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGES)) {
+        }
+
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSTAFFROLE)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<StaffRole>>() {
+                }.getType();
+                List<StaffRole> staffRoles = gson.fromJson(jsonString, listType);
+                for (StaffRole staffRole : staffRoles) {
+                    importStaffRole(staffRole);
+                    Log.i(TAG, "Solution Name : " + staffRole.getId());
+                }
+                RemoveActionList(apiModel.getName());
+            } else {
+                RemoveActionList(apiModel.getName());
+            }
+        }
+
+
+
+        else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETWSIMAGES)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<WsImages>>() {
@@ -1023,6 +1045,18 @@ public class WsApi {
 
     }
 
+    private void importStaffRole(StaffRole staffRole)
+    {
+        dbaccess = DbAccess.getInstance();
+        AdministrationStaffRole administrationStaffRole = new AdministrationStaffRole();
+        administrationStaffRole.setId(staffRole.getId());
+        administrationStaffRole.setActive(staffRole.getActive());
+        administrationStaffRole.setRole(staffRole.getRole());
+        dbaccess.insertAdministrationStaffRole(administrationStaffRole);
+
+        
+    }
+
     private boolean importInventory_noseries(NoSeries noSeries) {
 
 
@@ -1112,6 +1146,8 @@ public class WsApi {
         AdministrationWsdashboard administrationWsdashboard = new AdministrationWsdashboard();
         administrationWsdashboard.setId(wsDashboard.getId());
         administrationWsdashboard.setTitle(wsDashboard.getTitle());
+        administrationWsdashboard.setIs_folder(wsDashboard.getIsFolder());
+        administrationWsdashboard.setParent_id(wsDashboard.getParentId());
         administrationWsdashboard.setActionname(wsDashboard.getActionname());
         administrationWsdashboard.setGroupname(wsDashboard.getGroupname());
         administrationWsdashboard.setImage(wsDashboard.getImage());
