@@ -97,7 +97,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     "(\n" +
                     " id VARCHAR COLLATE NOCASE, \n" +
                     " title VARCHAR COLLATE NOCASE, \n" +
-                    " is_folder VARCHAR BOOL NOCASE, \n" +
+                    " is_folder BOOL, \n" +
                     " parent_id INTEGER, \n" +
                     " actionname  VARCHAR COLLATE NOCASE, \n" +
                     " groupname  VARCHAR COLLATE NOCASE, \n" +

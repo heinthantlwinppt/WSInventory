@@ -232,7 +232,7 @@ public class DbAccess {
 
     public List<WsDashboardModel> getAllDashboardItems() {
         List<WsDashboardModel> dashboarditems = new ArrayList<>();
-        String sql = "select title, image, actionname from administration_wsdashboard where is_folder = 1 order by displayno";
+        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where parent_id = 0 order by displayno";
         Cursor cursor = readData(sql,null);
 
         while (cursor.moveToNext()) {
@@ -240,6 +240,8 @@ public class DbAccess {
             item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
             item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
             item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
+            item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
+            item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
             dashboarditems.add(item);
         }
 
@@ -1494,6 +1496,57 @@ public class DbAccess {
 
          database.insert(AdministrationStaffRole.TABLE_ADMINISTRATION_STAFF_ROLE,null,values);
 
+
+    }
+
+    public List<WsDashboardModel> getAllChild(int id)
+    {
+        List<WsDashboardModel> dashboarditems = new ArrayList<>();
+        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where parent_id = "+ id+" order by displayno";
+
+        Cursor cursor = readData(sql,null);
+
+        while (cursor.moveToNext()) {
+            WsDashboardModel item = new WsDashboardModel();
+            item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
+            item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
+            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
+            item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
+            item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
+            dashboarditems.add(item);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return dashboarditems;
+    }
+
+    public List<WsDashboardModel> getparient(int latest_parient_id)
+    {
+        List<WsDashboardModel> dashboarditems = new ArrayList<>();
+//        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where id = "+ latest_parient_id +" order by displayno";
+        String sql = "select t1.* \n" +
+                "from administration_wsdashboard t1 inner join administration_wsdashboard t2 \n" +
+                "on t2.parent_id = t1.parent_id\n" +
+                "where t2.id = " + latest_parient_id;
+
+        Cursor cursor = readData(sql,null);
+
+        while (cursor.moveToNext()) {
+            WsDashboardModel item = new WsDashboardModel();
+            item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
+            item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
+            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
+            item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
+            item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
+            dashboarditems.add(item);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return dashboarditems;
 
     }
 }

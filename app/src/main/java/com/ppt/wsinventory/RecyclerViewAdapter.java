@@ -20,6 +20,7 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.WsDashboardModel;
+import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ import java.util.List;
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    DbAccess dbaccess;
+    GlobalVariables appContext;
 
     //    ArrayList<RecyclerDataModel> mValues;
     ArrayList<WsDashboardModel> mDataSet;
@@ -45,12 +49,38 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     protected ItemListener mListener;
 
     public RecyclerViewAdapter(Context context, List<WsDashboardModel> mValure, ItemListener itemListener) {
-
+        dbaccess = new DbAccess(context);
+        appContext = (GlobalVariables)context.getApplicationContext();
         mContext = context;
         mDataSet = (ArrayList<WsDashboardModel>) mValure;
 
         mListener = itemListener;
     }
+
+    public void goBack()
+    {
+        if (appContext.getLatest_parient_id()==0)
+        {
+
+        }
+        else
+        {
+            dbaccess.open();
+            List<WsDashboardModel> parientList = dbaccess.getparient(appContext.getLatest_parient_id());
+            dbaccess.close();
+            clear();
+//            appContext.setLatest_parient_id(parientList.get(0).getId());
+            mDataSet = (ArrayList<WsDashboardModel>) parientList;
+
+            Toast.makeText(mContext,appContext.getLatest_parient_id()+" it is " + parientList.size() ,Toast.LENGTH_LONG).show();
+
+
+        }
+        Toast.makeText(mContext,"it is back press" , Toast.LENGTH_SHORT).show();
+    }
+
+
+
 
     public class ViewHolder extends RecyclerView.
             ViewHolder implements View.OnClickListener {
@@ -69,7 +99,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             title = (TextView) v.findViewById(R.id.textView);
             dashboard_icon = (ImageView) v.findViewById(R.id.imageView);
 //            relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayout);
-
         }
 
         public void setData(WsDashboardModel dashboarditem) {
@@ -85,17 +114,51 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
 
+
         @Override
         public void onClick(View view) {
 
-
-            if (mListener != null) {
-
-//                mListener.onItemClick(dashboarditem);
-                GlobalBus.getBus().post(
-                        new WsEvents.EventOpenScreen(dashboarditem.getActionname()));
-
+            if (dashboarditem.isFolder())
+            {
+                loadChild(dashboarditem.getId());
             }
+            else
+            {
+                Toast.makeText(mContext,"It isn't folder " + dashboarditem.isFolder(),Toast.LENGTH_LONG).show();
+            }
+
+
+//            if (mListener != null) {
+//
+////                mListener.onItemClick(dashboarditem);
+//                GlobalBus.getBus().post(
+//                        new WsEvents.EventOpenScreen(dashboarditem.getActionname()));
+//
+//            }
+        }
+
+
+    }
+
+    public void loadChild(int id) {
+        dbaccess.open();
+        List<WsDashboardModel> childList = dbaccess.getAllChild(id);
+        dbaccess.close();
+        clear();
+        appContext.setLatest_parient_id(id);
+        mDataSet = (ArrayList<WsDashboardModel>) childList;
+        Toast.makeText(mContext,"It is folder " +  childList.size() ,Toast.LENGTH_LONG).show();
+    }
+
+    private void clear() {
+
+        final int size = mDataSet.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                mDataSet.remove(0);
+            }
+
+            notifyItemRangeRemoved(0, size);
         }
     }
 
@@ -111,23 +174,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder Vholder, final int position) {
         Vholder.setData(mDataSet.get(position));
 
-
-
-        Vholder.dashboard_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(v.getContext(), mDataSet.get(position).getTitle() + "infromation is clicked", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-//        dashboard_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(v.getContext(), mDataSet.get(position).getTitle() + "infromation is clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
     }
 

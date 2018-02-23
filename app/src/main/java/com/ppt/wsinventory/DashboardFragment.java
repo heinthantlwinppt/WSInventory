@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -114,6 +115,22 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         my_progress = rootView.findViewById(R.id.confirm_progress);
         loadRecyclerView();
 
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener( new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    adapter.goBack();
+                    return true;
+                }
+                return false;
+            }
+        } );
+
 
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
@@ -145,6 +162,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 //        }
 //        Toast.makeText(getContext(), item.getTitle() + " is clicked", Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
