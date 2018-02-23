@@ -1,6 +1,9 @@
 package com.ppt.wsinventory;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,9 @@ import butterknife.Unbinder;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
+import com.ppt.wsinventory.model.WsDashboardModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,35 +32,33 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     //    ArrayList<RecyclerDataModel> mValues;
-    ArrayList<AdministrationWsdashboard> mDataSet;
+    ArrayList<WsDashboardModel> mDataSet;
     private Unbinder unbinder;
     Context mContext;
     @BindView(R.id.textView)
-    TextView textView;
-    @BindView(R.id.textView1)
-    TextView textView1;
+    TextView title;
     @BindView(R.id.imageView)
-    ImageView imageView;
-    @BindView(R.id.imageView1)
-    ImageView imageView1;
+    ImageView dashboard_icon;
 
 
     //    Item item;
     protected ItemListener mListener;
 
-    public RecyclerViewAdapter(Context context, List<AdministrationWsdashboard> mValure, ItemListener itemListener) {
+    public RecyclerViewAdapter(Context context, List<WsDashboardModel> mValure, ItemListener itemListener) {
 
-        mDataSet = (ArrayList<AdministrationWsdashboard>) mValure;
         mContext = context;
+        mDataSet = (ArrayList<WsDashboardModel>) mValure;
+
         mListener = itemListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.
+            ViewHolder implements View.OnClickListener {
 
-        public TextView textView, textView1;
-        public ImageView imageView, imageView1;
+        public TextView title;
+        public ImageView dashboard_icon;
         //        public RelativeLayout relativeLayout;
-        AdministrationWsdashboard dashboarditem;
+        WsDashboardModel dashboarditem;
 
         public ViewHolder(View v) {
 
@@ -63,19 +66,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             v.setOnClickListener(this);
             ButterKnife.bind(this, v);
-            textView = (TextView) v.findViewById(R.id.textView);
-            textView1 = (TextView) v.findViewById(R.id.textView1);
-            imageView = (ImageView) v.findViewById(R.id.imageView);
-            imageView1 = (ImageView) v.findViewById(R.id.imageView1);
+            title = (TextView) v.findViewById(R.id.textView);
+            dashboard_icon = (ImageView) v.findViewById(R.id.imageView);
 //            relativeLayout = (RelativeLayout) v.findViewById(R.id.relativeLayout);
 
         }
 
-        public void setData(AdministrationWsdashboard dashboarditem) {
+        public void setData(WsDashboardModel dashboarditem) {
             this.dashboarditem = dashboarditem;
 
-            textView.setText(dashboarditem.getTitle());
-            textView1.setText(dashboarditem.getGroupname());
+            title.setText(dashboarditem.getTitle());
+            File sd = Environment.getExternalStorageDirectory();
+            File folder = new File(sd.getAbsolutePath()  , "WsImages/hh_dashboard/"+ dashboarditem.getImage());
+            Bitmap bitmap = BitmapFactory.decodeFile(folder.getAbsolutePath());
+            dashboard_icon.setImageBitmap(bitmap);
 //            relativeLayout.setBackgroundColor(Color.parseColor(item.color));
 
         }
@@ -107,7 +111,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder Vholder, final int position) {
         Vholder.setData(mDataSet.get(position));
 
-        Vholder.imageView1.setOnClickListener(new View.OnClickListener() {
+
+
+        Vholder.dashboard_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -116,7 +122,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-//        imageView1.setOnClickListener(new View.OnClickListener() {
+//        dashboard_icon.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                Toast.makeText(v.getContext(), mDataSet.get(position).getTitle() + "infromation is clicked", Toast.LENGTH_SHORT).show();
@@ -125,7 +131,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    public void setfilter(List<AdministrationWsdashboard> itemList) {
+    public void setfilter(List<WsDashboardModel> itemList) {
         mDataSet = new ArrayList<>();
         mDataSet.addAll(itemList);
         notifyDataSetChanged();

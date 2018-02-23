@@ -46,6 +46,7 @@ import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
 import com.ppt.wsinventory.model.NoSeries;
+import com.ppt.wsinventory.model.WsDashboardModel;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelinventory;
@@ -229,25 +230,16 @@ public class DbAccess {
 
     }
 
-    public List<AdministrationWsdashboard> getAllDashboardItems() {
-        List<AdministrationWsdashboard> dashboarditems = new ArrayList<>();
-        Cursor cursor = readData(AdministrationWsdashboard.TABLE_ADMINISTRATION_WSDASHBOARD
-                , AdministrationWsdashboard.COLUMN_ALL
-                , null, null, null, null, null
-//                , new String[]{"1"}, null, null, null
-        );
+    public List<WsDashboardModel> getAllDashboardItems() {
+        List<WsDashboardModel> dashboarditems = new ArrayList<>();
+        String sql = "select title, image, actionname from administration_wsdashboard where is_folder = 1 order by displayno";
+        Cursor cursor = readData(sql,null);
 
         while (cursor.moveToNext()) {
-            AdministrationWsdashboard item = new AdministrationWsdashboard();
+            WsDashboardModel item = new WsDashboardModel();
             item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
-            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTIONNAME)));
-            item.setGroupname(cursor.getString(cursor.getColumnIndex(item.COLUMN_GROUPNAME)));
             item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
-            item.setTimestamp(cursor.getString(cursor.getColumnIndex(item.COLUMN_TIMESTAMP)));
-            item.setIs_delete(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(item.COLUMN_DELETE))));
-            item.setDisplayno(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_DISPLAYNO))));
-            item.setScreen_id(Integer.parseInt(cursor.getString(cursor.getColumnIndex(item.COLUMN_SCREEN_ID))));
-
+            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
             dashboarditems.add(item);
         }
 

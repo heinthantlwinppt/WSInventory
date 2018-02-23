@@ -657,7 +657,7 @@ public class WsApi {
                         String urls = "http://52.230.10.246:8080" + wsImages.getPath();
 
                         File dir = Utility.creatdesignfolder(wsImages.getType());
-                        File my_file = new File(dir, wsImages.getName() + ".png");
+                        File my_file = new File(dir, wsImages.getId());
                         if (my_file.exists()) {
                             my_file.delete();
                         }

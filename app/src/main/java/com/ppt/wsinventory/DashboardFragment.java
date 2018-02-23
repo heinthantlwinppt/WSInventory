@@ -40,6 +40,7 @@ import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.Goods;
+import com.ppt.wsinventory.model.WsDashboardModel;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -69,7 +70,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     private GlobalVariables appContext;
     RecyclerView recyclerView;
     List<RecyclerDataModel> arrayList;
-    List<AdministrationWsdashboard> ItemList = new ArrayList<>();
+    List<WsDashboardModel> ItemList = new ArrayList<>();
     //    private float dpWidth;
     private float dpHeight;
     RecyclerViewAdapter adapter;
@@ -169,7 +170,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                final List<AdministrationWsdashboard> filtermodelist = filter(ItemList, newText);
+                final List<WsDashboardModel> filtermodelist = filter(ItemList, newText);
                 adapter.setfilter(filtermodelist);
                 return true;
             }
@@ -398,12 +399,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         loadRecyclerView();
     }
 
-    private List<AdministrationWsdashboard> filter(List<AdministrationWsdashboard> pl, String query) {
+    private List<WsDashboardModel> filter(List<WsDashboardModel> pl, String query) {
 
         query = query.toLowerCase();
-        final List<AdministrationWsdashboard> filterdModeList = new ArrayList<>();
+        final List<WsDashboardModel> filterdModeList = new ArrayList<>();
 
-        for (AdministrationWsdashboard model : pl) {
+        for (WsDashboardModel model : pl) {
             final String tex = model.getTitle().toLowerCase();
             if (tex.startsWith(query)) {
                 filterdModeList.add(model);
