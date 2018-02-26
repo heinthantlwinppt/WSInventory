@@ -48,7 +48,7 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDataSet.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -57,6 +57,8 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            txtbin_name = (TextView) itemView.findViewById(R.id.bin_name);
+            txtlocation = (TextView) itemView.findViewById(R.id.location);
         }
 
         public void setData(Inventory_BinLoc inventory_binLoc) {

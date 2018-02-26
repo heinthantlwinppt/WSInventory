@@ -17,4 +17,6 @@
     <color name="button_info">#57889C</color>
     <color name="button_warnning">#C79121</color>
     <color name="buttondanger">#A90329</color>
+    <color name="PrimaryText">#000000</color>
+    <color name="SecondaryText">#757575</color>
 </resources>

@@ -2,41 +2,113 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:paddingTop="25dp"
-        android:background="@drawable/spinner_listview"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-        <TextView
-            android:id="@+id/bin_name"
-            android:layout_width="100dp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_margin="12dp"
+        android:background="#ffffff"
+        app:cardCornerRadius="2dp"
+        app:contentPadding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="order no."
-            android:textColor="@color/black"/>
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Counter Name"
+                    android:textColor="@color/PrimaryText"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/bin_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_profile_name"
+                    android:ems="10"
+                    android:textSize="18sp"
+                    android:hint="Please enter your name."
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/tv_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/bin_name"
+                    android:text="Shop Name"
+                    android:textColor="@color/PrimaryText"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_date_of_birth"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint=""
+                    android:textSize="18sp"
+                    android:inputType="none"
+                    android:textIsSelectable="true"/>
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:paddingTop="25dp"-->
+        <!--android:background="@drawable/spinner_listview"-->
+        <!--android:paddingLeft="12dp"-->
+        <!--android:paddingRight="12dp">-->
+        <!--<TextView-->
+            <!--android:id="@+id/bin_name"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="order no."-->
+            <!--android:textColor="@color/black"/>-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/delivery_date"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="150dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="Delivery Date"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textAlignment="center"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textColor="@color/black"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerHorizontal="true"/>&ndash;&gt;-->
 
         <!--<TextView-->
-            <!--android:id="@+id/delivery_date"-->
-            <!--android:layout_width="150dp"-->
+            <!--android:id="@+id/location"-->
+            <!--android:layout_width="100dp"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:text="Delivery Date"-->
-            <!--android:textAlignment="center"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:text="Smith"-->
             <!--android:textColor="@color/black"-->
-            <!--android:layout_centerHorizontal="true"/>-->
+            <!--android:layout_alignParentEnd="true"/>-->
 
-        <TextView
-            android:id="@+id/Location"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:text="Smith"
-            android:textColor="@color/black"
-            android:layout_alignParentEnd="true"/>
-
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 
 </LinearLayout>
