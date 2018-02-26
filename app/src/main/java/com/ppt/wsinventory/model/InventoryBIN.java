@@ -14,6 +14,7 @@ public class InventoryBIN {
     public static final String COLUMN_BIN_TYPE  = "bin_type";
     public static final String COLUMN_BARCODE  = "barcode";
     public static final String COLUMN_TAG  = "tag";
+    public static final String COLUMN_ADDRESS  = "address";
     public static final String COLUMN_LOCATION_ID  = "location_id";
     public static final String COLUMN_ACTIVE  = "active";
     public static final String COLUMN_TS  = "ts";
@@ -26,6 +27,7 @@ public class InventoryBIN {
             COLUMN_BIN_TYPE ,
             COLUMN_BARCODE ,
             COLUMN_TAG ,
+            COLUMN_ADDRESS,
             COLUMN_LOCATION_ID ,
             COLUMN_ACTIVE ,
             COLUMN_TS

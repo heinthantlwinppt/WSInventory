@@ -253,37 +253,41 @@ public class DbAccess {
 
     }
 
-//    public List<InventoryBIN> getAllBinList() {
-//        List<InventoryBIN> inventoryBINS = new ArrayList<>();
-//        Cursor cursor = readData(InventoryBIN.TABLE_INVENTORY_BIN
-//                , Item.COLUMN_ALL
-//                , null, null, null, null, null
-////                , new String[]{"1"}, null, null, null
-//        );
-//
-//        while (cursor.moveToNext()) {
-//            InventoryBIN inventoryBIN = new InventoryBIN();
-//            inventoryBIN.setId(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ID)));
-//            inventoryBIN.setBin_name(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setBin_description(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setBin_type(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setBarcode(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setAddress(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setLocation_id(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
-//
-//            items.add(item);
-//        }
-//
-//        if (cursor != null && !cursor.isClosed()) {
-//            cursor.close();
-//        }
-//        return items;
-//
-//
-//    }
+    public List<InventoryBIN> getAllBinList() {
+        List<InventoryBIN> inventoryBINS = new ArrayList<>();
+        Cursor cursor = readData(InventoryBIN.TABLE_INVENTORY_BIN
+                , Item.COLUMN_ALL
+                , null, null, null, null, null
+//                , new String[]{"1"}, null, null, null
+        );
+
+        while (cursor.moveToNext()) {
+            InventoryBIN inventoryBIN = new InventoryBIN();
+            inventoryBIN.setId(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ID)));
+            inventoryBIN.setBin_name(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BIN_NAME)));
+            inventoryBIN.setBin_description(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BIN_DESCRIPTION)));
+            inventoryBIN.setBin_type(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BIN_TYPE)));
+            inventoryBIN.setBarcode(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BARCODE)));
+            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_TAG)));
+            inventoryBIN.setAddress(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ADDRESS)));
+            inventoryBIN.setLocation_id(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_LOCATION_ID)));
+            inventoryBIN.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ACTIVE))));
+            try {
+                inventoryBIN.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            inventoryBINS.add(inventoryBIN);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventoryBINS;
+
+
+    }
 
     public List<Manufacturing_smith_joborder> getAllSmithJoborder() {
         List<Manufacturing_smith_joborder> smithorder = new ArrayList<>();

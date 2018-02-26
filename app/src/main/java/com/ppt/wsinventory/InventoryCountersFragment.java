@@ -14,8 +14,13 @@ import android.widget.Toast;
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.wsdb.DbAccess;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,6 +30,9 @@ public class InventoryCountersFragment extends Fragment {
     private Context mContext;
     ListView counterList;
     Spinner location;
+    DbAccess dbAccess;
+    List<InventoryBIN> inventoryBINS = new ArrayList<>();
+    CounterListItemAdapter counterListItemAdapter;
 
     public InventoryCountersFragment() {
 
@@ -41,9 +49,12 @@ public class InventoryCountersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        dbAccess = new DbAccess(getContext());
+        dbAccess.open();
+        inventoryBINS = dbAccess.getAllBinList();
         View view = inflater.inflate(R.layout.fragment_inventory_counters, container, false);
 
-//        counterList= (ListView)view.findViewById(R.id.counterlist);
+        counterList= (ListView)view.findViewById(R.id.counterlist);
         location = (Spinner)view.findViewById(R.id.location);
 
         loadCounter();
@@ -55,22 +66,7 @@ public class InventoryCountersFragment extends Fragment {
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        GlobalBus.getBus().register(this);
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onStop() {
-        GlobalBus.getBus().unregister(this);
-        super.onStop();
-    }
 
 
 
@@ -80,4 +76,25 @@ public class InventoryCountersFragment extends Fragment {
             businessLogic.openScreen(e);
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dbAccess.open();
+        GlobalBus.getBus().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        dbAccess.close();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        GlobalBus.getBus().unregister(this);
+        dbAccess.close();
+        super.onStop();
+    }
+
 }
