@@ -1106,10 +1106,12 @@ public class WsApi {
 
     private void importSolutions(Solution solution) {
         dbaccess = DbAccess.getInstance();
+        dbaccess.open();
         AdministrationSolutions administrationSolutions = new AdministrationSolutions();
         administrationSolutions.setSolution_name(solution.getSolutionName());
         administrationSolutions.setActive(solution.getActive());
         dbaccess.insertAdministrationSolutions(administrationSolutions);
+//        dbaccess.close();
 
     }
 

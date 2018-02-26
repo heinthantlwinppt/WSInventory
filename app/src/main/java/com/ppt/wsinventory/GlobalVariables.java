@@ -33,14 +33,32 @@ public class GlobalVariables extends Application {
     private String smith_id;
     private String product_no;
     private String smith_name;
-    private int latest_parient_id;
+    private int parientid;
+    private int currentid;
+    private String  ActionName;
 
-    public int getLatest_parient_id() {
-        return latest_parient_id;
+    public String getActionName() {
+        return ActionName;
     }
 
-    public void setLatest_parient_id(int latest_parient_id) {
-        this.latest_parient_id = latest_parient_id;
+    public void setActionName(String actionName) {
+        ActionName = actionName;
+    }
+
+    public int getParientid() {
+        return parientid;
+    }
+
+    public void setParientid(int parientid) {
+        this.parientid = parientid;
+    }
+
+    public int getCurrentid() {
+        return currentid;
+    }
+
+    public void setCurrentid(int currentid) {
+        this.currentid = currentid;
     }
 
     public String getSmith_name() {

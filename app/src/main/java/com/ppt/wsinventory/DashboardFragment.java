@@ -95,6 +95,15 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         // Required empty public constructor
     }
 
+
+    @Subscribe
+    public void reloadAdapter()
+    {
+        if (adapter!=null)
+        {
+            adapter.goBack();
+        }
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -113,23 +122,26 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         dbaccess.open();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         my_progress = rootView.findViewById(R.id.confirm_progress);
+
+
         loadRecyclerView();
 
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
-        rootView.setOnKeyListener( new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey( View v, int keyCode, KeyEvent event )
-            {
-                if( keyCode == KeyEvent.KEYCODE_BACK )
-                {
-                    adapter.goBack();
-                    return true;
-                }
-                return false;
-            }
-        } );
+//        rootView.setOnKeyListener( new View.OnKeyListener(){
+//            @Override
+//            public boolean onKey( View v, int keyCode, KeyEvent event )
+//            {
+//                if( keyCode == KeyEvent.KEYCODE_BACK )
+//                {
+//                    adapter.goBack();
+//                    return true;
+//                }
+//                return super.onKey(keyCode, event);
+//            }
+//        } );
+
+
 
 
         /**
@@ -147,7 +159,13 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         return rootView;
     }
-
+//    @Override
+//    public void onDetach()
+//    {
+//        super.onDetach();
+//        adapter.goBack();
+//
+//    }
     //onItemClick
     @Override
     public void onItemClick(AdministrationWsdashboard item) {
@@ -324,9 +342,20 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     @Subscribe
     public void onOpenScreen(WsEvents.EventOpenScreen e) {
-        BusinessLogic businessLogic = new BusinessLogic(mContext);
-        businessLogic.openScreen(e);
+//        BusinessLogic businessLogic = new BusinessLogic(mContext);
+//        businessLogic.openScreen(e);
 
+
+        Toast.makeText(mContext, e.getActionname()+ appContext.getParientid(), Toast.LENGTH_SHORT).show();
+        if (appContext.getActionName().equals("close_folder"))
+        {
+            adapter.goBack();
+        }
+        else
+        {
+            BusinessLogic businessLogic = new BusinessLogic(mContext);
+            businessLogic.openScreen(e);
+        }
     }
 
     @Subscribe

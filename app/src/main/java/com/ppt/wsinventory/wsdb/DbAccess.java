@@ -1502,7 +1502,7 @@ public class DbAccess {
     public List<WsDashboardModel> getAllChild(int id)
     {
         List<WsDashboardModel> dashboarditems = new ArrayList<>();
-        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where parent_id = "+ id+" order by displayno";
+        String sql = "select id, title, image, is_folder, actionname, parent_id from administration_wsdashboard where parent_id = "+ id+" order by displayno";
 
         Cursor cursor = readData(sql,null);
 
@@ -1513,6 +1513,7 @@ public class DbAccess {
             item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
             item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
             item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
+            item.setParent_id(cursor.getInt(cursor.getColumnIndex(item.COLUMN_PARENT_ID)));
             dashboarditems.add(item);
         }
 

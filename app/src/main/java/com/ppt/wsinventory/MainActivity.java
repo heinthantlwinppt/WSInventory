@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +28,7 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
+import com.ppt.wsinventory.model.LoginToken;
 import com.ppt.wsinventory.util.MessageBox;
 import com.ppt.wsinventory.wsdb.DbAccess;
 import com.ppt.wsinventory.model.Item;
@@ -96,22 +98,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-//            super.onBackPressed();
-            MessageBox.ShowMessage(getSupportFragmentManager(),
-                    appContext.getTranslation("Sign Out"),
-                    appContext.getTranslation("Do you want to Exit application?"),
-                    CONFIRM_SIGN_OUT,
-                    "Cancel",
-                    "OK"
+        } else
+            {
+                appContext.setActionName("close_folder");
+//            Toast.makeText(MainActivity.this, appContext.getParientid(), Toast.LENGTH_SHORT).show();
+            Log.i("APT", "onBackPressed: "+ appContext.getParientid());
+            GlobalBus.getBus().post(
+                    new WsEvents.EventOpenScreen(appContext.getActionName())
             );
-
-//            finish();
         }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//            return;
+//            MessageBox.ShowMessage(getSupportFragmentManager(),
+//                    appContext.getTranslation("Sign Out"),
+//                    appContext.getTranslation("Do you want to Exit application?"),
+//                    CONFIRM_SIGN_OUT,
+//                    "Cancel",
+//                    "OK"
+//            );
+//
+////            finish();
+//        }
     }
 
     @Subscribe

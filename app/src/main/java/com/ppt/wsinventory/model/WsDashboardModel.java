@@ -11,6 +11,7 @@ public class WsDashboardModel {
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_ACTION_NAME ="actionname";
     public static final String COLUMN_IS_FOLDRE = "is_folder";
+    public static final String COLUMN_PARENT_ID = "parent_id";
 
 
     public static final String[] COLUMN_ALL = new String[]
@@ -19,7 +20,8 @@ public class WsDashboardModel {
                     COLUMN_TITLE,
                     COLUMN_IMAGE,
                     COLUMN_ACTION_NAME,
-                    COLUMN_IS_FOLDRE
+                    COLUMN_IS_FOLDRE,
+                    COLUMN_PARENT_ID
             };
 
     private int id;
@@ -27,6 +29,15 @@ public class WsDashboardModel {
     private String image;
     private String actionname;
     private boolean isFolder;
+    private int parent_id;
+
+    public int getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(int parent_id) {
+        this.parent_id = parent_id;
+    }
 
     public int getId() {
         return id;
