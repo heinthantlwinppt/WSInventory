@@ -3,6 +3,8 @@ package com.ppt.wsinventory;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
+import com.ppt.wsinventory.inventory.model.ProductReceiving;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
@@ -28,10 +32,10 @@ import java.util.List;
 public class InventoryCountersFragment extends Fragment {
     private GlobalVariables appContext;
     private Context mContext;
-    ListView counterList;
+    RecyclerView counterList;
     Spinner location;
     DbAccess dbAccess;
-    List<InventoryBIN> inventoryBINS = new ArrayList<>();
+    List<Inventory_BinLoc> inventoryBINS = new ArrayList<>();
     CounterListItemAdapter counterListItemAdapter;
 
     public InventoryCountersFragment() {
@@ -49,21 +53,25 @@ public class InventoryCountersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_inventory_counters, container, false);
         dbAccess = new DbAccess(getContext());
         dbAccess.open();
-        inventoryBINS = dbAccess.getAllBinList();
-        View view = inflater.inflate(R.layout.fragment_inventory_counters, container, false);
+        inventoryBINS = dbAccess.getAllInventoryBinLocation();
 
-        counterList= (ListView)view.findViewById(R.id.counterlist);
+        counterList= (RecyclerView) view.findViewById(R.id.counterlist);
         location = (Spinner)view.findViewById(R.id.location);
 
-        loadCounter();
+        counterListItemAdapter = new CounterListItemAdapter((ArrayList<Inventory_BinLoc>) inventoryBINS, appContext);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        counterList.setLayoutManager(mLayoutManager);
+        counterList.setAdapter(counterListItemAdapter);
+//        loadCounter();
         return view;
     }
 
-    private void loadCounter() {
-
-    }
+//    private void loadCounter() {
+//
+//    }
 
 
 
