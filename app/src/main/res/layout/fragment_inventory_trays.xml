@@ -7,8 +7,5 @@
     tools:context="com.ppt.wsinventory.common.InventoryTraysFragment"
     tools:showIn="@layout/activity_inventory_trays">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="trays"/>
+
 </android.support.constraint.ConstraintLayout>

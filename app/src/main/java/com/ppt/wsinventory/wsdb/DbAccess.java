@@ -264,7 +264,15 @@ public class DbAccess {
 //        while (cursor.moveToNext()) {
 //            InventoryBIN inventoryBIN = new InventoryBIN();
 //            inventoryBIN.setId(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ID)));
-//            inventoryBIN.setItemType(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setBin_name(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setBin_description(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setBin_type(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setBarcode(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setAddress(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setLocation_id(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//            inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
 //
 //            items.add(item);
 //        }

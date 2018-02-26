@@ -42,8 +42,7 @@ public class InventoryCountersFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_inventory_counters, container, false);
-        TextView counter = (TextView)view.findViewById(R.id.counter);
-        counter.setText("Test"+appContext.getParientid());
+
 //        counterList= (ListView)view.findViewById(R.id.counterlist);
         location = (Spinner)view.findViewById(R.id.location);
 
