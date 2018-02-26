@@ -145,6 +145,14 @@
         <activity
             android:name=".AddNewProduct"
             android:label="@string/title_activity_add_new_product"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".InventoryCounters"
+            android:label="@string/title_activity_inventory_counters"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.InventoryTrays"
+            android:label="@string/title_activity_inventory_trays"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

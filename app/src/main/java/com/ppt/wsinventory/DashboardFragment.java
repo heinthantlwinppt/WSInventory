@@ -353,6 +353,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         }
         else
         {
+            int id = appContext.getParientid();
+            appContext.setParientid(id);
             BusinessLogic businessLogic = new BusinessLogic(mContext);
             businessLogic.openScreen(e);
         }
@@ -462,7 +464,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     private void loadRecyclerView() {
 
-        ItemList = dbaccess.getAllDashboardItems();
+        if (appContext.getParientid() == 0)
+        {
+            ItemList = dbaccess.getAllDashboardItems();
+        }
+        else
+        {
+          ItemList = dbaccess.getparient(appContext.getParientid());
+        }
 
         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);

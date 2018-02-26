@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.ppt.wsinventory.DashboardSmithJob;
 import com.ppt.wsinventory.DashboardSmithJobOrder;
 import com.ppt.wsinventory.GlobalVariables;
+import com.ppt.wsinventory.InventoryCounters;
+import com.ppt.wsinventory.MainActivity;
 import com.ppt.wsinventory.ProductionReceivingInvestoryActivity;
 import com.ppt.wsinventory.ProreceivingListActivity;
 import com.ppt.wsinventory.inventory.model.ProductReceiving;
@@ -65,6 +67,27 @@ public class BusinessLogic {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             appContext.startActivity(intent);
             Toast.makeText(mContext, "Show Proreceiving List" , Toast.LENGTH_SHORT).show();
+        }
+        else if (e.getActionname().equalsIgnoreCase(WsEvents.OPEN_TRAY))
+        {
+            Intent intent = new Intent(this.appContext, InventoryTrays.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            appContext.startActivity(intent);
+
+        }else if (e.getActionname().equalsIgnoreCase(WsEvents.OPEN_COUNTER))
+        {
+            Intent intent = new Intent(this.appContext, InventoryCounters.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            appContext.startActivity(intent);
+
+
+        }else if (e.getActionname().equalsIgnoreCase(WsEvents.OPEN_DASHBOARD))
+        {
+            Intent intent = new Intent(this.appContext, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            appContext.startActivity(intent);
+
+
         }
     }
 

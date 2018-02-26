@@ -253,6 +253,30 @@ public class DbAccess {
 
     }
 
+//    public List<InventoryBIN> getAllBinList() {
+//        List<InventoryBIN> inventoryBINS = new ArrayList<>();
+//        Cursor cursor = readData(InventoryBIN.TABLE_INVENTORY_BIN
+//                , Item.COLUMN_ALL
+//                , null, null, null, null, null
+////                , new String[]{"1"}, null, null, null
+//        );
+//
+//        while (cursor.moveToNext()) {
+//            InventoryBIN inventoryBIN = new InventoryBIN();
+//            inventoryBIN.setId(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ID)));
+//            inventoryBIN.setItemType(cursor.getString(cursor.getColumnIndex(item.COLUMN_ITEMTYPE)));
+//
+//            items.add(item);
+//        }
+//
+//        if (cursor != null && !cursor.isClosed()) {
+//            cursor.close();
+//        }
+//        return items;
+//
+//
+//    }
+
     public List<Manufacturing_smith_joborder> getAllSmithJoborder() {
         List<Manufacturing_smith_joborder> smithorder = new ArrayList<>();
         Cursor cursor = readData(Manufacturing_smith_joborder.TABLE_MANUFACTURING_SMITH_JOBORDER

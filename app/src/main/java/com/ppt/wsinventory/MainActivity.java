@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
             {
-                appContext.setActionName("close_folder");
+                appContext.setActionName("c");
 //            Toast.makeText(MainActivity.this, appContext.getParientid(), Toast.LENGTH_SHORT).show();
             Log.i("APT", "onBackPressed: "+ appContext.getParientid());
             GlobalBus.getBus().post(

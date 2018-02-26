@@ -11,8 +11,11 @@ public class WsEvents {
     public static final String OPEN_RECEIVING_INVENTORY = "Receiving";
     public static final String OPEN_TAGGING_INVENTORY = "Tagging";
     public static final String OPEN_PRORECEIVING_LIST = "open_proreceivinglist";
+    public static final String OPEN_COUNTER = "open_counters";
+    public static final String OPEN_TRAY = "open_tray";
     public static final String OPEN_RECEVING_PRODUCT = "receiving_product";
     public static final String OPEN_PRODUCTION_RECEIVING_INVESTORY ="open_production_receiving_investor";
+    public static final String OPEN_DASHBOARD ="open_dashboard";
 
     public static class EventNewChange {
         private String mvalue;
