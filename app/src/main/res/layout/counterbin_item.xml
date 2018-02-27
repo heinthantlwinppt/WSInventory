@@ -11,12 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_margin="12dp"
-        android:background="#ffffff"
         app:cardCornerRadius="2dp"
         app:contentPadding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:background="@drawable/bg_cardview"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 

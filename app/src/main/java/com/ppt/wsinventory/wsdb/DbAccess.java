@@ -603,10 +603,9 @@ public class DbAccess {
 
     public List<Inventory_BinLoc> getAllInventoryBinLocation() {
         List<Inventory_BinLoc> inventory_binLocs = new ArrayList<>();
-        String sql = "select invb.* , adloc.loc_name as location_name\n" +
-                "from inventory_bin as invb\n" +
-                "inner join administration_locations as adloc\n" +
-                "on invb.location_id = adloc.id";
+        String sql = "select t1.loc_name, t2.* from administration_locations as t1 \n" +
+                "inner join inventory_bin as t2 \n" +
+                "on t1.id = t2.location_id";
         Cursor cursor = readData(sql, null);
 
         while (cursor.moveToNext()) {
@@ -1613,6 +1612,60 @@ public class DbAccess {
             cursor.close();
         }
         return dashboarditems;
+
+    }
+
+    public List<String > getAllLocation() {
+
+        List<String> administrationlocations = new ArrayList<>();
+//        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where id = "+ latest_parient_id +" order by displayno";
+        String sql = "select loc_name from administration_locations";
+
+        Cursor cursor = readData(sql, null);
+
+        while (cursor.moveToNext()) {
+            String item = null;
+            item = (cursor.getString(cursor.getColumnIndex("loc_name")));
+
+            administrationlocations.add(item);
+        }
+
+        return administrationlocations;
+    }
+
+    public List<Inventory_BinLoc> getAllbinByLocation(String  id) {
+
+        List<Inventory_BinLoc> inventory_binLocs = new ArrayList<>();
+        String sql = "select * from administration_locations as t1 \n" +
+                "inner join inventory_bin as t2 \n" +
+                "on t1.id = t2.location_id  where t1.id = ?";
+        Cursor cursor = readData(sql, new String[]{id});
+
+        while (cursor.moveToNext()) {
+            Inventory_BinLoc binLoc = new Inventory_BinLoc();
+            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
+            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
+            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
+            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
+            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
+            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
+            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
+            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
+            try {
+                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
+
+            inventory_binLocs.add(binLoc);
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_binLocs;
 
     }
 }

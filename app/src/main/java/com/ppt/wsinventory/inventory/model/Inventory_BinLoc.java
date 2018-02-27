@@ -17,7 +17,7 @@ public class Inventory_BinLoc {
     public static final String COLUMN_LOCATION_ID  = "location_id";
     public static final String COLUMN_ACTIVE  = "active";
     public static final String COLUMN_TS  = "ts";
-    public static final String COLUMN_LOCATION_NAME  = "location_name";
+    public static final String COLUMN_LOCATION_NAME  = "loc_name";
 
     public static final String[] COLUMN_ALL = new String[]{
 
