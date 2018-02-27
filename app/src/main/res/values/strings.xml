@@ -63,4 +63,5 @@
     <string name="title_activity_add_new_product">Add New Product</string>
     <string name="title_activity_inventory_counters">InventoryCounters</string>
     <string name="title_activity_inventory_trays">InventoryTrays</string>
+    <string name="title_activity_conform_bin">ConformBin</string>
 </resources>

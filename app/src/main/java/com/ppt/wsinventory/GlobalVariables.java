@@ -36,6 +36,15 @@ public class GlobalVariables extends Application {
     private int parientid;
     private int currentid;
     private String  ActionName;
+    private String Binid;
+
+    public String getBinid() {
+        return Binid;
+    }
+
+    public void setBinid(String binid) {
+        Binid = binid;
+    }
 
     public String getActionName() {
         return ActionName;

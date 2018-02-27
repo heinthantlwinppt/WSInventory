@@ -89,6 +89,14 @@ public class BusinessLogic {
 
 
         }
+        else if (e.getActionname().equalsIgnoreCase(WsEvents.OPEN_CONFIRM_COUNTER))
+        {
+            Intent intent = new Intent(this.appContext, InventoryCounters.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            appContext.startActivity(intent);
+
+
+        }
     }
 
     public Manufacturing_smith_joborder openSmithJobScreen(WsEvents.EventOpenSmithJob event) {
