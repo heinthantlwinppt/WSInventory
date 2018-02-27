@@ -151,7 +151,7 @@
             android:label="@string/title_activity_inventory_counters"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".common.InventoryTrays"
+            android:name=".InventoryTrays"
             android:label="@string/title_activity_inventory_trays"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
