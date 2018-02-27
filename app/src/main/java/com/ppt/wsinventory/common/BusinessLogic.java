@@ -5,25 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.widget.Toast;
 
-import com.ppt.wsinventory.DashboardSmithJob;
 import com.ppt.wsinventory.DashboardSmithJobOrder;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.InventoryCounters;
+import com.ppt.wsinventory.InventoryTrays;
 import com.ppt.wsinventory.MainActivity;
 import com.ppt.wsinventory.ProductionReceivingInvestoryActivity;
-import com.ppt.wsinventory.ProreceivingListActivity;
-import com.ppt.wsinventory.inventory.model.ProductReceiving;
 import com.ppt.wsinventory.model.ActionList;
-import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
-import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

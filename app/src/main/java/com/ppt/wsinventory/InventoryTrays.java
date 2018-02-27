@@ -1,4 +1,4 @@
-package com.ppt.wsinventory.common;
+package com.ppt.wsinventory;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

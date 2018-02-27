@@ -1,13 +1,13 @@
-package com.ppt.wsinventory.model;
+package com.ppt.wsinventory.inventory.model;
 
 import java.util.Date;
 
 /**
- * Created by ThinkCentre on 1/11/2018.
+ * Created by PPT on 2/26/2018.
  */
 
-public class InventoryPallet {
-    public static final String TABLE_INVENTORY_PALLET= "inventory_pallet";
+public class Inventory_PalletLoc {
+
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_PALLET_NAME  = "pallet_name";
     public static final String COLUMN_PALLET_DESCRIPTION  = "pallet_description";
@@ -19,6 +19,7 @@ public class InventoryPallet {
     public static final String COLUMN_IS_USED  = "is_used";
     public static final String COLUMN_WEIGHT  = "weight";
     public static final String COLUMN_TS  = "ts";
+    public static final String COLUMN_LOCATION_NAME = "location_name";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_ID ,
@@ -31,7 +32,8 @@ public class InventoryPallet {
             COLUMN_ACTIVE ,
             COLUMN_IS_USED ,
             COLUMN_WEIGHT ,
-            COLUMN_TS
+            COLUMN_TS ,
+            COLUMN_LOCATION_NAME
     };
 
     private String id ;
@@ -45,6 +47,7 @@ public class InventoryPallet {
     private double weight ;
     private Date ts ;
     private boolean active ;
+    private String location_name;
 
     public String getId() {
         return id;
@@ -134,20 +137,25 @@ public class InventoryPallet {
         this.active = active;
     }
 
+    public String getLocation_name() {
+        return location_name;
+    }
+
+    public void setLocation_name(String location_name) {
+        this.location_name = location_name;
+    }
+
     @Override
     public String toString() {
-        return "InventoryPallet{" +
+        return "Inventory_PalletLoc{" +
                 "id='" + id + '\'' +
                 ", pallet_name='" + pallet_name + '\'' +
                 ", pallet_description='" + pallet_description + '\'' +
                 ", pallet_type='" + pallet_type + '\'' +
                 ", barcode='" + barcode + '\'' +
                 ", tag='" + tag + '\'' +
-                ", is_used=" + is_used +
                 ", location_id='" + location_id + '\'' +
-                ", weight=" + weight +
-                ", ts=" + ts +
-                ", active=" + active +
+                ", location_name='" + location_name + '\'' +
                 '}';
     }
 }
