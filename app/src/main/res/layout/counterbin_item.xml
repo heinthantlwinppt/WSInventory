@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_margin="12dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="2dp"
         app:contentPadding="12dp">
 
@@ -20,13 +22,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
                 <TextView
                     android:id="@+id/tv_profile_name"
                     android:layout_width="match_parent"
+                    android:layout_marginStart="5dip"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -41,6 +44,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tv_profile_name"
                     android:ems="10"
+                    android:layout_marginStart="5dip"
                     android:textSize="18sp"
                     android:hint="Please enter your name."
                     android:inputType="textPersonName" />
@@ -51,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/bin_name"
+                    android:layout_marginStart="5dip"
                     android:text="Shop Name"
                     android:textColor="@color/PrimaryText"
                     android:textStyle="bold" />
@@ -61,6 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/tv_date_of_birth"
+                    android:layout_marginStart="5dip"
                     android:ems="10"
                     android:focusable="false"
                     android:hint=""
@@ -70,7 +76,7 @@
 
 
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
         </LinearLayout>
 

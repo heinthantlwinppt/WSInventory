@@ -30,8 +30,8 @@ public class ConformBinFragment extends Fragment {
     private GlobalVariables appContext;
     private Context mContext;
     DbAccess dbaccess;
-    EditText counter_id,name,type,descrription;
-    TextView barcode,tag;
+    EditText name,type,descrription;
+    TextView counter_id,barcode,tag;
     CheckBox active;
     Spinner location;
     DbAccess dbAccess;
@@ -54,14 +54,14 @@ public class ConformBinFragment extends Fragment {
         View rootview =
          inflater.inflate(R.layout.fragment_conform_bin, container, false);
 
-        counter_id = (EditText)rootview.findViewById(R.id.counter_id);
+        counter_id = (TextView) rootview.findViewById(R.id.counter_id);
         name = (EditText)rootview.findViewById(R.id.counter_name);
         type = (EditText)rootview.findViewById(R.id.counter_type);
         descrription = (EditText)rootview.findViewById(R.id.description);
         active = (CheckBox)rootview.findViewById(R.id.is_active);
         barcode= (TextView) rootview.findViewById(R.id.barcode);
         tag = (TextView)rootview.findViewById(R.id.tag);
-        location =(Spinner)rootview.findViewById(R.id.location);
+        location =(Spinner)rootview.findViewById(R.id.location_id);
         String  id = appContext.getBinid();
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
@@ -86,10 +86,10 @@ public class ConformBinFragment extends Fragment {
         dbAccess = new DbAccess(getContext());
         dbAccess.open();
         List<String> inventoryBINS = dbAccess.getAllLocation();
-//
-//        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
-//                android.R.layout.simple_spinner_item, inventoryBINS);
-//        location.setAdapter(inventoryLocation);
+
+        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, inventoryBINS);
+        location.setAdapter(inventoryLocation);
         return rootview;
     }
 //

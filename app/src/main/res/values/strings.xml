@@ -58,10 +58,10 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_receving_inventory">Prod Receiving</string>
     <string name="title_activity_receive_product">Receive product</string>
-    <string name="title_activity_add_receiveing_form">AddReceiveingForm</string>
+    <string name="title_activity_add_receiveing_form">Add Receiving Form</string>
     <string name="title_activity_add_receiving_form">Add Receiving Form</string>
     <string name="title_activity_add_new_product">Add New Product</string>
-    <string name="title_activity_inventory_counters">InventoryCounters</string>
-    <string name="title_activity_inventory_trays">InventoryTrays</string>
-    <string name="title_activity_conform_bin">ConformBin</string>
+    <string name="title_activity_inventory_counters">Inventory Counters</string>
+    <string name="title_activity_inventory_trays">Inventory Trays</string>
+    <string name="title_activity_conform_bin">Counter Confirmation</string>
 </resources>
