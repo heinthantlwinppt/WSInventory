@@ -176,7 +176,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     " weight   NUMERIC, \n" +
                     " ts   DATETIME, \n" +
                     " active    BOOL, \n" +
-                    " is_used    BOOL \n" +
+                    " is_used    BOOL, \n" +
+                    " updated    BOOL \n" +
                     ")";
 
     private static final String TABLE_INVENTROY_PRODUCTS= "inventory_products";

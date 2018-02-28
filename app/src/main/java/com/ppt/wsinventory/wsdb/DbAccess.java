@@ -29,6 +29,7 @@ import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
 import com.ppt.wsinventory.model.InventoryGoodInventory;
 import com.ppt.wsinventory.model.InventoryPallet;
+import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryProductSubgroups;
 import com.ppt.wsinventory.model.InventoryProductlength;
@@ -1771,4 +1772,44 @@ public class DbAccess {
         return inventory_binLocs;
     }
 
+    public InventoryPalletLoc getAllPalletById(String id) {
+
+        InventoryPalletLoc result = new InventoryPalletLoc();
+        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
+                "                              inner join inventory_pallet as t2\n" +
+                "                              on t1.id = t2.location_id where t2.id = ?";
+        Cursor cursor = readData(sql, new String[] {id});
+
+        while (cursor.moveToNext()) {
+            InventoryPalletLoc palletLoc = new InventoryPalletLoc();
+            palletLoc.setId(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ID)));
+            palletLoc.setPallet_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_NAME)));
+            palletLoc.setPallet_description(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_DESCRIPTION)));
+            palletLoc.setPallet_type(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TYPE)));
+            palletLoc.setPallet_barcode(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
+            palletLoc.setPallet_tag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
+            palletLoc.setPallet_location_id(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_LOCATION_ID)));
+            palletLoc.setPallet_active(cursor.getInt(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_ACTIVE))>0);
+            palletLoc.setPallet_weight(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_WEIGHT)));
+            palletLoc.setPallet_is_used(cursor.getInt(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_IS_USED))>0);
+            try {
+                palletLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            palletLoc.setPallet_location(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_LOCATION)));
+
+            result = palletLoc;
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+
+
+
+
+        return result;
+    }
 }
