@@ -657,12 +657,38 @@ public class DbAccess {
         return codeValues;
     }
 
-    public List<Inventory_PalletLoc> getAllinventoryPalletLocation(){
+    public List<CodeValue> getlocationSpinner() {
+
+        List<CodeValue> codeValues = new ArrayList<>();
+        Cursor cursor = readData(AdministrationLocations.TABLE_ADMINISTRATION_LOCATIONS
+                , new String[]{AdministrationLocations.COLUMN_ID,
+                        AdministrationLocations.COLUMN_LOC_NAME},
+                null);
+        while (cursor.moveToNext()) {
+            CodeValue codeValue = new CodeValue();
+            codeValue.setCode(cursor.getString(cursor.getColumnIndex(AdministrationLocations.COLUMN_ID)));
+            codeValue.setValue(cursor.getString(cursor.getColumnIndex(AdministrationLocations.COLUMN_LOC_NAME)));
+            codeValues.add(codeValue);
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return codeValues;
+    }
+
+
+    public List<Inventory_PalletLoc> getAllinventoryPalletLocation(String loc_name){
         List<Inventory_PalletLoc> inventory_palletLocs = new ArrayList<>();
         String sql = "select invP.* , admloc.loc_name as location_name\n" +
                 "from inventory_pallet as invP\n" +
                 "inner join administration_locations as admloc\n" +
-                "on invP.location_id = admloc.id";
+                "on invP.location_id = admloc.id\n";
+
+        if(!loc_name.isEmpty() && !loc_name.equals("") && !loc_name.equals("All Shop")){
+
+            sql = sql + " where admloc.loc_name = '"+ loc_name+"'";
+        }
 
         Cursor cursor = readData(sql, null);
 

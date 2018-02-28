@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import com.ppt.wsinventory.R;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
+import com.ppt.wsinventory.model.CodeValue;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class InventoryTraysFragment extends Fragment {
     List<Inventory_PalletLoc> inventory_palletLocs = new ArrayList<>();
     TrayListItemsAdapter trayListItemsAdapter;
     RecyclerView traylist;
+    String loc_name = new String("");
 
     @Override
     public void onAttach(Context context) {
@@ -51,15 +54,63 @@ public class InventoryTraysFragment extends Fragment {
         dbAccess = new DbAccess(getContext());
         dbAccess.open();
         traylist = view.findViewById(R.id.trayList);
-        inventory_palletLocs = dbAccess.getAllinventoryPalletLocation();
+        location = view.findViewById(R.id.location_tray);
+
+
+        LoadPalletList(loc_name);
+        LoadLoctionSpinner();
+
+        location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                CodeValue codeValue = (CodeValue) adapterView.getItemAtPosition(position);
+                loc_name = codeValue.getValue();
+                LoadPalletList(loc_name);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                LoadLoctionSpinner();
+            }
+        });
+
+        return view;
+    }
+
+
+    public void LoadLoctionSpinner(){
+
+        List<CodeValue> codeValues = new ArrayList<>();
+        CodeValue all = new CodeValue();
+        all.setCode("ALL");
+        all.setValue(appContext.getTranslation("All Shop"));
+        codeValues = dbAccess.getlocationSpinner();
+        codeValues.add(all);
+        LocSpinnerListAdapter dataAdapter =
+                new LocSpinnerListAdapter(getActivity(),
+                        android.R.layout.simple_spinner_item, codeValues);
+
+        int idx = 0;
+        for (CodeValue cv : codeValues) {
+            if (cv.getCode().equalsIgnoreCase("ALL")) {
+                idx = dataAdapter.getPosition(cv);
+                break;
+            }
+        }
+        location.setAdapter(dataAdapter);
+        location.setSelection(idx);
+    }
+    public void LoadPalletList(String loc_name){
+
+        inventory_palletLocs = dbAccess.getAllinventoryPalletLocation(loc_name);
         trayListItemsAdapter = new TrayListItemsAdapter((ArrayList<Inventory_PalletLoc>) inventory_palletLocs,appContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         traylist.setLayoutManager(mLayoutManager);
         traylist.setAdapter(trayListItemsAdapter);
 
-        return view;
-    }
 
+    }
     @Override
     public void onStart() {
         super.onStart();
