@@ -1324,6 +1324,7 @@ public class WsApi {
         inventoryBIN.setLocation_id(wsBIN.getLocation());
         inventoryBIN.setActive(wsBIN.getActive());
         inventoryBIN.setTs(wsBIN.getTs());
+        inventoryBIN.setUpdated(wsBIN.isUpdated());
 
         long l = dbaccess.insertInventoryBIN(inventoryBIN);
         return (l > 0);

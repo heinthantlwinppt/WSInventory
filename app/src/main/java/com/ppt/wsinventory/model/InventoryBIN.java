@@ -18,6 +18,7 @@ public class InventoryBIN {
     public static final String COLUMN_LOCATION_ID  = "location_id";
     public static final String COLUMN_ACTIVE  = "active";
     public static final String COLUMN_TS  = "ts";
+    public static final String COLUMN_UPDATED = "updated";
 
     public static final String[] COLUMN_ALL = new String[]{
 
@@ -30,7 +31,8 @@ public class InventoryBIN {
             COLUMN_ADDRESS,
             COLUMN_LOCATION_ID ,
             COLUMN_ACTIVE ,
-            COLUMN_TS
+            COLUMN_TS,
+            COLUMN_UPDATED
     };
 
     private String id ;
@@ -43,6 +45,15 @@ public class InventoryBIN {
     private String location_id ;
     private boolean active ;
     private Date ts ;
+    private boolean updated;
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
 
     public String getId() {
         return id;

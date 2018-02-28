@@ -159,7 +159,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     " tag   VARCHAR COLLATE NOCASE, \n" +
                     " location_id   VARCHAR COLLATE NOCASE, \n" +
                     " active    BOOL, \n" +
-                    " ts DATETIME \n" +
+                    " ts DATETIME, \n" +
+                    " updated BOOL \n" +
                     ")";
     private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
     private static final String TABLE_CREATE_INVENTROY_PALLET =

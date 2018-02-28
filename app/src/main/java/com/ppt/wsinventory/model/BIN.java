@@ -38,6 +38,17 @@ public class BIN {
     @SerializedName("location")
     @Expose
     private String location;
+    @SerializedName("updated")
+    @Expose
+    private boolean updated;
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
 
     public String getId() {
         return id;
