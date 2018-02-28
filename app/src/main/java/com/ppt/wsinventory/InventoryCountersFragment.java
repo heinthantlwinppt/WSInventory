@@ -102,11 +102,6 @@ public class InventoryCountersFragment extends Fragment {
 
     }
 
-
-
-
-
-
     @Subscribe
     public void onOpenScreen(WsEvents.EventOpenScreen e) {
      BusinessLogic businessLogic = new BusinessLogic(mContext);

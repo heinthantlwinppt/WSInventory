@@ -157,6 +157,10 @@
         <activity
             android:name=".ConformBin"
             android:label="@string/title_activity_conform_bin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ConfirmPallet"
+            android:label="@string/title_activity_confirm_pallet"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -64,4 +64,5 @@
     <string name="title_activity_inventory_counters">Inventory Counters</string>
     <string name="title_activity_inventory_trays">Inventory Trays</string>
     <string name="title_activity_conform_bin">Counter Confirmation</string>
+    <string name="title_activity_confirm_pallet">ConfirmPallet</string>
 </resources>

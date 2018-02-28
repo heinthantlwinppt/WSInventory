@@ -54,7 +54,7 @@ public class InventoryTraysFragment extends Fragment {
         dbAccess = new DbAccess(getContext());
         dbAccess.open();
         traylist = view.findViewById(R.id.trayList);
-        location = view.findViewById(R.id.location_tray);
+        location = view.findViewById(R.id.location_tray_spinner);
 
 
         LoadPalletList(loc_name);

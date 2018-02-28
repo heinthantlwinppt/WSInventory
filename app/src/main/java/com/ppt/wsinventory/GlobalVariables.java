@@ -37,6 +37,15 @@ public class GlobalVariables extends Application {
     private int currentid;
     private String  ActionName;
     private String Binid;
+    private String palletId;
+
+    public String getPalletId() {
+        return palletId;
+    }
+
+    public void setPalletId(String palletId) {
+        this.palletId = palletId;
+    }
 
     public String getBinid() {
         return Binid;
@@ -203,4 +212,6 @@ public class GlobalVariables extends Application {
     public void setSubgroupname(String subgroupname) {
         this.subgroupname = subgroupname;
     }
+
+
 }

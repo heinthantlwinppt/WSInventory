@@ -148,21 +148,23 @@ public class ConformBinFragment extends Fragment {
         boolean success = dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN,values,InventoryBIN.COLUMN_ID + "= ?",new String []{current_id} );
         if (success)
         {
+            Intent intent = new Intent(mContext, ConformBin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
             Toast.makeText(mContext, "success fully save ", Toast.LENGTH_SHORT).show();
         }
         else
         {
             Toast.makeText(mContext, "success Error", Toast.LENGTH_SHORT).show();
 
+
         }
-
-
-
-
-
     }
 
     private void canclefunction() {
+        Intent intent = new Intent(mContext, ConformBin.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 //
 //    inventoryBINS = dbAccess.getAllLocation();
