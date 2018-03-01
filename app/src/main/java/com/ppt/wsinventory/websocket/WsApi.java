@@ -1097,6 +1097,7 @@ public class WsApi {
     private void importTableToDelete(TableToDelete tableList) {
 
         dbaccess = DbAccess.getInstance();
+        dbaccess.open();
         try {
             dbaccess.deleteData(tableList.getTablename());
         } catch (Exception e) {
