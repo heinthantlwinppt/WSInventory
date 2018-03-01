@@ -1,6 +1,8 @@
 package com.ppt.wsinventory;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
@@ -117,6 +120,16 @@ public class InventoryCountersFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onDestroy() {
         dbAccess.close();
         super.onDestroy();
@@ -128,5 +141,6 @@ public class InventoryCountersFragment extends Fragment {
         dbAccess.close();
         super.onStop();
     }
+
 
 }

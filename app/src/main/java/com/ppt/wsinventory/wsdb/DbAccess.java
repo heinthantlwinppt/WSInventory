@@ -1771,7 +1771,41 @@ public class DbAccess {
         }
         return inventory_binLocs;
     }
+    public Inventory_BinLoc getInventoryBinByBarcode(String barcode)
+    {
 
+        Inventory_BinLoc inventory_binLocs = null;
+        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
+                "                inner join inventory_bin as t2  \n" +
+                "                on t1.id = t2.location_id where t2.barcode = ?";
+        Cursor cursor = readData(sql, new String[] {barcode});
+
+        while (cursor.moveToNext()) {
+            Inventory_BinLoc binLoc = new Inventory_BinLoc();
+            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
+            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
+            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
+            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
+            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
+            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
+            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
+            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
+            try {
+                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
+
+            inventory_binLocs = binLoc;
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_binLocs;
+    }
     public InventoryPalletLoc getAllPalletById(String id) {
 
         InventoryPalletLoc result = new InventoryPalletLoc();

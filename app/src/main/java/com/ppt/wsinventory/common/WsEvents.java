@@ -114,7 +114,17 @@ public class WsEvents {
             return actionname;
         }
     }
+    public static class EventReadBarCode{
+        private String sbarcode;
 
+        public EventReadBarCode(String sbarcode) {
+            this.sbarcode = sbarcode;
+        }
+
+        public String getBarcode() {
+            return sbarcode;
+        }
+    }
     public static class EventOpenSmithJob {
         private String joborder_no;
         public EventOpenSmithJob(String joborder_no) {

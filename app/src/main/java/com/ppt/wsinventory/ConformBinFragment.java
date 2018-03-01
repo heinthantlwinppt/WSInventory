@@ -19,10 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.BusinessLogic;
+import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -122,6 +126,25 @@ public class ConformBinFragment extends Fragment {
         });
 
         return rootview;
+    }
+    @Subscribe
+    public void onReadBarcode(WsEvents.EventReadBarCode e) {
+//        BusinessLogic businessLogic = new BusinessLogic(mContext);
+//        businessLogic.openScreen(e);
+        barcode.setText(e.getBarcode());
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        GlobalBus.getBus().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        GlobalBus.getBus().unregister(this);
+        super.onStop();
     }
 
     private void confirmFunction()
