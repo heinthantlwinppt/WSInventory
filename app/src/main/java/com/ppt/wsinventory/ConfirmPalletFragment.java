@@ -138,6 +138,7 @@ public class ConfirmPalletFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.counter_confirm_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void confirmFunction()
