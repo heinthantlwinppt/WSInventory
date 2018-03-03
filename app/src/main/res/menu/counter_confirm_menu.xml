@@ -6,6 +6,8 @@
             app:showAsAction="always"
             android:id="@+id/counter_confirm"
             android:orderInCategory="100"
+
             />
+
 
 </menu>
