@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:icon="@drawable/counter_confirm"
+    <item android:icon="@drawable/beer"
             android:title="confirm"
             app:showAsAction="always"
             android:id="@+id/counter_confirm"
