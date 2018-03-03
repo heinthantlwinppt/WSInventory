@@ -1140,6 +1140,8 @@ public class WsApi {
         administrationSettings.setSolution_id(settings.getSolution());
         administrationSettings.setLocation_id(settings.getLocation());
         administrationSettings.setDevicetype_id(settings.getDevicetype());
+        administrationSettings.setRfidreader_mac(settings.getRfidreader_mac());
+        administrationSettings.setRfidreader_name(settings.getRfidreader_name());
         dbaccess.insertSettings(administrationSettings);
 
     }

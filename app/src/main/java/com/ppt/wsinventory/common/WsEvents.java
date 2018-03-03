@@ -1,7 +1,5 @@
 package com.ppt.wsinventory.common;
 
-import com.ppt.wsinventory.inventory.model.ProductReceiving;
-
 /**
  * Created by User on 02/01/2018.
  */
@@ -123,6 +121,17 @@ public class WsEvents {
 
         public String getBarcode() {
             return sbarcode;
+        }
+    }
+    public static class EventReadRFID{
+        private String sdata;
+
+        public EventReadRFID(String data) {
+            this.sdata = data;
+        }
+
+        public String getRfid() {
+            return sdata;
         }
     }
     public static class EventOpenSmithJob {

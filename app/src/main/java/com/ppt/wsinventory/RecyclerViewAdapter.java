@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    DbAccess dbaccess;
+//    DbAccess dbaccess;
     GlobalVariables appContext;
     public static final String CONFIRM_SIGN_OUT = "CONFIRM_SIGN_OUT";
 
@@ -51,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     protected ItemListener mListener;
 
     public RecyclerViewAdapter(Context context, List<WsDashboardModel> mValure, ItemListener itemListener) {
-        dbaccess = new DbAccess(context);
+//        dbaccess = new DbAccess(context);
         appContext = (GlobalVariables)context.getApplicationContext();
         mContext = context;
         mDataSet = (ArrayList<WsDashboardModel>) mValure;
@@ -68,9 +69,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         else
         {
-            dbaccess.open();
-            List<WsDashboardModel> parientList = dbaccess.getparient(appContext.getParientid());
-            dbaccess.close();
+//            dbaccess.open();
+            BusinessLogic businessLogic = new BusinessLogic();
+            List<WsDashboardModel> parientList = businessLogic.getparient(appContext.getParientid());
+//            dbaccess.close();
             clear();
             if(parientList.size()!=0) {
                 appContext.setCurrentid(parientList.get(0).getId());
@@ -164,9 +166,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void loadChild(int id) {
-        dbaccess.open();
-        List<WsDashboardModel> childList = dbaccess.getAllChild(id);
-        dbaccess.close();
+//        dbaccess.open();
+        BusinessLogic businessLogic = new BusinessLogic();
+        List<WsDashboardModel> childList = businessLogic.getAllChild(id);
+//        dbaccess.close();
         clear();
         appContext.setParientid(childList.get(0).getParent_id());
         appContext.setCurrentid(childList.get(0).getId());

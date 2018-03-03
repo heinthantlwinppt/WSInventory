@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ppt.wsinventory.common.BusinessLogic;
+import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
@@ -75,6 +76,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private DbAccess dbaccess;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        dbaccess.open();
+    }
+
+    @Override
+    protected void onPause() {
+        dbaccess.close();
+        super.onPause();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -83,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         dbaccess.open();
         appContext = (GlobalVariables) getApplicationContext();
         appContext.setmStaff(null);
+        StateManager.getInstance().setIslogicoderfid(false);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -364,6 +378,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (staff != null) {
                 appContext.setmStaff(staff);
+                BusinessLogic businesslogic = new BusinessLogic();
+                AdministrationSettings administrationsettings = businesslogic.getAdministrationSettings();
+                appContext.setWssetting(administrationsettings);
                 SharedPreferences.Editor editor =
                         getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
                 editor.putString(staff.COLUMN_NICK_NAME, staff.getNick_name());

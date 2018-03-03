@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 
     SearchView searchView;
     String mCurrentFragmentTag;
-    DbAccess dbAccess;
+    DbAccess dbaccess;
 //    Item item;
     List<Item> ItemList = new ArrayList<>();
     private GlobalVariables appContext;
@@ -65,9 +65,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         appContext = (GlobalVariables) getApplicationContext();
-
-        dbAccess = new DbAccess(this);
-        dbAccess.open();
+        dbaccess = new DbAccess(this);
+        dbaccess.open();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -299,7 +298,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        dbAccess.open();
+//        dbAccess.open();
         GlobalBus.getBus().register(this);
         LoadItemList();
 
@@ -308,22 +307,28 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        dbAccess.close();
+        dbaccess.close();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        dbAccess.open();
+        dbaccess.open();
         LoadItemList();
     }
 
     @Override
     public void onStop() {
         GlobalBus.getBus().unregister(this);
-        dbAccess.close();
+//        dbAccess.close();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbaccess.close();
+        super.onDestroy();
     }
 
     public void exportDatabse(String databaseName) {

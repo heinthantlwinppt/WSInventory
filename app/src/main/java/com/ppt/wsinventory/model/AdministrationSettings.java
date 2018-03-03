@@ -25,64 +25,70 @@ public class AdministrationSettings {
     public static final String COLUMN_ACTIVE = "active";
     public static final String COLUMN_LOCATION_ID = "location_id";
     public static final String COLUMN_SOLUTION_ID = "solution_id";
-    public static final String COLUMN_STAFF_ID= "staff_id";
+    public static final String COLUMN_STAFF_ID = "staff_id";
     public static final String COLUMN_WEIGHSCALES_ID = "weighscales_id";
     public static final String COLUMN_DASHBOARDITEMLWITH = "dashboarditemlwith";
     public static final String COLUMN_DASHBOARDITEMPWITH = "dashboarditempwith";
     public static final String COLUMN_DASHBOARDICON = "dashboardicon";
     public static final String COLUMN_DEVICE_ID = "device_id";
     public static final String COLUMN_DEVICETYPE_ID = "devicetype_id";
+    public static final String COLUMN_RFIDREADER_MAC = "rfidreader_mac";
+    public static final String COLUMN_RFIDREADER_NAME = "rfidreader_name";
 
     public static final String[] COLUMN_ALL = new String[]{
 
-            COLUMN_ID ,
-            COLUMN_H1 ,
-            COLUMN_H2 ,
-            COLUMN_H3 ,
-            COLUMN_H4 ,
-            COLUMN_T1 ,
-            COLUMN_T2 ,
-            COLUMN_T3 ,
-            COLUMN_T4 ,
-            COLUMN_DATEFORMAT ,
-            COLUMN_TIMEFORMAT ,
-            COLUMN_DATETIMEFORMAT ,
-            COLUMN_SYSTTEM_DATE ,
-            COLUMN_ACTIVE ,
-            COLUMN_LOCATION_ID ,
-            COLUMN_SOLUTION_ID ,
+            COLUMN_ID,
+            COLUMN_H1,
+            COLUMN_H2,
+            COLUMN_H3,
+            COLUMN_H4,
+            COLUMN_T1,
+            COLUMN_T2,
+            COLUMN_T3,
+            COLUMN_T4,
+            COLUMN_DATEFORMAT,
+            COLUMN_TIMEFORMAT,
+            COLUMN_DATETIMEFORMAT,
+            COLUMN_SYSTTEM_DATE,
+            COLUMN_ACTIVE,
+            COLUMN_LOCATION_ID,
+            COLUMN_SOLUTION_ID,
             COLUMN_STAFF_ID,
-            COLUMN_WEIGHSCALES_ID ,
-            COLUMN_DASHBOARDITEMLWITH ,
-            COLUMN_DASHBOARDITEMPWITH ,
+            COLUMN_WEIGHSCALES_ID,
+            COLUMN_DASHBOARDITEMLWITH,
+            COLUMN_DASHBOARDITEMPWITH,
             COLUMN_DASHBOARDICON,
             COLUMN_DEVICE_ID,
-            COLUMN_DEVICETYPE_ID
+            COLUMN_DEVICETYPE_ID,
+            COLUMN_RFIDREADER_MAC,
+            COLUMN_RFIDREADER_NAME
     };
 
-    private String id ;
-    private String h1 ;
-    private String h2 ;
-    private String h3 ;
-    private String h4 ;
-    private String t1 ;
-    private String t2 ;
-    private String t3 ;
-    private String t4 ;
-    private String dateformat ;
-    private String timeformat ;
-    private String datetimeformat ;
-    private Date system_date ;
-    private boolean active ;
-    private String location_id ;
-    private String solution_id ;
-    private String staff_id ;
-    private String weighscales_id ;
-    private int dashboarditemlwith ;
-    private int dashboarditempwith ;
-    private String dashboardicon ;
-    private String devicetype_id ;
-    private String device_id ;
+    private String id;
+    private String h1;
+    private String h2;
+    private String h3;
+    private String h4;
+    private String t1;
+    private String t2;
+    private String t3;
+    private String t4;
+    private String dateformat;
+    private String timeformat;
+    private String datetimeformat;
+    private Date system_date;
+    private boolean active;
+    private String location_id;
+    private String solution_id;
+    private String staff_id;
+    private String weighscales_id;
+    private int dashboarditemlwith;
+    private int dashboarditempwith;
+    private String dashboardicon;
+    private String devicetype_id;
+    private String device_id;
+    private String rfidreader_mac;
+    private String rfidreader_name;
 
     public String getId() {
         return id;
@@ -268,10 +274,27 @@ public class AdministrationSettings {
         this.device_id = device_id;
     }
 
+    public String getRfidreader_mac() {
+        return rfidreader_mac;
+    }
+
+    public void setRfidreader_mac(String rfidreader_mac) {
+        this.rfidreader_mac = rfidreader_mac;
+    }
+
+    public String getRfidreader_name() {
+        return rfidreader_name;
+    }
+
+    public void setRfidreader_name(String rfidreader_name) {
+        this.rfidreader_name = rfidreader_name;
+    }
+
     @Override
     public String toString() {
         return "AdministrationSettings{" +
-                "h1='" + h1 + '\'' +
+                "id='" + id + '\'' +
+                ", h1='" + h1 + '\'' +
                 ", h2='" + h2 + '\'' +
                 ", h3='" + h3 + '\'' +
                 ", h4='" + h4 + '\'' +
@@ -282,13 +305,20 @@ public class AdministrationSettings {
                 ", dateformat='" + dateformat + '\'' +
                 ", timeformat='" + timeformat + '\'' +
                 ", datetimeformat='" + datetimeformat + '\'' +
+                ", system_date=" + system_date +
+                ", active=" + active +
                 ", location_id='" + location_id + '\'' +
                 ", solution_id='" + solution_id + '\'' +
                 ", staff_id='" + staff_id + '\'' +
                 ", weighscales_id='" + weighscales_id + '\'' +
+                ", dashboarditemlwith=" + dashboarditemlwith +
+                ", dashboarditempwith=" + dashboarditempwith +
                 ", dashboardicon='" + dashboardicon + '\'' +
                 ", devicetype_id='" + devicetype_id + '\'' +
                 ", device_id='" + device_id + '\'' +
+                ", rfidreader_mac='" + rfidreader_mac + '\'' +
+                ", rfidreader_name='" + rfidreader_name + '\'' +
                 '}';
     }
 }
+

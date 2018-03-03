@@ -20,6 +20,7 @@ import com.cipherlab.barcode.ReaderManager;
 import com.cipherlab.barcode.decoder.BcReaderType;
 import com.cipherlab.barcode.decoder.KeyboardEmulationType;
 import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
+import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
@@ -1950,8 +1951,8 @@ public class InventoryCounters extends AppCompatActivity {
     };
     private void onReadBarcode(String data){
         data = Normalizer.normalize(data, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
-
-        Inventory_BinLoc inventory_binLoc = dbAccess.getInventoryBinByBarcode(data);
+        BusinessLogic businessLogic = new BusinessLogic();
+        Inventory_BinLoc inventory_binLoc = businessLogic.getInventoryBinByBarcode(data);
         if(inventory_binLoc != null) {
             appContext.setBinid(inventory_binLoc.getId());
             Intent intent = new Intent(this, ConformBin.class);

@@ -95,7 +95,7 @@ public class DbAccess {
         return dbhelper.getDatabaseName();
     }
 
-    private static final String TAG = "Truckkit-DbAccess";
+    private static final String TAG = "WS-DbAccess";
     private static DbAccess m_dbaccess;
 
     public DbAccess(Context context) {
@@ -229,29 +229,6 @@ public class DbAccess {
             cursor.close();
         }
         return items;
-
-
-    }
-
-    public List<WsDashboardModel> getAllDashboardItems() {
-        List<WsDashboardModel> dashboarditems = new ArrayList<>();
-        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where parent_id = 0 order by displayno";
-        Cursor cursor = readData(sql, null);
-
-        while (cursor.moveToNext()) {
-            WsDashboardModel item = new WsDashboardModel();
-            item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
-            item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
-            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
-            item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
-            item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
-            dashboarditems.add(item);
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return dashboarditems;
 
 
     }
@@ -554,55 +531,6 @@ public class DbAccess {
         return inventoryAllProducts;
     }
 
-    public AdministrationSettings getAdministrationSettings() {
-//        AdministrationSettings administrationSettings = new AdministrationSettings();
-        AdministrationSettings administrationSetting = new AdministrationSettings();
-        Cursor cursor = readData(AdministrationSettings.TABLE_ADMINISTRATION_SETTINGS
-                , AdministrationSettings.COLUMN_ALL
-                , null, null, null, null, null
-//                , new String[]{"1"}, null, null, null
-        );
-
-        while (cursor.moveToNext()) {
-            administrationSetting = new AdministrationSettings();
-            administrationSetting.setId(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_ID)));
-            administrationSetting.setH1(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_H1)));
-            administrationSetting.setH2(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_H2)));
-            administrationSetting.setH3(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_H3)));
-            administrationSetting.setH4(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_H4)));
-            administrationSetting.setT1(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_T1)));
-            administrationSetting.setT2(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_T2)));
-            administrationSetting.setT3(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_T3)));
-            administrationSetting.setT4(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_T4)));
-            administrationSetting.setDateformat(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DATEFORMAT)));
-            administrationSetting.setTimeformat(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_TIMEFORMAT)));
-            administrationSetting.setDatetimeformat(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DATETIMEFORMAT)));
-            try {
-                administrationSetting.setSystem_date(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_SYSTTEM_DATE))));
-            } catch (ParseException e) {
-                administrationSetting.setSystem_date(new Date(System.currentTimeMillis()));
-            }
-            administrationSetting.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_ACTIVE))));
-            administrationSetting.setLocation_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_LOCATION_ID)));
-            administrationSetting.setSolution_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_SOLUTION_ID)));
-            administrationSetting.setStaff_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_STAFF_ID)));
-            administrationSetting.setWeighscales_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_WEIGHSCALES_ID)));
-            administrationSetting.setDashboarditemlwith(Integer.parseInt(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DASHBOARDITEMLWITH))));
-            administrationSetting.setDashboarditempwith(Integer.parseInt(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DASHBOARDITEMPWITH))));
-            administrationSetting.setDashboardicon(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DASHBOARDICON)));
-            administrationSetting.setDevicetype_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DEVICETYPE_ID)));
-            administrationSetting.setDevice_id(cursor.getString(cursor.getColumnIndex(administrationSetting.COLUMN_DEVICE_ID)));
-
-//            administrationSettings.add(administrationSetting);
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-
-        return administrationSetting;
-    }
-
     public List<Inventory_BinLoc> getAllInventoryBinLocation() {
         List<Inventory_BinLoc> inventory_binLocs = new ArrayList<>();
         String sql = "select t1.loc_name, t2.* from administration_locations as t1 \n" +
@@ -790,6 +718,8 @@ public class DbAccess {
         values.put(AdministrationSettings.COLUMN_DASHBOARDICON, administrationSettings.getDashboardicon());
         values.put(AdministrationSettings.COLUMN_DEVICE_ID, administrationSettings.getDevice_id());
         values.put(AdministrationSettings.COLUMN_DEVICETYPE_ID, administrationSettings.getDevicetype_id());
+        values.put(AdministrationSettings.COLUMN_RFIDREADER_MAC, administrationSettings.getRfidreader_mac());
+        values.put(AdministrationSettings.COLUMN_RFIDREADER_NAME, administrationSettings.getRfidreader_name());
         long resultid = database.insert(administrationSettings.TABLE_ADMINISTRATION_SETTINGS, null, values);
 //        administrationSettings.setId(resultid);
         return administrationSettings;
@@ -1655,33 +1585,6 @@ public class DbAccess {
         return dashboarditems;
     }
 
-    public List<WsDashboardModel> getparient(int latest_parient_id) {
-        List<WsDashboardModel> dashboarditems = new ArrayList<>();
-//        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where id = "+ latest_parient_id +" order by displayno";
-        String sql = "select t1.* \n" +
-                "from administration_wsdashboard t1 inner join administration_wsdashboard t2 \n" +
-                "on t2.parent_id = t1.parent_id\n" +
-                "where t2.id = " + latest_parient_id;
-
-        Cursor cursor = readData(sql, null);
-
-        while (cursor.moveToNext()) {
-            WsDashboardModel item = new WsDashboardModel();
-            item.setTitle(cursor.getString(cursor.getColumnIndex(item.COLUMN_TITLE)));
-            item.setImage(cursor.getString(cursor.getColumnIndex(item.COLUMN_IMAGE)));
-            item.setActionname(cursor.getString(cursor.getColumnIndex(item.COLUMN_ACTION_NAME)));
-            item.setFolder(cursor.getInt(cursor.getColumnIndex(item.COLUMN_IS_FOLDRE)) > 0);
-            item.setId(cursor.getInt(cursor.getColumnIndex(item.COLUMN_ID)));
-            dashboarditems.add(item);
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return dashboarditems;
-
-    }
-
     public List<String > getAllLocation() {
 
         List<String> administrationlocations = new ArrayList<>();
@@ -1744,41 +1647,6 @@ public class DbAccess {
                 "                inner join inventory_bin as t2  \n" +
                 "                on t1.id = t2.location_id where t2.id = ?";
         Cursor cursor = readData(sql, new String[] {id});
-
-        while (cursor.moveToNext()) {
-            Inventory_BinLoc binLoc = new Inventory_BinLoc();
-            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
-            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
-            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
-            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
-            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
-            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
-            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
-            try {
-                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
-
-            inventory_binLocs = binLoc;
-
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return inventory_binLocs;
-    }
-    public Inventory_BinLoc getInventoryBinByBarcode(String barcode)
-    {
-
-        Inventory_BinLoc inventory_binLocs = null;
-        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
-                "                inner join inventory_bin as t2  \n" +
-                "                on t1.id = t2.location_id where t2.barcode = ?";
-        Cursor cursor = readData(sql, new String[] {barcode});
 
         while (cursor.moveToNext()) {
             Inventory_BinLoc binLoc = new Inventory_BinLoc();

@@ -134,6 +134,12 @@ public class ConformBinFragment extends Fragment {
         barcode.setText(e.getBarcode());
 
     }
+    @Subscribe
+    public void onReadRFID(WsEvents.EventReadRFID e) {
+
+        tag.setText(e.getRfid());
+
+    }
 
     @Override
     public void onStart() {

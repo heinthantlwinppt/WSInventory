@@ -110,6 +110,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         mContext = context;
         appContext = (GlobalVariables) context
                 .getApplicationContext();
+        dbaccess = DbAccess.getInstance();
+        dbaccess.open();
+
     }
 
     @Override
@@ -118,8 +121,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
         setHasOptionsMenu(true);
-        dbaccess = new DbAccess(getContext());
-        dbaccess.open();
+//        dbaccess = new DbAccess(getContext());
+//        dbaccess.open();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         my_progress = rootView.findViewById(R.id.confirm_progress);
 
@@ -304,14 +307,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                 .unregisterReceiver(mBroadcastReceiver);
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .unregisterReceiver(mBroadcastIntegration);
-        dbaccess.close();
+//        dbaccess.close();
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        dbaccess.open();
+//        dbaccess.open();
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .registerReceiver(mBroadcastReceiver,
                         new IntentFilter(WsSyncService.API_SERVICE_SYNC));
@@ -329,7 +332,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     @Override
     public void onDestroy() {
-        dbaccess.close();
+//        dbaccess.close();
         super.onDestroy();
     }
 
@@ -463,21 +466,24 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
 
     private void loadRecyclerView() {
-
+        BusinessLogic businesslogic = new BusinessLogic();
         if (appContext.getParientid() == 0)
         {
-            ItemList = dbaccess.getAllDashboardItems();
+
+            ItemList = businesslogic.getAllDashboardItems();
         }
         else
         {
-          ItemList = dbaccess.getparient(appContext.getParientid());
+            ItemList = businesslogic.getparient(appContext.getParientid());
         }
 
         adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
         recyclerView.setAdapter(adapter);
-        administrationSettings = dbaccess.getAdministrationSettings();
 
-        if (!isEmpty(administrationSettings.getId())) {
+
+        administrationSettings = businesslogic.getAdministrationSettings();
+        if (administrationSettings != null && !isEmpty(administrationSettings.getId())) {
+            appContext.setWssetting(administrationSettings);
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
                 w = administrationSettings.getDashboarditempwith();

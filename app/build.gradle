@@ -42,4 +42,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     compile files('libs/BarcodeAPI.jar')
+    compile files('libs/rfidconfig.jar')
 }

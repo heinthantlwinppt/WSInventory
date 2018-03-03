@@ -80,6 +80,12 @@ public class Settings {
     @SerializedName("weighscales")
     @Expose
     private String weighscales;
+    @SerializedName("rfidreader_mac")
+    @Expose
+    private String rfidreader_mac;
+    @SerializedName("rfidreader_name")
+    @Expose
+    private String rfidreader_name;
 
     public String getId() {
         return id;
@@ -265,4 +271,19 @@ public class Settings {
         this.weighscales = weighscales;
     }
 
+    public String getRfidreader_mac() {
+        return rfidreader_mac;
+    }
+
+    public void setRfidreader_mac(String rfidreader_mac) {
+        this.rfidreader_mac = rfidreader_mac;
+    }
+
+    public String getRfidreader_name() {
+        return rfidreader_name;
+    }
+
+    public void setRfidreader_name(String rfidreader_name) {
+        this.rfidreader_name = rfidreader_name;
+    }
 }

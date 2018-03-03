@@ -3,6 +3,7 @@ package com.ppt.wsinventory;
 import android.app.Application;
 
 import com.ppt.wsinventory.model.ActionList;
+import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
 import com.ppt.wsinventory.util.RequestPackage;
 
@@ -38,6 +39,15 @@ public class GlobalVariables extends Application {
     private String  ActionName;
     private String Binid;
     private String palletId;
+    private AdministrationSettings wssetting;
+
+    public AdministrationSettings getWssetting() {
+        return wssetting;
+    }
+
+    public void setWssetting(AdministrationSettings wssetting) {
+        this.wssetting = wssetting;
+    }
 
     public String getPalletId() {
         return palletId;

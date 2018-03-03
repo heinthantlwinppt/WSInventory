@@ -11,10 +11,18 @@ import java.util.Map;
  */
 
 class StateManager {
-
+    private boolean is_logicoderfid = false;
     private String CurrentFragmentTag;
     private Map<String, String> translation = new HashMap<String, String>();
     private Manufacturing_smith_joborder mSelectedSmithJobOrder;
+
+    public boolean IsLogicoderfid() {
+        return is_logicoderfid;
+    }
+
+    public void setIslogicoderfid(boolean is_logicoderfid) {
+        this.is_logicoderfid = is_logicoderfid;
+    }
 
     public String getCurrentFragmentTag() {
         return CurrentFragmentTag;

@@ -50,6 +50,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     "staff_id VARCHAR COLLATE NOCASE, \n" +
                     "weighscales_id VARCHAR COLLATE NOCASE, \n" +
                     "device_id VARCHAR COLLATE NOCASE, \n" +
+                    "rfidreader_mac VARCHAR COLLATE NOCASE, \n" +
+                    "rfidreader_name VARCHAR COLLATE NOCASE, \n" +
                     "devicetype_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
