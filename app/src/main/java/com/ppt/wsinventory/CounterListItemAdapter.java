@@ -15,7 +15,6 @@ import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.model.InventoryBIN;
 
@@ -29,12 +28,12 @@ import butterknife.OnClick;
 
 public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItemAdapter.MyViewHolder> {
 
-    ArrayList<Inventory_BinLoc> mDataSet;
+    ArrayList<InventoryBIN> mDataSet;
     Context mContext;
-    Inventory_BinLoc inventory_binLoc;
+    InventoryBIN inventory_binLoc;
     GlobalVariables appContext;
 
-    public CounterListItemAdapter(ArrayList<Inventory_BinLoc> mDataSet, Context mContext) {
+    public CounterListItemAdapter(ArrayList<InventoryBIN> mDataSet, Context mContext) {
         this.mDataSet = mDataSet;
         this.mContext = mContext;
         appContext = (GlobalVariables)mContext.getApplicationContext();
@@ -66,7 +65,7 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
             RecyclerView.ViewHolder
             implements View.OnClickListener{
 
-        Inventory_BinLoc inventory_binLoc;
+        InventoryBIN inventory_binLoc;
         public TextView txtbin_name, txtlocation;
 
         public MyViewHolder(View itemView) {
@@ -76,7 +75,7 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
             txtlocation = (TextView) itemView.findViewById(R.id.location);
         }
 
-        public void setData(Inventory_BinLoc inventory_binLoc) {
+        public void setData(InventoryBIN inventory_binLoc) {
             this.inventory_binLoc = inventory_binLoc;
         }
 
@@ -84,8 +83,6 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
         public void onClick(View View)
         {
 
-            Log.i("APT", "onClick: true "  + inventory_binLoc.getId());
-            Toast.makeText(mContext, "on click it "+inventory_binLoc.getId(), Toast.LENGTH_SHORT).show();
             appContext.setBinid(inventory_binLoc.getId());
             Intent intent = new Intent(mContext, ConformBin.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

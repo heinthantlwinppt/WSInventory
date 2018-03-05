@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.INotificationSideChannel;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +13,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
+import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -42,7 +37,6 @@ public class ConformBinFragment extends Fragment {
 //    TextView counter_id,barcode,tag;
     CheckBox active;
     Spinner location;
-    DbAccess dbAccess;
     String current_id;
     Button cancle,confirm;
 
@@ -78,38 +72,47 @@ public class ConformBinFragment extends Fragment {
         String  id = appContext.getBinid();
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
-        Inventory_BinLoc data = dbaccess.getAllInventoryBinByBin(id);
+        BusinessLogic businesslogic = new BusinessLogic(getContext());
+        InventoryBIN inventorybin = businesslogic.getInventoryBinById(id);
 
 //        barcode= (TextView) rootview.findViewById(R.id.barcode);
 //        tag = (TextView)rootview.findViewById(R.id.tag);
 
-        counter_id.setText(data.getId());
-        current_id = data.getId();
-        name.setText(data.getBin_name());
-        type.setText(data.getBin_type());
-        descrription.setText(data.getBin_description());
-
-        barcode.setText(data.getBarcode());
-        tag.setText(data.getTag());
-        if (data.isActive())
+        counter_id.setText(inventorybin.getId());
+        current_id = inventorybin.getId();
+        name.setText(inventorybin.getBin_name());
+        type.setText(inventorybin.getBin_type());
+        descrription.setText(inventorybin.getBin_description());
+        active.setChecked(inventorybin.isActive());
+        barcode.setText(inventorybin.getBarcode());
+        tag.setText(inventorybin.getTag());
+        if (inventorybin.isActive())
         {
             active.setChecked(true);
-            Toast.makeText(mContext, "isActive " + data.isActive(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "isActive " + inventorybin.isActive(), Toast.LENGTH_SHORT).show();
         }
         else
         {
             active.setChecked(false);
-            Toast.makeText(mContext, "isActive " + data.isActive(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "isActive " + inventorybin.isActive(), Toast.LENGTH_SHORT).show();
 
         }
-        dbAccess = new DbAccess(getContext());
-        dbAccess.open();
-        List<String> inventoryBINS = dbAccess.getAllLocation();
 
-        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, inventoryBINS);
-        location.setAdapter(inventoryLocation);
-        location.setSelection(1);
+        List<AdministrationLocations> locationslist = businesslogic.getAllLocation();
+        LocationListAdapter locationlistadapter =
+                new LocationListAdapter(getContext(),
+                        android.R.layout.simple_spinner_item, locationslist);
+//        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
+//                android.R.layout.simple_spinner_item, locationslist);
+        location.setAdapter(locationlistadapter);
+        int idx = 0;
+        for (AdministrationLocations loc : locationslist) {
+            if (loc.getId().equalsIgnoreCase(inventorybin.getLocation_id())) {
+                idx = locationlistadapter.getPosition(loc);
+                break;
+            }
+        }
+        location.setSelection(idx);
 
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +166,7 @@ public class ConformBinFragment extends Fragment {
         values.put(InventoryBIN.COLUMN_BARCODE,barcode.getText().toString());
         values.put(InventoryBIN.COLUMN_TAG,tag.getText().toString());
         values.put(InventoryBIN.COLUMN_LOCATION_ID,dbaccess.getLocaionId(location.getSelectedItem().toString()));
-        values.put(InventoryBIN.COLUMN_UPDATED,0);
+        values.put(InventoryBIN.COLUMN_UPLOADED,0);
 
         if (active.isChecked()) {
 
@@ -191,12 +194,12 @@ public class ConformBinFragment extends Fragment {
     }
 
     private void canclefunction() {
-        Intent intent = new Intent(mContext, ConformBin.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        GlobalBus.getBus().post(
+                new WsEvents.EventCloseActivity()
+        );
     }
 //
-//    inventoryBINS = dbAccess.getAllLocation();
+//    inventoryBINS = dbaccess.getAllLocation();
 //    ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
 //            android.R.layout.simple_spinner_item, inventoryBINS);
 //        Log.i("APT", "onCreateView: " + inventoryBINS.size());

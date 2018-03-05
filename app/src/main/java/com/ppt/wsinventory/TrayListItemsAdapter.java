@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
 
 import java.util.ArrayList;

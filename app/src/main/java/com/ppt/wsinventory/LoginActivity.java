@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         appContext = (GlobalVariables) getApplicationContext();
         appContext.setmStaff(null);
         StateManager.getInstance().setIslogicoderfid(false);
+        StateManager.getInstance().setCurrent_activity(LoginActivity.class.getName());
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

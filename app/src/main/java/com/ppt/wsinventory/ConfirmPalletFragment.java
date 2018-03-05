@@ -11,13 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ppt.wsinventory.common.BusinessLogic;
+import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.InventoryPallet;
 import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.wsdb.DbAccess;
@@ -70,28 +71,25 @@ public class ConfirmPalletFragment extends Fragment {
         String  id = appContext.getPalletId();
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
-        List<String> inventoryBINS = dbaccess.getAllLocation();
-
-        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, inventoryBINS);
-        location.setAdapter(inventoryLocation);
+        BusinessLogic businesslogic = new BusinessLogic(getContext());
 
 
-        InventoryPalletLoc allPalletById = dbaccess.getAllPalletById(id);
-        current_id = allPalletById.getId();
 
-        pallet_name.setText(allPalletById.getPallet_name());
-        pallet_id.setText(allPalletById.getId());
-        pallet_type.setText(allPalletById.getPallet_type());
-        pallet_description.setText(allPalletById.getPallet_description());
-        barcode.setText(allPalletById.getPallet_barcode());
-        tag.setText(allPalletById.getPallet_tag());
-        weight.setText(allPalletById.getPallet_weight());
+        InventoryPalletLoc inventorypalletloc = businesslogic.getPalletById(id);
+        current_id = inventorypalletloc.getId();
+
+        pallet_name.setText(inventorypalletloc.getPallet_name());
+        pallet_id.setText(inventorypalletloc.getId());
+        pallet_type.setText(inventorypalletloc.getPallet_type());
+        pallet_description.setText(inventorypalletloc.getPallet_description());
+        barcode.setText(inventorypalletloc.getPallet_barcode());
+        tag.setText(inventorypalletloc.getPallet_tag());
+        weight.setText(inventorypalletloc.getPallet_weight());
 
 
-        Toast.makeText(mContext, "Result " + allPalletById.getPallet_weight()+ " & " +allPalletById.getPallet_active(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Result " + inventorypalletloc.getPallet_weight()+ " & " +inventorypalletloc.getPallet_active(), Toast.LENGTH_SHORT).show();
 
-        if (allPalletById.getPallet_active())
+        if (inventorypalletloc.getPallet_active())
         {
             isactive.setChecked(true);
         }
@@ -100,7 +98,7 @@ public class ConfirmPalletFragment extends Fragment {
             isactive.setChecked(false);
         }
 
-        if (allPalletById.isPallet_is_used())
+        if (inventorypalletloc.isPallet_is_used())
         {
             isused.setChecked(true);
         }
@@ -108,6 +106,22 @@ public class ConfirmPalletFragment extends Fragment {
             isused.setChecked(false);
         }
 
+
+        List<AdministrationLocations> locationslist = businesslogic.getAllLocation();
+        LocationListAdapter locationlistadapter =
+                new LocationListAdapter(getContext(),
+                        android.R.layout.simple_spinner_item, locationslist);
+//        ArrayAdapter<String> inventoryLocation = new ArrayAdapter<String>(getContext(),
+//                android.R.layout.simple_spinner_item, locationslist);
+        location.setAdapter(locationlistadapter);
+        int idx = 0;
+        for (AdministrationLocations loc : locationslist) {
+            if (loc.getId().equalsIgnoreCase(inventorypalletloc.getPallet_location_id())) {
+                idx = locationlistadapter.getPosition(loc);
+                break;
+            }
+        }
+        location.setSelection(idx);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

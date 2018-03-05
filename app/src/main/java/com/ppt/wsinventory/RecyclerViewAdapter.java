@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.WsDashboardModel;
-import com.ppt.wsinventory.wsdb.DbAccess;
+import com.ppt.wsinventory.util.MessageBox;
 
 
 import java.io.File;
@@ -46,38 +47,37 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     TextView title;
     @BindView(R.id.imageView)
     ImageView dashboard_icon;
-
+    FragmentManager mfragmentManager;
 
     //    Item item;
     protected ItemListener mListener;
 
-    public RecyclerViewAdapter(Context context, List<WsDashboardModel> mValure, ItemListener itemListener) {
+    public RecyclerViewAdapter(Context context, List<WsDashboardModel> mValure, ItemListener itemListener , FragmentManager fragmentManager) {
 //        dbaccess = new DbAccess(context);
         appContext = (GlobalVariables)context.getApplicationContext();
         mContext = context;
         mDataSet = (ArrayList<WsDashboardModel>) mValure;
-//        Toast.makeText(mContext,appContext.getParientid() + " = parent id & current id =" + appContext.getCurrentid(),Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(mContext,appContext.getParentid() + " = parent id & current id =" + appContext.getCurrentid(),Toast.LENGTH_SHORT).show();
+        mfragmentManager = fragmentManager;
         mListener = itemListener;
     }
 
     public void goBack()
     {
-        if (appContext.getParientid()==0 )
+        if (appContext.getParentid()==0 )
         {
             alart();
         }
         else
         {
 //            dbaccess.open();
-            BusinessLogic businessLogic = new BusinessLogic();
-            List<WsDashboardModel> parientList = businessLogic.getparient(appContext.getParientid());
+            BusinessLogic businessLogic = new BusinessLogic(appContext);
+            WsDashboardModel wsdashboarditem = businessLogic.getDashboardItem(appContext.getParentid());
+            List<WsDashboardModel> parentList = businessLogic.getDashboardItems(wsdashboarditem.getParent_id());
 //            dbaccess.close();
             clear();
-            if(parientList.size()!=0) {
-                appContext.setCurrentid(parientList.get(0).getId());
-                appContext.setParientid(parientList.get(0).getParent_id());
-                mDataSet = (ArrayList<WsDashboardModel>) parientList;
+            if(parentList.size()!=0) {
+                mDataSet = (ArrayList<WsDashboardModel>) parentList;
             }
         }
 //
@@ -85,21 +85,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     private void alart() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("Sign Out")
-                .setMessage("Do you want to Exit application")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).create().show();
+        MessageBox.ShowMessage( mfragmentManager,
+                appContext.getTranslation("Exit?"),
+                appContext.getTranslation("Do you want to Exit application?"),
+                CONFIRM_SIGN_OUT,
+                "Cancel",
+                "OK"
+        );
 
     }
 
@@ -142,11 +134,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (dashboarditem.isFolder())
             {
-                appContext.setActionName("open_folder");
+                appContext.setParentid(dashboarditem.getId());
                 loadChild(dashboarditem.getId());
             }
             else
             {
+                appContext.setParentid(dashboarditem.getParent_id());
                 GlobalBus.getBus().post(
                         new WsEvents.EventOpenScreen(dashboarditem.getActionname()));
 //                Toast.makeText(mContext,"It isn't folder " + dashboarditem.isFolder(),Toast.LENGTH_LONG).show();
@@ -167,12 +160,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void loadChild(int id) {
 //        dbaccess.open();
-        BusinessLogic businessLogic = new BusinessLogic();
-        List<WsDashboardModel> childList = businessLogic.getAllChild(id);
+        BusinessLogic businessLogic = new BusinessLogic(appContext);
+        List<WsDashboardModel> childList = businessLogic.getDashboardItems(id);
 //        dbaccess.close();
         clear();
-        appContext.setParientid(childList.get(0).getParent_id());
-        appContext.setCurrentid(childList.get(0).getId());
+//        appContext.setParentid(childList.get(0).getParent_id());
+//        appContext.setCurrentid(childList.get(0).getId());
         mDataSet = (ArrayList<WsDashboardModel>) childList;
 //        Toast.makeText(mContext,"It is folder CURRENT ID IS " +  childList.get(0).getId() + " & parent id is " + childList.get(0).getParent_id() ,Toast.LENGTH_LONG).show();
     }

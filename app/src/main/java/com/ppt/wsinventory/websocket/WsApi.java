@@ -8,7 +8,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.GlobalVariables;
-import com.ppt.wsinventory.PicassoImageTarget;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.ActionList;
@@ -107,7 +106,6 @@ import com.ppt.wsinventory.util.HexStringConverter;
 import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
-import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1327,7 +1325,8 @@ public class WsApi {
         inventoryBIN.setLocation_id(wsBIN.getLocation());
         inventoryBIN.setActive(wsBIN.getActive());
         inventoryBIN.setTs(wsBIN.getTs());
-        inventoryBIN.setUpdated(wsBIN.isUpdated());
+        inventoryBIN.setUploaded(true);
+        inventoryBIN.setNo_of_pallets(wsBIN.getNo_of_pallets());
 
         long l = dbaccess.insertInventoryBIN(inventoryBIN);
         return (l > 0);

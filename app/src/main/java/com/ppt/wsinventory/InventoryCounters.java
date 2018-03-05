@@ -5,14 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.cipherlab.barcode.GeneralString;
@@ -21,10 +16,7 @@ import com.cipherlab.barcode.decoder.BcReaderType;
 import com.cipherlab.barcode.decoder.KeyboardEmulationType;
 import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
 import com.ppt.wsinventory.common.BusinessLogic;
-import com.ppt.wsinventory.common.GlobalBus;
-import com.ppt.wsinventory.common.WsEvents;
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
-import com.ppt.wsinventory.model.Gold;
+import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import java.text.Normalizer;
@@ -37,7 +29,7 @@ public class InventoryCounters extends AppCompatActivity {
 
     // A very important class used to communicate with driver and  service.
     private com.cipherlab.barcode.ReaderManager mReaderManager;
-
+    public static final String TAG = "WS-InventoryCounters";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +37,9 @@ public class InventoryCounters extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         appContext = (GlobalVariables) getApplicationContext();
+        StateManager.getInstance().setCurrent_activity(InventoryCounters.class.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                onBackPressed();
-            }
-        });
         dbAccess = new DbAccess(this);
         dbAccess.open();
         // ***************************************************//
@@ -71,22 +58,23 @@ public class InventoryCounters extends AppCompatActivity {
         registerReceiver(myDataReceiver, filter);
     }
 
-    @Override
-    public void onBackPressed() {
-
-        Log.i("APT", "onBackPressed: " + appContext.getParientid());
-
-        GlobalBus.getBus().post(
-                new WsEvents.EventOpenScreen("open_dashboard"));
-
-        Log.i("APT", "onBackPressed: asdf" + appContext.getParientid());
-
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//        Log.i("APT", "onBackPressed: " + appContext.getParentid());
+//
+//        GlobalBus.getBus().post(
+//                new WsEvents.EventOpenScreen("open_dashboard"));
+//
+//        Log.i("APT", "onBackPressed: asdf" + appContext.getParentid());
+//
+//
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        StateManager.getInstance().setCurrent_activity(InventoryCounters.class.getName());
         dbAccess.open();
     }
 
@@ -1949,15 +1937,19 @@ public class InventoryCounters extends AppCompatActivity {
 
         }
     };
-    private void onReadBarcode(String data){
-        data = Normalizer.normalize(data, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
-        BusinessLogic businessLogic = new BusinessLogic();
-        Inventory_BinLoc inventory_binLoc = businessLogic.getInventoryBinByBarcode(data);
-        if(inventory_binLoc != null) {
-            appContext.setBinid(inventory_binLoc.getId());
-            Intent intent = new Intent(this, ConformBin.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.startActivity(intent);
+    private void onReadBarcode(String data) {
+        if (!StateManager.getInstance().getCurrent_activity().equalsIgnoreCase(ConformBin.class.getName())) {
+            data = Normalizer.normalize(data, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
+            BusinessLogic businessLogic = new BusinessLogic();
+            InventoryBIN inventory_binLoc = businessLogic.getInventoryBinByBarcode(data);
+            if (inventory_binLoc != null) {
+                Log.i(TAG, "onReadBarcode: ");
+                appContext.setBinid(inventory_binLoc.getId());
+                Intent intent = new Intent(this, ConformBin.class);
+                Log.i(TAG, "onReadBarcode: " + ConformBin.class.getName());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.startActivity(intent);
+            }
         }
     }
 }

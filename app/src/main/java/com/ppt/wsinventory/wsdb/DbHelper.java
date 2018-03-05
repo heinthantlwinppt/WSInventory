@@ -160,9 +160,10 @@ public class DbHelper extends SQLiteOpenHelper {
                     " barcode   VARCHAR COLLATE NOCASE, \n" +
                     " tag   VARCHAR COLLATE NOCASE, \n" +
                     " location_id   VARCHAR COLLATE NOCASE, \n" +
+                    " no_of_pallets   INTEGER COLLATE NOCASE, \n" +
                     " active    BOOL, \n" +
                     " ts DATETIME, \n" +
-                    " updated BOOL \n" +
+                    " uploaded BOOL \n" +
                     ")";
     private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
     private static final String TABLE_CREATE_INVENTROY_PALLET =

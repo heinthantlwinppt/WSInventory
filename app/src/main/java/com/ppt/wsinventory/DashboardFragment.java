@@ -15,14 +15,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -348,16 +346,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 //        BusinessLogic businessLogic = new BusinessLogic(mContext);
 //        businessLogic.openScreen(e);
 
-
-        Toast.makeText(mContext, e.getActionname()+ appContext.getParientid(), Toast.LENGTH_SHORT).show();
-        if (appContext.getActionName().equals("close_folder"))
+        if (e.getActionname().equals("close_folder"))
         {
             adapter.goBack();
         }
         else
         {
-            int id = appContext.getParientid();
-            appContext.setParientid(id);
             BusinessLogic businessLogic = new BusinessLogic(mContext);
             businessLogic.openScreen(e);
         }
@@ -466,18 +460,18 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     }
 
     private void loadRecyclerView() {
-        BusinessLogic businesslogic = new BusinessLogic();
-        if (appContext.getParientid() == 0)
+        BusinessLogic businesslogic = new BusinessLogic(appContext);
+        if (appContext.getParentid() == 0)
         {
 
-            ItemList = businesslogic.getAllDashboardItems();
+            ItemList = businesslogic.getDashboardItems(0);
         }
         else
         {
-            ItemList = businesslogic.getparient(appContext.getParientid());
+            ItemList = businesslogic.getDashboardItems(appContext.getParentid());
         }
 
-        adapter = new RecyclerViewAdapter(getContext(), ItemList, this);
+        adapter = new RecyclerViewAdapter(getContext(), ItemList, this,getFragmentManager());
         recyclerView.setAdapter(adapter);
 
 

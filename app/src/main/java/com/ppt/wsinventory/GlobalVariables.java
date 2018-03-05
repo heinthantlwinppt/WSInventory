@@ -36,7 +36,6 @@ public class GlobalVariables extends Application {
     private String smith_name;
     private int parientid;
     private int currentid;
-    private String  ActionName;
     private String Binid;
     private String palletId;
     private AdministrationSettings wssetting;
@@ -65,19 +64,11 @@ public class GlobalVariables extends Application {
         Binid = binid;
     }
 
-    public String getActionName() {
-        return ActionName;
-    }
-
-    public void setActionName(String actionName) {
-        ActionName = actionName;
-    }
-
-    public int getParientid() {
+    public int getParentid() {
         return parientid;
     }
 
-    public void setParientid(int parientid) {
+    public void setParentid(int parientid) {
         this.parientid = parientid;
     }
 
@@ -96,7 +87,6 @@ public class GlobalVariables extends Application {
     public void setSmith_name(String smith_name) {
         this.smith_name = smith_name;
     }
-
     public String getProduct_no() {
         return product_no;
     }

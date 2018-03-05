@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.inventory.model.Inventory_production_receiving;
@@ -23,7 +22,6 @@ import com.ppt.wsinventory.model.AdministrationStaffRole;
 import com.ppt.wsinventory.model.AdministrationWsdashboard;
 import com.ppt.wsinventory.model.AdministratoryNoSerie;
 import com.ppt.wsinventory.model.CodeValue;
-import com.ppt.wsinventory.model.GoodsInventory;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
@@ -48,7 +46,6 @@ import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
-import com.ppt.wsinventory.model.NoSeries;
 import com.ppt.wsinventory.model.WsDashboardModel;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
@@ -68,7 +65,6 @@ import com.ppt.wsinventory.util.Utility;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -249,7 +245,7 @@ public class DbAccess {
             inventoryBIN.setBin_type(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BIN_TYPE)));
             inventoryBIN.setBarcode(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_BARCODE)));
             inventoryBIN.setTag(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_TAG)));
-            inventoryBIN.setAddress(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ADDRESS)));
+            inventoryBIN.setNo_of_pallets(cursor.getInt(cursor.getColumnIndex(inventoryBIN.COLUMN_NO_OF_PALLETS)));
             inventoryBIN.setLocation_id(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_LOCATION_ID)));
             inventoryBIN.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(inventoryBIN.COLUMN_ACTIVE))));
             try {
@@ -531,41 +527,7 @@ public class DbAccess {
         return inventoryAllProducts;
     }
 
-    public List<Inventory_BinLoc> getAllInventoryBinLocation() {
-        List<Inventory_BinLoc> inventory_binLocs = new ArrayList<>();
-        String sql = "select t1.loc_name, t2.* from administration_locations as t1 \n" +
-                "inner join inventory_bin as t2 \n" +
-                "on t1.id = t2.location_id";
-        Cursor cursor = readData(sql, null);
-        while (cursor.moveToNext()) {
-            Inventory_BinLoc binLoc = new Inventory_BinLoc();
-            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
-            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
-            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
-            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
-            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
-            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
-            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
-            try {
-                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
-
-            inventory_binLocs.add(binLoc);
-
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return inventory_binLocs;
-    }
-
-
-
+    
     public List<CodeValue> getProductGroupList() {
 
         List<CodeValue> codeValues = new ArrayList<>();
@@ -902,6 +864,7 @@ public class DbAccess {
 
     public long insertInventoryBIN(InventoryBIN inventoryBIN) {
         ContentValues values = new ContentValues();
+
         values.put(InventoryBIN.COLUMN_ID, inventoryBIN.getId());
         values.put(InventoryBIN.COLUMN_BIN_NAME, inventoryBIN.getBin_name());
         values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION, inventoryBIN.getBin_description());
@@ -909,6 +872,8 @@ public class DbAccess {
         values.put(InventoryBIN.COLUMN_BARCODE, inventoryBIN.getBarcode());
         values.put(InventoryBIN.COLUMN_TAG, inventoryBIN.getTag());
         values.put(InventoryBIN.COLUMN_LOCATION_ID, inventoryBIN.getLocation_id());
+        values.put(InventoryBIN.COLUMN_NO_OF_PALLETS, inventoryBIN.getNo_of_pallets());
+        values.put(InventoryBIN.COLUMN_UPLOADED, inventoryBIN.isUploaded());
         values.put(InventoryBIN.COLUMN_ACTIVE, inventoryBIN.isActive());
         values.put(InventoryBIN.COLUMN_TS, Utility.dateFormat.format(inventoryBIN.getTs()));
 
@@ -1585,133 +1550,42 @@ public class DbAccess {
         return dashboarditems;
     }
 
-    public List<String > getAllLocation() {
 
-        List<String> administrationlocations = new ArrayList<>();
-//        String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where id = "+ latest_parient_id +" order by displayno";
-        String sql = "select loc_name from administration_locations";
+//    public InventoryBIN getInventoryBinByBin(String id)
+//    {
+//
+//
+//        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
+//                "                inner join inventory_bin as t2  \n" +
+//                "                on t1.id = t2.location_id where t2.id = ?";
+//        Cursor cursor = readData(sql, new String[] {id});
+//
+//        InventoryBIN binLoc = null;
+//        while (cursor.moveToNext()) {
+//            binLoc = new InventoryBIN();
+//            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
+//            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
+//            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
+//            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
+//            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
+//            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
+//            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
+//            binLoc.setActive(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))>0);
+//            try {
+//                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            binLoc.setNo_of_pallets(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_NO_OF_PALLETS)));
+//            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
+//            break;
+//
+//        }
+//
+//        if (cursor != null && !cursor.isClosed()) {
+//            cursor.close();
+//        }
+//        return binLoc;
+//    }
 
-        Cursor cursor = readData(sql, null);
-
-        while (cursor.moveToNext()) {
-            String item = null;
-            item = (cursor.getString(cursor.getColumnIndex("loc_name")));
-
-            administrationlocations.add(item);
-        }
-
-        return administrationlocations;
-    }
-
-    public List<Inventory_BinLoc> getAllbinByLocation(String  id) {
-
-        List<Inventory_BinLoc> inventory_binLocs = new ArrayList<>();
-        String sql = "select * from administration_locations as t1 \n" +
-                "inner join inventory_bin as t2 \n" +
-                "on t1.id = t2.location_id  where t1.id = ?";
-        Cursor cursor = readData(sql, new String[]{id});
-
-        while (cursor.moveToNext()) {
-            Inventory_BinLoc binLoc = new Inventory_BinLoc();
-            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
-            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
-            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
-            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
-            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
-            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
-            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
-            try {
-                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
-
-            inventory_binLocs.add(binLoc);
-
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return inventory_binLocs;
-
-    }
-
-    public Inventory_BinLoc getAllInventoryBinByBin(String id)
-    {
-
-        Inventory_BinLoc inventory_binLocs = new Inventory_BinLoc();
-        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
-                "                inner join inventory_bin as t2  \n" +
-                "                on t1.id = t2.location_id where t2.id = ?";
-        Cursor cursor = readData(sql, new String[] {id});
-
-        while (cursor.moveToNext()) {
-            Inventory_BinLoc binLoc = new Inventory_BinLoc();
-            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
-            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
-            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
-            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
-            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
-            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
-            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
-            try {
-                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
-
-            inventory_binLocs = binLoc;
-
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-        return inventory_binLocs;
-    }
-    public InventoryPalletLoc getAllPalletById(String id) {
-
-        InventoryPalletLoc result = new InventoryPalletLoc();
-        String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
-                "                              inner join inventory_pallet as t2\n" +
-                "                              on t1.id = t2.location_id where t2.id = ?";
-        Cursor cursor = readData(sql, new String[] {id});
-
-        while (cursor.moveToNext()) {
-            InventoryPalletLoc palletLoc = new InventoryPalletLoc();
-            palletLoc.setId(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ID)));
-            palletLoc.setPallet_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_NAME)));
-            palletLoc.setPallet_description(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_DESCRIPTION)));
-            palletLoc.setPallet_type(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TYPE)));
-            palletLoc.setPallet_barcode(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
-            palletLoc.setPallet_tag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
-            palletLoc.setPallet_location_id(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_LOCATION_ID)));
-            palletLoc.setPallet_active(cursor.getInt(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_ACTIVE))>0);
-            palletLoc.setPallet_weight(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_WEIGHT)));
-            palletLoc.setPallet_is_used(cursor.getInt(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_IS_USED))>0);
-            try {
-                palletLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TS))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            palletLoc.setPallet_location(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_LOCATION)));
-
-            result = palletLoc;
-
-        }
-
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-
-
-
-
-        return result;
-    }
 }

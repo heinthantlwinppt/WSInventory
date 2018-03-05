@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StateManager.getInstance().setCurrent_activity(MainActivity.class.getName());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         appContext = (GlobalVariables) getApplicationContext();
@@ -85,12 +86,12 @@ public class MainActivity extends AppCompatActivity
             mCurrentFragmentTag = ITEMLISTFRAGMENT_TAG;
         }
 
-        LoadItemList();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
+        LoadItemList();
 
 
 
@@ -104,11 +105,8 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
             {
-                appContext.setActionName("c");
-//            Toast.makeText(MainActivity.this, appContext.getParientid(), Toast.LENGTH_SHORT).show();
-            Log.i("APT", "onBackPressed: "+ appContext.getParientid());
             GlobalBus.getBus().post(
-                    new WsEvents.EventOpenScreen(appContext.getActionName())
+                    new WsEvents.EventOpenScreen("close_folder")
             );
         }
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -199,14 +197,14 @@ public class MainActivity extends AppCompatActivity
             exportDatabse("WS.db");
             Toast.makeText(this, " database is exported", Toast.LENGTH_SHORT).show();
 
-//            dbAccess = new DbAccess(getApplicationContext());
-//            dbAccess.open();
+//            dbaccess = new DbAccess(getApplicationContext());
+//            dbaccess.open();
 ////            item =  StateManager.getInstance().getItem();
 //
 //            item = new Item();
 //            item.setItemName("Inventory");
 //            item.setItemType("Item_2");
-//            dbAccess.insertItems(item);
+//            dbaccess.insertItems(item);
         }
 
         return super.onOptionsItemSelected(items);
@@ -298,9 +296,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-//        dbAccess.open();
+//        dbaccess.open();
         GlobalBus.getBus().register(this);
-        LoadItemList();
+//        LoadItemList();
 
     }
 
@@ -315,13 +313,13 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         dbaccess.open();
-        LoadItemList();
+//        LoadItemList();
     }
 
     @Override
     public void onStop() {
         GlobalBus.getBus().unregister(this);
-//        dbAccess.close();
+//        dbaccess.close();
         super.onStop();
     }
 

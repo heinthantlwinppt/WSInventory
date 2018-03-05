@@ -13,7 +13,6 @@ import android.widget.Spinner;
 
 import com.ppt.wsinventory.R;
 import com.ppt.wsinventory.common.GlobalBus;
-import com.ppt.wsinventory.inventory.model.Inventory_BinLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
 import com.ppt.wsinventory.model.CodeValue;
 import com.ppt.wsinventory.wsdb.DbAccess;

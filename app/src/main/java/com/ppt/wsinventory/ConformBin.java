@@ -9,9 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.cipherlab.barcode.GeneralString;
@@ -22,6 +21,8 @@ import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.ws_rfidreader.AppHelper;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -53,13 +54,14 @@ public class ConformBin extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-            }
-        });
+        StateManager.getInstance().setCurrent_activity(ConformBin.class.getName());
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                onBackPressed();
+//            }
+//        });
         appContext = (GlobalVariables) getApplicationContext();
         // ***************************************************//
         // ***************************************************//
@@ -83,6 +85,23 @@ public class ConformBin extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_conform_bin, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_logicode_reader:
+                initLogiCodeRFID();
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         // ***************************************************//
@@ -100,7 +119,25 @@ public class ConformBin extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        StateManager.getInstance().setCurrent_activity(ConformBin.class.getName());
+    }
+
+    @Override
     protected void onStart() {
+        GlobalBus.getBus().register(this);
+        initLogiCodeRFID();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        GlobalBus.getBus().unregister(this);
+        super.onStop();
+    }
+
+    private void initLogiCodeRFID() {
         if (AppHelper.mConnector.IsBlueToothTurnOn() == true) {
             list = AppHelper.mConnector.GetPairedDevice();
 
@@ -117,15 +154,15 @@ public class ConformBin extends AppCompatActivity {
                     AppHelper.mConnector.Device = appContext.getWssetting().getRfidreader_name();
                     boolean result = AppHelper.mConnector.Connect();
                     if (result == true) {
-                        AppHelper.SwitchCommandMode();
-
-                        mSelect = new boolean[4];
-                        mSelect[0] = true;
-                        mSelect[1] = false;
-                        mSelect[2] = false;
-                        mSelect[3] = true;
-
-                        ChangeControl();
+//                        AppHelper.SwitchCommandMode();
+//
+//                        mSelect = new boolean[4];
+//                        mSelect[0] = true;
+//                        mSelect[1] = false;
+//                        mSelect[2] = false;
+//                        mSelect[3] = true;
+//
+//                        ChangeControl();
                     }
                 }
 //                adapter = new ArrayAdapter<String>(this,
@@ -143,8 +180,8 @@ public class ConformBin extends AppCompatActivity {
 //                    Toast.LENGTH_SHORT);
 //            t.show();
         }
-        super.onStart();
     }
+
     private void ChangeControl() {
         if (mSwitch == true) {
             if (mSelect[0]) {
@@ -2009,6 +2046,16 @@ public class ConformBin extends AppCompatActivity {
     }
     public class listener implements IConfigEventListener {
         public void onConnected() {
+            AppHelper.SwitchCommandMode();
+
+            mSelect = new boolean[4];
+            mSelect[0] = true;
+            mSelect[1] = false;
+            mSelect[2] = false;
+            mSelect[3] = true;
+
+            ChangeControl();
+
             AppHelper.GetHandle();
             DeviceConnected();
         }
@@ -2204,7 +2251,10 @@ public class ConformBin extends AppCompatActivity {
 //            startActivity(intent);
 //        }
     }
-
+    @Subscribe
+    public void CloseSummary(WsEvents.EventCloseActivity e){
+        onBackPressed();
+    }
     @Override
     public void onBackPressed() {
         AppHelper.mConnector.Disconnect();

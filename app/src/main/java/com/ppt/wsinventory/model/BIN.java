@@ -38,17 +38,9 @@ public class BIN {
     @SerializedName("location")
     @Expose
     private String location;
-    @SerializedName("updated")
+    @SerializedName("no_of_pallets")
     @Expose
-    private boolean updated;
-
-    public boolean isUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(boolean updated) {
-        this.updated = updated;
-    }
+    private int no_of_pallets;
 
     public String getId() {
         return id;
@@ -122,6 +114,13 @@ public class BIN {
         this.location = location;
     }
 
+    public int getNo_of_pallets() {
+        return no_of_pallets;
+    }
+
+    public void setNo_of_pallets(int no_of_pallets) {
+        this.no_of_pallets = no_of_pallets;
+    }
 }
 
 

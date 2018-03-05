@@ -16,6 +16,11 @@ public class WsEvents {
     public static final String OPEN_PRODUCTION_RECEIVING_INVESTORY ="open_production_receiving_investor";
     public static final String OPEN_DASHBOARD ="open_dashboard";
 
+    public static class EventCloseActivity {
+        public void EventCloseActivity() {
+
+        }
+    }
     public static class EventNewChange {
         private String mvalue;
         private String msolution_name;

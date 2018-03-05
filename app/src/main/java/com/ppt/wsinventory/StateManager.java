@@ -15,6 +15,15 @@ class StateManager {
     private String CurrentFragmentTag;
     private Map<String, String> translation = new HashMap<String, String>();
     private Manufacturing_smith_joborder mSelectedSmithJobOrder;
+    private String current_activity;
+
+    public void setCurrent_activity(String current_activity) {
+        this.current_activity = current_activity;
+    }
+
+    public String getCurrent_activity() {
+        return current_activity;
+    }
 
     public boolean IsLogicoderfid() {
         return is_logicoderfid;

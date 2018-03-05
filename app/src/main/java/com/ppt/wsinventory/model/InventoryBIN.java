@@ -14,12 +14,12 @@ public class InventoryBIN {
     public static final String COLUMN_BIN_TYPE  = "bin_type";
     public static final String COLUMN_BARCODE  = "barcode";
     public static final String COLUMN_TAG  = "tag";
-    public static final String COLUMN_ADDRESS  = "address";
+    public static final String COLUMN_NO_OF_PALLETS = "no_of_pallets";
     public static final String COLUMN_LOCATION_ID  = "location_id";
     public static final String COLUMN_ACTIVE  = "active";
     public static final String COLUMN_TS  = "ts";
-    public static final String COLUMN_UPDATED = "updated";
-
+    public static final String COLUMN_UPLOADED = "uploaded";
+    public static final String COLUMN_LOCATION_NAME  = "loc_name";
     public static final String[] COLUMN_ALL = new String[]{
 
             COLUMN_ID ,
@@ -28,11 +28,11 @@ public class InventoryBIN {
             COLUMN_BIN_TYPE ,
             COLUMN_BARCODE ,
             COLUMN_TAG ,
-            COLUMN_ADDRESS,
             COLUMN_LOCATION_ID ,
             COLUMN_ACTIVE ,
+            COLUMN_NO_OF_PALLETS,
             COLUMN_TS,
-            COLUMN_UPDATED
+            COLUMN_UPLOADED
     };
 
     private String id ;
@@ -41,18 +41,27 @@ public class InventoryBIN {
     private String bin_type ;
     private String barcode ;
     private String tag ;
-    private String address ;
+    private int no_of_pallets;
     private String location_id ;
     private boolean active ;
     private Date ts ;
-    private boolean updated;
+    private boolean uploaded;
+    private String location_name;
 
-    public boolean isUpdated() {
-        return updated;
+    public String getLocation_name() {
+        return location_name;
     }
 
-    public void setUpdated(boolean updated) {
-        this.updated = updated;
+    public void setLocation_name(String location_name) {
+        this.location_name = location_name;
+    }
+
+    public boolean isUploaded() {
+        return uploaded;
+    }
+
+    public void setUploaded(boolean uploaded) {
+        this.uploaded = uploaded;
     }
 
     public String getId() {
@@ -103,12 +112,12 @@ public class InventoryBIN {
         this.tag = tag;
     }
 
-    public String getAddress() {
-        return address;
+    public int getNo_of_pallets() {
+        return no_of_pallets;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setNo_of_pallets(int no_of_pallets) {
+        this.no_of_pallets = no_of_pallets;
     }
 
     public String getLocation_id() {
@@ -144,10 +153,11 @@ public class InventoryBIN {
                 ", bin_type='" + bin_type + '\'' +
                 ", barcode='" + barcode + '\'' +
                 ", tag='" + tag + '\'' +
-                ", address='" + address + '\'' +
+                ", no_of_pallets=" + no_of_pallets +
                 ", location_id='" + location_id + '\'' +
                 ", active=" + active +
                 ", ts=" + ts +
+                ", uploaded=" + uploaded +
                 '}';
     }
 }

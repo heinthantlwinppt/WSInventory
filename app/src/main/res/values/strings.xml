@@ -13,7 +13,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_email">This email no_of_pallets is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
@@ -65,4 +65,5 @@
     <string name="title_activity_inventory_trays">Inventory Trays</string>
     <string name="title_activity_conform_bin">Counter Confirmation</string>
     <string name="title_activity_confirm_pallet">ConfirmPallet</string>
+    <string name="connect_reader">Connect Reader</string>
 </resources>

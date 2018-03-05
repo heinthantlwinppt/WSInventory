@@ -151,15 +151,27 @@
         <activity
             android:name=".InventoryCounters"
             android:label="@string/title_activity_inventory_counters"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ppt.wsinventory.MainActivity" />
+        </activity>
         <activity
             android:name=".InventoryTrays"
             android:label="@string/title_activity_inventory_trays"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ppt.wsinventory.MainActivity" />
+        </activity>
         <activity
             android:name=".ConformBin"
             android:label="@string/title_activity_conform_bin"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ppt.wsinventory.InventoryCounters" />
+        </activity>
         <activity
             android:name=".ConfirmPallet"
             android:label="@string/title_activity_confirm_pallet"
