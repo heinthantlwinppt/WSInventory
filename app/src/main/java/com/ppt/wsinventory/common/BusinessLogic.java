@@ -1,5 +1,6 @@
 package com.ppt.wsinventory.common;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.WsDashboardModel;
+import com.ppt.wsinventory.model.WsapiSynchistory;
 import com.ppt.wsinventory.util.Utility;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
@@ -318,6 +320,66 @@ public class BusinessLogic {
         }
         return inventory_binLocs;
     }
+    public boolean updateInventoryBin(InventoryBIN inventorybin) {
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        ContentValues values = new ContentValues();
+        values.put(InventoryBIN.COLUMN_ID,inventorybin.getId());
+        values.put(InventoryBIN.COLUMN_BIN_NAME,inventorybin.getBin_name());
+        values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION,inventorybin.getBin_description());
+        values.put(InventoryBIN.COLUMN_BIN_TYPE,inventorybin.getBin_type());
+        values.put(InventoryBIN.COLUMN_BARCODE,inventorybin.getBarcode());
+        values.put(InventoryBIN.COLUMN_TAG,inventorybin.getTag());
+        values.put(InventoryBIN.COLUMN_LOCATION_ID,inventorybin.getLocation_id());
+        values.put(InventoryBIN.COLUMN_UPLOADED,(inventorybin.isUploaded()?1:0));
+        values.put(InventoryBIN.COLUMN_ACTIVE,(inventorybin.isActive()?1:0));
+        return dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN,values,InventoryBIN.COLUMN_ID + "= ?",new String []{inventorybin.getId()} );
+    }
+    public List<InventoryBIN> getAllBinToSend(boolean uploaded) {
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        List<InventoryBIN> inventory_binLocs = new ArrayList<>();
+        String sql = "select t1.loc_name, t2.* from administration_locations as t1 \n" +
+                "inner join inventory_bin as t2 \n" +
+                "on t1.id = t2.location_id";
+        Cursor cursor = dbaccess.readData(InventoryBIN.TABLE_INVENTORY_BIN
+        ,InventoryBIN.COLUMN_ALL
+        ,InventoryBIN.COLUMN_UPLOADED + " = ? ", new String[]{ (uploaded)?"1":"0" }
+        , null,null,null);
+        while (cursor.moveToNext()) {
+            InventoryBIN binLoc = new InventoryBIN();
+            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
+            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
+            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
+            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
+            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
+            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
+            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
+            binLoc.setNo_of_pallets(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_NO_OF_PALLETS)));
+            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
+            try {
+                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
+
+            inventory_binLocs.add(binLoc);
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_binLocs;
+    }
+
     public List<InventoryBIN> getAllbinByLocation(String id) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
@@ -328,7 +390,12 @@ public class BusinessLogic {
         String sql = "select * from administration_locations as t1 \n" +
                 "inner join inventory_bin as t2 \n" +
                 "on t1.id = t2.location_id  where t1.id = ?";
-        Cursor cursor = dbaccess.readData(sql, new String[]{id});
+        Cursor cursor = null;
+        try {
+            cursor = dbaccess.readDataSQL(sql, new String[]{id});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         while (cursor.moveToNext()) {
             InventoryBIN binLoc = new InventoryBIN();
@@ -367,7 +434,7 @@ public class BusinessLogic {
         String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
                 "                inner join inventory_bin as t2  \n" +
                 "                on t1.id = t2.location_id where t2.barcode = ?";
-        Cursor cursor = dbaccess.readData(sql, new String[]{barcode});
+        Cursor cursor = dbaccess.readDataSQL(sql, new String[]{barcode});
 
         while (cursor.moveToNext()) {
             InventoryBIN binLoc = new InventoryBIN();
@@ -407,7 +474,7 @@ public class BusinessLogic {
         String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
                 "                inner join inventory_bin as t2  \n" +
                 "                on t1.id = t2.location_id where t2.id = ?";
-        Cursor cursor = dbaccess.readData(sql, new String[]{id});
+        Cursor cursor = dbaccess.readDataSQL(sql, new String[]{id});
 
         while (cursor.moveToNext()) {
             InventoryBIN binLoc = new InventoryBIN();
@@ -447,7 +514,7 @@ public class BusinessLogic {
         String sql = "select t1.*, t2.* from administration_locations as t1 \n" +
                 "                              inner join inventory_pallet as t2\n" +
                 "                              on t1.id = t2.location_id where t2.id = ?";
-        Cursor cursor = dbaccess.readData(sql, new String[]{id});
+        Cursor cursor = dbaccess.readDataSQL(sql, new String[]{id});
 
         while (cursor.moveToNext()) {
             InventoryPalletLoc palletLoc = new InventoryPalletLoc();
@@ -488,7 +555,7 @@ public class BusinessLogic {
         }
         List<WsDashboardModel> dashboarditems = new ArrayList<>();
         String sql = "select id, title, image, is_folder, actionname from administration_wsdashboard where parent_id = 0 order by displayno";
-        Cursor cursor = dbaccess.readData(sql, null);
+        Cursor cursor = dbaccess.readDataSQL(sql, null);
 
         while (cursor.moveToNext()) {
             WsDashboardModel item = new WsDashboardModel();
@@ -515,7 +582,7 @@ public class BusinessLogic {
                 dbaccess.open();
         }
         String sql = "select id, title, image, is_folder, actionname, parent_id from administration_wsdashboard where id = " + id + " order by displayno";
-        Cursor cursor = dbaccess.readData(sql, null);
+        Cursor cursor = dbaccess.readDataSQL(sql, null);
 
         WsDashboardModel item = null;
         while (cursor.moveToNext()) {
@@ -545,7 +612,7 @@ public class BusinessLogic {
         }
         List<WsDashboardModel> dashboarditems = new ArrayList<>();
         String sql = "select id, title, image, is_folder, actionname, parent_id from administration_wsdashboard where parent_id = " + id + " order by displayno";
-        Cursor cursor = dbaccess.readData(sql, null);
+        Cursor cursor = dbaccess.readDataSQL(sql, null);
 
         while (cursor.moveToNext()) {
             WsDashboardModel item = new WsDashboardModel();
@@ -657,7 +724,74 @@ public class BusinessLogic {
         return dashboarditems;
 
     }
-
+    public WsapiSynchistory getSynchistoryByTableName(
+            String tablename
+    ){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        Cursor cursor = dbaccess.readData(WsapiSynchistory.TABLE_WSAPI_SYNCHISTORY
+                , WsapiSynchistory.COLUMN_ALL
+                , WsapiSynchistory.COLUMN_TABLENAME + "=?"
+                , new String[]{tablename}
+                ,null,null,null
+        );
+        WsapiSynchistory wsapisynchistory = null;
+        while (cursor.moveToNext()) {
+            wsapisynchistory = new WsapiSynchistory();
+            wsapisynchistory.setDevice_id(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_DEVICE_ID)));
+            wsapisynchistory.setTablename(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_TABLENAME)));
+            try {
+                wsapisynchistory.setTimestamp(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_TIMESTAMP))));
+            } catch (ParseException e) {
+                wsapisynchistory.setTimestamp(new Date(System.currentTimeMillis()));
+            }
+            break;
+        }
+        return  wsapisynchistory;
+    }
+    public List<WsapiSynchistory> getSynchistory(){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        Cursor cursor = dbaccess.readData(WsapiSynchistory.TABLE_WSAPI_SYNCHISTORY
+                , WsapiSynchistory.COLUMN_ALL
+                , WsapiSynchistory.COLUMN_TABLENAME
+        );
+        List<WsapiSynchistory> wsapisynchistorys = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            WsapiSynchistory wsapisynchistory = new WsapiSynchistory();
+            wsapisynchistory.setDevice_id(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_DEVICE_ID)));
+            wsapisynchistory.setTablename(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_TABLENAME)));
+            try {
+                wsapisynchistory.setTimestamp(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(wsapisynchistory.COLUMN_TIMESTAMP))));
+            } catch (ParseException e) {
+                wsapisynchistory.setTimestamp(new Date(System.currentTimeMillis()));
+            }
+            wsapisynchistorys.add(wsapisynchistory);
+        }
+        return  wsapisynchistorys;
+    }
+    public boolean insertSyncHistory(WsapiSynchistory wsapisynchistory){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+       return dbaccess.insertWsapiSynchistory(wsapisynchistory) > 0;
+    }
+    public boolean deleteSyncHistory(WsapiSynchistory wsapisynchistory){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        return dbaccess.deleteWsapiSynchistory(wsapisynchistory) > 0;
+    }
     public AdministrationSettings getAdministrationSettings() {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {

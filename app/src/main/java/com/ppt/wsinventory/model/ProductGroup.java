@@ -7,7 +7,7 @@ public class ProductGroup {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private int id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -15,11 +15,11 @@ public class ProductGroup {
     @Expose
     private Boolean active;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

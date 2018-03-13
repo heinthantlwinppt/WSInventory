@@ -1,5 +1,7 @@
 package com.ppt.wsinventory.model;
 
+import java.util.Date;
+
 /**
  * Created by User on 03/01/2018.
  */
@@ -40,7 +42,7 @@ public class AdministrationWsdashboard {
     private int parent_id;
     private String groupname;
     private String image;
-    private String timestamp;
+    private Date timestamp;
     private boolean is_delete;
     private int displayno;
     private int screen_id;
@@ -105,11 +107,11 @@ public class AdministrationWsdashboard {
         this.image = image;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

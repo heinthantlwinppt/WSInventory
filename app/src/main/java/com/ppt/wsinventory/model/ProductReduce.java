@@ -6,6 +6,8 @@ package com.ppt.wsinventory.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class ProductReduce {
 
     @SerializedName("id")
@@ -13,7 +15,7 @@ public class ProductReduce {
     private Integer id;
     @SerializedName("reduce_g")
     @Expose
-    private Integer reduceG;
+    private Double reduceG;
     @SerializedName("reduce_k")
     @Expose
     private Integer reduceK;
@@ -22,10 +24,13 @@ public class ProductReduce {
     private Integer reduceP;
     @SerializedName("reduce_y")
     @Expose
-    private Integer reduceY;
+    private Double reduceY;
     @SerializedName("production_fee")
     @Expose
-    private Integer productionFee;
+    private Double productionFee;
+    @SerializedName("cost_reduce_g")
+    @Expose
+    private Double costReduceG;
     @SerializedName("cost_reduce_k")
     @Expose
     private Integer costReduceK;
@@ -34,10 +39,22 @@ public class ProductReduce {
     private Integer costReduceP;
     @SerializedName("cost_reduce_y")
     @Expose
-    private Integer costReduceY;
+    private Double costReduceY;
     @SerializedName("cost_production_fee")
     @Expose
-    private Integer costProductionFee;
+    private Double costProductionFee;
+    @SerializedName("ws_reduce_g")
+    @Expose
+    private Double wsReduceG;
+    @SerializedName("ws_reduce_k")
+    @Expose
+    private Integer wsReduceK;
+    @SerializedName("ws_reduce_p")
+    @Expose
+    private Integer wsReduceP;
+    @SerializedName("ws_reduce_y")
+    @Expose
+    private Double wsReduceY;
     @SerializedName("remarks")
     @Expose
     private String remarks;
@@ -47,12 +64,26 @@ public class ProductReduce {
     @SerializedName("is_delete")
     @Expose
     private Boolean isDelete;
+    @SerializedName("product")
+    @Expose
+    private String product;
     @SerializedName("gold")
     @Expose
     private Integer gold;
     @SerializedName("plength")
     @Expose
     private Integer plength;
+    @SerializedName("ts")
+    @Expose
+    private Date ts;
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
 
     public Integer getId() {
         return id;
@@ -62,11 +93,11 @@ public class ProductReduce {
         this.id = id;
     }
 
-    public Integer getReduceG() {
+    public Double getReduceG() {
         return reduceG;
     }
 
-    public void setReduceG(Integer reduceG) {
+    public void setReduceG(Double reduceG) {
         this.reduceG = reduceG;
     }
 
@@ -86,20 +117,28 @@ public class ProductReduce {
         this.reduceP = reduceP;
     }
 
-    public Integer getReduceY() {
+    public Double getReduceY() {
         return reduceY;
     }
 
-    public void setReduceY(Integer reduceY) {
+    public void setReduceY(Double reduceY) {
         this.reduceY = reduceY;
     }
 
-    public Integer getProductionFee() {
+    public Double getProductionFee() {
         return productionFee;
     }
 
-    public void setProductionFee(Integer productionFee) {
+    public void setProductionFee(Double productionFee) {
         this.productionFee = productionFee;
+    }
+
+    public Double getCostReduceG() {
+        return costReduceG;
+    }
+
+    public void setCostReduceG(Double costReduceG) {
+        this.costReduceG = costReduceG;
     }
 
     public Integer getCostReduceK() {
@@ -118,20 +157,52 @@ public class ProductReduce {
         this.costReduceP = costReduceP;
     }
 
-    public Integer getCostReduceY() {
+    public Double getCostReduceY() {
         return costReduceY;
     }
 
-    public void setCostReduceY(Integer costReduceY) {
+    public void setCostReduceY(Double costReduceY) {
         this.costReduceY = costReduceY;
     }
 
-    public Integer getCostProductionFee() {
+    public Double getCostProductionFee() {
         return costProductionFee;
     }
 
-    public void setCostProductionFee(Integer costProductionFee) {
+    public void setCostProductionFee(Double costProductionFee) {
         this.costProductionFee = costProductionFee;
+    }
+
+    public Double getWsReduceG() {
+        return wsReduceG;
+    }
+
+    public void setWsReduceG(Double wsReduceG) {
+        this.wsReduceG = wsReduceG;
+    }
+
+    public Integer getWsReduceK() {
+        return wsReduceK;
+    }
+
+    public void setWsReduceK(Integer wsReduceK) {
+        this.wsReduceK = wsReduceK;
+    }
+
+    public Integer getWsReduceP() {
+        return wsReduceP;
+    }
+
+    public void setWsReduceP(Integer wsReduceP) {
+        this.wsReduceP = wsReduceP;
+    }
+
+    public Double getWsReduceY() {
+        return wsReduceY;
+    }
+
+    public void setWsReduceY(Double wsReduceY) {
+        this.wsReduceY = wsReduceY;
     }
 
     public String getRemarks() {
@@ -156,6 +227,14 @@ public class ProductReduce {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     public Integer getGold() {

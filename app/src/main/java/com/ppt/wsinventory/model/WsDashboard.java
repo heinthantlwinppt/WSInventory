@@ -7,6 +7,8 @@ package com.ppt.wsinventory.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class WsDashboard {
 
     @SerializedName("id")
@@ -32,7 +34,7 @@ public class WsDashboard {
     private String image;
     @SerializedName("timestamp")
     @Expose
-    private String timestamp;
+    private Date timestamp;
     @SerializedName("displayno")
     @Expose
     private Integer displayno;
@@ -100,11 +102,11 @@ public class WsDashboard {
         this.image = image;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

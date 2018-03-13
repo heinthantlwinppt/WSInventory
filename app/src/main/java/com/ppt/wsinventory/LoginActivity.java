@@ -382,6 +382,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 BusinessLogic businesslogic = new BusinessLogic();
                 AdministrationSettings administrationsettings = businesslogic.getAdministrationSettings();
                 appContext.setWssetting(administrationsettings);
+                if(administrationsettings!=null)
+                    appContext.setDeviceid(administrationsettings.getDevice_id());
                 SharedPreferences.Editor editor =
                         getSharedPreferences(MY_GLOBAL_PREFS, MODE_PRIVATE).edit();
                 editor.putString(staff.COLUMN_NICK_NAME, staff.getNick_name());

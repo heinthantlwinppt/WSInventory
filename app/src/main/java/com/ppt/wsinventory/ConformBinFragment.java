@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,6 +19,7 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.util.MessageBox;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -33,12 +33,12 @@ public class ConformBinFragment extends Fragment {
     private GlobalVariables appContext;
     private Context mContext;
     DbAccess dbaccess;
-    EditText name,type,descrription,counter_id,barcode,tag;
-//    TextView counter_id,barcode,tag;
+    EditText name, type, descrription, counter_id, barcode, tag;
+    //    TextView counter_id,barcode,tag;
     CheckBox active;
     Spinner location;
     String current_id;
-    Button cancle,confirm;
+    Button cancle, confirm;
 
     public ConformBinFragment() {
     }
@@ -56,20 +56,20 @@ public class ConformBinFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootview =
-         inflater.inflate(R.layout.fragment_conform_bin, container, false);
+                inflater.inflate(R.layout.fragment_conform_bin, container, false);
 
 //        counter_id = (TextView) rootview.findViewById(R.id.counter_id);
         counter_id = (EditText) rootview.findViewById(R.id.counter_id);
-        name = (EditText)rootview.findViewById(R.id.counter_name);
-        type = (EditText)rootview.findViewById(R.id.counter_type);
-        descrription = (EditText)rootview.findViewById(R.id.description);
-        active = (CheckBox)rootview.findViewById(R.id.is_active);
-        barcode= (EditText) rootview.findViewById(R.id.barcode);
-        tag = (EditText)rootview.findViewById(R.id.tag);
-        location =(Spinner)rootview.findViewById(R.id.location_id);
-        cancle = (Button)rootview.findViewById(R.id.cancel_btn);
-        confirm = (Button)rootview.findViewById(R.id.confirm_btn);
-        String  id = appContext.getBinid();
+        name = (EditText) rootview.findViewById(R.id.counter_name);
+        type = (EditText) rootview.findViewById(R.id.counter_type);
+        descrription = (EditText) rootview.findViewById(R.id.description);
+        active = (CheckBox) rootview.findViewById(R.id.is_active);
+        barcode = (EditText) rootview.findViewById(R.id.barcode);
+        tag = (EditText) rootview.findViewById(R.id.tag);
+        location = (Spinner) rootview.findViewById(R.id.location_id);
+        cancle = (Button) rootview.findViewById(R.id.cancel_btn);
+        confirm = (Button) rootview.findViewById(R.id.confirm_btn);
+        String id = appContext.getBinid();
         dbaccess = new DbAccess(getContext());
         dbaccess.open();
         BusinessLogic businesslogic = new BusinessLogic(getContext());
@@ -86,13 +86,10 @@ public class ConformBinFragment extends Fragment {
         active.setChecked(inventorybin.isActive());
         barcode.setText(inventorybin.getBarcode());
         tag.setText(inventorybin.getTag());
-        if (inventorybin.isActive())
-        {
+        if (inventorybin.isActive()) {
             active.setChecked(true);
 //            Toast.makeText(mContext, "isActive " + inventorybin.isActive(), Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             active.setChecked(false);
 //            Toast.makeText(mContext, "isActive " + inventorybin.isActive(), Toast.LENGTH_SHORT).show();
 
@@ -124,12 +121,13 @@ public class ConformBinFragment extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                confirmFunction();
+                updateBin();
             }
         });
 
         return rootview;
     }
+
     @Subscribe
     public void onReadBarcode(WsEvents.EventReadBarCode e) {
 //        BusinessLogic businessLogic = new BusinessLogic(mContext);
@@ -137,6 +135,7 @@ public class ConformBinFragment extends Fragment {
         barcode.setText(e.getBarcode());
 
     }
+
     @Subscribe
     public void onReadRFID(WsEvents.EventReadRFID e) {
 
@@ -156,42 +155,40 @@ public class ConformBinFragment extends Fragment {
         super.onStop();
     }
 
-    private void confirmFunction()
-    {
-        ContentValues values = new ContentValues();
-        values.put(InventoryBIN.COLUMN_ID,counter_id.getText().toString());
-        values.put(InventoryBIN.COLUMN_BIN_NAME,name.getText().toString());
-        values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION,descrription.getText().toString());
-        values.put(InventoryBIN.COLUMN_BIN_TYPE,type.getText().toString());
-        values.put(InventoryBIN.COLUMN_BARCODE,barcode.getText().toString());
-        values.put(InventoryBIN.COLUMN_TAG,tag.getText().toString());
-        values.put(InventoryBIN.COLUMN_LOCATION_ID,dbaccess.getLocaionId(location.getSelectedItem().toString()));
-        values.put(InventoryBIN.COLUMN_UPLOADED,0);
+    private void updateBin() {
+        InventoryBIN inventorybin = new InventoryBIN();
 
-        if (active.isChecked()) {
+        inventorybin.setId(counter_id.getText().toString());
+        inventorybin.setBin_name(name.getText().toString());
+        inventorybin.setBin_description(descrription.getText().toString());
+        inventorybin.setBin_type(type.getText().toString());
+        inventorybin.setBarcode(barcode.getText().toString());
+        inventorybin.setTag(tag.getText().toString());
+        inventorybin.setLocation_id(dbaccess.getLocaionId(location.getSelectedItem().toString()));
+        inventorybin.setActive(active.isChecked());
+        inventorybin.setUploaded(false);
+        BusinessLogic businesslogic = new BusinessLogic(getContext());
 
-            values.put(InventoryBIN.COLUMN_ACTIVE,1);
-        }
-        else
-        {
-            values.put(InventoryBIN.COLUMN_ACTIVE,0);
-        }
-
-        boolean success = dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN,values,InventoryBIN.COLUMN_ID + "= ?",new String []{current_id} );
-        if (success)
-        {
-            Intent intent = new Intent(mContext, ConformBin.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
-            Toast.makeText(mContext, "success fully save ", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(mContext, "success Error", Toast.LENGTH_SHORT).show();
-
-
+        boolean success = businesslogic.updateInventoryBin(inventorybin);
+        if (success) {
+            MessageBox.ShowMessage(getChildFragmentManager(),
+                    "Counter",
+                    appContext.getTranslation("Counter Confirmed successfully!"),
+                    null,
+                    null,
+                    "OK"
+            );
+        } else {
+            MessageBox.ShowMessage(getChildFragmentManager(),
+                    "Counter",
+                    appContext.getTranslation("Confirmation Failed!"),
+                    null,
+                    null,
+                    "OK"
+            );
         }
     }
+
 
     private void canclefunction() {
         GlobalBus.getBus().post(

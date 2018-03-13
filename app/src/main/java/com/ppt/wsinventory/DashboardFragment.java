@@ -95,13 +95,12 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
 
     @Subscribe
-    public void reloadAdapter()
-    {
-        if (adapter!=null)
-        {
+    public void reloadAdapter() {
+        if (adapter != null) {
             adapter.goBack();
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -143,8 +142,6 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 //        } );
 
 
-
-
         /**
          AutoFitGridLayoutManager that auto fits the cells by the column width defined.
          **/
@@ -160,7 +157,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
         return rootView;
     }
-//    @Override
+
+    //    @Override
 //    public void onDetach()
 //    {
 //        super.onDetach();
@@ -186,7 +184,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.main, menu);
         MenuItem myActionMenuItem = menu.findItem(R.id.search);
@@ -238,8 +236,53 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                         if (appContext.getActionLists().size() > 0)
                             wsApi.doSync();
                     } else {
-                        //TODO Implement Delete the tables records
+                        //TODO Implement Delete
+                        // the tables records
                         wsApi.doSync();
+                    }
+
+                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
+//                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    ShowProgress(false);
+                    MessageBox.ShowMessage(getFragmentManager(),
+                            appContext.getTranslation("ERROR"),
+                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
+                            null,
+                            null,
+                            "OK");
+                }
+
+            }
+
+        }
+    };
+
+    private BroadcastReceiver mBroadcastSendReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_SEND)) {
+                String msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
+                WsApi wsApi = new WsApi(context);
+                if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_RESPONSE)) {
+                    String response = appContext.getResponseMessage();
+                    response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
+                    Log.i(TAG, "mBroadcastSendReceiver: " + response);
+                    Gson gson = JsonHelper.getGson();
+                    ApiModel apiModel = gson.fromJson(response, ApiModel.class);
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)) {
+                        appContext.setActionLists(null);
+                        List<ActionList> actionLists = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<ActionList>>() {
+                        }.getType();
+                        actionLists = gson.fromJson(apiModel.getMessage(), listType);
+                        appContext.setActionLists(actionLists);
+                        if (appContext.getActionLists().size() > 0)
+                            wsApi.doSendData();
+                    } else {
+                        //TODO Implement Delete
+                        // the tables records
+                        wsApi.doSendData();
                     }
 
                 } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
@@ -277,7 +320,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                         Type listType = new TypeToken<ArrayList<Goods>>() {
                         }.getType();
                         goodsList = gson.fromJson(apiModel.getMessage(), listType);
-                        for(Goods goods: goodsList){
+                        for (Goods goods : goodsList) {
                             Log.i(TAG, "onReceive: " + goods.toString());
                             break;
                         }
@@ -346,12 +389,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 //        BusinessLogic businessLogic = new BusinessLogic(mContext);
 //        businessLogic.openScreen(e);
 
-        if (e.getActionname().equals("close_folder"))
-        {
+        if (e.getActionname().equals("close_folder")) {
             adapter.goBack();
-        }
-        else
-        {
+        } else {
             BusinessLogic businessLogic = new BusinessLogic(mContext);
             businessLogic.openScreen(e);
         }
@@ -361,6 +401,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     public void onInputEvent(WsEvents.EventInputChange e) {
         if (e.getActionname().equalsIgnoreCase(WsInputDialog.ACTION_ENTER_GOODSID)) {
             String req = "";
+            appContext.setNewUser(false);
             Gson gson = JsonHelper.getGson();
             List<ApiParam> params = new ArrayList<>();
 
@@ -393,40 +434,55 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
     @Subscribe
     public void onNewChangeEvent(WsEvents.EventNewChange e) {
         if (e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)) {
-            String req = "";
-            Gson gson = JsonHelper.getGson();
-            List<ApiParam> params = new ArrayList<>();
-            appContext.setSolutionname(e.getSolution_name());
-            appContext.setDeviceid(e.getValue());
+            appContext.setNewUser(true);
+        } else {
+            appContext.setNewUser(false);
+        }
+        ShowProgress(true);
+        String req = "";
+        Gson gson = JsonHelper.getGson();
+        List<ApiParam> params = new ArrayList<>();
+        appContext.setSolutionname(e.getSolution_name());
+        appContext.setDeviceid(e.getValue());
+
+        if (appContext.isNewUser()) {
             params.add(
                     new ApiParam("newuser", "True")
             );
+
+        } else {
             params.add(
-                    new ApiParam("solutionname", appContext.getSolutionname())
+                    new ApiParam("newuser", "False")
             );
-            params.add(
-                    new ApiParam("deviceid", appContext.getDeviceid())
-            );
+        }
+
+
+        params.add(
+                new ApiParam("solutionname", appContext.getSolutionname())
+        );
+        params.add(
+                new ApiParam("deviceid", appContext.getDeviceid())
+        );
 //            Date toDate = new Date(System.currentTimeMillis());
-            Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();
-            appContext.setTs(ts);
-            String jsonString = gson.toJson(params);
-            Log.i(TAG, "onInputEvent: " + jsonString);
-            ApiModel apimodel = new ApiModel(1, ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString);
-            jsonString = gson.toJson(apimodel);
-            try {
-                req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            }
-            Log.i(TAG, "onInputEvent: " + req);
+        Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();
+        appContext.setTs(ts);
+        String jsonString = gson.toJson(params);
+        Log.i(TAG, "onInputEvent: " + jsonString);
+        ApiModel apimodel = new ApiModel(1, ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString);
+        jsonString = gson.toJson(apimodel);
+        try {
+            req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        Log.i(TAG, "onInputEvent: " + req);
 
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
-            appContext.setRequestMessage(req);
-            WsApi wsapi = new WsApi(appContext);
-            wsapi.getActionList();
-        }
+        appContext.setRequestMessage(req);
+        WsApi wsapi = new WsApi(appContext);
+        wsapi.getActionList();
+
 
         ShowProgress(true);
 //        loadRecyclerView();
@@ -461,17 +517,14 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     private void loadRecyclerView() {
         BusinessLogic businesslogic = new BusinessLogic(appContext);
-        if (appContext.getParentid() == 0)
-        {
+        if (appContext.getParentid() == 0) {
 
             ItemList = businesslogic.getDashboardItems(0);
-        }
-        else
-        {
+        } else {
             ItemList = businesslogic.getDashboardItems(appContext.getParentid());
         }
 
-        adapter = new RecyclerViewAdapter(getContext(), ItemList, this,getFragmentManager());
+        adapter = new RecyclerViewAdapter(getContext(), ItemList, this, getFragmentManager());
         recyclerView.setAdapter(adapter);
 
 
@@ -506,15 +559,15 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     private void changeSerchViewTextColor(View view) {
 
-        if(view != null) {
+        if (view != null) {
 
-            if(view instanceof TextView) {
+            if (view instanceof TextView) {
                 ((TextView) view).setTextColor(Color.WHITE);
                 return;
-            }else if(view instanceof ViewGroup) {
+            } else if (view instanceof ViewGroup) {
 
                 ViewGroup viewGroup = (ViewGroup) view;
-                for(int i= 0; i<viewGroup.getChildCount(); i++) {
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
 
                     changeSerchViewTextColor(viewGroup.getChildAt(i));
                 }

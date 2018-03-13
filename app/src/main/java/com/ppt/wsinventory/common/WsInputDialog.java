@@ -22,6 +22,7 @@ public class WsInputDialog extends DialogFragment {
     public static final String ACTION_NAME = "action_name";
     public static final String ACTION_ENTER_BARCODE = "action_enter_barcode";
     public static final String ACTION_ENTER_NEWCHANGE = "action_enter_newchange";
+    public static final String ACTION_ENTER_SYNC = "action_enter_sync";
     public static final String ACTION_ENTER_GOODSID = "action_enter_goodsid";
 
     private static final String TAG = "TruckKit-InputDialog";

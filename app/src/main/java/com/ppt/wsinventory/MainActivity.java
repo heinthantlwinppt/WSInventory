@@ -92,8 +92,16 @@ public class MainActivity extends AppCompatActivity
             requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         LoadItemList();
-
-
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_send = menu.findItem(R.id.nav_send);
+        MenuItem nav_sync = menu.findItem(R.id.nav_sync);
+        if(appContext.getWssetting()== null) {
+            nav_send.setEnabled(false);
+            nav_sync.setEnabled(false);
+        }else{
+            nav_send.setEnabled(true);
+            nav_sync.setEnabled(true);
+        }
 
     }
 
@@ -143,7 +151,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       getMenuInflater().inflate(R.menu.main, menu);
+
+
+        getMenuInflater().inflate(R.menu.main, menu);
+
 //        final MenuItem myActionMenuItem = menu.findItem(R.id.search);
 //        searchView = (SearchView) myActionMenuItem.getActionView();
 //        ((EditText) searchView.findViewById(R.id.search))
@@ -218,6 +229,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             // Handle the camera action
+
             Intent intent = new Intent(this,ProfileDetailActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_goldprice) {
@@ -234,6 +246,13 @@ public class MainActivity extends AppCompatActivity
 
         }  else if (id == R.id.nav_setting) {
 
+        }  else if (id == R.id.nav_sync) {
+            GlobalBus.getBus().post(
+                    new WsEvents.EventNewChange(
+                            appContext.getWssetting().getDevice_id(),
+                            appContext.getWssetting().getSolution_id(),
+                            WsNewChangeDialog.ACTION_ENTER_SYNC)
+            );
 
         } else if (id == R.id.nav_send) {
 

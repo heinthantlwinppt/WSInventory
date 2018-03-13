@@ -14,6 +14,7 @@ public class InventoryProductreduce {
     public static final String COLUMN_REDUCE_P = "reduce_p";
     public static final String COLUMN_REDUCE_Y = "reduce_y";
     public static final String COLUMN_PRODUCTION_FEE = "production_fee";
+    public static final String COLUMN_COST_REDUCE_G = "cost_reduce_g";
     public static final String COLUMN_COST_REDUCE_K = "cost_reduce_k";
     public static final String COLUMN_COST_REDUCE_P = "cost_reduce_p";
     public static final String COLUMN_COST_REDUCE_Y = "cost_reduce_y";
@@ -23,6 +24,12 @@ public class InventoryProductreduce {
     public static final String COLUMN_IS_DELETE = "is_delete";
     public static final String COLUMN_GOLD_ID = "gold_id";
     public static final String COLUMN_PLENGTH_ID = "plength_id";
+    public static final String COLUMN_PRODUCT_ID = "product_id";
+    public static final String COLUMN_WS_REDUCE_G = "ws_reduce_g";
+    public static final String COLUMN_WS_REDUCE_K = "ws_reduce_k";
+    public static final String COLUMN_WS_REDUCE_P = "ws_reduce_p";
+    public static final String COLUMN_WS_REDUCE_Y = "ws_reduce_y";
+    public static final String COLUMN_TS = "ts";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_ID,
@@ -31,6 +38,7 @@ public class InventoryProductreduce {
             COLUMN_REDUCE_P,
             COLUMN_REDUCE_Y,
             COLUMN_PRODUCTION_FEE,
+            COLUMN_COST_REDUCE_G,
             COLUMN_COST_REDUCE_K,
             COLUMN_COST_REDUCE_P,
             COLUMN_COST_REDUCE_Y,
@@ -39,26 +47,46 @@ public class InventoryProductreduce {
             COLUMN_ACTIVE,
             COLUMN_IS_DELETE,
             COLUMN_GOLD_ID,
-            COLUMN_PLENGTH_ID
+            COLUMN_PLENGTH_ID,
+            COLUMN_PRODUCT_ID,
+            COLUMN_WS_REDUCE_G,
+            COLUMN_WS_REDUCE_K,
+            COLUMN_WS_REDUCE_P,
+            COLUMN_WS_REDUCE_Y,
+            COLUMN_TS
 
     };
 
 
-    private int id ;
-    private int reduce_g ;
-    private int reduce_k ;
-    private int reduce_p ;
-    private int reduce_y ;
-    private int production_fee ;
-    private int cost_reduce_k ;
-    private int cost_reduce_p ;
-    private int cost_reduce_y ;
-    private int cost_production_fee ;
-    private String remarks ;
-    private boolean active ;
-    private boolean is_delete ;
-    private int gold_id ;
-    private int plength_id ;
+    private int id;
+    private double reduce_g;
+    private int reduce_k;
+    private int reduce_p;
+    private double reduce_y;
+    private double production_fee;
+    private int cost_reduce_k;
+    private int cost_reduce_p;
+    private double cost_reduce_y;
+    private double cost_production_fee;
+    private String remarks;
+    private boolean active;
+    private boolean is_delete;
+    private int gold_id;
+    private int plength_id;
+    private String product_id;
+    private double ws_reduce_g;
+    private int ws_reduce_k;
+    private int ws_reduce_p;
+    private double ws_reduce_y;
+    private Date ts;
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
+    }
 
     public int getId() {
         return id;
@@ -68,11 +96,11 @@ public class InventoryProductreduce {
         this.id = id;
     }
 
-    public int getReduce_g() {
+    public double getReduce_g() {
         return reduce_g;
     }
 
-    public void setReduce_g(int reduce_g) {
+    public void setReduce_g(double reduce_g) {
         this.reduce_g = reduce_g;
     }
 
@@ -92,19 +120,19 @@ public class InventoryProductreduce {
         this.reduce_p = reduce_p;
     }
 
-    public int getReduce_y() {
+    public double getReduce_y() {
         return reduce_y;
     }
 
-    public void setReduce_y(int reduce_y) {
+    public void setReduce_y(double reduce_y) {
         this.reduce_y = reduce_y;
     }
 
-    public int getProduction_fee() {
+    public double getProduction_fee() {
         return production_fee;
     }
 
-    public void setProduction_fee(int production_fee) {
+    public void setProduction_fee(double production_fee) {
         this.production_fee = production_fee;
     }
 
@@ -124,19 +152,19 @@ public class InventoryProductreduce {
         this.cost_reduce_p = cost_reduce_p;
     }
 
-    public int getCost_reduce_y() {
+    public double getCost_reduce_y() {
         return cost_reduce_y;
     }
 
-    public void setCost_reduce_y(int cost_reduce_y) {
+    public void setCost_reduce_y(double cost_reduce_y) {
         this.cost_reduce_y = cost_reduce_y;
     }
 
-    public int getCost_production_fee() {
+    public double getCost_production_fee() {
         return cost_production_fee;
     }
 
-    public void setCost_production_fee(int cost_production_fee) {
+    public void setCost_production_fee(double cost_production_fee) {
         this.cost_production_fee = cost_production_fee;
     }
 
@@ -148,7 +176,7 @@ public class InventoryProductreduce {
         this.remarks = remarks;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -156,7 +184,7 @@ public class InventoryProductreduce {
         this.active = active;
     }
 
-    public boolean getIs_delete() {
+    public boolean isIs_delete() {
         return is_delete;
     }
 
@@ -180,10 +208,43 @@ public class InventoryProductreduce {
         this.plength_id = plength_id;
     }
 
-    @Override
-    public String toString() {
-        return "InventoryProductreduce{" +
-                "remarks='" + remarks + '\'' +
-                '}';
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
+    public double getWs_reduce_g() {
+        return ws_reduce_g;
+    }
+
+    public void setWs_reduce_g(double ws_reduce_g) {
+        this.ws_reduce_g = ws_reduce_g;
+    }
+
+    public int getWs_reduce_k() {
+        return ws_reduce_k;
+    }
+
+    public void setWs_reduce_k(int ws_reduce_k) {
+        this.ws_reduce_k = ws_reduce_k;
+    }
+
+    public int getWs_reduce_p() {
+        return ws_reduce_p;
+    }
+
+    public void setWs_reduce_p(int ws_reduce_p) {
+        this.ws_reduce_p = ws_reduce_p;
+    }
+
+    public double getWs_reduce_y() {
+        return ws_reduce_y;
+    }
+
+    public void setWs_reduce_y(double ws_reduce_y) {
+        this.ws_reduce_y = ws_reduce_y;
     }
 }

@@ -2,6 +2,7 @@ package com.ppt.wsinventory.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -9,7 +10,6 @@ import android.util.Log;
 
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.websocket.ServerConnection;
-import com.ppt.wsinventory.websocket.WsApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,32 +27,16 @@ import okio.ByteString;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class WsSyncService extends IntentService {
-    public static final String API_SERVICE_SYNC = "api_service_sync";
-    public static final String API_SERVICE_SEND = "api_service_send";
-    public static final String API_SERVICE_MESSAGE = "api_service_message";
-    public static final String SERVICE_TYPE = "service_type";
-    public static final String SERVICE_LOGIN = "login";
-    public static final String SERVICE_GOODSID = "goodsid";
-    public static final String SERVICE_REQUEST = "service_request";
-    public static final String SERVICE_RESPONSE = "service_response";
-    public static final String SERVICE_ERROR = "service_error";
-    private static final String TAG = "WS-WsSyncService";
+public class WsSendDataService extends IntentService {
+    private static final String TAG = "WS-WsSendDataService";
     public final String WEBSOCKET_URL = "ws://52.230.10.246:9090/wsmessage";
-//    public final String WEBSOCKET_URL = "ws://192.168.1.9:9090/wsmessage";
+    //    public final String WEBSOCKET_URL = "ws://192.168.1.9:9090/wsmessage";
     public final String WEBSOCKET_SHOP_URL = "ws://192.168.1.6:9090/wsmessage";
     private ServerConnection mServerConnection;
     private boolean bopen = false;
     String msgtype;
-
-//    private WebSocket mWebSocket;
-//    private OkHttpClient mClient;
-//    private String mServerUrl;
-//    private Handler mMessageHandler;
-//    private Handler mStatusHandler;
-
-    public WsSyncService() {
-        super("WsSyncService");
+    public WsSendDataService() {
+        super("WsSendDataService");
     }
 
     @Override
@@ -69,7 +53,7 @@ public class WsSyncService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        msgtype = intent.getStringExtra(SERVICE_TYPE);
+        msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
         GlobalVariables appContext = (GlobalVariables) getApplicationContext();
         String requestmessage = appContext.getRequestMessage();
         SendMessage(requestmessage);
@@ -86,11 +70,11 @@ public class WsSyncService extends IntentService {
                 .readTimeout(180, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
-        if(msgtype.equalsIgnoreCase(SERVICE_GOODSID)){
+        if(msgtype.equalsIgnoreCase(WsSyncService.SERVICE_GOODSID)){
             mServerUrl = WEBSOCKET_SHOP_URL;
 
         }else {
-        mServerUrl = WEBSOCKET_URL;
+            mServerUrl = WEBSOCKET_URL;
         }
         Request request = new Request.Builder()
                 .url(mServerUrl)
@@ -108,8 +92,8 @@ public class WsSyncService extends IntentService {
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 String responsemessage = text;
                 appContext.setResponseMessage(responsemessage);
-                Intent messageIntent = new Intent(API_SERVICE_SYNC);
-                messageIntent.putExtra(SERVICE_TYPE, SERVICE_RESPONSE);
+                Intent messageIntent = new Intent(WsSyncService.API_SERVICE_SEND);
+                messageIntent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_RESPONSE);
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
                 manager.sendBroadcast(messageIntent);
@@ -138,8 +122,8 @@ public class WsSyncService extends IntentService {
                 String responsemessage = text;
                 GlobalVariables appContext = (GlobalVariables) getApplicationContext();
                 appContext.setResponseMessage("Cannot connect to server.");
-                Intent messageIntent = new Intent(API_SERVICE_SYNC);
-                messageIntent.putExtra(SERVICE_TYPE, SERVICE_ERROR);
+                Intent messageIntent = new Intent(WsSyncService.API_SERVICE_SEND);
+                messageIntent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_ERROR);
                 LocalBroadcastManager manager =
                         LocalBroadcastManager.getInstance(getApplicationContext());
                 manager.sendBroadcast(messageIntent);
@@ -148,5 +132,4 @@ public class WsSyncService extends IntentService {
 
         mWebSocket.send(text);
     }
-
 }

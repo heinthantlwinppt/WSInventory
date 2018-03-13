@@ -24,7 +24,7 @@ public class Inventory_products {
     public static final String COLUMN_PGROUP_ID = "pgroup_id";
     public static final String COLUMN_ROW_NO = "row_no";
     public static final String COLUMN_PLENGTH_ID = "plength_id";
-    public static final String COLUMN_PREDUCE_ID = "preduce_id";
+//    public static final String COLUMN_PREDUCE_ID = "preduce_id";
     public static final String COLUMN_PSUBGROUP_ID = "psubgroup_id";
     public static final String COLUMN_TS = "ts";
     public static final String COLUMN_DIAMOND = "diamond";
@@ -61,10 +61,9 @@ public class Inventory_products {
             COLUMN_PGROUP_ID,
             COLUMN_ROW_NO,
             COLUMN_PLENGTH_ID,
-            COLUMN_PREDUCE_ID,
+//            COLUMN_PREDUCE_ID,
             COLUMN_PSUBGROUP_ID,
             COLUMN_TS,
-
             COLUMN_DIAMOND,
             COLUMN_DIAMONDCARATWEIGHT,
             COLUMN_DIAMONDCLARITY,
@@ -98,7 +97,7 @@ public class Inventory_products {
     private int pgroup_id ;
     private int row_no ;
     private int plength_id ;
-    private int preduce_id ;
+//    private int preduce_id ;
     private int psubgroup_id ;
     private Date ts ;
 
@@ -231,13 +230,13 @@ public class Inventory_products {
         this.plength_id = plength_id;
     }
 
-    public int getPreduce_id() {
-        return preduce_id;
-    }
-
-    public void setPreduce_id(int preduce_id) {
-        this.preduce_id = preduce_id;
-    }
+//    public int getPreduce_id() {
+//        return preduce_id;
+//    }
+//
+//    public void setPreduce_id(int preduce_id) {
+//        this.preduce_id = preduce_id;
+//    }
 
     public int getPsubgroup_id() {
         return psubgroup_id;

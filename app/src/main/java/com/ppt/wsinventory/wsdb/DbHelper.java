@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.ppt.wsinventory.model.WsapiSynchistory;
+
 /**
  * Created by User on 28/12/2017.
  */
@@ -165,6 +167,13 @@ public class DbHelper extends SQLiteOpenHelper {
                     " ts DATETIME, \n" +
                     " uploaded BOOL \n" +
                     ")";
+    private static final String TABLE_CREATE_WSAPI_SYNCHISTORY =
+            "CREATE TABLE " + WsapiSynchistory.TABLE_WSAPI_SYNCHISTORY + " \n" +
+                    "(\n" +
+                    " device_id VARCHAR COLLATE NOCASE, \n" +
+                    " timestamp DATETIME, \n" +
+                    " tablename VARCHAR COLLATE NOCASE \n" +
+                    ")";
     private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
     private static final String TABLE_CREATE_INVENTROY_PALLET =
             "CREATE TABLE inventory_pallet \n" +
@@ -201,7 +210,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " pgroup_id     INTEGER, \n" +
                     " row_no      INTEGER, \n" +
                     " plength_id     INTEGER, \n" +
-                    " preduce_id     INTEGER, \n" +
+//                    " preduce_id     INTEGER, \n" +
                     " psubgroup_id     INTEGER, \n" +
                     " ts DATETIME, \n" +
 
@@ -493,17 +502,23 @@ public class DbHelper extends SQLiteOpenHelper {
                     "reduce_g NUMERIC, \n" +
                     "reduce_k INTEGER, \n" +
                     "reduce_p INTEGER, \n" +
-                    "reduce_y INTEGER, \n" +
+                    "reduce_y NUMERIC, \n" +
                     "production_fee NUMERIC, \n" +
-                    "cost_reduce_k NUMERIC, \n" +
-                    "cost_reduce_p NUMERIC, \n" +
+                    "cost_reduce_k INTEGER, \n" +
+                    "cost_reduce_p INTEGER, \n" +
                     "cost_reduce_y NUMERIC, \n" +
                     "cost_production_fee NUMERIC, \n" +
                     "remarks VARCHAR COLLATE NOCASE, \n" +
                     "active BOOL, \n" +
                     "is_delete BOOL, \n" +
                     "gold_id INTEGER, \n" +
-                    "plength_id INTEGER \n" +
+                    "plength_id INTEGER, \n" +
+                    "product_id VARCHAR COLLATE NOCASE, \n" +
+                    "ws_reduce_g NUMERIC, \n" +
+                    "ws_reduce_k INTEGER, \n" +
+                    "ws_reduce_p INTEGER, \n" +
+                    "ws_reduce_y NUMERIC, \n" +
+                    "ts DATETIME \n" +
                     ")";
 
     private static final String TABLE_INVENTORY_PRODUCTSUBGROUPS = "inventory_productsubgroups";
@@ -784,6 +799,8 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_UOM + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_BIN);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_BIN + " has been created");
+        db.execSQL(TABLE_CREATE_WSAPI_SYNCHISTORY);
+        Log.i(TAG, "onCreate: Table " + WsapiSynchistory.TABLE_WSAPI_SYNCHISTORY + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
@@ -859,6 +876,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + WsapiSynchistory.TABLE_WSAPI_SYNCHISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ADMINISTRATION_STAFF);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_GOLD);

@@ -9,9 +9,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class ApiModel {
     public static String GETACTIONLIST = "getActionList";
+    public static String GETSENDDATALIST = "getSendDataList";
     public static String DOSYNC = "dosync";
     public static String SENDNEWACTION = "sendnewaction";
     public static String GETTABLESTODELETE = "getTablesToDelete";
+    public static String GETTABLESTOCLEAN = "getTablesToClean";
     public static String GETSOLUTIONS = "getSolutions";
     public static String GETSETTINGS = "getSettings";
     public static String GETWSDASHBOARD = "getWsDashboard";
@@ -20,6 +22,7 @@ public class ApiModel {
     public static String GETLOCATIONSLIST = "getLocationsList";
     public static String GETUOMLIST = "getUOMList";
     public static String GETBINLIST = "getBinList";
+    public static String SAVEBINLIST = "saveBinList";
     public static String GETWSPALLET = "getPalletList";
     public static String GETWSGOLD = "getGoldList";
     public static String GETGOODSLIST = "getGoodsList";
@@ -42,6 +45,8 @@ public class ApiModel {
     public static String GETPRODUCTLENGTH = "getProductLength";
     public static String GETPRODUCTSUBGROUP = "getProductSubGroup";
     public static String GETSTAFFROLE = "getStaffRole";
+    public static String GETSYNCHISTORY = "getSynchistory";
+    public static String UPDATESYNCHISTORY = "updateSynchistory";
 
     public static String GETJEWELINVENTORY = "getJewelInventory";
     public static String GETJEWELLENGTH = "getJewellength";
@@ -57,6 +62,7 @@ public class ApiModel {
     public static String GETPRODHDR = "getProdHdr";
     public static String GETPRODDETAIL = "getProdDetail";
     public static String TYPE_GET = "get";
+    public static String TYPE_SAVE = "save";
     public static String ADMINISORY_NOSERIES = "getNoSeries";
     @SerializedName("id")
     @Expose

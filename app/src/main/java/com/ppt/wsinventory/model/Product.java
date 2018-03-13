@@ -82,9 +82,9 @@ public class Product {
     @SerializedName("plength")
     @Expose
     private Integer plength;
-    @SerializedName("preduce")
-    @Expose
-    private Integer preduce;
+//    @SerializedName("preduce")
+//    @Expose
+//    private Integer preduce;
     @SerializedName("photo")
     @Expose
     private String photo;
@@ -131,7 +131,7 @@ public class Product {
         this.designname = designname;
     }
 
-    public double getLabourcharge() {
+    public Double getLabourcharge() {
         return labourcharge;
     }
 
@@ -307,13 +307,13 @@ public class Product {
         this.plength = plength;
     }
 
-    public Integer getPreduce() {
-        return preduce;
-    }
-
-    public void setPreduce(Integer preduce) {
-        this.preduce = preduce;
-    }
+//    public Integer getPreduce() {
+//        return preduce;
+//    }
+//
+//    public void setPreduce(Integer preduce) {
+//        this.preduce = preduce;
+//    }
 
     public String getPhoto() {
         return photo;

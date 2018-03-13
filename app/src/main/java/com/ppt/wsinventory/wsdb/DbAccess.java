@@ -47,6 +47,7 @@ import com.ppt.wsinventory.model.Manufacturing_smith_jobproduct;
 import com.ppt.wsinventory.model.Manufacturing_smith_jobtype;
 import com.ppt.wsinventory.model.Manufacturing_smithmembers;
 import com.ppt.wsinventory.model.WsDashboardModel;
+import com.ppt.wsinventory.model.WsapiSynchistory;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimages;
 import com.ppt.wsinventory.model.administration.design.AdministrationWsimagestype;
 import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_jewelinventory;
@@ -167,7 +168,20 @@ public class DbAccess {
     }
 
     public Cursor readData(String sql, String[] selectionArgs) {
-        Cursor cursor = database.rawQuery(sql, selectionArgs);
+        Cursor cursor = database.query(sql
+                , selectionArgs
+                , null
+                ,null
+                ,null
+                ,null
+                ,null
+                );
+        return cursor;
+    }
+    public Cursor readDataSQL(String sql, String[] selectionArgs) {
+        Cursor cursor = database.rawQuery(sql
+                , selectionArgs
+        );
         return cursor;
     }
 
@@ -527,7 +541,7 @@ public class DbAccess {
         return inventoryAllProducts;
     }
 
-    
+
     public List<CodeValue> getProductGroupList() {
 
         List<CodeValue> codeValues = new ArrayList<>();
@@ -762,7 +776,7 @@ public class DbAccess {
         values.put(InventoryProductGroup.COLUMN_ACTIVE, inventoryProductGroup.isActive());
 
         long resultid = database.insert(inventoryProductGroup.TABLE_PRODUCTGROUP, null, values);
-        inventoryProductGroup.setId(resultid);
+//        inventoryProductGroup.setId(Integer.valueOf(resultid));
         return inventoryProductGroup;
     }
 
@@ -783,7 +797,7 @@ public class DbAccess {
         values.put(Inventory_products.COLUMN_PGROUP_ID, inventory_products.getPgroup_id());
         values.put(Inventory_products.COLUMN_ROW_NO, inventory_products.getRow_no());
         values.put(Inventory_products.COLUMN_PLENGTH_ID, inventory_products.getPlength_id());
-        values.put(Inventory_products.COLUMN_PREDUCE_ID, inventory_products.getPreduce_id());
+//        values.put(Inventory_products.COLUMN_PREDUCE_ID, inventory_products.getPreduce_id());
         values.put(Inventory_products.COLUMN_PSUBGROUP_ID, inventory_products.getPsubgroup_id());
         values.put(Inventory_products.COLUMN_TS, Utility.dateFormat.format(inventory_products.getTs()));
 
@@ -828,7 +842,7 @@ public class DbAccess {
         values.put(AdministrationWsdashboard.COLUMN_ACTIONNAME, administrationWsdashboard.getActionname());
         values.put(AdministrationWsdashboard.COLUMN_GROUPNAME, administrationWsdashboard.getGroupname());
         values.put(AdministrationWsdashboard.COLUMN_IMAGE, administrationWsdashboard.getImage());
-        values.put(AdministrationWsdashboard.COLUMN_TIMESTAMP, administrationWsdashboard.getTimestamp());
+        values.put(AdministrationWsdashboard.COLUMN_TIMESTAMP, Utility.dateFormat.format(administrationWsdashboard.getTimestamp()));
         values.put(AdministrationWsdashboard.COLUMN_DELETE, administrationWsdashboard.getIs_delete());
         values.put(AdministrationWsdashboard.COLUMN_DISPLAYNO, administrationWsdashboard.getDisplayno());
         values.put(AdministrationWsdashboard.COLUMN_SCREEN_ID, administrationWsdashboard.getScreen_id());
@@ -881,7 +895,28 @@ public class DbAccess {
 //        administrationStaff.setId(resultid);
         return resultid;
     }
+    public long insertWsapiSynchistory(WsapiSynchistory wsapisynchistory) {
+        ContentValues values = new ContentValues();
 
+        values.put(wsapisynchistory.COLUMN_DEVICE_ID, wsapisynchistory.getDevice_id());
+        values.put(wsapisynchistory.COLUMN_TABLENAME, wsapisynchistory.getTablename());
+        values.put(wsapisynchistory.COLUMN_TIMESTAMP, Utility.dateFormat.format(wsapisynchistory.getTimestamp()));
+
+        long resultid = database.insert(wsapisynchistory.TABLE_WSAPI_SYNCHISTORY, null, values);
+//        administrationStaff.setId(resultid);
+        return resultid;
+    }
+    public int deleteWsapiSynchistory(WsapiSynchistory wsapisynchistory) {
+        ContentValues values = new ContentValues();
+
+        int resultid = database.delete(wsapisynchistory.TABLE_WSAPI_SYNCHISTORY
+                , wsapisynchistory.COLUMN_TABLENAME + " = ? and " + wsapisynchistory.COLUMN_DEVICE_ID + " = ? "
+                , new String[]{
+                    wsapisynchistory.getTablename(), wsapisynchistory.getDevice_id()
+                });
+//        administrationStaff.setId(resultid);
+        return resultid;
+    }
     public long insertGoodsInventory(InventoryGoodInventory goodsinventory) {
         ContentValues values = new ContentValues();
         values.put(InventoryGoodInventory.COLUMN_ID, goodsinventory.getId());
@@ -1173,10 +1208,21 @@ public class DbAccess {
         values.put(InventoryProductreduce.COLUMN_COST_REDUCE_Y, inventoryProductreduce.getCost_reduce_y());
         values.put(InventoryProductreduce.COLUMN_COST_PRODUCTION_FEE, inventoryProductreduce.getCost_production_fee());
         values.put(InventoryProductreduce.COLUMN_REMARKS, inventoryProductreduce.getRemarks());
-        values.put(InventoryProductreduce.COLUMN_ACTIVE, inventoryProductreduce.getActive());
-        values.put(InventoryProductreduce.COLUMN_IS_DELETE, inventoryProductreduce.getIs_delete());
+        values.put(InventoryProductreduce.COLUMN_ACTIVE, inventoryProductreduce.isActive());
+        values.put(InventoryProductreduce.COLUMN_IS_DELETE, inventoryProductreduce.isIs_delete());
         values.put(InventoryProductreduce.COLUMN_GOLD_ID, inventoryProductreduce.getGold_id());
         values.put(InventoryProductreduce.COLUMN_PLENGTH_ID, inventoryProductreduce.getPlength_id());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_K, inventoryProductreduce.getCost_reduce_k());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_P, inventoryProductreduce.getCost_reduce_p());
+        values.put(InventoryProductreduce.COLUMN_COST_REDUCE_Y, inventoryProductreduce.getCost_reduce_y());
+        values.put(InventoryProductreduce.COLUMN_COST_PRODUCTION_FEE, inventoryProductreduce.getCost_production_fee());
+        values.put(InventoryProductreduce.COLUMN_PLENGTH_ID, inventoryProductreduce.getPlength_id());
+        values.put(InventoryProductreduce.COLUMN_PRODUCT_ID, inventoryProductreduce.getProduct_id());
+        values.put(InventoryProductreduce.COLUMN_WS_REDUCE_G, inventoryProductreduce.getWs_reduce_g());
+        values.put(InventoryProductreduce.COLUMN_WS_REDUCE_K, inventoryProductreduce.getWs_reduce_k());
+        values.put(InventoryProductreduce.COLUMN_WS_REDUCE_P, inventoryProductreduce.getWs_reduce_p());
+        values.put(InventoryProductreduce.COLUMN_WS_REDUCE_Y, inventoryProductreduce.getWs_reduce_y());
+        values.put(InventoryProductreduce.COLUMN_TS, Utility.dateFormat.format(inventoryProductreduce.getTs()));
         Long resultid = database.insert(inventoryProductreduce.TABLE_INVENTORY_PRODUCTREDUCE, null, values);
         return resultid;
 

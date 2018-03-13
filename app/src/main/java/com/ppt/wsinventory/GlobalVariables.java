@@ -39,6 +39,15 @@ public class GlobalVariables extends Application {
     private String Binid;
     private String palletId;
     private AdministrationSettings wssetting;
+    private boolean isNewUser = false;
+
+    public boolean isNewUser() {
+        return isNewUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        isNewUser = newUser;
+    }
 
     public AdministrationSettings getWssetting() {
         return wssetting;
