@@ -15,6 +15,8 @@ public class MessageBox {
     public static final int RESULT_YES= 2;
     public static final int RESULT_NO= 3;
     private static final String SHOW_MESSAGEBOX = "SHOW_MESSAGEBOX";
+    public static final String CLOSE_FOLDER = "close_folder";
+    public static final String SEND_DATA = "send_data";
 
 
     public static void ShowMessage(FragmentManager fragmentManager, String title, String caption, @Nullable String action, @Nullable String ButtonLeft, String ButtonRight){

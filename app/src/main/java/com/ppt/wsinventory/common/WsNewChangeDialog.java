@@ -25,8 +25,9 @@ public class WsNewChangeDialog extends DialogFragment {
     public static final String ACTION_ENTER_BARCODE = "action_enter_barcode";
     public static final String ACTION_ENTER_NEWCHANGE = "action_enter_newchange";
     public static final String ACTION_ENTER_SYNC = "action_enter_sync";
+    public static final String ACTION_ENTER_SENDDATA = "action_enter_senddata";
 
-    private static final String TAG = "TruckKit-InputDialog";
+    private static final String TAG = "WS-InputDialog";
     TextView tvTitle,tvSolution;
     EditText txtValue,txtSolution;
     Button btnOK;

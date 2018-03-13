@@ -2252,8 +2252,9 @@ public class ConformBin extends AppCompatActivity {
 //        }
     }
     @Subscribe
-    public void CloseSummary(WsEvents.EventCloseActivity e){
-        onBackPressed();
+    public void CloseActivity(WsEvents.EventOpenScreen e){
+        if(e.getActionname().equals("close_folder"))
+            onBackPressed();
     }
     @Override
     public void onBackPressed() {

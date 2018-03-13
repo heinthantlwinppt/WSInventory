@@ -270,7 +270,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                     Log.i(TAG, "mBroadcastSendReceiver: " + response);
                     Gson gson = JsonHelper.getGson();
                     ApiModel apiModel = gson.fromJson(response, ApiModel.class);
-                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETACTIONLIST)) {
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSENDDATALIST)) {
                         appContext.setActionLists(null);
                         List<ActionList> actionLists = new ArrayList<>();
                         Type listType = new TypeToken<ArrayList<ActionList>>() {
@@ -348,6 +348,8 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
                 .unregisterReceiver(mBroadcastReceiver);
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .unregisterReceiver(mBroadcastIntegration);
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .unregisterReceiver(mBroadcastSendReceiver);
 //        dbaccess.close();
         super.onPause();
     }
@@ -362,6 +364,9 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         LocalBroadcastManager.getInstance(mContext.getApplicationContext())
                 .registerReceiver(mBroadcastIntegration,
                         new IntentFilter(WsService.API_SERVICE_MESSAGE));
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .registerReceiver(mBroadcastSendReceiver,
+                        new IntentFilter(WsSyncService.API_SERVICE_SEND));
     }
 
     @Override
@@ -468,7 +473,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         appContext.setTs(ts);
         String jsonString = gson.toJson(params);
         Log.i(TAG, "onInputEvent: " + jsonString);
-        ApiModel apimodel = new ApiModel(1, ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString);
+        ApiModel apimodel = new ApiModel(1, ApiModel.GETSENDDATALIST, ApiModel.TYPE_GET, jsonString);
         jsonString = gson.toJson(apimodel);
         try {
             req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
@@ -487,6 +492,61 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         ShowProgress(true);
 //        loadRecyclerView();
         Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
+    }
+    @Subscribe
+    public void onSendDataEvent(WsEvents.EventSendData e) {
+        if (e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_SENDDATA)) {
+            BusinessLogic businesslogic = new BusinessLogic(getContext());
+            businesslogic.sendAllDataToServer();
+        }
+//        ShowProgress(true);
+//        String req = "";
+//        Gson gson = JsonHelper.getGson();
+//        List<ApiParam> params = new ArrayList<>();
+//        appContext.setSolutionname(e.getSolution_name());
+//        appContext.setDeviceid(e.getValue());
+//
+//        if (appContext.isNewUser()) {
+//            params.add(
+//                    new ApiParam("newuser", "True")
+//            );
+//
+//        } else {
+//            params.add(
+//                    new ApiParam("newuser", "False")
+//            );
+//        }
+//
+//        params.add(
+//                new ApiParam("solutionname", appContext.getSolutionname())
+//        );
+//        params.add(
+//                new ApiParam("deviceid", appContext.getDeviceid())
+//        );
+////            Date toDate = new Date(System.currentTimeMillis());
+//        Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();
+//        appContext.setTs(ts);
+//        String jsonString = gson.toJson(params);
+//        Log.i(TAG, "onInputEvent: " + jsonString);
+//        ApiModel apimodel = new ApiModel(1, ApiModel.GETSENDDATALIST, ApiModel.TYPE_GET, jsonString);
+//        jsonString = gson.toJson(apimodel);
+//        try {
+//            req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+//        } catch (UnsupportedEncodingException e1) {
+//            e1.printStackTrace();
+//        }
+//        Log.i(TAG, "onInputEvent: " + req);
+//
+////            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
+//
+//        appContext.setRequestMessage(req);
+//        WsApi wsapi = new WsApi(appContext);
+//        wsapi.getSendDataList();
+//
+//
+//        ShowProgress(true);
+////        loadRecyclerView();
+//        Toast.makeText(getContext(), e.getActionname(), Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe

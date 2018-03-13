@@ -1,25 +1,39 @@
 package com.ppt.wsinventory;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
+import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationLocations;
+import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.services.WsSyncService;
+import com.ppt.wsinventory.util.HexStringConverter;
+import com.ppt.wsinventory.util.JsonHelper;
+import com.ppt.wsinventory.websocket.WsApi;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +46,7 @@ public class InventoryCountersFragment extends Fragment {
     RecyclerView counterList;
     Spinner location;
     DbAccess dbaccess;
+    public static final String TAG = "Ws-InvCounterFrag";
     List<AdministrationLocations > inventoryBINS = new ArrayList<>();
     CounterListItemAdapter counterListItemAdapter;
 
@@ -124,14 +139,61 @@ public class InventoryCountersFragment extends Fragment {
 
     @Override
     public void onPause() {
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .unregisterReceiver(mBroadcastSendReceiver);
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(mContext.getApplicationContext())
+                .registerReceiver(mBroadcastSendReceiver,
+                        new IntentFilter(WsSyncService.API_SERVICE_SEND));
     }
+    private BroadcastReceiver mBroadcastSendReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(WsSyncService.API_SERVICE_SEND)) {
+                String msgtype = intent.getStringExtra(WsSyncService.SERVICE_TYPE);
+                WsApi wsApi = new WsApi(context);
+                if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_RESPONSE)) {
+                    String response = appContext.getResponseMessage();
+                    response = HexStringConverter.getHexStringConverterInstance().hexToString(response);
+                    Log.i(TAG, "mBroadcastSendReceiver: " + response);
+                    Gson gson = JsonHelper.getGson();
+                    ApiModel apiModel = gson.fromJson(response, ApiModel.class);
+                    if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSENDDATALIST)) {
+                        appContext.setActionLists(null);
+                        List<ActionList> actionLists = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<ActionList>>() {
+                        }.getType();
+                        actionLists = gson.fromJson(apiModel.getMessage(), listType);
+                        appContext.setActionLists(actionLists);
+                        if (appContext.getActionLists().size() > 0)
+                            wsApi.doSendData();
+                    } else {
+                        //TODO Implement Delete
+                        // the tables records
+                        wsApi.doSendData();
+                    }
+
+                } else if (msgtype.equalsIgnoreCase(WsSyncService.SERVICE_ERROR)) {
+                    Log.i(TAG, "onReceive: Error" );
+//                    Toast.makeText(mContext, appContext.getResponseMessage(), Toast.LENGTH_SHORT).show();
+//                    MessageBox.ShowMessage(getFragmentManager(),
+//                            appContext.getTranslation("ERROR"),
+//                            appContext.getTranslation(appContext.getTranslation(appContext.getResponseMessage())),
+//                            null,
+//                            null,
+//                            "OK");
+                }
+
+            }
+
+        }
+    };
     @Override
     public void onDestroy() {
 //        dbaccess.close();

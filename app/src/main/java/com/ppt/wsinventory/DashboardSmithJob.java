@@ -67,7 +67,7 @@ public class DashboardSmithJob extends AppCompatActivity  {
 
 //        dbAccess = new DbAccess(this);
 //        dbAccess.open();
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
+//        scrollView = (RecyclerView) findViewById(R.id.recyclerView_SmithJob);
         if (!TextUtils.isEmpty(StateManager.getInstance().getCurrentFragmentTag())) {
 
             mCurrentFragmentTag = StateManager.getInstance().getCurrentFragmentTag();
@@ -90,7 +90,7 @@ public class DashboardSmithJob extends AppCompatActivity  {
 //        smithJobOrderList = dbAccess.getAllDashboardItems();
 //        Log.i(TAG, "onReceive: " + smithJobOrderList);
 //        adapter = new SmithJobOrderAdapter((ArrayList<AdministrationWsdashboard>) smithJobOrderList);
-//        recyclerView.setAdapter(adapter);
+//        scrollView.setAdapter(adapter);
 //    }
 
     private void LoadSmithJobOrder() {

@@ -10,7 +10,7 @@
     <item
         android:id="@+id/saveItems"
         android:orderInCategory="101"
-        android:title="saveItem"
+        android:title="Export Database"
         app:showAsAction="never" />
 
     <item

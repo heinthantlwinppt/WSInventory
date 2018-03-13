@@ -102,6 +102,7 @@ import com.ppt.wsinventory.model.inventory_jewellery_model.Inventory_suppliergro
 import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveddetail;
 import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receivedhdr;
 import com.ppt.wsinventory.model.inventory_receive_model.Inventory_receiveserial;
+import com.ppt.wsinventory.services.WsSendDataService;
 import com.ppt.wsinventory.services.WsService;
 import com.ppt.wsinventory.services.WsSyncService;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -178,6 +179,11 @@ public class WsApi {
         intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
         mContext.startService(intent);
     }
+    public void getSendDataList(){
+        Intent intent = new Intent(mContext, WsSendDataService.class);
+        intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
+        mContext.startService(intent);
+    }
     public void doSendData() {
         Gson gson = JsonHelper.getGson();
         String jsonString = "";
@@ -249,7 +255,17 @@ public class WsApi {
                 List<BIN> binList = gson.fromJson(jsonString, listType);
                 for (BIN bin : binList) {
                     Date ts = bin.getTs();
-
+                    InventoryBIN inventorybin = new InventoryBIN();
+                    inventorybin.setId(bin.getId());
+                    inventorybin.setBin_name(bin.getBinName());
+                    inventorybin.setBin_description(bin.getBinDescription());
+                    inventorybin.setBin_type(bin.getBinType());
+                    inventorybin.setBarcode(bin.getBarcode());
+                    inventorybin.setTag(bin.getTag());
+                    inventorybin.setLocation_id(bin.getLocation());
+                    inventorybin.setActive(bin.getActive());
+                    inventorybin.setUploaded(true);
+                    businesslogic.updateInventoryBin(inventorybin);
                     updateTimeStamp(InventoryBIN.TABLE_INVENTORY_BIN, ts);
                     appContext.setTs(ts);
                 }
@@ -270,8 +286,10 @@ public class WsApi {
                 apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
             }else if (actionList.getActionname().equalsIgnoreCase(ApiModel.SAVEBINLIST)) {
                 BusinessLogic bl = new BusinessLogic(appContext);
-                List<InventoryBIN> inventorybins = bl.getAllBinToSend(false);
+                List<BIN> inventorybins = bl.getAllBinToSend(false);
+
                 jsonString = gson.toJson(inventorybins);
+                Log.i(TAG, "doSendData Bin: " + jsonString);
                 apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
             }
             else {
@@ -318,19 +336,21 @@ public class WsApi {
 //            String req = "7b226964223a312c226e616d65223a22676574416374696f6e4c697374222c2274797065223a22676574222c226d657373616765223a225b7b5c226e616d655c223a5c226e6577757365725c222c5c2276616c75655c223a5c22547275655c227d2c7b5c226e616d655c223a5c22736f6c7574696f6e6e616d655c222c5c2276616c75655c223a5c22574d535c227d5d227d";
 
             appContext.setRequestMessage(req);
-            Intent intent = new Intent(mContext, WsSyncService.class);
+            Intent intent = new Intent(mContext, WsSendDataService.class);
             intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
             mContext.startService(intent);
         } else {
             appContext.setNewUser(false);
-            GlobalBus.getBus().post(
-                    new WsEvents.EventShowMessage("Send Data",
-                            "Send Data Completed!",
-                            SENDDATA_COMPLETED,
-                            null,
-                            "OK"
-                    )
-            );
+            if(appContext.isShowalert()) {
+                GlobalBus.getBus().post(
+                        new WsEvents.EventShowMessage("Send Data",
+                                "Send Data Completed!",
+                                SENDDATA_COMPLETED,
+                                null,
+                                "OK"
+                        )
+                );
+            }
         }
     }
     public void doSync() {

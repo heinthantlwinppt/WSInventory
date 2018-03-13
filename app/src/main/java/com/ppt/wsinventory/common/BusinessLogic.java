@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.ppt.wsinventory.DashboardSmithJobOrder;
 import com.ppt.wsinventory.GlobalVariables;
 import com.ppt.wsinventory.InventoryCounters;
@@ -16,17 +18,25 @@ import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationSettings;
 import com.ppt.wsinventory.model.AdministrationStaff;
+import com.ppt.wsinventory.model.ApiModel;
+import com.ppt.wsinventory.model.ApiParam;
+import com.ppt.wsinventory.model.BIN;
 import com.ppt.wsinventory.model.InventoryBIN;
 import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
 import com.ppt.wsinventory.model.WsDashboardModel;
 import com.ppt.wsinventory.model.WsapiSynchistory;
+import com.ppt.wsinventory.util.HexStringConverter;
+import com.ppt.wsinventory.util.JsonHelper;
 import com.ppt.wsinventory.util.Utility;
+import com.ppt.wsinventory.websocket.WsApi;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -39,6 +49,7 @@ public class BusinessLogic {
     private Context mContext;
     public static String SOLUTION_NAME = "WMS-HH";
     public static String GOODS_ID = "A1113080028";
+    public static final String TAG = "Ws-BusinessLogic";
 
     public BusinessLogic(Context context) {
         this.appContext = (GlobalVariables) context.getApplicationContext();
@@ -282,6 +293,7 @@ public class BusinessLogic {
         }
         return staff;
     }
+
     public List<InventoryBIN> getAllInventoryBin() {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
@@ -320,6 +332,7 @@ public class BusinessLogic {
         }
         return inventory_binLocs;
     }
+
     public boolean updateInventoryBin(InventoryBIN inventorybin) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
@@ -327,48 +340,46 @@ public class BusinessLogic {
                 dbaccess.open();
         }
         ContentValues values = new ContentValues();
-        values.put(InventoryBIN.COLUMN_ID,inventorybin.getId());
-        values.put(InventoryBIN.COLUMN_BIN_NAME,inventorybin.getBin_name());
-        values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION,inventorybin.getBin_description());
-        values.put(InventoryBIN.COLUMN_BIN_TYPE,inventorybin.getBin_type());
-        values.put(InventoryBIN.COLUMN_BARCODE,inventorybin.getBarcode());
-        values.put(InventoryBIN.COLUMN_TAG,inventorybin.getTag());
-        values.put(InventoryBIN.COLUMN_LOCATION_ID,inventorybin.getLocation_id());
-        values.put(InventoryBIN.COLUMN_UPLOADED,(inventorybin.isUploaded()?1:0));
-        values.put(InventoryBIN.COLUMN_ACTIVE,(inventorybin.isActive()?1:0));
-        return dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN,values,InventoryBIN.COLUMN_ID + "= ?",new String []{inventorybin.getId()} );
+        values.put(InventoryBIN.COLUMN_ID, inventorybin.getId());
+        values.put(InventoryBIN.COLUMN_BIN_NAME, inventorybin.getBin_name());
+        values.put(InventoryBIN.COLUMN_BIN_DESCRIPTION, inventorybin.getBin_description());
+        values.put(InventoryBIN.COLUMN_BIN_TYPE, inventorybin.getBin_type());
+        values.put(InventoryBIN.COLUMN_BARCODE, inventorybin.getBarcode());
+        values.put(InventoryBIN.COLUMN_TAG, inventorybin.getTag());
+        values.put(InventoryBIN.COLUMN_LOCATION_ID, inventorybin.getLocation_id());
+        values.put(InventoryBIN.COLUMN_UPLOADED, (inventorybin.isUploaded() ? 1 : 0));
+        values.put(InventoryBIN.COLUMN_ACTIVE, (inventorybin.isActive() ? 1 : 0));
+        return dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN, values, InventoryBIN.COLUMN_ID + "= ?", new String[]{inventorybin.getId()});
     }
-    public List<InventoryBIN> getAllBinToSend(boolean uploaded) {
+
+    public List<BIN> getAllBinToSend(boolean uploaded) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
             if (!dbaccess.isOpen())
                 dbaccess.open();
         }
-        List<InventoryBIN> inventory_binLocs = new ArrayList<>();
-        String sql = "select t1.loc_name, t2.* from administration_locations as t1 \n" +
-                "inner join inventory_bin as t2 \n" +
-                "on t1.id = t2.location_id";
+        List<BIN> inventory_binLocs = new ArrayList<>();
         Cursor cursor = dbaccess.readData(InventoryBIN.TABLE_INVENTORY_BIN
-        ,InventoryBIN.COLUMN_ALL
-        ,InventoryBIN.COLUMN_UPLOADED + " = ? ", new String[]{ (uploaded)?"1":"0" }
-        , null,null,null);
+                , InventoryBIN.COLUMN_ALL
+                , InventoryBIN.COLUMN_UPLOADED + " = ? ", new String[]{(uploaded) ? "1" : "0"}
+                , null, null, null);
         while (cursor.moveToNext()) {
-            InventoryBIN binLoc = new InventoryBIN();
-            binLoc.setId(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ID)));
-            binLoc.setBin_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_NAME)));
-            binLoc.setBin_description(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_DESCRIPTION)));
-            binLoc.setBin_type(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BIN_TYPE)));
-            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
-            binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
-            binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setNo_of_pallets(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_NO_OF_PALLETS)));
-            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))));
+            BIN binLoc = new BIN();
+            binLoc.setId(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_ID)));
+            binLoc.setBinName(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_BIN_NAME)));
+            binLoc.setBinDescription(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_BIN_DESCRIPTION)));
+            binLoc.setBinType(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_BIN_TYPE)));
+            binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_BARCODE)));
+            binLoc.setTag(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_TAG)));
+            binLoc.setLocation(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_LOCATION_ID)));
+            binLoc.setNo_of_pallets(cursor.getInt(cursor.getColumnIndex(InventoryBIN.COLUMN_NO_OF_PALLETS)));
+            binLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_ACTIVE))));
             try {
-                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
+                binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(InventoryBIN.COLUMN_TS))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
+//            binLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_NAME)));
 
             inventory_binLocs.add(binLoc);
 
@@ -378,6 +389,48 @@ public class BusinessLogic {
             cursor.close();
         }
         return inventory_binLocs;
+    }
+
+    public void sendAllDataToServer() {
+        appContext.setNewUser(false);
+        String req = "";
+        Gson gson = JsonHelper.getGson();
+        List<ApiParam> params = new ArrayList<>();
+        appContext.setSolutionname(appContext.getWssetting().getSolution_id());
+        appContext.setDeviceid(appContext.getWssetting().getDevice_id());
+
+        if (appContext.isNewUser()) {
+            params.add(
+                    new ApiParam("newuser", "True")
+            );
+
+        } else {
+            params.add(
+                    new ApiParam("newuser", "False")
+            );
+        }
+
+        params.add(
+                new ApiParam("solutionname", appContext.getSolutionname())
+        );
+        params.add(
+                new ApiParam("deviceid", appContext.getDeviceid())
+        );
+//            Date toDate = new Date(System.currentTimeMillis());
+        Date ts = new GregorianCalendar(2001, 0, 1, 0, 0, 0).getTime();
+        appContext.setTs(ts);
+        String jsonString = gson.toJson(params);
+        ApiModel apimodel = new ApiModel(1, ApiModel.GETSENDDATALIST, ApiModel.TYPE_GET, jsonString);
+        jsonString = gson.toJson(apimodel);
+        try {
+            req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+
+        appContext.setRequestMessage(req);
+        WsApi wsapi = new WsApi(appContext);
+        wsapi.getSendDataList();
     }
 
     public List<InventoryBIN> getAllbinByLocation(String id) {
@@ -406,7 +459,7 @@ public class BusinessLogic {
             binLoc.setBarcode(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_BARCODE)));
             binLoc.setTag(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TAG)));
             binLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_LOCATION_ID)));
-            binLoc.setActive(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE))>0);
+            binLoc.setActive(cursor.getInt(cursor.getColumnIndex(binLoc.COLUMN_ACTIVE)) > 0);
             try {
                 binLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(binLoc.COLUMN_TS))));
             } catch (ParseException e) {
@@ -424,6 +477,7 @@ public class BusinessLogic {
         return inventory_binLocs;
 
     }
+
     public InventoryBIN getInventoryBinByBarcode(String barcode) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
@@ -724,9 +778,10 @@ public class BusinessLogic {
         return dashboarditems;
 
     }
+
     public WsapiSynchistory getSynchistoryByTableName(
             String tablename
-    ){
+    ) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
             if (!dbaccess.isOpen())
@@ -736,7 +791,7 @@ public class BusinessLogic {
                 , WsapiSynchistory.COLUMN_ALL
                 , WsapiSynchistory.COLUMN_TABLENAME + "=?"
                 , new String[]{tablename}
-                ,null,null,null
+                , null, null, null
         );
         WsapiSynchistory wsapisynchistory = null;
         while (cursor.moveToNext()) {
@@ -750,9 +805,10 @@ public class BusinessLogic {
             }
             break;
         }
-        return  wsapisynchistory;
+        return wsapisynchistory;
     }
-    public List<WsapiSynchistory> getSynchistory(){
+
+    public List<WsapiSynchistory> getSynchistory() {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
             if (!dbaccess.isOpen())
@@ -774,17 +830,19 @@ public class BusinessLogic {
             }
             wsapisynchistorys.add(wsapisynchistory);
         }
-        return  wsapisynchistorys;
+        return wsapisynchistorys;
     }
-    public boolean insertSyncHistory(WsapiSynchistory wsapisynchistory){
+
+    public boolean insertSyncHistory(WsapiSynchistory wsapisynchistory) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
             if (!dbaccess.isOpen())
                 dbaccess.open();
         }
-       return dbaccess.insertWsapiSynchistory(wsapisynchistory) > 0;
+        return dbaccess.insertWsapiSynchistory(wsapisynchistory) > 0;
     }
-    public boolean deleteSyncHistory(WsapiSynchistory wsapisynchistory){
+
+    public boolean deleteSyncHistory(WsapiSynchistory wsapisynchistory) {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {
             if (!dbaccess.isOpen())
@@ -792,6 +850,7 @@ public class BusinessLogic {
         }
         return dbaccess.deleteWsapiSynchistory(wsapisynchistory) > 0;
     }
+
     public AdministrationSettings getAdministrationSettings() {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {

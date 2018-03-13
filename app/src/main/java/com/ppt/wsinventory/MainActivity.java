@@ -1,26 +1,23 @@
 package com.ppt.wsinventory;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.SearchView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +25,9 @@ import com.ppt.wsinventory.common.GlobalBus;
 import com.ppt.wsinventory.common.WsEvents;
 import com.ppt.wsinventory.common.WsInputDialog;
 import com.ppt.wsinventory.common.WsNewChangeDialog;
-import com.ppt.wsinventory.model.LoginToken;
+import com.ppt.wsinventory.model.Item;
 import com.ppt.wsinventory.util.MessageBox;
 import com.ppt.wsinventory.wsdb.DbAccess;
-import com.ppt.wsinventory.model.Item;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -141,6 +137,14 @@ public class MainActivity extends AppCompatActivity
             Intent returnIntent = new Intent();
             setResult(RESULT_OK, returnIntent);
             finish();
+
+        }else if (e.getMsgResult() == MessageBox.RESULT_OK && e.getAction() == MessageBox.SEND_DATA) {
+            GlobalBus.getBus().post(
+                    new WsEvents.EventSendData(
+                            appContext.getWssetting().getDevice_id(),
+                            appContext.getWssetting().getSolution_id(),
+                            WsNewChangeDialog.ACTION_ENTER_SENDDATA)
+            );
         }
 //        else if(e.getMsgResult() == MessageBox.RESULT_OK && e.getAction() == SYNCHRONIZATION_COMPLETED) {
 ////            ShowProgress(false);
@@ -196,6 +200,7 @@ public class MainActivity extends AppCompatActivity
 //            exportDatabse("WS.db");
 //            Toast.makeText(this, "go to database", Toast.LENGTH_SHORT).show();
 //            return true;
+            appContext.setActionLists(null);
             WsInputDialog wsInputDialog = new WsInputDialog();
             Bundle args = new Bundle();
             wsInputDialog.setArguments(args);
@@ -247,6 +252,7 @@ public class MainActivity extends AppCompatActivity
         }  else if (id == R.id.nav_setting) {
 
         }  else if (id == R.id.nav_sync) {
+            appContext.setActionLists(null);
             GlobalBus.getBus().post(
                     new WsEvents.EventNewChange(
                             appContext.getWssetting().getDevice_id(),
@@ -255,15 +261,25 @@ public class MainActivity extends AppCompatActivity
             );
 
         } else if (id == R.id.nav_send) {
+            appContext.setShowalert(true);
+            appContext.setActionLists(null);
+            MessageBox.ShowMessage(getSupportFragmentManager(),
+                    "Counter",
+                    "Do you want to send all data?",
+                    MessageBox.SEND_DATA,
+                    "No",
+                    "Yes"
+            );
 
-            WsInputDialog wsInputDialog = new WsInputDialog();
-            Bundle args = new Bundle();
-            wsInputDialog.setArguments(args);
-            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
-            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
+
+//            WsInputDialog wsInputDialog = new WsInputDialog();
+//            Bundle args = new Bundle();
+//            wsInputDialog.setArguments(args);
+//            args.putString(wsInputDialog.ACTION_NAME, WsInputDialog.ACTION_ENTER_GOODSID);
+//            wsInputDialog.show(getFragmentManager(), WsInputDialog.ACTION_ENTER_GOODSID);
 
         } else if (id == R.id.nav_new_change_user) {
-
+            appContext.setActionLists(null);
             WsNewChangeDialog wsNewChangeDialog = new WsNewChangeDialog();
             Bundle args = new Bundle();
             wsNewChangeDialog.setArguments(args);

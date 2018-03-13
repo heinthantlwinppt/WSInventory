@@ -41,6 +41,16 @@ public class GlobalVariables extends Application {
     private AdministrationSettings wssetting;
     private boolean isNewUser = false;
 
+    private boolean showalert= false;
+
+    public boolean isShowalert() {
+        return showalert;
+    }
+
+    public void setShowalert(boolean showalert) {
+        this.showalert = showalert;
+    }
+
     public boolean isNewUser() {
         return isNewUser;
     }

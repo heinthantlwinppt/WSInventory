@@ -58,7 +58,7 @@ public class JsonHelper {
             String date = element.getAsString();
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+//            format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
             try {
                 return format.parse(date);

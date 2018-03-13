@@ -48,6 +48,33 @@ public class WsEvents {
         }
 
     }
+    public static class EventSendData {
+        private String mvalue;
+        private String msolution_name;
+
+        private String mactionname;
+
+        public String getActionname() {
+            return mactionname;
+        }
+
+        public String getSolution_name() {
+            return msolution_name;
+        }
+
+        public EventSendData(String value, String solution_name, String actionname) {
+            this.mvalue = value;
+            this.msolution_name = solution_name;
+
+            this.mactionname = actionname;
+
+        }
+
+        public String getValue() {
+            return mvalue;
+        }
+
+    }
 
     public static class EventInputChange {
         private String mvalue;
