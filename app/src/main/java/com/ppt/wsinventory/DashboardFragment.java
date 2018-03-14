@@ -438,6 +438,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
 
     @Subscribe
     public void onNewChangeEvent(WsEvents.EventNewChange e) {
+        appContext.setActionLists(null);
         if (e.getActionname().equalsIgnoreCase(WsNewChangeDialog.ACTION_ENTER_NEWCHANGE)) {
             appContext.setNewUser(true);
         } else {
@@ -473,7 +474,7 @@ public class DashboardFragment extends Fragment implements RecyclerViewAdapter.I
         appContext.setTs(ts);
         String jsonString = gson.toJson(params);
         Log.i(TAG, "onInputEvent: " + jsonString);
-        ApiModel apimodel = new ApiModel(1, ApiModel.GETSENDDATALIST, ApiModel.TYPE_GET, jsonString);
+        ApiModel apimodel = new ApiModel(1, ApiModel.GETACTIONLIST, ApiModel.TYPE_GET, jsonString);
         jsonString = gson.toJson(apimodel);
         try {
             req = HexStringConverter.getHexStringConverterInstance().stringToHex(jsonString);
