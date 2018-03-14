@@ -4,7 +4,7 @@
         <item><shape>
             <!--<gradient android:angle="90" android:endColor="#B3BBCC" android:startColor="#E8EBEF" android:type="linear" />-->
 
-            <solid android:color="#C79121"/>
+            <solid android:color="@color/button_warnning"/>
             <corners android:radius="8dp"/>
 
             <padding android:bottom="2dp" android:left="2dp" android:right="2dp" android:top="2dp" />
