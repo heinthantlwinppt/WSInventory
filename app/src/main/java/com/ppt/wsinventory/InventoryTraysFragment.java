@@ -113,18 +113,18 @@ public class InventoryTraysFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        dbAccess.open();
+      //  dbAccess.open();
     }
 
     @Override
     public void onDestroy() {
-        dbAccess.close();
+ //       dbAccess.close();
         super.onDestroy();
     }
 
     @Override
     public void onStop() {
-        dbAccess.close();
+    //    dbAccess.close();
         super.onStop();
     }
 }
