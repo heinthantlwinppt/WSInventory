@@ -23,6 +23,7 @@ public class ApiModel {
     public static String GETUOMLIST = "getUOMList";
     public static String GETBINLIST = "getBinList";
     public static String SAVEBINLIST = "saveBinList";
+    public static String SAVEPALLETLIST = "savePalletList";
     public static String GETWSPALLET = "getPalletList";
     public static String GETWSGOLD = "getGoldList";
     public static String GETGOODSLIST = "getGoodsList";

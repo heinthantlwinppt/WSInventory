@@ -27,7 +27,7 @@ public class Pallet {
     private String tag;
     @SerializedName("weight")
     @Expose
-    private String weight;
+    private Double weight;
     @SerializedName("active")
     @Expose
     private Boolean active;
@@ -89,11 +89,11 @@ public class Pallet {
         this.tag = tag;
     }
 
-    public String getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

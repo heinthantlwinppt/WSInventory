@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ppt.wsinventory.ConfirmPallet">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_logicode_reader"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_settings_remote"
+        android:title="@string/connect_reader" />
 </menu>

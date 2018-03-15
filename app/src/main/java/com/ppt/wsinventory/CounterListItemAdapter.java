@@ -3,24 +3,14 @@ package com.ppt.wsinventory;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ppt.wsinventory.common.BusinessLogic;
-import com.ppt.wsinventory.common.GlobalBus;
-import com.ppt.wsinventory.common.WsEvents;
-import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
-import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.model.InventoryBIN;
 
 import java.util.ArrayList;
-
-import butterknife.OnClick;
 
 /**
  * Created by User on 26/02/2018.
@@ -84,7 +74,7 @@ public class CounterListItemAdapter extends RecyclerView.Adapter<CounterListItem
         {
 
             appContext.setBinid(inventory_binLoc.getId());
-            Intent intent = new Intent(mContext, ConformBin.class);
+            Intent intent = new Intent(mContext, ConfirmBin.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
 //            GlobalBus.getBus().post(

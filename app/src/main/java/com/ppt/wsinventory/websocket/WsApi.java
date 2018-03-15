@@ -275,6 +275,35 @@ public class WsApi {
 
                 RemoveActionList(apiModel.getName());
             }
+        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.SAVEPALLETLIST)) {
+            jsonString = apiModel.getMessage();
+            if (!TextUtils.isEmpty(jsonString)) {
+                Type listType = new TypeToken<ArrayList<Pallet>>() {
+                }.getType();
+                BusinessLogic businesslogic = new BusinessLogic(appContext);
+                List<Pallet> binList = gson.fromJson(jsonString, listType);
+                for (Pallet p : binList) {
+                    Date ts = p.getTs();
+                    InventoryPallet inventorypallet = new InventoryPallet();
+                    inventorypallet.setId(p.getId());
+                    inventorypallet.setPallet_name(p.getPalletName());
+                    inventorypallet.setPallet_description(p.getPalletDescription());
+                    inventorypallet.setPallet_type(p.getPalletType());
+                    inventorypallet.setBarcode(p.getBarcode());
+                    inventorypallet.setTag(p.getTag());
+                    inventorypallet.setWeight(p.getWeight());
+                    inventorypallet.setActive(p.getActive());
+                    inventorypallet.setIs_used(p.getIsUsed());
+                    inventorypallet.setUploaded(true);
+                    inventorypallet.setTs(ts);
+                    businesslogic.updateInventoryPallet(inventorypallet);
+                    updateTimeStamp(InventoryPallet.TABLE_INVENTORY_PALLET, ts);
+                    appContext.setTs(ts);
+                }
+            } else {
+
+                RemoveActionList(apiModel.getName());
+            }
         }
 
         if (appContext.getActionLists().size() > 0) {
@@ -293,7 +322,15 @@ public class WsApi {
                 jsonString = gson.toJson(inventorybins);
                 Log.i(TAG, "doSendData Bin: " + jsonString);
                 apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
-            } else {
+            }else if (actionList.getActionname().equalsIgnoreCase(ApiModel.SAVEPALLETLIST)) {
+                BusinessLogic bl = new BusinessLogic(appContext);
+
+                List<Pallet> pallets = bl.getAllPalletToSend(false);
+                jsonString = gson.toJson(pallets);
+                Log.i(TAG, "doSendData Bin: " + jsonString);
+                apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
+            }
+            else {
                 List<ApiParam> params = new ArrayList<>();
 
                 params.add(
@@ -1945,10 +1982,11 @@ public class WsApi {
         inventoryPallet.setBarcode(wsPallet.getBarcode());
         inventoryPallet.setTag(wsPallet.getTag());
         inventoryPallet.setLocation_id(wsPallet.getLocation());
-        inventoryPallet.setWeight(Double.parseDouble(wsPallet.getWeight()));
+        inventoryPallet.setWeight(wsPallet.getWeight());
         inventoryPallet.setIs_used(wsPallet.getIsUsed());
         inventoryPallet.setActive(wsPallet.getActive());
         inventoryPallet.setTs(wsPallet.getTs());
+        inventoryPallet.setUploaded(true);
 
         long l = dbaccess.insertInventoryPallet(inventoryPallet);
         Date ts = new Date(System.currentTimeMillis());

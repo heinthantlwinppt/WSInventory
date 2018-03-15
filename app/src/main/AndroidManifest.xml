@@ -135,6 +135,7 @@
         <activity
             android:name=".ProductionListActivity"
             android:label="@string/title_activity_receving_inventory"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Receive_product"
@@ -165,7 +166,7 @@
                 android:value="com.ppt.wsinventory.MainActivity" />
         </activity>
         <activity
-            android:name=".ConformBin"
+            android:name=".ConfirmBin"
             android:label="@string/title_activity_conform_bin"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

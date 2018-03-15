@@ -22,8 +22,10 @@ import com.ppt.wsinventory.model.ApiModel;
 import com.ppt.wsinventory.model.ApiParam;
 import com.ppt.wsinventory.model.BIN;
 import com.ppt.wsinventory.model.InventoryBIN;
+import com.ppt.wsinventory.model.InventoryPallet;
 import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.model.Manufacturing_smith_joborder;
+import com.ppt.wsinventory.model.Pallet;
 import com.ppt.wsinventory.model.WsDashboardModel;
 import com.ppt.wsinventory.model.WsapiSynchistory;
 import com.ppt.wsinventory.util.HexStringConverter;
@@ -352,6 +354,28 @@ public class BusinessLogic {
         values.put(InventoryBIN.COLUMN_ACTIVE, (inventorybin.isActive() ? 1 : 0));
         return dbaccess.updateData(InventoryBIN.TABLE_INVENTORY_BIN, values, InventoryBIN.COLUMN_ID + "= ?", new String[]{inventorybin.getId()});
     }
+    public boolean updateInventoryPallet(InventoryPallet inventorypallet) {
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(InventoryPalletLoc.COLUMN_ID,inventorypallet.getId());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_NAME,inventorypallet.getPallet_name());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_DESCRIPTION,inventorypallet.getPallet_description());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_TYPE,inventorypallet.getPallet_type());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_BARCODE,inventorypallet.getBarcode());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_TAG,inventorypallet.getTag());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_WEIGHT,inventorypallet.getWeight());
+        values.put(InventoryPalletLoc.COLUMN_PALLET_ACTIVE, (inventorypallet.isActive() ? 1 : 0));
+        values.put(InventoryPalletLoc.COLUMN_PALLET_IS_USED, (inventorypallet.isUsed() ? 1 : 0));
+        values.put(InventoryPallet.COLUMN_UPLOADED,(inventorypallet.isUploaded() ? 1 : 0));
+        values.put(InventoryPallet.COLUMN_TS,Utility.dateFormat.format(inventorypallet.getTs()));
+        return dbaccess.updateData(InventoryPallet.TABLE_INVENTORY_PALLET,values,InventoryPallet.COLUMN_ID + "= ?", new String[]{inventorypallet.getId()});
+
+    }
 
     public List<BIN> getAllBinToSend(boolean uploaded) {
         dbaccess = DbAccess.getInstance();
@@ -390,6 +414,45 @@ public class BusinessLogic {
             cursor.close();
         }
         return inventory_binLocs;
+    }
+    public List<Pallet> getAllPalletToSend(boolean uploaded) {
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        List<Pallet> pallets = new ArrayList<>();
+        Cursor cursor = dbaccess.readData(InventoryPallet.TABLE_INVENTORY_PALLET
+                , InventoryPallet.COLUMN_ALL
+                , InventoryPallet.COLUMN_UPLOADED + " = ? ", new String[]{(uploaded) ? "1" : "0"}
+                , null, null, null);
+        while (cursor.moveToNext()) {
+            Pallet pallet = new Pallet();
+            pallet.setId(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_ID)));
+            pallet.setPalletName(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_PALLET_NAME)));
+            pallet.setPalletDescription(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_PALLET_DESCRIPTION)));
+            pallet.setPalletType(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_PALLET_TYPE)));
+            pallet.setBarcode(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_BARCODE)));
+            pallet.setTag(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_TAG)));
+            pallet.setLocation(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_LOCATION_ID)));
+            pallet.setWeight(cursor.getDouble(cursor.getColumnIndex(InventoryPallet.COLUMN_WEIGHT)));
+            pallet.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_ACTIVE))));
+            pallet.setIsUsed(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_IS_USED))));
+            try {
+                pallet.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            pallet.setLocation(cursor.getString(cursor.getColumnIndex(InventoryPallet.COLUMN_LOCATION_ID)));
+
+            pallets.add(pallet);
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return pallets;
     }
 
     public void sendAllDataToServer() {
@@ -578,7 +641,7 @@ public class BusinessLogic {
             palletLoc.setPallet_description(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_DESCRIPTION)));
             palletLoc.setPallet_type(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TYPE)));
             palletLoc.setPallet_barcode(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
-            palletLoc.setPallet_tag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_BARCODE)));
+            palletLoc.setPallet_tag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TAG)));
             palletLoc.setPallet_location_id(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_LOCATION_ID)));
             palletLoc.setPallet_active(cursor.getInt(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_ACTIVE)) > 0);
             palletLoc.setPallet_weight(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_WEIGHT)));
@@ -734,6 +797,47 @@ public class BusinessLogic {
             cursor.close();
         }
         return inventory_palletLocs;
+    }
+    public Inventory_PalletLoc getInventoryPalletLocationByBarcode(String barcode){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        Inventory_PalletLoc palletLoc = null;
+        String sql = "select invP.* , admloc.loc_name as location_name\n" +
+                "from inventory_pallet as invP\n" +
+                "inner join administration_locations as admloc\n" +
+                "on invP.location_id = admloc.id and invP.barcode = ?\n";
+
+        Cursor cursor = dbaccess.readDataSQL(sql, new String[]{barcode});
+
+        while (cursor.moveToNext()) {
+            palletLoc = new Inventory_PalletLoc();
+            palletLoc.setId(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ID)));
+            palletLoc.setPallet_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_NAME)));
+            palletLoc.setPallet_description(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_DESCRIPTION)));
+            palletLoc.setPallet_type(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TYPE)));
+            palletLoc.setBarcode(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_BARCODE)));
+            palletLoc.setTag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TAG)));
+            palletLoc.setIs_used(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_IS_USED))));
+            palletLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_LOCATION_ID)));
+            palletLoc.setWeight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_WEIGHT))));
+            try {
+                palletLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            palletLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ACTIVE))));
+            palletLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_LOCATION_NAME)));
+
+            break;
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return palletLoc;
     }
     public List<AdministrationLocations> getAllLocation() {
         dbaccess = DbAccess.getInstance();

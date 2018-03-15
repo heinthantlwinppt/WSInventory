@@ -17,13 +17,10 @@ import com.cipherlab.barcode.decoder.KeyboardEmulationType;
 import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
 import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.model.InventoryBIN;
-import com.ppt.wsinventory.wsdb.DbAccess;
-
-import java.text.Normalizer;
 
 public class InventoryCounters extends AppCompatActivity {
     GlobalVariables appContext;
-    DbAccess dbAccess;
+//    DbAccess dbAccess;
     // IntentFilter is used to get the intent we need.
     private IntentFilter filter;
 
@@ -40,8 +37,8 @@ public class InventoryCounters extends AppCompatActivity {
         StateManager.getInstance().setCurrent_activity(InventoryCounters.class.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dbAccess = new DbAccess(this);
-        dbAccess.open();
+//        dbAccess = new DbAccess(this);
+//        dbAccess.open();
         // ***************************************************//
         // ***************************************************//
         mReaderManager = ReaderManager.InitInstance(this);
@@ -75,18 +72,18 @@ public class InventoryCounters extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         StateManager.getInstance().setCurrent_activity(InventoryCounters.class.getName());
-        dbAccess.open();
+//        dbAccess.open();
     }
 
     @Override
     protected void onPause() {
-        dbAccess.close();
+//        dbAccess.close();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         // ***************************************************//
         // Unregister Broadcast Receiver before closing the APP.
         // ***************************************************//
@@ -99,6 +96,7 @@ public class InventoryCounters extends AppCompatActivity {
         {
             mReaderManager.Release();
         }
+        super.onDestroy();
     }
     /// Here is the all API examples
     private void ExeSampleCode()
@@ -1938,15 +1936,16 @@ public class InventoryCounters extends AppCompatActivity {
         }
     };
     private void onReadBarcode(String data) {
-        if (!StateManager.getInstance().getCurrent_activity().equalsIgnoreCase(ConformBin.class.getName())) {
-            data = Normalizer.normalize(data, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
+        if (!StateManager.getInstance().getCurrent_activity().equalsIgnoreCase(ConfirmBin.class.getName())) {
+//            data = Normalizer.normalize(data, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
+            data = data.replace("\n", "").replace("\r", "");
             BusinessLogic businessLogic = new BusinessLogic();
             InventoryBIN inventory_binLoc = businessLogic.getInventoryBinByBarcode(data);
             if (inventory_binLoc != null) {
                 Log.i(TAG, "onReadBarcode: ");
                 appContext.setBinid(inventory_binLoc.getId());
-                Intent intent = new Intent(this, ConformBin.class);
-                Log.i(TAG, "onReadBarcode: " + ConformBin.class.getName());
+                Intent intent = new Intent(this, ConfirmBin.class);
+                Log.i(TAG, "onReadBarcode: " + ConfirmBin.class.getName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 this.startActivity(intent);
             }

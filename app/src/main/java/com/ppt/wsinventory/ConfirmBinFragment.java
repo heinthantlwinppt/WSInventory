@@ -54,7 +54,7 @@ public class ConfirmBinFragment extends Fragment {
     CheckBox active;
     Spinner location;
     String current_id;
-    Button cancle, confirm;
+    Button cancel, confirm;
     ProgressBar my_progress;
     ScrollView scrollView;
     LinearLayout linearlayout;
@@ -88,7 +88,7 @@ public class ConfirmBinFragment extends Fragment {
         barcode = (EditText) rootview.findViewById(R.id.barcode);
         tag = (EditText) rootview.findViewById(R.id.tag);
         location = (Spinner) rootview.findViewById(R.id.location_id);
-        cancle = (Button) rootview.findViewById(R.id.cancel_btn);
+        cancel = (Button) rootview.findViewById(R.id.cancel_btn);
         confirm = (Button) rootview.findViewById(R.id.confirm_btn);
         String id = appContext.getBinid();
         dbaccess = new DbAccess(getContext());
@@ -132,7 +132,7 @@ public class ConfirmBinFragment extends Fragment {
         }
         location.setSelection(idx);
 
-        cancle.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 canclefunction();
@@ -260,7 +260,7 @@ public class ConfirmBinFragment extends Fragment {
         ShowProgress(false);
         MessageBox.ShowMessage(getChildFragmentManager(),
                 "Counter",
-                appContext.getTranslation("Counter Confirmed successfully!"),
+                appContext.getTranslation("Counter Confirmed Successfully!"),
                 MessageBox.CLOSE_FOLDER,
                 null,
                 "OK"

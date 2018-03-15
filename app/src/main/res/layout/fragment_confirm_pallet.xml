@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#ffffff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ScrollView
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/confirm_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dip"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_marginBottom="60dip">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="10dip"
             android:background="#be797878"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -23,27 +32,26 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:paddingStart="25dip"
-                    android:background="@drawable/cardvivew"
-                    android:paddingRight="15dip"
-                    android:layout_marginTop="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_marginLeft="5dip"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/cardvivew"
+                    android:orientation="vertical"
+                    android:paddingRight="15dip"
+                    android:paddingStart="25dip">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
                             android:text="Tray Id"
-                            />
+                            android:textColor="@color/black" />
 
                         <!--<TextView-->
                         <EditText
@@ -51,21 +59,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dip"
-                            android:text="id"
+                            android:background="@drawable/bg_textview"
                             android:editable="false"
-                            android:background="@drawable/bg_textview" />
+                            android:text="id" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Tray Name" />
+                            android:text="Tray Name"
+                            android:textColor="@color/black" />
 
                         <EditText
                             android:id="@+id/pallet_counter_name"
@@ -74,38 +83,39 @@
                             android:hint="Tray Name"
                             android:textColor="@color/black" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Tray Type" />
+                            android:text="Tray Type"
+                            android:textColor="@color/black" />
 
                         <EditText
                             android:id="@+id/pallet_counter_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Counter Type"
                             android:editable="false"
+                            android:hint="Counter Type"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Tray description" />
+                            android:text="Tray description"
+                            android:textColor="@color/black" />
 
                         <EditText
                             android:id="@+id/pallet_description"
@@ -117,146 +127,151 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:paddingStart="25dip"
-                    android:background="@drawable/cardvivew"
-                    android:paddingRight="15dip"
-                    android:layout_marginTop="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_marginLeft="5dip"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/cardvivew"
+                    android:orientation="vertical"
+                    android:paddingRight="15dip"
+                    android:paddingStart="25dip">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Location" />
+                            android:text="Location"
+                            android:textColor="@color/black" />
 
                         <Spinner
                             android:id="@+id/pallet_location_id"
-                            android:layout_width="match_parent"
-                            android:layout_marginEnd="8dip"
-                            android:layout_marginBottom="8dip"
-                            android:layout_marginTop="8dip"
                             style="@style/spinner_style"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:clickable="false"
-                            />
+                            android:layout_marginBottom="8dip"
+                            android:layout_marginEnd="8dip"
+                            android:layout_marginTop="8dip"
+                            android:clickable="false" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:paddingStart="25dip"
-                    android:background="@drawable/cardvivew"
-                    android:paddingRight="15dip"
-                    android:layout_marginTop="5dip"
-                    android:layout_marginRight="5dip"
-                    android:layout_marginLeft="5dip"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@drawable/cardvivew"
+                    android:orientation="vertical"
+                    android:paddingRight="15dip"
+                    android:paddingStart="25dip">
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Bar Code" />
+                            android:text="Bar Code"
+                            android:textColor="@color/black" />
 
                         <EditText
                             android:id="@+id/pallet_barcode"
                             android:layout_width="match_parent"
-                            android:layout_marginEnd="8dip"
                             android:layout_height="wrap_content"
-                            android:text="barcode"
+                            android:layout_marginEnd="8dip"
                             android:background="@drawable/bg_textview"
+                            android:editable="false"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:text="Tag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"/>
+                            android:text="Tag"
+                            android:textColor="@color/black" />
 
                         <!--<TextView-->
                         <EditText
                             android:id="@+id/pallet_tag"
-                            android:layout_marginEnd="8dip"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="barcode"
+                            android:layout_marginEnd="8dip"
+
                             android:background="@drawable/bg_textview"
+                            android:editable="false"
                             android:textColor="@color/black" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Weight" />
+                            android:text="Weight"
+                            android:textColor="@color/black" />
 
                         <RelativeLayout
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent">
-                        <EditText
-                            android:id="@+id/pallet_pallet_weight"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:text="weight"
-                            android:layout_toLeftOf="@+id/weight_button"
-                            android:background="@drawable/bg_textview"
-                            android:textColor="@color/black" />
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/pallet_pallet_weight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_toLeftOf="@+id/weight_button"
+                                android:background="@drawable/bg_textview"
+                                android:editable="false"
+                                android:text="weight"
+                                android:textColor="@color/black" />
 
                             <Button
                                 android:id="@+id/weight_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
                                 android:layout_alignParentRight="true"
-                                android:text="Refresh"
-                                />
+                                android:layout_alignParentTop="true"
+                                android:text="Get" />
                         </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <!--<TextView-->
                         <!--android:layout_width="wrap_content"-->
@@ -268,15 +283,16 @@
                             android:id="@+id/pallet_is_active"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Active"
-                            android:checked="true"/>
+                            android:checked="true"
+                            android:enabled="false"
+                            android:text="Active" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
-                        android:layout_height="wrap_content">
+                        android:orientation="vertical">
 
                         <!--<TextView-->
                         <!--android:layout_width="wrap_content"-->
@@ -288,8 +304,9 @@
                             android:id="@+id/pallet_is_used"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Is Used"
-                            android:checked="true"/>
+                            android:checked="true"
+                            android:enabled="false"
+                            android:text="Is Used" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -297,29 +314,32 @@
     </ScrollView>
 
     <LinearLayout
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
+        android:id="@+id/linearlayout"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="8dip"
         android:layout_marginEnd="8dip"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/pallet_cancel_btn"
             android:layout_width="wrap_content"
-            android:background="@drawable/bg_primary_button"
-            android:layout_marginEnd="5dip"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:text="Cancel"/>
+            android:layout_marginEnd="5dip"
+            android:background="@drawable/bg_primary_button"
+            android:text="Cancel"
+            android:textColor="#fff" />
+
         <Button
             android:id="@+id/pallet_confirm_btn"
             android:layout_width="100dip"
-            android:layout_marginStart="5dip"
-            android:layout_marginEnd="5dip"
-            android:textColor="#fff"
-            android:background="@drawable/bg_success_button"
             android:layout_height="50dip"
-            android:text="Confirm"/>
+            android:layout_marginEnd="5dip"
+            android:layout_marginStart="5dip"
+            android:background="@drawable/bg_success_button"
+            android:text="Confirm"
+            android:textColor="#fff" />
     </LinearLayout>
 </RelativeLayout>

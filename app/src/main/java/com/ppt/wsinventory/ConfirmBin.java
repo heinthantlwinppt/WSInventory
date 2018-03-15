@@ -33,7 +33,7 @@ import cipherlab.rfid.device1800.config.EPCData;
 import cipherlab.rfid.device1800.config.IConfigEventListener;
 import cipherlab.rfid.device1800.config.InventoryData;
 
-public class ConformBin extends AppCompatActivity {
+public class ConfirmBin extends AppCompatActivity {
     // IntentFilter is used to get the intent we need.
     private GlobalVariables appContext;
     private IntentFilter filter;
@@ -54,7 +54,7 @@ public class ConformBin extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        StateManager.getInstance().setCurrent_activity(ConformBin.class.getName());
+        StateManager.getInstance().setCurrent_activity(ConfirmBin.class.getName());
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -121,14 +121,14 @@ public class ConformBin extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        StateManager.getInstance().setCurrent_activity(ConformBin.class.getName());
+        StateManager.getInstance().setCurrent_activity(ConfirmBin.class.getName());
     }
 
     @Override
     protected void onStart() {
+        super.onStart();
         GlobalBus.getBus().register(this);
         initLogiCodeRFID();
-        super.onStart();
     }
 
     @Override
@@ -2118,7 +2118,7 @@ public class ConformBin extends AppCompatActivity {
                     }
                     break;
                 case OperationFinish: {
-                    Toast t = Toast.makeText(ConformBin.this,
+                    Toast t = Toast.makeText(ConfirmBin.this,
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
@@ -2130,7 +2130,7 @@ public class ConformBin extends AppCompatActivity {
                 case OperationFail:
                 case DeviceTimeOut: {
                     if (displayflag == true) {
-                        Toast t = Toast.makeText(ConformBin.this,
+                        Toast t = Toast.makeText(ConfirmBin.this,
                                 "STR_Failed", Toast.LENGTH_SHORT);
                         t.show();
                     }
@@ -2141,7 +2141,7 @@ public class ConformBin extends AppCompatActivity {
                     break;
                 }
                 case DeviceBusy:
-                    Toast t = Toast.makeText(ConformBin.this, "STR_Busy",
+                    Toast t = Toast.makeText(ConfirmBin.this, "STR_Busy",
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
@@ -2187,7 +2187,7 @@ public class ConformBin extends AppCompatActivity {
                     break;
                 }
                 case OperationFinish: {
-                    Toast t = Toast.makeText(ConformBin.this,
+                    Toast t = Toast.makeText(ConfirmBin.this,
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch== false) {
@@ -2198,7 +2198,7 @@ public class ConformBin extends AppCompatActivity {
                 }
                 case OperationFail:
                 case DeviceTimeOut: {
-                    Toast t = Toast.makeText(ConformBin.this,
+                    Toast t = Toast.makeText(ConfirmBin.this,
                             "STR_Failed", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
@@ -2208,7 +2208,7 @@ public class ConformBin extends AppCompatActivity {
                     break;
                 }
                 case DeviceBusy:
-                    Toast t = Toast.makeText(ConformBin.this, "STR_Busy",
+                    Toast t = Toast.makeText(ConfirmBin.this, "STR_Busy",
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {

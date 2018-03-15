@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.ppt.wsinventory.inventory.model.InventoryAllProducts;
-import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
 import com.ppt.wsinventory.inventory.model.Inventory_SmithJob;
 import com.ppt.wsinventory.inventory.model.Inventory_production_receiving;
 import com.ppt.wsinventory.inventory.model.ProductReceiving;
@@ -904,9 +903,10 @@ public class DbAccess {
         values.put(InventoryPallet.COLUMN_TAG, inventoryPallet.getTag());
         values.put(InventoryPallet.COLUMN_LOCATION_ID, inventoryPallet.getLocation_id());
         values.put(InventoryPallet.COLUMN_WEIGHT, inventoryPallet.getWeight());
-        values.put(InventoryPallet.COLUMN_IS_USED, inventoryPallet.isIs_used());
+        values.put(InventoryPallet.COLUMN_IS_USED, inventoryPallet.isUsed());
         values.put(InventoryPallet.COLUMN_ACTIVE, inventoryPallet.isActive());
         values.put(InventoryPallet.COLUMN_TS, Utility.dateFormat.format(inventoryPallet.getTs()));
+        values.put(InventoryPallet.COLUMN_UPLOADED, inventoryPallet.isUploaded());
 
         long resultid = database.insert(inventoryPallet.TABLE_INVENTORY_PALLET, null, values);
 //        administrationStaff.setId(resultid);

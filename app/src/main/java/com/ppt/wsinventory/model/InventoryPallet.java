@@ -19,7 +19,7 @@ public class InventoryPallet {
     public static final String COLUMN_IS_USED  = "is_used";
     public static final String COLUMN_WEIGHT  = "weight";
     public static final String COLUMN_TS  = "ts";
-    public static final String COLUMN_UPDATED  = "updated";
+    public static final String COLUMN_UPLOADED = "uploaded";
 
     public static final String[] COLUMN_ALL = new String[]{
             COLUMN_ID ,
@@ -33,7 +33,7 @@ public class InventoryPallet {
             COLUMN_IS_USED ,
             COLUMN_WEIGHT ,
             COLUMN_TS,
-            COLUMN_UPDATED
+            COLUMN_UPLOADED
     };
 
     private String id ;
@@ -47,14 +47,14 @@ public class InventoryPallet {
     private double weight ;
     private Date ts ;
     private boolean active ;
-    private boolean updated;
+    private boolean uploaded;
 
-    public boolean isUpdated() {
-        return updated;
+    public boolean isUploaded() {
+        return uploaded;
     }
 
-    public void setUpdated(boolean updated) {
-        this.updated = updated;
+    public void setUploaded(boolean updated) {
+        this.uploaded = updated;
     }
 
     public String getId() {
@@ -105,7 +105,7 @@ public class InventoryPallet {
         this.tag = tag;
     }
 
-    public boolean isIs_used() {
+    public boolean isUsed() {
         return is_used;
     }
 

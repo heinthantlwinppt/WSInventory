@@ -189,7 +189,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " ts   DATETIME, \n" +
                     " active    BOOL, \n" +
                     " is_used    BOOL, \n" +
-                    " updated    BOOL \n" +
+                    " uploaded    BOOL \n" +
                     ")";
 
     private static final String TABLE_INVENTROY_PRODUCTS = "inventory_products";
