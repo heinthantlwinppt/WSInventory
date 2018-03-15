@@ -3,6 +3,7 @@ package com.ppt.wsinventory.model;
 /**
  * Created by User on 14/02/2018.
  */
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,12 +20,48 @@ public class ProdHdr {
     @SerializedName("voucher_no")
     @Expose
     private String voucherNo;
+    @SerializedName("product_weight")
+    @Expose
+    private Double productWeight;
+    @SerializedName("remnantgold")
+    @Expose
+    private Double remnantgold;
+    @SerializedName("remnantjewel")
+    @Expose
+    private Double remnantjewel;
+    @SerializedName("density")
+    @Expose
+    private Double density;
+    @SerializedName("diff_weight")
+    @Expose
+    private Double diffWeight;
+    @SerializedName("diff_k")
+    @Expose
+    private Integer diffK;
+    @SerializedName("diff_p")
+    @Expose
+    private Integer diffP;
+    @SerializedName("diff_y")
+    @Expose
+    private Double diffY;
+    @SerializedName("prejewelout_date")
+    @Expose
+    private Date prejeweloutDate;
+    @SerializedName("is_prejewelout")
+    @Expose
+    private Boolean isPrejewelout;
+    @SerializedName("is_finished")
+    @Expose
+    private Boolean isFinished;
     @SerializedName("save_count")
     @Expose
     private Integer saveCount;
-    @SerializedName("is_delivered")
+    @SerializedName("received_date")
     @Expose
-    private Boolean isDelivered;
+    private Date receivedDate;
+    @SerializedName("is_received")
+    @Expose
+    private Boolean isReceived;
     @SerializedName("is_confirmed")
     @Expose
     private Boolean isConfirmed;
@@ -42,13 +79,16 @@ public class ProdHdr {
     private Date ts;
     @SerializedName("smith")
     @Expose
-    private String  smith;
+    private Integer smith;
     @SerializedName("location")
     @Expose
     private String location;
     @SerializedName("staff")
     @Expose
     private String staff;
+    @SerializedName("jobtype")
+    @Expose
+    private Integer jobtype;
 
     public String getProdNo() {
         return prodNo;
@@ -74,12 +114,116 @@ public class ProdHdr {
         this.voucherNo = voucherNo;
     }
 
-    public Boolean getIsDelivered() {
-        return isDelivered;
+    public Double getProductWeight() {
+        return productWeight;
     }
 
-    public void setIsDelivered(Boolean isDelivered) {
-        this.isDelivered = isDelivered;
+    public void setProductWeight(Double productWeight) {
+        this.productWeight = productWeight;
+    }
+
+    public Double getRemnantgold() {
+        return remnantgold;
+    }
+
+    public void setRemnantgold(Double remnantgold) {
+        this.remnantgold = remnantgold;
+    }
+
+    public Double getRemnantjewel() {
+        return remnantjewel;
+    }
+
+    public void setRemnantjewel(Double remnantjewel) {
+        this.remnantjewel = remnantjewel;
+    }
+
+    public Double getDensity() {
+        return density;
+    }
+
+    public void setDensity(Double density) {
+        this.density = density;
+    }
+
+    public Double getDiffWeight() {
+        return diffWeight;
+    }
+
+    public void setDiffWeight(Double diffWeight) {
+        this.diffWeight = diffWeight;
+    }
+
+    public Integer getDiffK() {
+        return diffK;
+    }
+
+    public void setDiffK(Integer diffK) {
+        this.diffK = diffK;
+    }
+
+    public Integer getDiffP() {
+        return diffP;
+    }
+
+    public void setDiffP(Integer diffP) {
+        this.diffP = diffP;
+    }
+
+    public Double getDiffY() {
+        return diffY;
+    }
+
+    public void setDiffY(Double diffY) {
+        this.diffY = diffY;
+    }
+
+    public Date getPrejeweloutDate() {
+        return prejeweloutDate;
+    }
+
+    public void setPrejeweloutDate(Date prejeweloutDate) {
+        this.prejeweloutDate = prejeweloutDate;
+    }
+
+    public Boolean getIsPrejewelout() {
+        return isPrejewelout;
+    }
+
+    public void setIsPrejewelout(Boolean isPrejewelout) {
+        this.isPrejewelout = isPrejewelout;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public Integer getSaveCount() {
+        return saveCount;
+    }
+
+    public void setSaveCount(Integer saveCount) {
+        this.saveCount = saveCount;
+    }
+
+    public Date getReceivedDate() {
+        return receivedDate;
+    }
+
+    public void setReceivedDate(Date receivedDate) {
+        this.receivedDate = receivedDate;
+    }
+
+    public Boolean getIsReceived() {
+        return isReceived;
+    }
+
+    public void setIsReceived(Boolean isReceived) {
+        this.isReceived = isReceived;
     }
 
     public Boolean getIsConfirmed() {
@@ -114,14 +258,6 @@ public class ProdHdr {
         this.voidDate = voidDate;
     }
 
-    public Integer getSaveCount() {
-        return saveCount;
-    }
-
-    public void setSaveCount(Integer saveCount) {
-        this.saveCount = saveCount;
-    }
-
     public Date getTs() {
         return ts;
     }
@@ -130,11 +266,11 @@ public class ProdHdr {
         this.ts = ts;
     }
 
-    public String getSmith() {
+    public Integer getSmith() {
         return smith;
     }
 
-    public void setSmith(String  smith) {
+    public void setSmith(Integer smith) {
         this.smith = smith;
     }
 
@@ -152,6 +288,14 @@ public class ProdHdr {
 
     public void setStaff(String staff) {
         this.staff = staff;
+    }
+
+    public Integer getJobtype() {
+        return jobtype;
+    }
+
+    public void setJobtype(Integer jobtype) {
+        this.jobtype = jobtype;
     }
 
 }

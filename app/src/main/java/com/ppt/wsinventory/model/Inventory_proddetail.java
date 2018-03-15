@@ -8,24 +8,25 @@ import java.util.Date;
  * Created by User on 14/02/2018.
  */
 
-public class Inventory_proddetail  {
+public class Inventory_proddetail {
 
     public static final String TABLE_INVENTORY_PRODDETAIL = "inventory_proddetail";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_QTY = "qty";
     public static final String COLUMN_RECEIVED_QTY = "received_qty";
-    public static final String COLUMN_WEIGHT  = "weight";
+    public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_K = "k";
     public static final String COLUMN_P = "p";
     public static final String COLUMN_Y = "y";
-    public static final String COLUMN_DENSITY = "density";
     public static final String COLUMN_REMARKS = "remarks";
     public static final String COLUMN_IS_DELETE = "is_delete";
+    public static final String COLUMN_TS = "ts";
     public static final String COLUMN_PRODHDR_ID = "prodhdr_id";
     public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_TOLOCATION_ID = "tolocation_id";
     public static final String COLUMN_UOM_ID = "uom_id";
-    public static final String COLUMN_TS = "ts";
+    public static final String COLUMN_PHOTO_ID = "photo_id";
+
 
     public static final String[] COLUNM_ALL = new String[]
             {
@@ -36,14 +37,14 @@ public class Inventory_proddetail  {
                     COLUMN_K,
                     COLUMN_P,
                     COLUMN_Y,
-                    COLUMN_DENSITY,
                     COLUMN_REMARKS,
                     COLUMN_IS_DELETE,
+                    COLUMN_TS,
                     COLUMN_PRODHDR_ID,
                     COLUMN_PRODUCT_ID,
                     COLUMN_TOLOCATION_ID,
                     COLUMN_UOM_ID,
-                    COLUMN_TS
+                    COLUMN_PHOTO_ID
             };
 
     private int id;
@@ -52,15 +53,15 @@ public class Inventory_proddetail  {
     private double weight;
     private int k;
     private int p;
-    private int y;
-    private double density;
+    private double y;
     private String remarks;
-    private Boolean is_delete;
+    private boolean is_delete;
+    private Date ts;
     private String prodhdr_id;
     private String product_id;
     private String tolocation_id;
-    private String uon_id;
-    private Date ts;
+    private String uom_id;
+    private String photo_id;
 
     public int getId() {
         return id;
@@ -110,20 +111,12 @@ public class Inventory_proddetail  {
         this.p = p;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
-    }
-
-    public double getDensity() {
-        return density;
-    }
-
-    public void setDensity(double density) {
-        this.density = density;
     }
 
     public String getRemarks() {
@@ -134,12 +127,20 @@ public class Inventory_proddetail  {
         this.remarks = remarks;
     }
 
-    public Boolean getIs_delete() {
+    public boolean Is_delete() {
         return is_delete;
     }
 
-    public void setIs_delete(Boolean is_delete) {
+    public void setIs_delete(boolean is_delete) {
         this.is_delete = is_delete;
+    }
+
+    public Date getTs() {
+        return ts;
+    }
+
+    public void setTs(Date ts) {
+        this.ts = ts;
     }
 
     public String getProdhdr_id() {
@@ -166,30 +167,29 @@ public class Inventory_proddetail  {
         this.tolocation_id = tolocation_id;
     }
 
-    public String getUon_id() {
-        return uon_id;
+    public String getUom_id() {
+        return uom_id;
     }
 
-    public void setUon_id(String uon_id) {
-        this.uon_id = uon_id;
+    public void setUom_id(String uom_id) {
+        this.uom_id = uom_id;
     }
 
-    public Date getTs() {
-        return ts;
+    public String getPhoto_id() {
+        return photo_id;
     }
 
-    public void setTs(Date ts) {
-        this.ts = ts;
+    public void setPhoto_id(String photo_id) {
+        this.photo_id = photo_id;
     }
 
     @Override
     public String toString() {
         return "Inventory_proddetail{" +
-                "remarks='" + remarks + '\'' +
+                "id=" + id +
+                ", qty=" + qty +
                 ", prodhdr_id='" + prodhdr_id + '\'' +
                 ", product_id='" + product_id + '\'' +
-                ", tolocation_id='" + tolocation_id + '\'' +
-                ", uon_id='" + uon_id + '\'' +
                 '}';
     }
 }

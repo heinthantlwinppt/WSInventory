@@ -79,7 +79,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " role    VARCHAR COLLATE NOCASE \n" +
                     ")";
 
-    private static final String TABLE_INVENTORY_GOLD= "inventory_gold";
+    private static final String TABLE_INVENTORY_GOLD = "inventory_gold";
     private static final String TABLE_CREATE_INVENTORY_GOLD =
             "CREATE TABLE inventory_gold \n" +
                     "(\n" +
@@ -113,7 +113,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     ")";
 
     private static final String TABLE_ADMINISTRATION_SOLUTIONS = "administration_solutions";
-    private static final String TABLE_CREATE_ADMINISTRATION_SOLUTIONS=
+    private static final String TABLE_CREATE_ADMINISTRATION_SOLUTIONS =
             "CREATE TABLE administration_solutions \n" +
                     "(\n" +
                     " solution_name  VARCHAR COLLATE NOCASE, \n" +
@@ -128,7 +128,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " role_name  VARCHAR COLLATE NOCASE, \n" +
                     " active    BOOL \n " +
                     ")";
-    private static final String TABLE_ADMINISTRATION_LOCATIONS= "administration_locations";
+    private static final String TABLE_ADMINISTRATION_LOCATIONS = "administration_locations";
     private static final String TABLE_CREATE_ADMINISTRATION_LOCATIONS =
             "CREATE TABLE administration_locations \n" +
                     "(\n" +
@@ -141,7 +141,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active    BOOL \n" +
                     ")";
 
-    private static final String TABLE_INVENTROY_UOM= "inventory_uom";
+    private static final String TABLE_INVENTROY_UOM = "inventory_uom";
     private static final String TABLE_CREATE_INVENTROY_UOM =
             "CREATE TABLE inventory_uom \n" +
                     "(\n" +
@@ -151,7 +151,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " active    BOOL \n" +
                     ")";
 
-    private static final String TABLE_INVENTROY_BIN= "inventory_bin";
+    private static final String TABLE_INVENTROY_BIN = "inventory_bin";
     private static final String TABLE_CREATE_INVENTROY_BIN =
             "CREATE TABLE inventory_bin \n" +
                     "(\n" +
@@ -174,7 +174,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " timestamp DATETIME, \n" +
                     " tablename VARCHAR COLLATE NOCASE \n" +
                     ")";
-    private static final String TABLE_INVENTROY_PALLET= "inventory_pallet";
+    private static final String TABLE_INVENTROY_PALLET = "inventory_pallet";
     private static final String TABLE_CREATE_INVENTROY_PALLET =
             "CREATE TABLE inventory_pallet \n" +
                     "(\n" +
@@ -192,7 +192,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " updated    BOOL \n" +
                     ")";
 
-    private static final String TABLE_INVENTROY_PRODUCTS= "inventory_products";
+    private static final String TABLE_INVENTROY_PRODUCTS = "inventory_products";
     private static final String TABLE_CREATE_INVENTROY_PRODUCTS =
             "CREATE TABLE inventory_products \n" +
                     "(\n" +
@@ -232,7 +232,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     " diamondtype_id     INTEGER \n" +
                     ")";
 
-    private static final String TABLE_INVENTORY_PRODUCTGROUPS= "inventory_productgroups";
+    private static final String TABLE_INVENTORY_PRODUCTGROUPS = "inventory_productgroups";
     private static final String TABLE_CREATE_INVENTORY_PRODUCTGROUPS =
             "CREATE TABLE inventory_productgroups \n" +
                     "(\n" +
@@ -494,7 +494,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     "type_id VARCHAR COLLATE NOCASE \n" +
                     ")";
 
-    private static final String TABLE_INVENTORY_PRODUCTREDUCE= "inventory_productreduce";
+    private static final String TABLE_INVENTORY_PRODUCTREDUCE = "inventory_productreduce";
     private static final String TABLE_CREATE_INVENTORY_PRODUCTREDUCE =
             "CREATE TABLE inventory_productreduce \n" +
                     "(\n" +
@@ -533,7 +533,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                     ")";
 
-    private static final String TABLE_INVENTORY_PRODUCTLENGTH =  "inventory_productlength";
+    private static final String TABLE_INVENTORY_PRODUCTLENGTH = "inventory_productlength";
     private static final String TABLE_CREATE_INVENTORY_PRODUCTLENGTH =
             "CREATE TABLE inventory_productlength \n" +
                     "(\n" +
@@ -702,15 +702,15 @@ public class DbHelper extends SQLiteOpenHelper {
                     "weight NUMERIC, \n" +
                     "k INTEGER, \n" +
                     "p INTEGER, \n" +
-                    "y INTEGER, \n" +
-                    "density NUMERIC, \n" +
+                    "y NUMERIC, \n" +
                     "remarks VARCHAR COLLATE NOCASE, \n" +
                     "is_delete BOOL, \n" +
+                    "ts DATETIME, \n" +
                     "prodhdr_id VARCHAR COLLATE NOCASE, \n" +
                     "product_id VARCHAR COLLATE NOCASE, \n" +
                     "tolocation_id VARCHAR COLLATE NOCASE, \n" +
                     "uom_id VARCHAR COLLATE NOCASE, \n" +
-                    "ts DATETIME \n" +
+                    "photo_id VARCHAR COLLATE NOCASE \n" +
                     ")";
     private static final String TABLE_INVENTORY_PRODHDR = "inventory_prodhdr";
     private static final String TABLE_CREATE_INVENTORY_PRODHDR =
@@ -719,22 +719,34 @@ public class DbHelper extends SQLiteOpenHelper {
                     "prod_no VARCHAR COLLATE NOCASE, \n" +
                     "prod_date DATETIME, \n" +
                     "voucher_no VARCHAR COLLATE NOCASE, \n" +
-                    "is_delivered BOOL, \n" +
+                    "save_count BOOL, \n" +
+                    "is_finished BOOL, \n" +
                     "is_confirmed BOOL, \n" +
-                    "save_count INTEGER, \n" +
-                    "confirmed_by VARCHAR COLLATE NOCASE, \n" +
+                    "confirmedby VARCHAR COLLATE NOCASE, \n" +
                     "is_void BOOL, \n" +
                     "void_date DATETIME, \n" +
                     "ts DATETIME, \n" +
                     "location_id VARCHAR COLLATE NOCASE, \n" +
-                    "smit_id VARCHAR COLLATE NOCASE, \n" +
-                    "staff_id VARCHAR COLLATE NOCASE \n" +
+                    "smith_id INTEGER, \n" +
+                    "staff_id VARCHAR COLLATE NOCASE, \n" +
+                    "density NUMERIC, \n" +
+                    "diff_k INTEGER, \n" +
+                    "diff_p INTEGER, \n" +
+                    "diff_weight NUMERIC, \n" +
+                    "diff_y NUMERIC, \n" +
+                    "is_prejewelout BOOL, \n" +
+                    "is_received BOOL, \n" +
+                    "jobtype_id INTEGER, \n" +
+                    "prejewelout_date DATETIME, \n" +
+                    "product_weight NUMERIC, \n" +
+                    "received_date_date DATETIME, \n" +
+                    "remnantgold NUMERIC, \n" +
+                    "remnantjewel NUMERIC \n" +
                     ")";
 
 
-
     private static final String TABLE_ADMINISTION_NO_SERIE = "administration_noseries";
-    private static final String TABLE_CREATE_ADMINISTRATION_NO_SERIES=
+    private static final String TABLE_CREATE_ADMINISTRATION_NO_SERIES =
             "CREATE TABLE administration_noseries \n" +
                     "(\n" +
                     "id VARCHAR COLLATE NOCASE, \n" +
@@ -752,7 +764,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     ")";
 
     private static final String TABLE_ADMINISTRATION_STAFF_ROLE = "administration_staffrole";
-    private static final String TABLE_CREATE_ADMINISTRATION_STAFFROLE=
+    private static final String TABLE_CREATE_ADMINISTRATION_STAFFROLE =
             "CREATE TABLE administration_staffrole \n" +
                     "(\n" +
                     " id  INTEGER, \n" +
@@ -760,8 +772,6 @@ public class DbHelper extends SQLiteOpenHelper {
                     " role   VARCHAR COLLATE NOCASE, \n" +
                     " staff   VARCHAR COLLATE NOCASE \n" +
                     ")";
-
-
 
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -804,71 +814,71 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE_INVENTORY_GOODSINVENTORY);
         Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_GOODSINVENTORY + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_PALLET);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PALLET + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_PRODUCTS);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PRODUCTS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_PRODUCTS + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTGROUPS);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTGROUPS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTGROUPS + " has been created");
         db.execSQL(TABLE_CREATE_INVENTROY_GOLDUOM);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTROY_GOLDUOM + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSERIAL);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSERIAL + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_SERIALGOLDS);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SERIALGOLDS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SERIALGOLDS + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBGOLD);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBGOLD+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBGOLD + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBORDER);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBORDER+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBORDER + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBPRODUCT);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBPRODUCT+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBPRODUCT + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITH_JOBTYPE);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBTYPE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITH_JOBTYPE + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_SMITHMEMBERS);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITHMEMBERS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_SMITHMEMBERS + " has been created");
         db.execSQL(TABLE_CREATE_MANUFACTURING_JOBSTATUS);
-        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_JOBSTATUS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_MANUFACTURING_JOBSTATUS + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_WSIMAGES);
-        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGES+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGES + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_WSIMAGESTYPE);
-        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGESTYPE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_WSIMAGESTYPE + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTREDUCE);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTREDUCE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTREDUCE + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTSUBGROUPS);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSUBGROUPS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTSUBGROUPS + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODUCTLENGTH);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTLENGTH+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODUCTLENGTH + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELINVENTORY);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELINVENTORY+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELINVENTORY + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELLENGTH);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELLENGTH+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELLENGTH + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELPURCHASE);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASE + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELPURCHASEITEMS);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASEITEMS+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELPURCHASEITEMS + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELSHAPE);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELSHAPE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELSHAPE + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_JEWELTYPE);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELTYPE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_JEWELTYPE + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_SUPPLIER);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIER+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIER + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_SUPPLIERGROUP);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIERGROUP+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_SUPPLIERGROUP + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_RECEIVESERIAL);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVESERIAL+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVESERIAL + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_RECEIVEDDETAIL);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDDETAIL+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDDETAIL + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_RECEIVEDHDR);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDHDR+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_RECEIVEDHDR + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODDETAIL);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODDETAI+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODDETAI + " has been created");
         db.execSQL(TABLE_CREATE_INVENTORY_PRODHDR);
-        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODHDR+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_INVENTORY_PRODHDR + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_NO_SERIES);
-        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTION_NO_SERIE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTION_NO_SERIE + " has been created");
         db.execSQL(TABLE_CREATE_ADMINISTRATION_STAFFROLE);
-        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_STAFF_ROLE+ " has been created");
+        Log.i(TAG, "onCreate: Table " + TABLE_ADMINISTRATION_STAFF_ROLE + " has been created");
 
     }
 

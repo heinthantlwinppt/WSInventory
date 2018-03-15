@@ -27,7 +27,6 @@ import com.ppt.wsinventory.model.InventoryGold;
 import com.ppt.wsinventory.model.InventoryGoldUOM;
 import com.ppt.wsinventory.model.InventoryGoodInventory;
 import com.ppt.wsinventory.model.InventoryPallet;
-import com.ppt.wsinventory.model.InventoryPalletLoc;
 import com.ppt.wsinventory.model.InventoryProductGroup;
 import com.ppt.wsinventory.model.InventoryProductSubgroups;
 import com.ppt.wsinventory.model.InventoryProductlength;
@@ -1410,16 +1409,29 @@ public class DbAccess {
         values.put(Inventory_prodhdr.COLUMN_PROD_NO, inventory_prodhdr.getProd_no());
         values.put(Inventory_prodhdr.COLUMN_PROD_DATE, Utility.dateFormat.format(inventory_prodhdr.getProd_date()));
         values.put(Inventory_prodhdr.COLUMN_VOUCHER_NO, inventory_prodhdr.getVoucher_no());
-        values.put(Inventory_prodhdr.COLUMN_IS_DELIVERED, inventory_prodhdr.getIs_delivered());
-        values.put(Inventory_prodhdr.COLUMN_IS_CONFIRMED, inventory_prodhdr.getIs_confirmed());
-        values.put(Inventory_prodhdr.COLUMN_CONFIRMED_BY, inventory_prodhdr.getConfirmedby());
         values.put(Inventory_prodhdr.COLUMN_SAVE_COUNT, inventory_prodhdr.getSave_count());
-        values.put(Inventory_prodhdr.COLUMN_IS_VOID, inventory_prodhdr.getIs_void());
+        values.put(Inventory_prodhdr.COLUMN_IS_FINISHED, inventory_prodhdr.Is_finished());
+        values.put(Inventory_prodhdr.COLUMN_IS_CONFIRMED, inventory_prodhdr.Is_confirmed());
+        values.put(Inventory_prodhdr.COLUMN_CONFIRMEDBY, inventory_prodhdr.getConfirmedby());
+        values.put(Inventory_prodhdr.COLUMN_IS_VOID, inventory_prodhdr.Is_void());
         values.put(Inventory_prodhdr.COLUMN_VOID_DATE, Utility.dateFormat.format(inventory_prodhdr.getVoid_date()));
         values.put(Inventory_prodhdr.COLUMN_TS, Utility.dateFormat.format(inventory_prodhdr.getTs()));
-        values.put(Inventory_prodhdr.COLUMN_SMIT_ID, inventory_prodhdr.getSmit_id());
         values.put(Inventory_prodhdr.COLUMN_LOCATION_ID, inventory_prodhdr.getLocation_id());
+        values.put(Inventory_prodhdr.COLUMN_SMITH_ID, inventory_prodhdr.getSmith_id());
         values.put(Inventory_prodhdr.COLUMN_STAFF_ID, inventory_prodhdr.getStaff_id());
+        values.put(Inventory_prodhdr.COLUMN_DENSITY, inventory_prodhdr.getDensity());
+        values.put(Inventory_prodhdr.COLUMN_DIFF_K, inventory_prodhdr.getDiff_k());
+        values.put(Inventory_prodhdr.COLUMN_DIFF_P, inventory_prodhdr.getDiff_p());
+        values.put(Inventory_prodhdr.COLUMN_DIFF_WEIGHT, inventory_prodhdr.getDiff_weight());
+        values.put(Inventory_prodhdr.COLUMN_DIFF_Y, inventory_prodhdr.getDiff_y());
+        values.put(Inventory_prodhdr.COLUMN_IS_PREJEWELOUT, inventory_prodhdr.Is_prejewelout());
+        values.put(Inventory_prodhdr.COLUMN_IS_RECEIVED, inventory_prodhdr.Is_received());
+        values.put(Inventory_prodhdr.COLUMN_JOBTYPE_ID, inventory_prodhdr.getJobtype_id());
+        values.put(Inventory_prodhdr.COLUMN_PREJEWELOUT_DATE, Utility.dateFormat.format(inventory_prodhdr.getPrejewelout_date()));
+        values.put(Inventory_prodhdr.COLUMN_PRODUCT_WEIGHT, inventory_prodhdr.getProduct_weight());
+        values.put(Inventory_prodhdr.COLUMN_RECEIVED_DATE, Utility.dateFormat.format(inventory_prodhdr.getReceived_date()));
+        values.put(Inventory_prodhdr.COLUMN_REMNANTGOLD, inventory_prodhdr.getRemnantgold());
+        values.put(Inventory_prodhdr.COLUMN_REMNANTJEWEL, inventory_prodhdr.getRemnantjewel());
 
         long resultid = database.insert(inventory_prodhdr.TABLE_INVENTORY_PRODHDR, null, values);
         return resultid;
@@ -1427,7 +1439,6 @@ public class DbAccess {
 
     public long insertInventory_proddetail(Inventory_proddetail inventory_proddetail) {
         ContentValues values = new ContentValues();
-
         values.put(inventory_proddetail.COLUMN_ID, inventory_proddetail.getId());
         values.put(inventory_proddetail.COLUMN_QTY, inventory_proddetail.getQty());
         values.put(inventory_proddetail.COLUMN_RECEIVED_QTY, inventory_proddetail.getReceived_qty());
@@ -1435,14 +1446,14 @@ public class DbAccess {
         values.put(inventory_proddetail.COLUMN_K, inventory_proddetail.getK());
         values.put(inventory_proddetail.COLUMN_P, inventory_proddetail.getP());
         values.put(inventory_proddetail.COLUMN_Y, inventory_proddetail.getY());
-        values.put(inventory_proddetail.COLUMN_DENSITY, inventory_proddetail.getDensity());
         values.put(inventory_proddetail.COLUMN_REMARKS, inventory_proddetail.getRemarks());
-        values.put(inventory_proddetail.COLUMN_IS_DELETE, inventory_proddetail.getIs_delete());
+        values.put(inventory_proddetail.COLUMN_IS_DELETE, inventory_proddetail.Is_delete());
+        values.put(inventory_proddetail.COLUMN_TS, Utility.dateFormat.format(inventory_proddetail.getTs()));
         values.put(inventory_proddetail.COLUMN_PRODHDR_ID, inventory_proddetail.getProdhdr_id());
         values.put(inventory_proddetail.COLUMN_PRODUCT_ID, inventory_proddetail.getProduct_id());
         values.put(inventory_proddetail.COLUMN_TOLOCATION_ID, inventory_proddetail.getTolocation_id());
-        values.put(inventory_proddetail.COLUMN_UOM_ID, inventory_proddetail.getUon_id());
-        values.put(inventory_proddetail.COLUMN_TS, Utility.dateFormat.format(inventory_proddetail.getTs()));
+        values.put(inventory_proddetail.COLUMN_UOM_ID, inventory_proddetail.getUom_id());
+        values.put(inventory_proddetail.COLUMN_PHOTO_ID, inventory_proddetail.getPhoto_id());
 
         long resultid = database.insert(inventory_proddetail.TABLE_INVENTORY_PRODDETAIL, null, values);
         return resultid;

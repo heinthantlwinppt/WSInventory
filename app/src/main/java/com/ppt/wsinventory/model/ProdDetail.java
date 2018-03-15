@@ -12,13 +12,13 @@ public class ProdDetail {
     private Integer id;
     @SerializedName("qty")
     @Expose
-    private double qty;
+    private Double qty;
     @SerializedName("received_qty")
     @Expose
-    private double receivedQty;
+    private Double receivedQty;
     @SerializedName("weight")
     @Expose
-    private double weight;
+    private Double weight;
     @SerializedName("k")
     @Expose
     private Integer k;
@@ -27,10 +27,7 @@ public class ProdDetail {
     private Integer p;
     @SerializedName("y")
     @Expose
-    private Integer y;
-    @SerializedName("density")
-    @Expose
-    private double density;
+    private Double y;
     @SerializedName("remarks")
     @Expose
     private String remarks;
@@ -52,6 +49,9 @@ public class ProdDetail {
     @SerializedName("uom")
     @Expose
     private String uom;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
 
     public Integer getId() {
         return id;
@@ -61,27 +61,27 @@ public class ProdDetail {
         this.id = id;
     }
 
-    public double getQty() {
+    public Double getQty() {
         return qty;
     }
 
-    public void setQty(double qty) {
+    public void setQty(Double qty) {
         this.qty = qty;
     }
 
-    public double getReceivedQty() {
+    public Double getReceivedQty() {
         return receivedQty;
     }
 
-    public void setReceivedQty(double receivedQty) {
+    public void setReceivedQty(Double receivedQty) {
         this.receivedQty = receivedQty;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -101,20 +101,12 @@ public class ProdDetail {
         this.p = p;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
-    }
-
-    public double getDensity() {
-        return density;
-    }
-
-    public void setDensity(double density) {
-        this.density = density;
     }
 
     public String getRemarks() {
@@ -171,6 +163,14 @@ public class ProdDetail {
 
     public void setUom(String uom) {
         this.uom = uom;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
 }

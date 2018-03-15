@@ -179,11 +179,13 @@ public class WsApi {
         intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
         mContext.startService(intent);
     }
-    public void getSendDataList(){
+
+    public void getSendDataList() {
         Intent intent = new Intent(mContext, WsSendDataService.class);
         intent.putExtra(WsSyncService.SERVICE_TYPE, WsSyncService.SERVICE_REQUEST);
         mContext.startService(intent);
     }
+
     public void doSendData() {
         Gson gson = JsonHelper.getGson();
         String jsonString = "";
@@ -225,7 +227,7 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSYNCHISTORY)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSYNCHISTORY)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<WsapiSynchistory>>() {
@@ -246,7 +248,7 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.SAVEBINLIST)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.SAVEBINLIST)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<BIN>>() {
@@ -284,15 +286,14 @@ public class WsApi {
                 List<WsapiSynchistory> wsapisynchistorys = bl.getSynchistory();
                 jsonString = gson.toJson(wsapisynchistorys);
                 apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
-            }else if (actionList.getActionname().equalsIgnoreCase(ApiModel.SAVEBINLIST)) {
+            } else if (actionList.getActionname().equalsIgnoreCase(ApiModel.SAVEBINLIST)) {
                 BusinessLogic bl = new BusinessLogic(appContext);
                 List<BIN> inventorybins = bl.getAllBinToSend(false);
 
                 jsonString = gson.toJson(inventorybins);
                 Log.i(TAG, "doSendData Bin: " + jsonString);
                 apimodel = new ApiModel(1, actionList.getActionname(), ApiModel.TYPE_SAVE, jsonString);
-            }
-            else {
+            } else {
                 List<ApiParam> params = new ArrayList<>();
 
                 params.add(
@@ -341,7 +342,7 @@ public class WsApi {
             mContext.startService(intent);
         } else {
             appContext.setNewUser(false);
-            if(appContext.isShowalert()) {
+            if (appContext.isShowalert()) {
                 GlobalBus.getBus().post(
                         new WsEvents.EventShowMessage("Send Data",
                                 "Send Data Completed!",
@@ -353,6 +354,7 @@ public class WsApi {
             }
         }
     }
+
     public void doSync() {
         Gson gson = JsonHelper.getGson();
         String jsonString = "";
@@ -394,7 +396,7 @@ public class WsApi {
             } else {
                 RemoveActionList(apiModel.getName());
             }
-        }else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSOLUTIONS)) {
+        } else if (apiModel.getName().equalsIgnoreCase(ApiModel.GETSOLUTIONS)) {
             jsonString = apiModel.getMessage();
             if (!TextUtils.isEmpty(jsonString)) {
                 Type listType = new TypeToken<ArrayList<Solution>>() {
@@ -640,7 +642,7 @@ public class WsApi {
                     importSmithJobProductList(smith_jobproduct);
                     Log.i(TAG, "Product ID : " + smith_jobproduct.getProducts());
                 }
-                RemoveActionList(apiModel.getName());
+//                RemoveActionList(apiModel.getName());
             } else {
                 RemoveActionList(apiModel.getName());
             }
@@ -791,7 +793,7 @@ public class WsApi {
                     importProductReduce(productReduce);
                     Log.i(TAG, "Solution Name : " + productReduce.getId());
                 }
-                RemoveActionList(apiModel.getName());
+//                RemoveActionList(apiModel.getName());
             } else {
                 RemoveActionList(apiModel.getName());
             }
@@ -1176,7 +1178,7 @@ public class WsApi {
                     }
 //                    Log.i(TAG, "Receiveserialno : " + receivedDetail.getProductserial());
                 }
-                RemoveActionList(apiModel.getName());
+//                RemoveActionList(apiModel.getName());
 
             } else {
 
@@ -2273,7 +2275,7 @@ public class WsApi {
         inventoryProductreduce.setWs_reduce_k((productReduce.getWsReduceK() == null) ? 0 : productReduce.getWsReduceK());
         inventoryProductreduce.setWs_reduce_p((productReduce.getWsReduceP() == null) ? 0 : productReduce.getWsReduceP());
         inventoryProductreduce.setWs_reduce_y((productReduce.getWsReduceY() == null) ? 0.00 : productReduce.getWsReduceY());
-        inventoryProductreduce.setTs((productReduce.getTs() == null) ? new Date(System.currentTimeMillis()): productReduce.getTs());
+        inventoryProductreduce.setTs((productReduce.getTs() == null) ? new Date(System.currentTimeMillis()) : productReduce.getTs());
         boolean b = false;
         if (productReduce.getIsDelete() == true) {
             b = dbaccess.deleteData(InventoryProductreduce.TABLE_INVENTORY_PRODUCTREDUCE,
@@ -2281,7 +2283,7 @@ public class WsApi {
                     new String[]{String.valueOf(productReduce.getId())});
         } else {
             long l = dbaccess.insertProduct_Reduce(inventoryProductreduce);
-            b= (l > 0);
+            b = (l > 0);
         }
         Date ts = inventoryProductreduce.getTs();
         updateTimeStamp(inventoryProductreduce.TABLE_INVENTORY_PRODUCTREDUCE, ts);
@@ -2646,20 +2648,33 @@ public class WsApi {
         inventory_prodhdr.setProd_date(prodHdr.getProdDate());
         inventory_prodhdr.setVoucher_no(prodHdr.getVoucherNo());
         inventory_prodhdr.setSave_count(prodHdr.getSaveCount());
-        inventory_prodhdr.setIs_delivered(prodHdr.getIsDelivered());
+        inventory_prodhdr.setIs_finished(prodHdr.getIsFinished());
         inventory_prodhdr.setIs_confirmed(prodHdr.getIsConfirmed());
         inventory_prodhdr.setConfirmedby(prodHdr.getConfirmedby());
         inventory_prodhdr.setIs_void(prodHdr.getIsVoid());
         inventory_prodhdr.setVoid_date(prodHdr.getVoidDate());
         inventory_prodhdr.setTs(prodHdr.getTs());
         inventory_prodhdr.setLocation_id(prodHdr.getLocation());
-        inventory_prodhdr.setSmit_id(prodHdr.getSmith());
+        inventory_prodhdr.setSmith_id(prodHdr.getSmith());
         inventory_prodhdr.setStaff_id(prodHdr.getStaff());
-
-
+        inventory_prodhdr.setDensity(prodHdr.getDensity());
+        inventory_prodhdr.setDiff_k(prodHdr.getDiffK());
+        inventory_prodhdr.setDiff_p(prodHdr.getDiffP());
+        inventory_prodhdr.setDiff_weight(prodHdr.getDiffWeight());
+        inventory_prodhdr.setDiff_y(prodHdr.getDiffY());
+        inventory_prodhdr.setIs_prejewelout(prodHdr.getIsPrejewelout());
+        inventory_prodhdr.setIs_received(prodHdr.getIsReceived());
+        inventory_prodhdr.setJobtype_id(prodHdr.getJobtype());
+        inventory_prodhdr.setPrejewelout_date(prodHdr.getPrejeweloutDate());
+        inventory_prodhdr.setProduct_weight(prodHdr.getProductWeight());
+        inventory_prodhdr.setReceived_date(prodHdr.getReceivedDate());
+        inventory_prodhdr.setRemnantgold(prodHdr.getRemnantgold());
+        inventory_prodhdr.setRemnantjewel(prodHdr.getRemnantjewel());
         Long l = dbaccess.insertInventory_prodhdr(inventory_prodhdr);
+        Date ts = inventory_prodhdr.getTs();
+        updateTimeStamp(Inventory_prodhdr.TABLE_INVENTORY_PRODHDR, ts);
+        appContext.setTs(ts);
         return (l > 0);
-
 
     }
 
@@ -2671,6 +2686,7 @@ public class WsApi {
                 dbaccess.open();
         }
         //TODO
+
         Inventory_proddetail inventory_proddetail = new Inventory_proddetail();
         inventory_proddetail.setId(prodDetail.getId());
         inventory_proddetail.setQty(prodDetail.getQty());
@@ -2679,26 +2695,26 @@ public class WsApi {
         inventory_proddetail.setK(prodDetail.getK());
         inventory_proddetail.setP(prodDetail.getP());
         inventory_proddetail.setY(prodDetail.getY());
-        inventory_proddetail.setDensity(prodDetail.getDensity());
         inventory_proddetail.setRemarks(prodDetail.getRemarks());
         inventory_proddetail.setIs_delete(prodDetail.getIsDelete());
+        inventory_proddetail.setTs(prodDetail.getTs());
         inventory_proddetail.setProdhdr_id(prodDetail.getProdhdr());
         inventory_proddetail.setProduct_id(prodDetail.getProduct());
         inventory_proddetail.setTolocation_id(prodDetail.getTolocation());
-        inventory_proddetail.setUon_id(prodDetail.getUom());
-        inventory_proddetail.setTs(prodDetail.getTs());
+        inventory_proddetail.setUom_id(prodDetail.getUom());
+        inventory_proddetail.setPhoto_id(prodDetail.getPhoto());
 
-
+        boolean b = false;
         if (prodDetail.getIsDelete() == true) {
-            boolean b = dbaccess.deleteData(Inventory_proddetail.TABLE_INVENTORY_PRODDETAIL,
+            b = dbaccess.deleteData(Inventory_proddetail.TABLE_INVENTORY_PRODDETAIL,
                     inventory_proddetail.COLUMN_ID + "=?",
                     new String[]{String.valueOf(prodDetail.getId())});
             return b;
         } else {
             Long l = dbaccess.insertInventory_proddetail(inventory_proddetail);
-            return (l > 0);
+            b= (l > 0);
         }
-
+        return  b;
 
     }
 }
