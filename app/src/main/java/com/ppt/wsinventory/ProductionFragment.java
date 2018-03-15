@@ -22,7 +22,7 @@ import java.util.List;
  * Created by User on 15/02/2018.
  */
 
-public class ProductionReceivingInvestoryFragment extends Fragment {
+public class ProductionFragment extends Fragment {
     ViewGroup rootView;
     RecyclerView listView;
     private Context mContext;
@@ -41,7 +41,7 @@ public class ProductionReceivingInvestoryFragment extends Fragment {
         appContext = (GlobalVariables) context.getApplicationContext();
     }
 
-    public ProductionReceivingInvestoryFragment() {
+    public ProductionFragment() {
     }
 
     @Nullable

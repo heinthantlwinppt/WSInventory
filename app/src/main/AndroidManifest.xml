@@ -34,7 +34,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ProductionReceivingInvestoryActivity"
+            android:name=".ProductionActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -126,14 +126,14 @@
         <activity
             android:name=".ProreceivingListActivity"
             android:label="@string/title_activity_proreceiving_list"
-            android:parentActivityName=".ProductionReceivingInvestoryActivity"
+            android:parentActivityName=".ProductionActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ppt.wsinventory.MainActivity" />
         </activity>
         <activity
-            android:name=".RecevingInventoryActivity"
+            android:name=".ProductionListActivity"
             android:label="@string/title_activity_receving_inventory"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

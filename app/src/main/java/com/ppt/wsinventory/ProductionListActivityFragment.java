@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RecevingInventoryActivityFragment extends Fragment {
+public class ProductionListActivityFragment extends Fragment {
 
     ViewGroup rootView;
     RecyclerView listView;
@@ -42,7 +42,7 @@ public class RecevingInventoryActivityFragment extends Fragment {
         appContext = (GlobalVariables) context.getApplicationContext();
     }
 
-    public RecevingInventoryActivityFragment() {
+    public ProductionListActivityFragment() {
     }
 
     @Override

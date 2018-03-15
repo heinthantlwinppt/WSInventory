@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
-public class RecevingInventoryActivity extends AppCompatActivity {
+public class ProductionListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

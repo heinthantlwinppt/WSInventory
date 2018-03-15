@@ -2,7 +2,6 @@ package com.ppt.wsinventory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -13,7 +12,7 @@ import android.view.View;
  * Created by User on 15/02/2018.
  */
 
-public class ProductionReceivingInvestoryActivity extends AppCompatActivity
+public class ProductionActivity extends AppCompatActivity
 {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class ProductionReceivingInvestoryActivity extends AppCompatActivity
         receiving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProductionReceivingInvestoryActivity.this,ProreceivingListActivity.class));
+                startActivity(new Intent(ProductionActivity.this,ProreceivingListActivity.class));
             }
         });
 
@@ -44,7 +43,7 @@ public class ProductionReceivingInvestoryActivity extends AppCompatActivity
         production.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProductionReceivingInvestoryActivity.this,RecevingInventoryActivity.class));
+                startActivity(new Intent(ProductionActivity.this,ProductionListActivity.class));
 
             }
         });

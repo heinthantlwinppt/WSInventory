@@ -44,7 +44,7 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ConformBinFragment extends Fragment {
+public class ConfirmBinFragment extends Fragment {
     private GlobalVariables appContext;
     private Context mContext;
     public static final String TAG = "Ws-ConformBinFragment";
@@ -58,7 +58,7 @@ public class ConformBinFragment extends Fragment {
     ProgressBar my_progress;
     ScrollView scrollView;
     LinearLayout linearlayout;
-    public ConformBinFragment() {
+    public ConfirmBinFragment() {
     }
 
     @Override
