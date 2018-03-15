@@ -4,7 +4,8 @@
     android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dip"
         xmlns:android="http://schemas.android.com/apk/res/android">
@@ -41,7 +42,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="Counter id" />
+                            android:text="Tray Id"
+                            />
 
                         <!--<TextView-->
                         <EditText
@@ -50,6 +52,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dip"
                             android:text="id"
+                            android:editable="false"
                             android:background="@drawable/bg_textview" />
                     </LinearLayout>
                     <LinearLayout
@@ -62,13 +65,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="Counter Name" />
+                            android:text="Tray Name" />
 
                         <EditText
                             android:id="@+id/pallet_counter_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Counter Name"
+                            android:hint="Tray Name"
                             android:textColor="@color/black" />
                     </LinearLayout>
                     <LinearLayout
@@ -81,13 +84,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="Counter Type" />
+                            android:text="Tray Type" />
 
                         <EditText
                             android:id="@+id/pallet_counter_type"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Counter Type"
+                            android:editable="false"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -101,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:text="Counter description" />
+                            android:text="Tray description" />
 
                         <EditText
                             android:id="@+id/pallet_description"
@@ -147,7 +151,9 @@
                             android:layout_marginBottom="8dip"
                             android:layout_marginTop="8dip"
                             style="@style/spinner_style"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -222,14 +228,28 @@
                             android:textColor="@color/black"
                             android:text="Weight" />
 
+                        <RelativeLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent">
                         <EditText
                             android:id="@+id/pallet_pallet_weight"
                             android:layout_width="match_parent"
-                            android:layout_marginEnd="8dip"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
                             android:text="weight"
+                            android:layout_toLeftOf="@+id/weight_button"
                             android:background="@drawable/bg_textview"
                             android:textColor="@color/black" />
+
+                            <Button
+                                android:id="@+id/weight_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentRight="true"
+                                android:text="Refresh"
+                                />
+                        </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
