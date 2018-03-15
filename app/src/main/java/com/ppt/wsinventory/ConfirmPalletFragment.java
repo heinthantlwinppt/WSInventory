@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class ConfirmPalletFragment extends Fragment {
     EditText pallet_id,pallet_name,pallet_type,pallet_description,barcode,tag,weight;
     CheckBox isactive,isused;
     Button confirm,cancel;
+    Button weightButton;
     GlobalVariables appContext;
     private Context mContext;
     DbAccess dbaccess;
@@ -60,7 +62,10 @@ public class ConfirmPalletFragment extends Fragment {
         barcode = (EditText)rootView.findViewById(R.id.pallet_barcode);
         tag = (EditText)rootView.findViewById(R.id.pallet_tag);
         weight =(EditText)rootView.findViewById(R.id.pallet_pallet_weight);
+        weightButton = (Button)rootView.findViewById(R.id.weight_button);
+
         location =(Spinner)rootView.findViewById(R.id.pallet_location_id);
+        location.setEnabled(false);
 
         isactive = (CheckBox)rootView.findViewById(R.id.pallet_is_active);
         isused = (CheckBox)rootView.findViewById(R.id.pallet_is_used);
