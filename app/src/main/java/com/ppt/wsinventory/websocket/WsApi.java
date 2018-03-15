@@ -2714,6 +2714,9 @@ public class WsApi {
             Long l = dbaccess.insertInventory_proddetail(inventory_proddetail);
             b= (l > 0);
         }
+        Date ts = inventory_proddetail.getTs();
+        updateTimeStamp(Inventory_proddetail.TABLE_INVENTORY_PRODDETAIL, ts);
+        appContext.setTs(ts);
         return  b;
 
     }
