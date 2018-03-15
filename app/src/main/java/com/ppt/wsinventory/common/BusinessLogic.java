@@ -14,6 +14,7 @@ import com.ppt.wsinventory.InventoryCounters;
 import com.ppt.wsinventory.InventoryTrays;
 import com.ppt.wsinventory.MainActivity;
 import com.ppt.wsinventory.ProductionReceivingInvestoryActivity;
+import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
 import com.ppt.wsinventory.model.ActionList;
 import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.AdministrationSettings;
@@ -687,7 +688,53 @@ public class BusinessLogic {
 
 
     }
+    public List<Inventory_PalletLoc> getAllinventoryPalletLocation(String id){
+        dbaccess = DbAccess.getInstance();
+        if (dbaccess != null) {
+            if (!dbaccess.isOpen())
+                dbaccess.open();
+        }
+        List<Inventory_PalletLoc> inventory_palletLocs = new ArrayList<>();
+        String sql = "select invP.* , admloc.loc_name as location_name\n" +
+                "from inventory_pallet as invP\n" +
+                "inner join administration_locations as admloc\n" +
+                "on invP.location_id = admloc.id\n";
 
+        if(!id.isEmpty() && !id.equals("") && !id.equals("All Shop")){
+
+            sql = sql + " where admloc.id = '"+ id+"'";
+        }
+
+        Cursor cursor = dbaccess.readDataSQL(sql, null);
+
+        while (cursor.moveToNext()) {
+            Inventory_PalletLoc palletLoc = new Inventory_PalletLoc();
+            palletLoc.setId(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ID)));
+            palletLoc.setPallet_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_NAME)));
+            palletLoc.setPallet_description(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_DESCRIPTION)));
+            palletLoc.setPallet_type(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_PALLET_TYPE)));
+            palletLoc.setBarcode(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_BARCODE)));
+            palletLoc.setTag(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TAG)));
+            palletLoc.setIs_used(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_IS_USED))));
+            palletLoc.setLocation_id(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_LOCATION_ID)));
+            palletLoc.setWeight(Double.parseDouble(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_WEIGHT))));
+            try {
+                palletLoc.setTs(Utility.dateFormat.parse(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_TS))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            palletLoc.setActive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_ACTIVE))));
+            palletLoc.setLocation_name(cursor.getString(cursor.getColumnIndex(palletLoc.COLUMN_LOCATION_NAME)));
+
+            inventory_palletLocs.add(palletLoc);
+
+        }
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
+        return inventory_palletLocs;
+    }
     public List<AdministrationLocations> getAllLocation() {
         dbaccess = DbAccess.getInstance();
         if (dbaccess != null) {

@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import com.ppt.wsinventory.R;
-import com.ppt.wsinventory.common.GlobalBus;
+import com.ppt.wsinventory.common.BusinessLogic;
 import com.ppt.wsinventory.inventory.model.Inventory_PalletLoc;
+import com.ppt.wsinventory.model.AdministrationLocations;
 import com.ppt.wsinventory.model.CodeValue;
 import com.ppt.wsinventory.wsdb.DbAccess;
 
@@ -33,7 +33,7 @@ public class InventoryTraysFragment extends Fragment {
     List<Inventory_PalletLoc> inventory_palletLocs = new ArrayList<>();
     TrayListItemsAdapter trayListItemsAdapter;
     RecyclerView traylist;
-    String loc_name = new String("");
+
 
     @Override
     public void onAttach(Context context) {
@@ -56,58 +56,51 @@ public class InventoryTraysFragment extends Fragment {
         location = view.findViewById(R.id.location_tray_spinner);
 
 
-        LoadPalletList(loc_name);
-        LoadLoctionSpinner();
-
-        location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                CodeValue codeValue = (CodeValue) adapterView.getItemAtPosition(position);
-                loc_name = codeValue.getValue();
-                LoadPalletList(loc_name);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-                LoadLoctionSpinner();
-            }
-        });
+        LoadLoction();
 
         return view;
     }
 
 
-    public void LoadLoctionSpinner(){
-
-        List<CodeValue> codeValues = new ArrayList<>();
-        CodeValue all = new CodeValue();
-        all.setCode("ALL");
-        all.setValue(appContext.getTranslation("All Shop"));
-        codeValues = dbAccess.getlocationSpinner();
-        codeValues.add(all);
-        LocSpinnerListAdapter dataAdapter =
-                new LocSpinnerListAdapter(getActivity(),
-                        android.R.layout.simple_spinner_item, codeValues);
+    public void LoadLoction(){
+        BusinessLogic businesslogic = new BusinessLogic(getContext());
+        List<AdministrationLocations> locationslist = businesslogic.getAllLocation();
+        LocationListAdapter locationlistadapter =
+                new LocationListAdapter(getContext(),
+                        android.R.layout.simple_spinner_item, locationslist);
 
         int idx = 0;
-        for (CodeValue cv : codeValues) {
-            if (cv.getCode().equalsIgnoreCase("ALL")) {
-                idx = dataAdapter.getPosition(cv);
+        for (AdministrationLocations loc : locationslist) {
+            if (loc.getId().equalsIgnoreCase(appContext.getWssetting().getLocation_id())) {
+                idx = locationlistadapter.getPosition(loc);
                 break;
             }
         }
-        location.setAdapter(dataAdapter);
+        location.setAdapter(locationlistadapter);
         location.setSelection(idx);
-    }
-    public void LoadPalletList(String loc_name){
 
-        inventory_palletLocs = dbAccess.getAllinventoryPalletLocation(loc_name);
+        location.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                AdministrationLocations loc = (AdministrationLocations) adapterView.getItemAtPosition(position);
+                LoadTrayList(loc.getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                LoadLoction();
+            }
+        });
+
+    }
+    public void LoadTrayList(String id){
+        BusinessLogic businesslogic = new BusinessLogic(getContext());
+        inventory_palletLocs = businesslogic.getAllinventoryPalletLocation(id);
         trayListItemsAdapter = new TrayListItemsAdapter((ArrayList<Inventory_PalletLoc>) inventory_palletLocs,appContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         traylist.setLayoutManager(mLayoutManager);
         traylist.setAdapter(trayListItemsAdapter);
-
 
     }
     @Override
