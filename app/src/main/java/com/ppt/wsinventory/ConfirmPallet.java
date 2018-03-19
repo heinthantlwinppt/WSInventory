@@ -31,7 +31,8 @@ public class ConfirmPallet extends AppCompatActivity {
     private IntentFilter filter;
     private List<String> list;
     private listener mylistener;
-    private boolean mSwitch =true ;
+    private boolean mSwitch =false ;
+    private String mBtn = "Action";
     private boolean[] mSelect;
     private boolean displayflag = false;
     private int OriginLength = 0;
@@ -75,12 +76,36 @@ public class ConfirmPallet extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_conform_bin, menu);
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+    private void ReadEPC() {
+        if (mBtn.contains("Cancel")) {
+            displayflag = false;
+            AppHelper.InventoryCancel();
+        } else {
+            ClearDisplayData();
+            displayflag = true;
+            AppHelper.Inventory();
+
+//            if (mSwitch.isChecked() == false) {
+            mBtn ="Cancel";
+//            }
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_logicode_reader:
-                initLogiCodeRFID();
+                if(mSwitch){
+                    mSwitch=false;
+                    ChangeControl();
+                }else{
+                    ReadEPC();
+                }
 
 
         }
@@ -160,7 +185,7 @@ public class ConfirmPallet extends AppCompatActivity {
     public class listener implements IConfigEventListener {
         public void onConnected() {
             AppHelper.SwitchCommandMode();
-
+            mSwitch = true;
             mSelect = new boolean[4];
             mSelect[0] = true;
             mSelect[1] = false;
@@ -235,7 +260,7 @@ public class ConfirmPallet extends AppCompatActivity {
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -248,7 +273,7 @@ public class ConfirmPallet extends AppCompatActivity {
                         t.show();
                     }
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -258,7 +283,7 @@ public class ConfirmPallet extends AppCompatActivity {
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -304,7 +329,7 @@ public class ConfirmPallet extends AppCompatActivity {
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch== false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -315,7 +340,7 @@ public class ConfirmPallet extends AppCompatActivity {
                             "STR_Failed", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -325,7 +350,7 @@ public class ConfirmPallet extends AppCompatActivity {
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;

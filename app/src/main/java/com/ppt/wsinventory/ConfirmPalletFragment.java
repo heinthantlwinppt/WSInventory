@@ -152,7 +152,7 @@ public class ConfirmPalletFragment extends Fragment {
         weight.setText(inventorypalletloc.getPallet_weight());
 
 
-        Toast.makeText(mContext, "Result " + inventorypalletloc.getPallet_weight()+ " & " +inventorypalletloc.getPallet_active(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "Result " + inventorypalletloc.getPallet_weight()+ " & " +inventorypalletloc.getPallet_active(), Toast.LENGTH_SHORT).show();
 
         if (inventorypalletloc.getPallet_active())
         {
@@ -245,7 +245,15 @@ public class ConfirmPalletFragment extends Fragment {
         boolean success = businesslogic.updateInventoryPallet(inventorypallet);
 
         if (success) {
-            businesslogic.sendAllDataToServer();
+            ShowProgress(false);
+            MessageBox.ShowMessage(getChildFragmentManager(),
+                    "Tray(s)",
+                    appContext.getTranslation("Tray Confirmed Successfully!"),
+                    MessageBox.CLOSE_FOLDER,
+                    null,
+                    "OK"
+            );
+//            businesslogic.sendAllDataToServer();
         } else {
             ShowProgress(false);
             MessageBox.ShowMessage(getChildFragmentManager(),

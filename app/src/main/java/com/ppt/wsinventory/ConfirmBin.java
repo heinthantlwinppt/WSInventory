@@ -39,10 +39,11 @@ public class ConfirmBin extends AppCompatActivity {
     private IntentFilter filter;
     private List<String> list;
     private listener mylistener;
-    private boolean mSwitch =true ;
+    private boolean mSwitch =false ;
     private boolean[] mSelect;
     private boolean displayflag = false;
     private int OriginLength = 0;
+    private String mBtn = "Action";
     // A very important class used to communicate with driver and  service.
     private com.cipherlab.barcode.ReaderManager mReaderManager;
     public static final String TAG = "WS-ConfirmCounter";
@@ -83,7 +84,20 @@ public class ConfirmBin extends AppCompatActivity {
         AppHelper.mConnector.addListener(mylistener);
 
     }
+    private void ReadEPC() {
+        if (mBtn.contains("Cancel")) {
+            displayflag = false;
+            AppHelper.InventoryCancel();
+        } else {
+            ClearDisplayData();
+            displayflag = true;
+            AppHelper.Inventory();
 
+//            if (mSwitch.isChecked() == false) {
+                mBtn ="Cancel";
+//            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_conform_bin, menu);
@@ -94,9 +108,13 @@ public class ConfirmBin extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_logicode_reader:
-                initLogiCodeRFID();
-
-
+//                initLogiCodeRFID();
+                if(mSwitch){
+                    mSwitch=false;
+                    ChangeControl();
+                }else{
+                    ReadEPC();
+                }
         }
         return super.onOptionsItemSelected(item);
 
@@ -2047,7 +2065,7 @@ public class ConfirmBin extends AppCompatActivity {
     public class listener implements IConfigEventListener {
         public void onConnected() {
             AppHelper.SwitchCommandMode();
-
+            mSwitch = true;
             mSelect = new boolean[4];
             mSelect[0] = true;
             mSelect[1] = false;
@@ -2122,7 +2140,7 @@ public class ConfirmBin extends AppCompatActivity {
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2135,7 +2153,7 @@ public class ConfirmBin extends AppCompatActivity {
                         t.show();
                     }
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn ="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2145,7 +2163,7 @@ public class ConfirmBin extends AppCompatActivity {
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2191,7 +2209,7 @@ public class ConfirmBin extends AppCompatActivity {
                             "STR_Success", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch== false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2202,7 +2220,7 @@ public class ConfirmBin extends AppCompatActivity {
                             "STR_Failed", Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2212,7 +2230,7 @@ public class ConfirmBin extends AppCompatActivity {
                             Toast.LENGTH_SHORT);
                     t.show();
                     if (mSwitch == false) {
-//                        mBtn.setText("Action");
+                        mBtn="Action";
 //                        mBtn.setEnabled(true);
                     }
                     break;
@@ -2238,7 +2256,11 @@ public class ConfirmBin extends AppCompatActivity {
         }
         return new String(hex, "ASCII");
     }
-    private void ClearDisplayData() {}
+    private void ClearDisplayData() {
+        GlobalBus.getBus().post(
+                new WsEvents.EventReadRFID("")
+        );
+    }
     private void DeviceConnected() {
         Toast.makeText(this, "RFID Reader is Connected.", Toast.LENGTH_SHORT).show();
 //        if (mNormal.isChecked() == true) {

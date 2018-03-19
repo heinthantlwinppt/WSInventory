@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Counter Name"
+                    android:text="Tray Name"
                     android:textColor="@color/PrimaryText"
                     android:textStyle="bold" />
 

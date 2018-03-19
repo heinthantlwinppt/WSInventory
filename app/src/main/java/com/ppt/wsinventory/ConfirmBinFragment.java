@@ -243,7 +243,15 @@ public class ConfirmBinFragment extends Fragment {
 
         boolean success = businesslogic.updateInventoryBin(inventorybin);
         if (success) {
-            businesslogic.sendAllDataToServer();
+            ShowProgress(false);
+            MessageBox.ShowMessage(getChildFragmentManager(),
+                    "Counter",
+                    appContext.getTranslation("Counter Confirmed Successfully!"),
+                    MessageBox.CLOSE_FOLDER,
+                    null,
+                    "OK"
+            );
+//            businesslogic.sendAllDataToServer();
         } else {
             ShowProgress(false);
             MessageBox.ShowMessage(getChildFragmentManager(),
